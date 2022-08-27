@@ -1,30 +1,24 @@
-package hu.mvmxpert.david.giczi.electricwiredisplayer.controllers;
+package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawing;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ElectricWireDisplayerApp extends Application {
 
-	private void drawLine(StackPane root) {
-		Line line = new Line(100, 100, 500, 500);
-		line.getStrokeDashArray().addAll(25d, 10d);
-		line.setStrokeWidth(5);
-		line.setStroke(Color.RED);
-		root.getChildren().add(line);
-	}
-	
+	private Drawing drawing = new Drawing();
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			StackPane root = FXMLLoader.load(getClass().getResource("displayer.fxml"));
-			drawLine(root);
+			Pane root = FXMLLoader.load(getClass().getResource("displayer.fxml"));
+			drawing.drawPage(root);
+			drawing.drawVerticalAxis(root, 200, 200);
+			drawing.drawHorizontalAxis(root, 220, 650, 12);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
