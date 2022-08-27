@@ -26,6 +26,5 @@
             <Insets left="350.0" right="350.0" />
          </StackPane.margin>
       </FlowPane>
-      <Line endX="800.0" endY="800.0" startX="500.0" startY="500.0" style="-fx-stroke-width: 5;" />
    </children>
 </StackPane>
