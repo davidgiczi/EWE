@@ -1,6 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawing;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,15 +10,17 @@ import javafx.stage.Stage;
 
 public class ElectricWireDisplayerApp extends Application {
 
-	private Drawing drawing = new Drawing();
+	private Drawer drawing = new Drawer();
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			Pane root = FXMLLoader.load(getClass().getResource("displayer.fxml"));
 			drawing.drawPage(root);
-			drawing.drawVerticalAxis(root, 200, 200);
-			drawing.drawHorizontalAxis(root, 220, 650, 12);
+			drawing.drawVerticalAxis(root, 100, 200);
+			drawing.drawHorizontalAxis(root, 120, 650, 412.356, 4000);
+			drawing.writeElevationValueForVerticalAxis(root, 50, 120, 10);
+			drawing.writeDistanceValueForHorizontalAxis(root, 115, 412.356, 4000);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
