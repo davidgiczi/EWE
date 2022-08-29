@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class ElectricWireDisplayerApp extends Application {
 
-	private Drawer drawing = new Drawer();
+	private Drawer drawing = new Drawer(200, 2000);
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -18,9 +18,9 @@ public class ElectricWireDisplayerApp extends Application {
 			Pane root = FXMLLoader.load(getClass().getResource("displayer.fxml"));
 			drawing.drawPage(root);
 			drawing.drawVerticalAxis(root, 200, 200);
-			drawing.drawHorizontalAxis(root, 220, 650, 412.356, 4000);
+			drawing.drawHorizontalAxis(root, 220, 670);
 			drawing.writeElevationValueForVerticalAxis(root, 150, 120, 10);
-			drawing.writeDistanceValueForHorizontalAxis(root, 215, 412.356, 4000);
+			drawing.writeDistanceValueForHorizontalAxis(root, 215);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
