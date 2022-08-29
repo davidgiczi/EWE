@@ -16,14 +16,22 @@ public static final double MILLIMETER = 1000 / 224.0;
 public static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 public static final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 public static final double PAGE_WIDTH =  211 * MILLIMETER;
-public static final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
+public static final double PAGE_HEIGHT =  MONITOR_HEIGHT - 40;
 public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
 public static final double PAGE_Y = 10;
+public static final double MARGIN = 156 * MILLIMETER;
 	
 	public void drawPage(Pane root) {
 		Rectangle page = new Rectangle(PAGE_X, PAGE_Y, PAGE_WIDTH, PAGE_HEIGHT);
+		Line leftMargin = new Line(PAGE_X + (PAGE_WIDTH - MARGIN) / 2, PAGE_Y , PAGE_X +(PAGE_WIDTH - MARGIN) / 2, PAGE_HEIGHT + 10);
+		Line rightMargin = new Line(PAGE_X + (PAGE_WIDTH - MARGIN) / 2 + MARGIN, PAGE_Y, 
+				PAGE_X +(PAGE_WIDTH - MARGIN) / 2 + MARGIN, PAGE_HEIGHT + 10);
+		leftMargin.setStroke(Color.LIGHTGRAY);
+		leftMargin.getStrokeDashArray().addAll(4d);
+		rightMargin.setStroke(Color.LIGHTGRAY);
+		rightMargin.getStrokeDashArray().addAll(4d);
 		page.setFill(Color.WHITE);
-		root.getChildren().add(page);
+		root.getChildren().addAll(page, leftMargin, rightMargin);
 	}
 	
 	public void drawVerticalAxis(Pane root, double startX, double startY) {

@@ -17,10 +17,10 @@ public class ElectricWireDisplayerApp extends Application {
 		try {
 			Pane root = FXMLLoader.load(getClass().getResource("displayer.fxml"));
 			drawing.drawPage(root);
-			drawing.drawVerticalAxis(root, 100, 200);
-			drawing.drawHorizontalAxis(root, 120, 650, 412.356, 4000);
-			drawing.writeElevationValueForVerticalAxis(root, 50, 120, 10);
-			drawing.writeDistanceValueForHorizontalAxis(root, 115, 412.356, 4000);
+			drawing.drawVerticalAxis(root, 200, 200);
+			drawing.drawHorizontalAxis(root, 220, 650, 412.356, 4000);
+			drawing.writeElevationValueForVerticalAxis(root, 150, 120, 10);
+			drawing.writeDistanceValueForHorizontalAxis(root, 215, 412.356, 4000);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
