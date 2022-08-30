@@ -20,16 +20,28 @@ public class Drawer {
 	public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
 	public static final double PAGE_Y = 10;
 	public static final double MARGIN = 156 * MILLIMETER;
+	public static final double HOR_SHIFT = 10;
+	public static final double VER_SHIFT = 5;
 	private static double START_X;
 	private static double START_Y = 650.0;
 	private double lengthOfHorizontalAxis;
-	private int scale;
+	private int horizontalScale;
+	private int verticalScale;
+	private int elevationStartValue;
 	
-	public Drawer(double lengthOfHorizontalAxis, int scale) {
+	public Drawer(double lengthOfHorizontalAxis, int horizontalScale) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
-		this.scale = scale;
+		this.horizontalScale = horizontalScale;
 		START_X = getStartXValue();
 		}
+	
+	public void setVerticalScale(int verticalScale) {
+		this.verticalScale = verticalScale;
+	}
+	
+	public void setElevationStartValue(int elevationStartValue) {
+		this.elevationStartValue = elevationStartValue;
+	}
 
 	public void drawPage(Pane root) {
 		Rectangle page = new Rectangle(
@@ -89,30 +101,31 @@ public class Drawer {
 	
 	public void drawHorizontalAxis(Pane root) {
 		Line topBorder = new Line(
-				PAGE_X + START_X + 10 * MILLIMETER,
-				PAGE_Y + START_Y + 5 * MILLIMETER, 
-				PAGE_X + START_X + getScaledDownLengthValue(scale, lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER, 
-				PAGE_Y + START_Y + 5 * MILLIMETER);
+				PAGE_X + START_X + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER, 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER, 
+				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER);
 		Line rightBorder = new Line(
-				PAGE_X + START_X + getScaledDownLengthValue(scale, lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
-				PAGE_Y + START_Y + 6 * MILLIMETER, 
-				PAGE_X + START_X + getScaledDownLengthValue(scale, lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
-				PAGE_Y + START_Y + 5 * MILLIMETER);
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
+				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER, 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
+				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER);
 		Line downBorder = new Line(
-				PAGE_X + START_X + getScaledDownLengthValue(scale, lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
-				PAGE_Y + START_Y + 6 * MILLIMETER, 
-				PAGE_X + START_X + 10 * MILLIMETER,
-				PAGE_Y + START_Y + 6 * MILLIMETER);
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
+				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER, 
+				PAGE_X + START_X + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER);
 		Line leftBorder = new Line(
-				PAGE_X + START_X + 10 * MILLIMETER, 
-				PAGE_Y + START_Y + 5 * MILLIMETER, 
-				PAGE_X + START_X + 10 * MILLIMETER, 
-				PAGE_Y + START_Y + 6 * MILLIMETER);
+				PAGE_X + START_X + HOR_SHIFT * MILLIMETER, 
+				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER, 
+				PAGE_X + START_X + HOR_SHIFT * MILLIMETER, 
+				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER);
 		root.getChildren().addAll(topBorder, rightBorder, downBorder, leftBorder);
 	}
 	
-	public void writeElevationValueForVerticalAxis(Pane root, int startValue, int scale) {
+	public void writeElevationValueForVerticalAxis(Pane root) {
 		double startY = START_Y;
+		int startValue = elevationStartValue;
 		for(int i = 0; i <= 10; i++) {
 		Text elevationValue = new Text();
 		elevationValue.setX(PAGE_X + START_X - 70);
@@ -120,7 +133,7 @@ public class Drawer {
 		elevationValue.setY(PAGE_Y + startY);
 		elevationValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
 		startY -= 10 * MILLIMETER;
-		startValue += scale;
+		startValue += verticalScale;
 		root.getChildren().add(elevationValue);
 		}
 	}
@@ -134,18 +147,36 @@ public class Drawer {
 		root.getChildren().add(zeroValue);
 		Text lengthValue = new Text();
 		lengthValue.setText(String.valueOf(lengthOfHorizontalAxis) + "m");
-		lengthValue.setX(PAGE_X + START_X + getScaledDownLengthValue(scale, lengthOfHorizontalAxis) * MILLIMETER - 6 * MILLIMETER);
+		lengthValue.setX(PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER - 6 * MILLIMETER);
 		lengthValue.setY(PAGE_Y + START_Y + 50);
 		lengthValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
 		root.getChildren().add(lengthValue);
 	}
 	
-	private double getScaledDownLengthValue(int scale, double length) {
-		return scale == 1000 ? length : 1000.0  * length / scale;
+	public void drawPillar(Pane root, String id, double groundElev, double topElev, double distance, boolean isHooded) {
+		Line pillar = new Line(
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElev - elevationStartValue) * MILLIMETER,
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElev - elevationStartValue) * MILLIMETER);
+		pillar.setStroke(Color.BLUE);
+		pillar.setStrokeWidth(3);
+		root.getChildren().add(pillar);
+	}
+	
+	public void drawElectricWire(Pane root, String id, double groundElev, double topElev, double distance, boolean isHooded) {
+	}
+	
+	private double getHorizontalScaledDownLengthValue(double length) {
+		return horizontalScale == 1000 ? length : 1000.0  * length / horizontalScale;
+	}
+	
+	private double getVerticalScaledDownHeightValue(double height) {
+		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
 	
 	private double getStartXValue() {
-		return  PAGE_WIDTH / 2 - (getScaledDownLengthValue(scale, lengthOfHorizontalAxis) * MILLIMETER) / 2;
+		return  PAGE_WIDTH / 2 - (getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER) / 2;
 	}
 	
 }
