@@ -20,7 +20,7 @@ public class Drawer {
 	public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
 	public static final double PAGE_Y = 10;
 	public static final double MARGIN = 156 * MILLIMETER;
-	public static final double HOR_SHIFT = 10;
+	public static final double HOR_SHIFT = 12;
 	public static final double VER_SHIFT = 5;
 	private static double START_X;
 	private static double START_Y = 650.0;
@@ -65,6 +65,7 @@ public class Drawer {
 		rightMargin.getStrokeDashArray().addAll(4d);
 		page.setFill(Color.WHITE);
 		root.getChildren().addAll(page, leftMargin, rightMargin);
+		writeText(root, "Oszlopok:", PAGE_X, PAGE_Y + 50);
 	}
 	
 	public void drawVerticalAxis(Pane root) {
@@ -103,18 +104,18 @@ public class Drawer {
 		Line topBorder = new Line(
 				PAGE_X + START_X + HOR_SHIFT * MILLIMETER,
 				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER, 
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER, 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + HOR_SHIFT * MILLIMETER, 
 				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER);
 		Line rightBorder = new Line(
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + HOR_SHIFT * MILLIMETER,
 				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER, 
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + HOR_SHIFT * MILLIMETER,
 				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER);
 		Line downBorder = new Line(
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + 2 * MILLIMETER,
-				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER, 
 				PAGE_X + START_X + HOR_SHIFT * MILLIMETER,
-				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER);
+				PAGE_Y + START_Y + (VER_SHIFT  + 1 ) * MILLIMETER, 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y + (VER_SHIFT + 1) * MILLIMETER);
 		Line leftBorder = new Line(
 				PAGE_X + START_X + HOR_SHIFT * MILLIMETER, 
 				PAGE_Y + START_Y + VER_SHIFT * MILLIMETER, 
@@ -141,31 +142,60 @@ public class Drawer {
 	public void writeDistanceValueForHorizontalAxis(Pane root) {
 		Text zeroValue = new Text();
 		zeroValue.setText("0");
-		zeroValue.setX(PAGE_X + START_X + 9 * MILLIMETER);
+		zeroValue.setX(PAGE_X + START_X + (HOR_SHIFT - 1) * MILLIMETER);
 		zeroValue.setY(PAGE_Y + START_Y + 50);
 		zeroValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
 		root.getChildren().add(zeroValue);
 		Text lengthValue = new Text();
 		lengthValue.setText(String.valueOf(lengthOfHorizontalAxis) + "m");
-		lengthValue.setX(PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER - 6 * MILLIMETER);
+		lengthValue.setX(PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER);
 		lengthValue.setY(PAGE_Y + START_Y + 50);
-		lengthValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		lengthValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20)); 
 		root.getChildren().add(lengthValue);
 	}
 	
-	public void drawPillar(Pane root, String id, double groundElev, double topElev, double distance, boolean isHooded) {
+	public void drawPillar(Pane root, String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
 		Line pillar = new Line(
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
-				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElev - elevationStartValue) * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElevation - elevationStartValue) * MILLIMETER,
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
-				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElev - elevationStartValue) * MILLIMETER);
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
 		pillar.setStroke(Color.BLUE);
 		pillar.setStrokeWidth(3);
 		root.getChildren().add(pillar);
+		writePillarId(root, id, 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 1) * MILLIMETER);
+		if( isHooded ) {
+			Line hood = new Line(
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 1) * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER,
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT + 1) * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+			hood.setStroke(Color.BLUE);
+			hood.setStrokeWidth(3);
+			root.getChildren().add(hood);
+		}
+	}
+	
+	private void writePillarId(Pane root, String id, double x) {
+		Text pillarId = new Text(id);
+		pillarId.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		pillarId.setX(x);
+		pillarId.setY(PAGE_Y + 30 * MILLIMETER);
+		root.getChildren().add(pillarId);
 	}
 	
 	public void drawElectricWire(Pane root, String id, double groundElev, double topElev, double distance, boolean isHooded) {
 	}
+	
+	private void writeText(Pane root, String text, double startX, double startY) {
+		Text txt = new Text(text);
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		txt.setX(startX);
+		txt.setY(startY);
+		root.getChildren().add(txt);
+	}
+	
 	
 	private double getHorizontalScaledDownLengthValue(double length) {
 		return horizontalScale == 1000 ? length : 1000.0  * length / horizontalScale;
