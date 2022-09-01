@@ -65,7 +65,7 @@ public class Drawer {
 		rightMargin.getStrokeDashArray().addAll(4d);
 		page.setFill(Color.WHITE);
 		root.getChildren().addAll(page, leftMargin, rightMargin);
-		writeText(root, "Oszlopok:", PAGE_X, PAGE_Y + 50);
+		writeText(root, "Oszlopok:", PAGE_X + 30 * MILLIMETER, PAGE_Y + 30 * MILLIMETER, 20);
 	}
 	
 	public void drawVerticalAxis(Pane root) {
@@ -140,18 +140,10 @@ public class Drawer {
 	}
 	
 	public void writeDistanceValueForHorizontalAxis(Pane root) {
-		Text zeroValue = new Text();
-		zeroValue.setText("0");
-		zeroValue.setX(PAGE_X + START_X + (HOR_SHIFT - 1) * MILLIMETER);
-		zeroValue.setY(PAGE_Y + START_Y + 50);
-		zeroValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
-		root.getChildren().add(zeroValue);
-		Text lengthValue = new Text();
-		lengthValue.setText(String.valueOf(lengthOfHorizontalAxis) + "m");
-		lengthValue.setX(PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER);
-		lengthValue.setY(PAGE_Y + START_Y + 50);
-		lengthValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20)); 
-		root.getChildren().add(lengthValue);
+		writeText(root, "0", PAGE_X + START_X + (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 20);
+		writeText(root, String.valueOf(lengthOfHorizontalAxis) + "m", 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
+				PAGE_Y + START_Y + 50, 20);
 	}
 	
 	public void drawPillar(Pane root, String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -178,19 +170,15 @@ public class Drawer {
 	}
 	
 	private void writePillarId(Pane root, String id, double x) {
-		Text pillarId = new Text(id);
-		pillarId.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
-		pillarId.setX(x);
-		pillarId.setY(PAGE_Y + 30 * MILLIMETER);
-		root.getChildren().add(pillarId);
+		writeText(root, id, x, PAGE_Y + 30 * MILLIMETER, 20);
 	}
 	
 	public void drawElectricWire(Pane root, String id, double groundElev, double topElev, double distance, boolean isHooded) {
 	}
 	
-	private void writeText(Pane root, String text, double startX, double startY) {
+	private void writeText(Pane root, String text, double startX, double startY, int size) {
 		Text txt = new Text(text);
-		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		txt.setX(startX);
 		txt.setY(startY);
 		root.getChildren().add(txt);
