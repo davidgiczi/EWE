@@ -1,6 +1,9 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -22,6 +25,8 @@ public class Drawer {
 	public static final double MARGIN = 156 * MILLIMETER;
 	public static final double HOR_SHIFT = 12;
 	public static final double VER_SHIFT = 5;
+	public static List<Line> LINE_STORE;
+	public static List<Text> TEXT_STORE;
 	private static double START_X;
 	private static double START_Y = 650.0;
 	private double lengthOfHorizontalAxis;
@@ -32,6 +37,8 @@ public class Drawer {
 	public Drawer(double lengthOfHorizontalAxis, int horizontalScale) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
 		this.horizontalScale = horizontalScale;
+		LINE_STORE = new ArrayList<>();
+		TEXT_STORE = new ArrayList<>();
 		START_X = getStartXValue();
 		}
 	
@@ -173,7 +180,25 @@ public class Drawer {
 		writeText(root, id, x, PAGE_Y + 30 * MILLIMETER, 20);
 	}
 	
-	public void drawElectricWire(Pane root, String id, double groundElev, double topElev, double distance, boolean isHooded) {
+	public void drawElectricWire(Pane root, String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
+		Line wire = new Line(
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElevation - elevationStartValue) * MILLIMETER,
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+		wire.setStroke(Color.RED);
+		wire.setStrokeWidth(3);
+		root.getChildren().add(wire);
+		if( isHooded ) {
+			Line hood = new Line(
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 1) * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER,
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT + 1) * MILLIMETER,
+				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+			hood.setStroke(Color.RED);
+			hood.setStrokeWidth(3);
+			root.getChildren().add(hood);
+		}
 	}
 	
 	private void writeText(Pane root, String text, double startX, double startY, int size) {

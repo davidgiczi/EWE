@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class ElectricWireDisplayerApp extends Application {
 
-	private Drawer drawing = new Drawer(120, 1000);
+	private Drawer drawing = new Drawer(256.723, 2500);
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -23,8 +23,10 @@ public class ElectricWireDisplayerApp extends Application {
 			drawing.drawHorizontalAxis(root);
 			drawing.writeElevationValueForVerticalAxis(root);
 			drawing.writeDistanceValueForHorizontalAxis(root);
-			drawing.drawPillar(root,"A", 180, 210, 0, true);
-			drawing.drawPillar(root,"B", 190, 230, 120, true);
+			drawing.drawPillar(root,"A", 183, 233, 0, false);
+			drawing.drawPillar(root,"B", 195, 230, 256.723, true);
+			drawing.drawElectricWire(root, "", 187, 205, 60, true);
+			drawing.drawElectricWire(root, "", 195, 215, 185, false);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
