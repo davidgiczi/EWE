@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 
 public class Drawer {
 
@@ -27,8 +28,8 @@ public class Drawer {
 	public static final double VER_SHIFT = 5;
 	public static List<Line> LINE_STORE;
 	public static List<Text> TEXT_STORE;
-	private static double START_X;
-	private static double START_Y = 650.0;
+	private static double START_X = 45 * MILLIMETER;
+	private static double START_Y = 550.0;
 	private double lengthOfHorizontalAxis;
 	private int horizontalScale;
 	private int verticalScale;
@@ -39,7 +40,6 @@ public class Drawer {
 		this.horizontalScale = horizontalScale;
 		LINE_STORE = new ArrayList<>();
 		TEXT_STORE = new ArrayList<>();
-		START_X = getStartXValue();
 		}
 	
 	public void setVerticalScale(int verticalScale) {
@@ -48,6 +48,10 @@ public class Drawer {
 	
 	public void setElevationStartValue(int elevationStartValue) {
 		this.elevationStartValue = elevationStartValue;
+	}
+
+	public double getLengthOfHorizontalAxis() {
+		return lengthOfHorizontalAxis;
 	}
 
 	public void drawPage(Pane root) {
@@ -72,7 +76,7 @@ public class Drawer {
 		rightMargin.getStrokeDashArray().addAll(4d);
 		page.setFill(Color.WHITE);
 		root.getChildren().addAll(page, leftMargin, rightMargin);
-		writeText(root, "Oszlopok:", PAGE_X + 30 * MILLIMETER, PAGE_Y + 30 * MILLIMETER, 20);
+		writeText(root, "Oszlopszám:", PAGE_X + 30 * MILLIMETER, PAGE_Y + START_Y + 50 * MILLIMETER, 18, 0);
 	}
 	
 	public void drawVerticalAxis(Pane root) {
@@ -135,22 +139,17 @@ public class Drawer {
 		double startY = START_Y;
 		int startValue = elevationStartValue;
 		for(int i = 0; i <= 10; i++) {
-		Text elevationValue = new Text();
-		elevationValue.setX(PAGE_X + START_X - 70);
-		elevationValue.setText(String.valueOf(startValue) + "m");
-		elevationValue.setY(PAGE_Y + startY);
-		elevationValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		writeText(root, String.valueOf(startValue) + "m", PAGE_X + START_X - 70, PAGE_Y + startY, 18, 0);
 		startY -= 10 * MILLIMETER;
 		startValue += verticalScale;
-		root.getChildren().add(elevationValue);
 		}
 	}
 	
 	public void writeDistanceValueForHorizontalAxis(Pane root) {
-		writeText(root, "0", PAGE_X + START_X + (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 20);
+		writeText(root, "0", PAGE_X + START_X + (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 		writeText(root, String.valueOf(lengthOfHorizontalAxis) + "m", 
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
-				PAGE_Y + START_Y + 50, 20);
+				PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
 	public void drawPillar(Pane root, String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -174,13 +173,15 @@ public class Drawer {
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
+		writeText(root, "Bf. " + topElevation + "m", pillar.getEndX(), pillar.getEndY() - MILLIMETER, 18, -90);
+		writeText(root, "Bf. " + groundElevation + "m", pillar.getStartX() - MILLIMETER, pillar.getStartY(), 18, -90);
 	}
 	
 	private void writePillarId(Pane root, String id, double x) {
-		writeText(root, id, x, PAGE_Y + 30 * MILLIMETER, 20);
+		writeText(root, id, x, PAGE_Y + START_Y + 50 * MILLIMETER, 18, 0);
 	}
 	
-	public void drawElectricWire(Pane root, String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
+	public void drawElectricWire(Pane root, String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
 		Line wire = new Line(
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElevation - elevationStartValue) * MILLIMETER,
@@ -199,13 +200,20 @@ public class Drawer {
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
+		writeText(root, text +  " Bf. " + topElevation + "m", wire.getEndX() - MILLIMETER, wire.getEndY() - MILLIMETER, 18, -90);
+		writeText(root, distance + "m", 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
+				PAGE_Y + START_Y + 50, 18, 0);
+		writeText(root, "Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY(), 18, -90);
 	}
 	
-	private void writeText(Pane root, String text, double startX, double startY, int size) {
+	private void writeText(Pane root, String text, double startX, double startY, int size, double rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		txt.setX(startX);
 		txt.setY(startY);
+		txt.getTransforms().add(new Rotate(rotate, startX, startY));
+		TEXT_STORE.add(txt);
 		root.getChildren().add(txt);
 	}
 	
@@ -218,8 +226,8 @@ public class Drawer {
 		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
 	
-	private double getStartXValue() {
-		return  PAGE_WIDTH / 2 - (getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER) / 2;
-	}
+//	private double getStartXValue() {
+//		return  PAGE_WIDTH / 2 - (getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER) / 2;
+//	}
 	
 }

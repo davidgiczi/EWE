@@ -10,23 +10,25 @@ import javafx.stage.Stage;
 
 public class ElectricWireDisplayerApp extends Application {
 
-	private Drawer drawing = new Drawer(256.723, 2500);
+	private Drawer drawing = new Drawer(343.43, 3000);
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			Pane root = FXMLLoader.load(getClass().getResource("displayer.fxml"));
 			drawing.drawPage(root);
-			drawing.setVerticalScale(10);
-			drawing.setElevationStartValue(160);
+			drawing.setVerticalScale(5);
+			drawing.setElevationStartValue(140);
 			drawing.drawVerticalAxis(root);
 			drawing.drawHorizontalAxis(root);
 			drawing.writeElevationValueForVerticalAxis(root);
 			drawing.writeDistanceValueForHorizontalAxis(root);
-			drawing.drawPillar(root,"A", 183, 233, 0, false);
-			drawing.drawPillar(root,"B", 195, 230, 256.723, true);
-			drawing.drawElectricWire(root, "", 187, 205, 60, true);
-			drawing.drawElectricWire(root, "", 195, 215, 185, false);
+			drawing.drawPillar(root,"180.", 147.92, 175.13, 0, false);
+			drawing.drawPillar(root,"181.", 147.33, 171.55, drawing.getLengthOfHorizontalAxis(), false);
+			drawing.drawElectricWire(root, "bal af.:", 146.73, 165.41, 88.41, false);
+			drawing.drawElectricWire(root, "jobb af.:", 146.67, 164.25, 105.05, false);
+			drawing.drawElectricWire(root, "jobb af.:", 148.03, 162.59, 173.97, false);
+			drawing.drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, false);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
