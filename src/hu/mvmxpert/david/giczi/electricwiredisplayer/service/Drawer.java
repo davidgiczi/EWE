@@ -152,7 +152,7 @@ public class Drawer {
 				PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
-	public void drawPillar(Pane root, String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
+	public void drawPillar(Pane root, int id, double groundElevation, double topElevation, double distance, boolean isHooded) {
 		Line pillar = new Line(
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElevation - elevationStartValue) * MILLIMETER,
@@ -173,12 +173,12 @@ public class Drawer {
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
-		writeText(root, "Bf. " + topElevation + "m", pillar.getEndX(), pillar.getEndY() - MILLIMETER, 18, -90);
-		writeText(root, "Bf. " + groundElevation + "m", pillar.getStartX() - MILLIMETER, pillar.getStartY(), 18, -90);
+		writeText(root, "bal ak.: Bf. " + topElevation + "m", pillar.getEndX(), pillar.getEndY() - MILLIMETER, 18, -90);
+		writeText(root, "bal ak.: Bf. " + groundElevation + "m", pillar.getStartX() - MILLIMETER, pillar.getStartY() + 15 * MILLIMETER, 18, -90);
 	}
 	
-	private void writePillarId(Pane root, String id, double x) {
-		writeText(root, id, x, PAGE_Y + START_Y + 50 * MILLIMETER, 18, 0);
+	private void writePillarId(Pane root, int id, double x) {
+		writeText(root, id + ".", x, PAGE_Y + START_Y + 50 * MILLIMETER, 18, 0);
 	}
 	
 	public void drawElectricWire(Pane root, String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -204,7 +204,17 @@ public class Drawer {
 		writeText(root, distance + "m", 
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
-		writeText(root, "Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY(), 18, -90);
+		writeText(root, text + " Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY() + 15 * MILLIMETER, 18, -90);
+	}
+	
+	public void setText(Pane root, String text, double startX, double startY, int size, double rotate) {
+		Text txt = new Text(text);
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
+		txt.setX(PAGE_X + START_X + (HOR_SHIFT + startX) * MILLIMETER);
+		txt.setY(PAGE_Y + START_Y + startY * MILLIMETER);
+		txt.getTransforms().add(new Rotate(rotate, txt.getX(), txt.getY()));
+		TEXT_STORE.add(txt);
+		root.getChildren().add(txt);
 	}
 	
 	private void writeText(Pane root, String text, double startX, double startY, int size, double rotate) {

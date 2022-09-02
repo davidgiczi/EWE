@@ -23,12 +23,27 @@ public class ElectricWireDisplayerApp extends Application {
 			drawing.drawHorizontalAxis(root);
 			drawing.writeElevationValueForVerticalAxis(root);
 			drawing.writeDistanceValueForHorizontalAxis(root);
-			drawing.drawPillar(root,"180.", 147.92, 175.13, 0, false);
-			drawing.drawPillar(root,"181.", 147.33, 171.55, drawing.getLengthOfHorizontalAxis(), false);
-			drawing.drawElectricWire(root, "bal af.:", 146.73, 165.41, 88.41, false);
-			drawing.drawElectricWire(root, "jobb af.:", 146.67, 164.25, 105.05, false);
-			drawing.drawElectricWire(root, "jobb af.:", 148.03, 162.59, 173.97, false);
-			drawing.drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, false);
+			
+			drawing.drawPillar(root, 180, 147.92, 175.13, 0, false);
+			drawing.setText(root, "jobb ak.:", 4, -1, 18, -90);
+			drawing.setText(root, "jobb ak.:", 4, -71, 18, -90);
+			
+			drawing.drawPillar(root, 181, 147.33, 171.55, drawing.getLengthOfHorizontalAxis(), false);
+			drawing.setText(root, "jobb ak.:", 119, 0, 18, -90);
+			drawing.setText(root, "jobb ak.:", 119, -64, 18, -90);
+			
+			drawing.drawElectricWire(root, "bal af.:", 146.67, 164.25, 105.05, false);
+			drawing.setText(root, "jobb af.:", 39, 1, 18, -90);
+			drawing.setText(root, "jobb af.:", 39, -50, 18, -90);
+			
+//			drawing.drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, false);
+//			drawing.setText(root, "jobb af.:", 119, 0, 18, -90);
+//			drawing.setText(root, "jobb af.:", 119, -64, 18, -90);
+//			
+//			drawing.drawElectricWire(root, "bal af.:", 150.18, 174.39, 268.32, false);
+//			drawing.setText(root, "jobb af.:", 119, 0, 18, -90);
+//			drawing.setText(root, "jobb af.:", 119, -64, 18, -90);
+		
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
