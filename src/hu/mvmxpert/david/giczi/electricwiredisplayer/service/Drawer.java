@@ -1,7 +1,9 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Toolkit;
-import java.util.HashMap;
+
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
+import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -24,7 +26,6 @@ public class Drawer {
 	public static final double MARGIN = 156 * MILLIMETER;
 	public static final double HOR_SHIFT = 12;
 	public static final double VER_SHIFT = 5;
-	public HashMap<Integer, Text> textMap = new HashMap<>();
 	private static double START_X = 45 * MILLIMETER;
 	private static double START_Y = 550.0;
 	private double lengthOfHorizontalAxis;
@@ -158,6 +159,8 @@ public class Drawer {
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
 		pillar.setStroke(Color.BLUE);
 		pillar.setStrokeWidth(3);
+		pillar.setCursor(Cursor.HAND);
+		pillar.setOnMouseClicked( null );
 		root.getChildren().add(pillar);
 		writePillarId(root, id, 
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 1) * MILLIMETER);
@@ -167,6 +170,13 @@ public class Drawer {
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER,
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT + 1) * MILLIMETER,
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+			hood.setCursor(Cursor.HAND);
+			hood.setOnMouseClicked( h -> { Line line = (Line) h.getSource();
+										if(line.getStroke().toString().equals("0x0000ffff"))
+											line.setStroke(Color.WHITE);
+										else
+											line.setStroke(Color.BLUE);
+										});
 			hood.setStroke(Color.BLUE);
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
@@ -187,6 +197,8 @@ public class Drawer {
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
 		wire.setStroke(Color.RED);
 		wire.setStrokeWidth(3);
+		wire.setCursor(Cursor.HAND);
+		wire.setOnMouseClicked( null );
 		root.getChildren().add(wire);
 		if( isHooded ) {
 			Line hood = new Line(
@@ -196,6 +208,13 @@ public class Drawer {
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
 			hood.setStroke(Color.RED);
 			hood.setStrokeWidth(3);
+			hood.setCursor(Cursor.HAND);
+			hood.setOnMouseClicked( h -> { Line line = (Line) h.getSource();
+										  if(line.getStroke().toString().equals("0xff0000ff"))
+										  line.setStroke(Color.WHITE);
+										  else
+										  line.setStroke(Color.RED);
+										});
 			root.getChildren().add(hood);
 		}
 		setText(root, text +  " Bf. " + topElevation + "m", wire.getEndX() - MILLIMETER, wire.getEndY() - MILLIMETER, 18, -90);
@@ -216,16 +235,9 @@ public class Drawer {
 		txt.setX(startX);
 		txt.setY(startY);
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));
-		setTextID(txt);
+		txt.setCursor(Cursor.HAND);
+		txt.setOnMouseClicked( t -> new ModifyTextWindow() );
 		root.getChildren().add(txt);
-	}
-
-	private void setTextID(Text text){
-		 int id = (int) (Math.random() * 1000 + 1);
-		 while( textMap.containsKey(id) ) {
-			 id = (int) (Math.random() * 1000 + 1);
-		 }
-		 textMap.put(id, text);
 	}
 
 	private double getHorizontalScaledDownLengthValue(double length) {
