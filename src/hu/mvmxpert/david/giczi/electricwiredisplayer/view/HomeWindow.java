@@ -1,7 +1,8 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.DisplayerController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.fileprocess.FileProcess;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -16,9 +17,10 @@ import javafx.stage.Stage;
 
 public class HomeWindow  {
 
-	private DisplayerController displayerController = new DisplayerController();
+	private HomeController homeController = new HomeController();
 		
 	public HomeWindow() {
+			homeController.getDrawer().setHomeController(homeController);
 		 	Stage primaryStage = new Stage();
 			BorderPane root = new BorderPane();
 			createMenu(root);
@@ -41,8 +43,17 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			String projectName = displayerController.setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
-			displayerController.setTitle(root, projectName);
+			String projectName = homeController.setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
+			if( projectName.isEmpty() ) {
+				return;
+			}
+			else if( Validate.isValidProjectName(projectName) ) {
+				HomeController.PROJECT_NAME = projectName;
+			}
+			else {
+				homeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
+			}
+			homeController.setTitle(root);
 			}
 		});
 		MenuItem setProjectFolder = new MenuItem("Projekt mappa megadása");
@@ -58,16 +69,16 @@ public class HomeWindow  {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
-				new SetCoordSystemWindow();
-				displayerController.getDrawer().drawPage(root);
-				displayerController.getDrawer().setHorizontalScale(3000);
-				displayerController.getDrawer().setLengthOfHorizontalAxis(343.56);
-				displayerController.getDrawer().setVerticalScale(5);
-				displayerController.getDrawer().setElevationStartValue(140);
-				displayerController.getDrawer().drawVerticalAxis(root);
-				displayerController.getDrawer().drawHorizontalAxis(root);
-				displayerController.getDrawer().writeElevationValueForVerticalAxis(root);
-				displayerController.getDrawer().writeDistanceValueForHorizontalAxis(root);
+				homeController.getSetCoordSystemWindow();
+				homeController.getDrawer().drawPage(root);
+				homeController.getDrawer().setHorizontalScale(3000);
+				homeController.getDrawer().setLengthOfHorizontalAxis(343.56);
+				homeController.getDrawer().setVerticalScale(5);
+				homeController.getDrawer().setElevationStartValue(140);
+				homeController.getDrawer().drawVerticalAxis(root);
+				homeController.getDrawer().drawHorizontalAxis(root);
+				homeController.getDrawer().writeElevationValueForVerticalAxis(root);
+				homeController.getDrawer().writeDistanceValueForHorizontalAxis(root);
 			}
 		});
 		MenuItem setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
@@ -75,10 +86,10 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			new SetPillarDataWindow();
-			displayerController.getDrawer().drawPillar(root, 180, 147.92, 175.13, 0, true);
-			displayerController.getDrawer().drawPillar(root, 181, 147.33, 171.55, 
-					displayerController.getDrawer().getLengthOfHorizontalAxis(), true);
+			homeController.getSetPillarDataWindow();
+			homeController.getDrawer().drawPillar(root, 180, 147.92, 175.13, 0, true);
+			homeController.getDrawer().drawPillar(root, 181, 147.33, 171.55, 
+					homeController.getDrawer().getLengthOfHorizontalAxis(), true);
 			}
 		});
 		MenuItem setWireData = new MenuItem("Távvezeték adatok megadása");
@@ -86,10 +97,10 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				new SetWireDataWindow();
-				displayerController.getDrawer().drawElectricWire(root, "bal af.:", 146.67, 164.25, 105.05, true);
-				displayerController.getDrawer().drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, true);
-				displayerController.getDrawer().drawElectricWire(root, "bal af.:", 150.18, 174.39, 268.32, true);
+				homeController.getSetWireDataWindow();
+				homeController.getDrawer().drawElectricWire(root, "bal af.:", 146.67, 164.25, 105.05, true);
+				homeController.getDrawer().drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, true);
+				homeController.getDrawer().drawElectricWire(root, "bal af.:", 150.18, 174.39, 268.32, true);
 			}
 		});
 		
@@ -108,7 +119,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				displayerController.exit();
+				homeController.exit();
 			}
 		});
 		createNewProject.getItems().addAll(setProjectName, new SeparatorMenuItem(), setProjectFolder, 
@@ -121,7 +132,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				new SetCoordSystemWindow();
+				homeController.getSetCoordSystemWindow();
 				
 			}
 		});
@@ -130,7 +141,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				new SetNewTextWindow();
+				homeController.getSetNewTextWindow();
 			}
 		});
 		modifyDraw.getItems().addAll(modifyCoordSystem, new SeparatorMenuItem(), setText);

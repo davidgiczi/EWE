@@ -2,7 +2,7 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Toolkit;
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
 public class Drawer {
-
+	
 	public static final double MILLIMETER = 1000 / 224.0;
 	public static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -32,6 +32,7 @@ public class Drawer {
 	private int horizontalScale;
 	private int verticalScale;
 	private int elevationStartValue;
+	private HomeController homeController;
 	
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
@@ -51,6 +52,10 @@ public class Drawer {
 
 	public double getLengthOfHorizontalAxis() {
 		return lengthOfHorizontalAxis;
+	}
+	
+	public void setHomeController(HomeController homeController) {
+		this.homeController = homeController;
 	}
 
 	public void drawPage(Pane root) {
@@ -236,7 +241,7 @@ public class Drawer {
 		txt.setY(startY);
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));
 		txt.setCursor(Cursor.HAND);
-		txt.setOnMouseClicked( t -> new ModifyTextWindow() );
+		txt.setOnMouseClicked( t -> homeController.getModifyTextWindow() );
 		root.getChildren().add(txt);
 	}
 
