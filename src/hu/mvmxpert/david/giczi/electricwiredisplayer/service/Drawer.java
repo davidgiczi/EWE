@@ -224,7 +224,7 @@ public class Drawer {
 		}
 		setText(root, text +  " Bf. " + topElevation + "m", wire.getEndX() - MILLIMETER, wire.getEndY() - MILLIMETER, 18, -90);
 		setText(root, distance + "m", 
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
+				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 10) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
 		setText(root, text + " Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY() + 15 * MILLIMETER, 18, -90);
 	}
@@ -241,7 +241,7 @@ public class Drawer {
 		txt.setY(startY);
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));
 		txt.setCursor(Cursor.HAND);
-		txt.setOnMouseClicked( t -> homeController.getModifyTextWindow() );
+		txt.setOnMouseClicked( null );
 		root.getChildren().add(txt);
 	}
 

@@ -18,11 +18,12 @@ import javafx.stage.Stage;
 public class HomeWindow  {
 
 	private HomeController homeController = new HomeController();
+	
 		
 	public HomeWindow() {
 			homeController.getDrawer().setHomeController(homeController);
 		 	Stage primaryStage = new Stage();
-			BorderPane root = new BorderPane();
+		 	BorderPane root = new BorderPane();
 			createMenu(root);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
@@ -70,15 +71,6 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				homeController.getSetCoordSystemWindow();
-				homeController.getDrawer().drawPage(root);
-				homeController.getDrawer().setHorizontalScale(3000);
-				homeController.getDrawer().setLengthOfHorizontalAxis(343.56);
-				homeController.getDrawer().setVerticalScale(5);
-				homeController.getDrawer().setElevationStartValue(140);
-				homeController.getDrawer().drawVerticalAxis(root);
-				homeController.getDrawer().drawHorizontalAxis(root);
-				homeController.getDrawer().writeElevationValueForVerticalAxis(root);
-				homeController.getDrawer().writeDistanceValueForHorizontalAxis(root);
 			}
 		});
 		MenuItem setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
@@ -86,7 +78,6 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			homeController.getSetPillarDataWindow();
 			homeController.getDrawer().drawPillar(root, 180, 147.92, 175.13, 0, true);
 			homeController.getDrawer().drawPillar(root, 181, 147.33, 171.55, 
 					homeController.getDrawer().getLengthOfHorizontalAxis(), true);
@@ -97,7 +88,6 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetWireDataWindow();
 				homeController.getDrawer().drawElectricWire(root, "bal af.:", 146.67, 164.25, 105.05, true);
 				homeController.getDrawer().drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, true);
 				homeController.getDrawer().drawElectricWire(root, "bal af.:", 150.18, 174.39, 268.32, true);
@@ -132,7 +122,6 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetCoordSystemWindow();
 				
 			}
 		});
@@ -141,7 +130,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetNewTextWindow();
+			
 			}
 		});
 		modifyDraw.getItems().addAll(modifyCoordSystem, new SeparatorMenuItem(), setText);

@@ -4,11 +4,7 @@ import java.util.Optional;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetCoordSystemWindow;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetNewTextWindow;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetPillarDataWindow;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetWireDataWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -21,39 +17,16 @@ public class HomeController {
 	
 	public static String PROJECT_NAME;
 	private Drawer drawer = new Drawer();
-	private ModifyTextWindow modifyTextWindow;
 	private SetCoordSystemWindow setCoordSystemWindow;
-	private SetNewTextWindow setNewTextWindow;
-	private SetPillarDataWindow setPillarDataWindow;
-	private SetWireDataWindow setWireDataWindow;
+	
 
 	public Drawer getDrawer() {
 		return drawer;
 	}
-	
-	public ModifyTextWindow getModifyTextWindow() {
-		this.modifyTextWindow = new ModifyTextWindow(this);
-		return modifyTextWindow;
-	}
 
 	public SetCoordSystemWindow getSetCoordSystemWindow() {
-		this.setCoordSystemWindow = new SetCoordSystemWindow(this);
+		this.setCoordSystemWindow = new SetCoordSystemWindow();
 		return setCoordSystemWindow;
-	}
-
-	public SetNewTextWindow getSetNewTextWindow() {
-		this.setNewTextWindow = new SetNewTextWindow(this);
-		return setNewTextWindow;
-	}
-
-	public SetPillarDataWindow getSetPillarDataWindow() {
-		this.setPillarDataWindow = new SetPillarDataWindow(this);
-		return setPillarDataWindow;
-	}
-
-	public SetWireDataWindow getSetWireDataWindow() {
-		this.setWireDataWindow = new SetWireDataWindow(this);
-		return setWireDataWindow;
 	}
 
 	public String setInputText(String title, String text) {
