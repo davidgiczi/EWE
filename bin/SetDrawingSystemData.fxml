@@ -6,7 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetCoordSystemController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" 
+style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetDrawingSystemDataController">
    <children>
       <Label layoutX="7.0" layoutY="34.0" style="-fx-text-fill: #708090;" text="Magassági lépték kezdő magassága:">
          <font>

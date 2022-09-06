@@ -10,12 +10,12 @@ import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 
-public class SetCoordSystemController {
+public class SetDrawingSystemDataController {
 	
 	private Stage stage;
 	private HomeController homeController;
 		
-	public SetCoordSystemController() {
+	public SetDrawingSystemDataController() {
 	}
 	
 	public void setHomeController(HomeController homeController) {

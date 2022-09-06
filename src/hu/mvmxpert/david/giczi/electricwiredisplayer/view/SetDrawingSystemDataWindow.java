@@ -3,7 +3,7 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 import java.io.IOException;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetCoordSystemController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetDrawingSystemDataController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SetCoordSystemWindow  {
+public class SetDrawingSystemDataWindow  {
 
 	@SuppressWarnings("unused")
 	private HomeController homeController;
@@ -21,14 +21,14 @@ public class SetCoordSystemWindow  {
 		return stage;
 	}
 
-	public SetCoordSystemWindow(HomeController homeController) {
+	public SetDrawingSystemDataWindow(HomeController homeController) {
 		
 		this.homeController = homeController;
 		
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetDrawSystemData.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetDrawingSystemData.fxml"));
 			AnchorPane root = loader.load();
-			SetCoordSystemController controller =	(SetCoordSystemController) loader.getController();
+			SetDrawingSystemDataController controller =	(SetDrawingSystemDataController) loader.getController();
 			controller.setHomeController(homeController);
 			stage = new Stage();
 			controller.setStage(stage);
