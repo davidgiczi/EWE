@@ -10,42 +10,47 @@
    <children>
       <Label layoutX="7.0" layoutY="34.0" style="-fx-text-fill: #708090;" text="Magassági lépték kezdő magassága:">
          <font>
-            <Font name="Calibri Bold" size="18.0" />
+            <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
       <TextField fx:id="startElevationValue" layoutX="300.0" layoutY="28.0" prefHeight="31.0" prefWidth="156.0" />
       <TextField fx:id="elevationScaleValue" layoutX="300.0" layoutY="91.0" prefHeight="31.0" prefWidth="156.0" />
-      <Label layoutX="7.0" layoutY="97.0" style="-fx-text-fill: #708090;" text="Magassági lépték értéke:">
+      <Label layoutX="7.0" layoutY="97.0" style="-fx-text-fill: #708090;" text="Magassági lépték beosztás értéke:">
          <font>
-            <Font name="Calibri Bold" size="18.0" />
+            <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="lenghtOfPillars" layoutX="300.0" layoutY="149.0" prefHeight="31.0" prefWidth="156.0" />
+      <TextField fx:id="lengthOfPillars" layoutX="300.0" layoutY="149.0" prefHeight="31.0" prefWidth="156.0" />
       <Label layoutX="7.0" layoutY="155.0" style="-fx-text-fill: #708090;" text="Oszlopok távolsága:">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
       <TextField fx:id="horizontalScaleValue" layoutX="300.0" layoutY="208.0" prefHeight="31.0" prefWidth="156.0" />
-      <Label layoutX="10.0" layoutY="208.0" style="-fx-text-fill: #708090;" text="Vízszintes lépték értéke:">
+      <Label layoutX="7.0" layoutY="214.0" style="-fx-text-fill: #708090;" text="Vízszintes lépték értéke:">
          <font>
-            <Font name="Calibri Bold" size="18.0" />
+            <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
       <Label layoutX="462.0" layoutY="39.0" style="-fx-text-fill: #708090;" text="m">
          <font>
-            <Font name="Calibri Bold" size="18.0" />
+            <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="218.0" layoutY="255.0" mnemonicParsing="false" text="Küldés" />
+      <Button layoutX="218.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleSendButtonClick" text="Küldés" />
       <Label layoutX="462.0" layoutY="102.0" style="-fx-text-fill: #708090;" text="m">
          <font>
-            <Font name="Calibri Bold" size="18.0" />
+            <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
       <Label layoutX="462.0" layoutY="160.0" style="-fx-text-fill: #708090;" text="m">
          <font>
-            <Font name="Calibri Bold" size="18.0" />
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="247.0" layoutY="214.0" text="M= 1 :" style="-fx-text-fill: #708090;">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
    </children>

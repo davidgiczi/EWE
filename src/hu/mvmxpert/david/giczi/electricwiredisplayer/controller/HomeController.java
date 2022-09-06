@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetCoordSystemWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -14,18 +15,30 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
-	
+	public HomeWindow homeWindow;
 	public static String PROJECT_NAME;
 	private Drawer drawer = new Drawer();
 	private SetCoordSystemWindow setCoordSystemWindow;
 	
-
+	
+	public HomeController() {
+		homeWindow = new HomeWindow(this);
+	}
+	
 	public Drawer getDrawer() {
 		return drawer;
 	}
-
+	
+	public void createSetCoordSystemWindow() {
+		if( setCoordSystemWindow != null ) {
+			setCoordSystemWindow.getStage().show();
+		}
+		else {
+			this.setCoordSystemWindow = new SetCoordSystemWindow(this);
+		}
+	}
+	
 	public SetCoordSystemWindow getSetCoordSystemWindow() {
-		this.setCoordSystemWindow = new SetCoordSystemWindow();
 		return setCoordSystemWindow;
 	}
 

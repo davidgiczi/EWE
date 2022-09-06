@@ -17,14 +17,17 @@ import javafx.stage.Stage;
 
 public class HomeWindow  {
 
-	private HomeController homeController = new HomeController();
-	
+	private HomeController homeController;
+	private BorderPane root;
+	public MenuItem setPillarData;
+	public MenuItem setWireData;
 		
-	public HomeWindow() {
-			homeController.getDrawer().setHomeController(homeController);
+	public HomeWindow(HomeController homeController) {
+			this.homeController = homeController;
 		 	Stage primaryStage = new Stage();
-		 	BorderPane root = new BorderPane();
-			createMenu(root);
+		 	root = new BorderPane();
+			createMenu();
+			homeController.getDrawer().setRoot(root);
 			Scene scene = new Scene(root);
 			primaryStage.setMaximized(true);
 			primaryStage.setResizable(false);
@@ -34,7 +37,7 @@ public class HomeWindow  {
 			primaryStage.show();
 	}
 	
-	private void createMenu(BorderPane root) {
+	private void createMenu() {
 		MenuBar menuBar = new MenuBar();
 		menuBar.setCursor(Cursor.HAND);
 		Menu projectProcess = new Menu("Projekt műveletek");
@@ -70,27 +73,29 @@ public class HomeWindow  {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetCoordSystemWindow();
+				homeController.createSetCoordSystemWindow();
+				clearRoot();
+				setPillarData.setDisable(true);
+				setWireData.setDisable(true);
+				homeController.getDrawer().drawPage();
 			}
 		});
-		MenuItem setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
+		setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
+		setPillarData.setDisable(true);
 		setPillarData.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			homeController.getDrawer().drawPillar(root, 180, 147.92, 175.13, 0, true);
-			homeController.getDrawer().drawPillar(root, 181, 147.33, 171.55, 
-					homeController.getDrawer().getLengthOfHorizontalAxis(), true);
+		
 			}
 		});
-		MenuItem setWireData = new MenuItem("Távvezeték adatok megadása");
+		setWireData = new MenuItem("Távvezeték adatok megadása");
+		setWireData.setDisable(true);
 		setWireData.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getDrawer().drawElectricWire(root, "bal af.:", 146.67, 164.25, 105.05, true);
-				homeController.getDrawer().drawElectricWire(root, "bal af.:", 148.18, 162.39, 168.07, true);
-				homeController.getDrawer().drawElectricWire(root, "bal af.:", 150.18, 174.39, 268.32, true);
+			
 			}
 		});
 		
@@ -137,5 +142,14 @@ public class HomeWindow  {
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
 		root.setTop(menuBar);
 	}
-	
+
+	private void clearRoot(){
+		
+		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if( root.getChildren().get(i) instanceof MenuBar ) {
+				continue;
+			}
+			root.getChildren().remove(i);
+		}
+	}
 }

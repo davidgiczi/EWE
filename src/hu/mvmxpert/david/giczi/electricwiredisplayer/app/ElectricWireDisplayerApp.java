@@ -1,6 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.app;
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,7 +12,7 @@ public class ElectricWireDisplayerApp extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		new HomeWindow();
+		new HomeController();
 	}
 
 }
