@@ -251,9 +251,5 @@ public class Drawer {
 	private double getVerticalScaledDownHeightValue(double height) {
 		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
-	
-//	private double getStartXValue() {
-//		return  PAGE_WIDTH / 2 - (getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER) / 2;
-//	}
-	
+		
 }

@@ -46,7 +46,7 @@ public class SetCoordSystemController {
 		try {
 			startElevation = Validate.isValidIntegerValue(startElevationValue.getText());
 		} catch (NumberFormatException e) {
-			getWarningAlert("Nem megfelelő magassági lépték kezdő érték", "A magassági lépték kezdő értéke csak pozitív egész szám lehet.");
+			getWarningAlert("Nem megfelelő magassági lépték kezdő érték", "A magassági lépték kezdő magasság értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		try {
