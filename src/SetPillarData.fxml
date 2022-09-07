@@ -1,8 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetPillarDataController">
+ <children>
+      <Label layoutX="36.0" layoutY="29.0" style="-fx-text-fill: #708090;" text="Az oszlop azonosítója:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="pillarID" layoutX="288.0" layoutY="24.0" prefHeight="31.0" prefWidth="156.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></TextField>
+      <TextField fx:id="pillarDistance" layoutX="288.0" layoutY="73.0" prefHeight="31.0" prefWidth="156.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></TextField>
+      <Label layoutX="36.0" layoutY="78.0" style="-fx-text-fill: #708090;" text="Az oszlop távolsága:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="groundElevation" layoutX="288.0" layoutY="120.0" prefHeight="31.0" prefWidth="156.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></TextField>
+      <Label layoutX="36.0" layoutY="126.0" style="-fx-text-fill: #708090;" text="A terep balti magassága:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="pillarElevation" layoutX="288.0" layoutY="173.0" prefHeight="31.0" prefWidth="156.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></TextField>
+      <Label layoutX="36.0" layoutY="179.0" style="-fx-text-fill: #708090;" text="Az oszlop balti magassága:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="209.0" layoutY="262.0" mnemonicParsing="false" text="Küldés" onAction="#handleSendButtonClick">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Label layoutX="455.0" layoutY="85.0" style="-fx-text-fill: #708090;" text="m">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="455.0" layoutY="135.0" style="-fx-text-fill: #708090;" text="m">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="455.0" layoutY="185.0" style="-fx-text-fill: #708090;" text="m">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="hasCap" layoutX="225.0" layoutY="228.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Az oszlop tetejének jelölése">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+   </children>	
 </AnchorPane>
-

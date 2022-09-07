@@ -1,14 +1,13 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.controller;
 
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 
 public class SetDrawingSystemDataController {
 	
@@ -82,6 +81,8 @@ public class SetDrawingSystemDataController {
 	
 	private void getWarningAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.WARNING);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		alert.show();

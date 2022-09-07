@@ -1,5 +1,7 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
+import javax.management.InvalidAttributeValueException;
+
 public class Validate {
 
 	
@@ -24,5 +26,21 @@ public class Validate {
 		if( 0 > value)
 			throw new NumberFormatException();
 		return value;
+	}
+	
+	public static String isValidTextValue(String inputValue) throws InvalidAttributeValueException {
+		
+		if( inputValue.isBlank() )
+			throw new InvalidAttributeValueException();
+		
+		return inputValue;
+	}
+	
+	public static boolean isValidDistanceValue(double distance, double maxDistance) {
+		return distance > maxDistance;
+	}
+	
+	public static boolean isValidElevationValue(double elevation, int minElevation, int maxElevation) {
+		return minElevation > elevation || elevation > maxElevation;
 	}
 }

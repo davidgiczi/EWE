@@ -6,8 +6,10 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetDrawingSystemDataWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetPillarDataWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +21,7 @@ public class HomeController {
 	public static String PROJECT_NAME;
 	private Drawer drawer = new Drawer();
 	private SetDrawingSystemDataWindow setCoordSystemWindow;
+	private SetPillarDataWindow setPillarDataWindow;
 	
 	
 	public HomeController() {
@@ -38,8 +41,21 @@ public class HomeController {
 		}
 	}
 	
+	public void createSetPillarDataWindow() {
+		if( setPillarDataWindow != null ) {
+			setPillarDataWindow.getStage().show();
+		}
+		else {
+			this.setPillarDataWindow = new SetPillarDataWindow(this);
+		}
+	}
+	
 	public SetDrawingSystemDataWindow getSetCoordSystemWindow() {
 		return setCoordSystemWindow;
+	}
+	
+	public SetPillarDataWindow getSetPillarDataWindow() {
+		return setPillarDataWindow;
 	}
 
 	public String setInputText(String title, String text) {
@@ -68,6 +84,8 @@ public class HomeController {
 	
 	public void getInfoAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.INFORMATION);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		alert.show();
@@ -75,6 +93,8 @@ public class HomeController {
 	
 	public void getWarningAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.WARNING);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		alert.show();

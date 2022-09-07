@@ -86,7 +86,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-		
+				homeController.createSetPillarDataWindow();
 			}
 		});
 		setWireData = new MenuItem("Távvezeték adatok megadása");
@@ -108,7 +108,6 @@ public class HomeWindow  {
 			}
 		});
 		MenuItem saveProject = new MenuItem("Projekt mentése");
-		MenuItem saveAsProject = new MenuItem("Projekt mentése másként");
 		MenuItem exitProject = new MenuItem("Kilépés");
 		exitProject.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -120,16 +119,8 @@ public class HomeWindow  {
 		createNewProject.getItems().addAll(setProjectName, new SeparatorMenuItem(), setProjectFolder, 
 				new SeparatorMenuItem(), setCoordSystem, new SeparatorMenuItem(), setPillarData, new SeparatorMenuItem(), setWireData);
 		projectProcess.getItems().addAll(createNewProject, new SeparatorMenuItem(), 
-				openProject, new SeparatorMenuItem(), saveProject, saveAsProject, new SeparatorMenuItem(), exitProject);
+				openProject, new SeparatorMenuItem(), saveProject, new SeparatorMenuItem(), exitProject);
 		Menu modifyDraw = new Menu("Rajz módosítása");
-		MenuItem modifyCoordSystem = new MenuItem("Rajzi rendszer beállítások módosítása");
-		modifyCoordSystem.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				
-			}
-		});
 		MenuItem setText = new MenuItem("Felirat hozzáadása");
 		setText.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -138,7 +129,7 @@ public class HomeWindow  {
 			
 			}
 		});
-		modifyDraw.getItems().addAll(modifyCoordSystem, new SeparatorMenuItem(), setText);
+		modifyDraw.getItems().addAll(setText);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
 		root.setTop(menuBar);
 	}

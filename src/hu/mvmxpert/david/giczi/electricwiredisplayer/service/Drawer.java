@@ -45,8 +45,16 @@ public class Drawer {
 		this.verticalScale = verticalScale;
 	}
 	
+	public int getVerticalScale() {
+		return verticalScale;
+	}
+
 	public void setElevationStartValue(int elevationStartValue) {
 		this.elevationStartValue = elevationStartValue;
+	}
+	
+	public int getElevationStartValue() {
+		return elevationStartValue;
 	}
 
 	public double getLengthOfHorizontalAxis() {
@@ -155,7 +163,7 @@ public class Drawer {
 				PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
-	public void drawPillar(int id, double groundElevation, double topElevation, double distance, boolean isHooded) {
+	public void drawPillar(String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
 		Line pillar = new Line(
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER,
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(groundElevation - elevationStartValue) * MILLIMETER,
@@ -186,11 +194,11 @@ public class Drawer {
 			root.getChildren().add(hood);
 		}
 		setText("bal ak.: Bf. " + topElevation + "m", pillar.getEndX(), pillar.getEndY() - MILLIMETER, 18, -90);
-		setText("bal ak.: Bf. " + groundElevation + "m", pillar.getStartX() - MILLIMETER, pillar.getStartY() + 15 * MILLIMETER, 18, -90);
+		setText("bal ak.: Bf. " + groundElevation + "m", pillar.getStartX() - MILLIMETER, pillar.getStartY(), 18, -90);
 	}
 	
-	private void writePillarId(int id, double x) {
-		setText(id + ".", x, PAGE_Y + START_Y + 50 * MILLIMETER, 18, 0);
+	private void writePillarId(String id, double x) {
+		setText(id + ".", x, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
 	}
 	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
