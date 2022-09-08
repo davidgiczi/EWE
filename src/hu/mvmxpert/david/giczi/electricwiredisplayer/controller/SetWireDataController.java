@@ -1,32 +1,31 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.controller;
 
 import javax.management.InvalidAttributeValueException;
+
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-
-public class SetPillarDataController {
+public class SetWireDataController {
 
 	
 	private HomeController homeController;
 	
-	
 	@FXML
-	public TextField pillarDistance;
+	public TextField wireDistance;
 	@FXML
-	private TextField pillarID;
+	private TextField wireID;
 	@FXML
 	private TextField groundElevation;
 	@FXML
-	private TextField pillarElevation;
+	private TextField wireElevation;
 	@FXML
 	private CheckBox hasCap;
 
-	public SetPillarDataController() {
+	public SetWireDataController() {
 	}
-	
+
 	public void setHomeController(HomeController homeController) {
 		this.homeController = homeController;
 	}
@@ -37,22 +36,22 @@ public class SetPillarDataController {
 		String id;
 		double distance;
 		double groundElev;
-		double pillarElev;
+		double wireElev;
 		
 		try {
-			id = Validate.isValidTextValue(pillarID.getText());
+			id = Validate.isValidTextValue(wireID.getText());
 		} catch (InvalidAttributeValueException e) {
-		HomeController.getWarningAlert("Nem megfelelő az oszlop azonosítója", "Az oszlop azonosítója legalább egy betű vagy szám karakter lehet.");
+		HomeController.getWarningAlert("Nem megfelelő a fázis azonosítója", "A fázis azonosítója legalább egy betű vagy szám karakter lehet.");
 			return;
 		}
 		try {
-			distance = Validate.isValidDoubleValue(pillarDistance.getText());
+			distance = Validate.isValidDoubleValue(wireDistance.getText());
 			if( Validate.isValidDistanceValue(distance, homeController.getDrawer().getLengthOfHorizontalAxis()) )
 				throw new NumberFormatException();
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő az oszlop távolság értéke", 
-			"Az oszlop távolsága: távolság >= 0 és " + homeController.getDrawer().getLengthOfHorizontalAxis() + "m >= távolság.");
+		HomeController.getWarningAlert("Nem megfelelő a fázis helyének távolság értéke", 
+			"A fázis helyének távolsága: távolság >= 0 és " + homeController.getDrawer().getLengthOfHorizontalAxis() + "m >= távolság.");
 			return;
 		}
 		try {
@@ -69,31 +68,33 @@ public class SetPillarDataController {
 			return;
 		}
 		try {
-			pillarElev = Validate.isValidDoubleValue(pillarElevation.getText());
+			wireElev = Validate.isValidDoubleValue(wireElevation.getText());
 			
-			if( Validate.isValidElevationValue(pillarElev, homeController.getDrawer().getElevationStartValue(), 
+			if( Validate.isValidElevationValue(wireElev, homeController.getDrawer().getElevationStartValue(), 
 					homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale() ) )
 				throw new NumberFormatException();
-			else if( groundElev >= pillarElev ) {
-		HomeController.getWarningAlert("Nem megfelelő az oszlop balti magasság értéke", 
-						"A terep balti magasság érték nem lehet nagyobb vagy egyenlő, mint az oszlop balti magasság értéke.");
+			else if( groundElev >= wireElev ) {
+		HomeController.getWarningAlert("Nem megfelelő a fázis balti magasság értéke", 
+						"A fázis terepi balti magasság értéke nem lehet nagyobb vagy egyenlő, mint a fázis balti magasság értéke.");
 				return;
 			}
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő oszlop balti magasság érték", 
-					"Oszlop balti magasság: magasság >= " + homeController.getDrawer().getElevationStartValue()  + "m és " 
+		HomeController.getWarningAlert("Nem megfelelő a fázis balti magasság értéke", 
+					"Fázis balti magasság: magasság >= " + homeController.getDrawer().getElevationStartValue()  + "m és " 
 			+ (homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale()) + "m >= magasság.");
 			return;
 		}
 		
 		if( hasCap.isSelected() ) {
-			homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, true);
+			homeController.getDrawer().drawElectricWire(id, groundElev, wireElev, distance, true);
 		}
 		else {
-			homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, false);
+			homeController.getDrawer().drawElectricWire(id, groundElev, wireElev, distance, false);
 		}
 		
 	}
+	
+	
 	
 }

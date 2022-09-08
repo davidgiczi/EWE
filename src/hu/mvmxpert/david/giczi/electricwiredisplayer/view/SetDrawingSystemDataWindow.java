@@ -12,8 +12,6 @@ import javafx.stage.Stage;
 
 public class SetDrawingSystemDataWindow  {
 
-	@SuppressWarnings("unused")
-	private HomeController homeController;
 	private Stage stage;
 	
 	public Stage getStage() {
@@ -21,8 +19,6 @@ public class SetDrawingSystemDataWindow  {
 	}
 
 	public SetDrawingSystemDataWindow(HomeController homeController) {
-		
-		this.homeController = homeController;
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetDrawingSystemData.fxml"));

@@ -7,6 +7,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetDrawingSystemDataWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetPillarDataWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetWireDataWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -19,17 +20,24 @@ public class HomeController {
 
 	public HomeWindow homeWindow;
 	public static String PROJECT_NAME;
-	private Drawer drawer = new Drawer();
+	private Drawer drawer;
 	private SetDrawingSystemDataWindow setCoordSystemWindow;
 	private SetPillarDataWindow setPillarDataWindow;
-	
+	private SetWireDataWindow setWireDataWindow;
 	
 	public HomeController() {
+		createDrawer();
 		homeWindow = new HomeWindow(this);
 	}
 	
 	public Drawer getDrawer() {
 		return drawer;
+	}
+	
+	public void createDrawer() {
+		if( drawer == null) {
+			drawer = new Drawer();
+		}
 	}
 	
 	public void createSetCoordSystemWindow() {
@@ -47,6 +55,15 @@ public class HomeController {
 		}
 		else {
 			this.setPillarDataWindow = new SetPillarDataWindow(this);
+		}
+	}
+	
+	public void createSetWireDataWindow() {
+		if( setWireDataWindow != null ) {
+			setWireDataWindow.getStage().show();
+		}
+		else {
+			this.setWireDataWindow = new SetWireDataWindow(this);
 		}
 	}
 	
@@ -75,14 +92,14 @@ public class HomeController {
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Kilépés a programból");
-		alert.setHeaderText("Biztos, hogy kilép a programból?");
+		alert.setHeaderText("Biztos, hogy kilépsz a programból?");
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
 		    System.exit(0);
 		}
 	}
 	
-	public void getInfoAlert(String title, String text) {
+	public static void getInfoAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
@@ -91,12 +108,27 @@ public class HomeController {
 		alert.show();
 	}
 	
-	public void getWarningAlert(String title, String text) {
+	public static void getWarningAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.WARNING);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		alert.show();
+	}
+	
+	public static boolean getConfirmationAlert(String title, String text) {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/logo/MVM.jpg"));
+		alert.setTitle(title);
+		alert.setHeaderText(text);
+		Optional<ButtonType> option = alert.showAndWait();
+		if(option.get() == ButtonType.OK) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

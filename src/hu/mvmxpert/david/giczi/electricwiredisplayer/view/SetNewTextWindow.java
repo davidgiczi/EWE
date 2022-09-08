@@ -10,10 +10,7 @@ import javafx.stage.Stage;
 public class SetNewTextWindow {
 
 	
-	private HomeController homeController;
-	
 	public SetNewTextWindow(HomeController homeController) {
-		this.homeController = homeController;
 		Stage stage = new Stage();
 		FlowPane root = new FlowPane();
 		Scene scene = new Scene(root, 500, 500);

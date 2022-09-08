@@ -2,6 +2,8 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Toolkit;
 
+import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -15,12 +17,12 @@ import javafx.scene.transform.Rotate;
 
 public class Drawer {
 	
-	private final double MILLIMETER = 1000 / 224.0;
-	private final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private final double PAGE_WIDTH =  211 * MILLIMETER;
+	private static final double MILLIMETER = 1000 / 224.0;
+	public static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private static final double PAGE_WIDTH =  211 * MILLIMETER;
 	private final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
-	private final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
+	public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
 	private final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
 	private final double HOR_SHIFT = 12;
@@ -172,7 +174,10 @@ public class Drawer {
 		pillar.setStroke(Color.BLUE);
 		pillar.setStrokeWidth(3);
 		pillar.setCursor(Cursor.HAND);
-		pillar.setOnMouseClicked( null );
+		pillar.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			deleteLine(line);
+			});
 		root.getChildren().add(pillar);
 		writePillarId(id, 
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 1) * MILLIMETER);
@@ -183,21 +188,21 @@ public class Drawer {
 				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT + 1) * MILLIMETER,
 				PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
 			hood.setCursor(Cursor.HAND);
-			hood.setOnMouseClicked( h -> { Line line = (Line) h.getSource();
-										if(line.getStroke().toString().equals("0x0000ffff"))
-											line.setStroke(Color.WHITE);
-										else
-											line.setStroke(Color.BLUE);
-										});
+			hood.setOnMouseClicked( h -> {
+				Line line = (Line) h.getSource();
+				deleteLine(line);
+				});
 			hood.setStroke(Color.BLUE);
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
-		setText("bal ak.: Bf. " + topElevation + "m", pillar.getEndX(), pillar.getEndY() - MILLIMETER, 18, -90);
 		setText("bal ak.: Bf. " + groundElevation + "m", pillar.getStartX() - MILLIMETER, pillar.getStartY(), 18, -90);
+		setText("bal ak.: Bf. " + topElevation + "m", pillar.getEndX(), pillar.getEndY() - MILLIMETER, 18, -90);
+		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
+				distance + "m", pillar.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
-	private void writePillarId(String id, double x) {
+	private void writePillarId(String id, double x) { 
 		setText(id + ".", x, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
 	}
 	
@@ -210,7 +215,10 @@ public class Drawer {
 		wire.setStroke(Color.RED);
 		wire.setStrokeWidth(3);
 		wire.setCursor(Cursor.HAND);
-		wire.setOnMouseClicked( null );
+		wire.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			deleteLine(line);
+			});
 		root.getChildren().add(wire);
 		if( isHooded ) {
 			Line hood = new Line(
@@ -221,24 +229,27 @@ public class Drawer {
 			hood.setStroke(Color.RED);
 			hood.setStrokeWidth(3);
 			hood.setCursor(Cursor.HAND);
-			hood.setOnMouseClicked( h -> { Line line = (Line) h.getSource();
-										  if(line.getStroke().toString().equals("0xff0000ff"))
-										  line.setStroke(Color.WHITE);
-										  else
-										  line.setStroke(Color.RED);
-										});
+			hood.setOnMouseClicked( h -> {
+				Line line = (Line) h.getSource();
+				deleteLine(line);
+				});
 			root.getChildren().add(hood);
 		}
-		setText(text +  " Bf. " + topElevation + "m", wire.getEndX() - MILLIMETER, wire.getEndY() - MILLIMETER, 18, -90);
-		setText(distance + "m", 
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
-				PAGE_Y + START_Y + 50, 18, 0);
-		setText(text + " Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY() + 15 * MILLIMETER, 18, -90);
+		setText("bal ak.: Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY(), 18, -90);
+		setText("bal ak.: Bf. " + topElevation + "m", wire.getEndX(), wire.getEndY() - MILLIMETER, 18, -90);
+		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
+				distance + "m" + "\n"+ text, wire.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
 	public void writeText(String text, double startX, double startY, int size, double rotate) {
 		setText(text, PAGE_X + START_X + (HOR_SHIFT + startX) * MILLIMETER, 
 				PAGE_Y + START_Y + startY * MILLIMETER, size, rotate);
+	}
+	
+	private void deleteLine(Line line) {
+	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválaszott vonalat?") ) {
+		root.getChildren().remove(line);
+	}
 	}
 	
 	private void setText(String text, double startX, double startY, int size, double rotate) {
@@ -248,7 +259,7 @@ public class Drawer {
 		txt.setY(startY);
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));
 		txt.setCursor(Cursor.HAND);
-		txt.setOnMouseClicked( null );
+		txt.setOnMouseClicked( t -> new ModifyTextWindow(null) );
 		root.getChildren().add(txt);
 	}
 
@@ -259,5 +270,6 @@ public class Drawer {
 	private double getVerticalScaledDownHeightValue(double height) {
 		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
+	
 		
 }
