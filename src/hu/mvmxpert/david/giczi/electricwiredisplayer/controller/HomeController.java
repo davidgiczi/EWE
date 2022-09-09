@@ -26,18 +26,12 @@ public class HomeController {
 	private SetWireDataWindow setWireDataWindow;
 	
 	public HomeController() {
-		createDrawer();
+		drawer = new Drawer();
 		homeWindow = new HomeWindow(this);
 	}
 	
 	public Drawer getDrawer() {
 		return drawer;
-	}
-	
-	public void createDrawer() {
-		if( drawer == null) {
-			drawer = new Drawer();
-		}
 	}
 	
 	public void createSetCoordSystemWindow() {

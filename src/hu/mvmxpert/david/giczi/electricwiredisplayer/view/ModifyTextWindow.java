@@ -2,33 +2,40 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
 import java.io.IOException;
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.ModifyTextController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ModifyTextWindow {
 	
 	private Stage stage;
+	private ModifyTextController controller;
 	
 	public Stage getStage() {
 		return stage;
 	}
 	
-	public ModifyTextWindow(HomeController homeController) {
+	public void setInputText(Text inputText) {
+		controller.setInputText(inputText);
+		controller.inputTextField.setText(inputText.getText());
+	}
+
+	public ModifyTextWindow(Drawer drawer) {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifyText.fxml"));
 			AnchorPane root = loader.load();
-			ModifyTextController controller = (ModifyTextController) loader.getController();
-			controller.setHomeController(homeController);
+			controller = (ModifyTextController) loader.getController();
+			controller.setDrawer(drawer);
 			stage = new Stage();
+			controller.setStage(stage);
 			Scene scene = new Scene(root);
-			stage.setX(Drawer.PAGE_X);
+			stage.setX(Drawer.PAGE_X + Drawer.HOR_SHIFT);
 			stage.setY(50);
 			stage.setScene(scene);
 			stage.setResizable(false);

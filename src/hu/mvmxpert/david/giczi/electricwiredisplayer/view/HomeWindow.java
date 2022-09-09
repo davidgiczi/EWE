@@ -2,7 +2,6 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.fileprocess.FileProcess;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,11 +28,10 @@ public class HomeWindow  {
 		 	root = new BorderPane();
 			createMenu();
 			homeController.getDrawer().setRoot(root);
-			Scene scene = new Scene(root, Drawer.MONITOR_WIDTH, Drawer.MONITOR_HEIGHT);
-			primaryStage.setMinWidth(Drawer.MONITOR_WIDTH);
-			primaryStage.setMinHeight(Drawer.MONITOR_HEIGHT);
+			Scene scene = new Scene(root);
+			primaryStage.setMinWidth(1000);
+			primaryStage.setMinHeight(600);
 			primaryStage.setMaximized(true);
-			primaryStage.setResizable(false);
 			primaryStage.setTitle("Elektromos távvezeték szabad magasságának dokumentálása");
 			primaryStage.getIcons().add(new Image("/logo/MVM.jpg"));
 			primaryStage.setScene(scene);

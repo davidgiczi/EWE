@@ -18,14 +18,14 @@ import javafx.scene.transform.Rotate;
 public class Drawer {
 	
 	private static final double MILLIMETER = 1000 / 224.0;
-	public static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private static final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	private static final double PAGE_WIDTH =  211 * MILLIMETER;
-	private final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
+	private static final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
 	public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
 	private final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
-	private final double HOR_SHIFT = 12;
+	public static final double HOR_SHIFT = 12;
 	private final double VER_SHIFT = 5;
 	private final double START_X = 45 * MILLIMETER;
 	private final double START_Y = 550.0;
@@ -34,6 +34,7 @@ public class Drawer {
 	private int verticalScale;
 	private int elevationStartValue;
 	private BorderPane root;
+	private ModifyTextWindow modifyTextWindow;
 	
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
@@ -68,11 +69,11 @@ public class Drawer {
 	}
 
 	public void drawPage() {
-		Rectangle page = new Rectangle(
-				PAGE_X, 
-				PAGE_Y, 
-				PAGE_WIDTH, 
-				PAGE_HEIGHT);
+		Rectangle page = new Rectangle();
+		page.xProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2));
+		page.setY(PAGE_Y);
+		page.setWidth(PAGE_WIDTH);
+		page.setHeight(PAGE_HEIGHT);
 		Line leftMargin = new Line(
 				PAGE_X + (PAGE_WIDTH - MARGIN) / 2, 
 				PAGE_Y, 
@@ -238,13 +239,22 @@ public class Drawer {
 		setText("bal ak.: Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY(), 18, -90);
 		setText("bal ak.: Bf. " + topElevation + "m", wire.getEndX(), wire.getEndY() - MILLIMETER, 18, -90);
 		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
-				distance + "m" + "\n"+ text, wire.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
+				distance + "m", wire.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
+		setText(text, wire.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 65, 18, 0);
 	}
 	
 	public void writeText(String text, double startX, double startY, int size, double rotate) {
 		setText(text, PAGE_X + START_X + (HOR_SHIFT + startX) * MILLIMETER, 
 				PAGE_Y + START_Y + startY * MILLIMETER, size, rotate);
 	}
+	
+	public boolean deleteText(Text text) {
+		if( HomeController.getConfirmationAlert("Felirat törlése", "Biztos, hogy törlöd a kiválaszott feliratot?") ) {
+			root.getChildren().remove(text);
+			return true;
+		}
+		return false;
+		}
 	
 	private void deleteLine(Line line) {
 	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválaszott vonalat?") ) {
@@ -259,8 +269,22 @@ public class Drawer {
 		txt.setY(startY);
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));
 		txt.setCursor(Cursor.HAND);
-		txt.setOnMouseClicked( t -> new ModifyTextWindow(null) );
+		txt.setOnMouseClicked( t -> {
+		Text inputText = (Text) t.getSource();
+		createModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
+	}
+	
+	private void createModifyTextWindow(Text text) {
+		
+		if( modifyTextWindow == null ) {
+			modifyTextWindow = new ModifyTextWindow(this);
+		}
+		else {
+			modifyTextWindow.getStage().show();
+		}
+		modifyTextWindow.getStage().setAlwaysOnTop(true);
+		modifyTextWindow.setInputText(text);
 	}
 
 	private double getHorizontalScaledDownLengthValue(double length) {
