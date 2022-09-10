@@ -7,6 +7,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetDrawingSystemDataWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetPillarDataWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetTextWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetWireDataWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,6 +25,7 @@ public class HomeController {
 	private SetDrawingSystemDataWindow setCoordSystemWindow;
 	private SetPillarDataWindow setPillarDataWindow;
 	private SetWireDataWindow setWireDataWindow;
+	private SetTextWindow setTextWindow;
 	
 	public HomeController() {
 		drawer = new Drawer();
@@ -34,41 +36,43 @@ public class HomeController {
 		return drawer;
 	}
 	
-	public void createSetCoordSystemWindow() {
-		if( setCoordSystemWindow != null ) {
+	public void getSetCoordSystemWindow() {
+		if( setCoordSystemWindow == null ) {
+			setCoordSystemWindow = new SetDrawingSystemDataWindow(this);
+		}
+		else {
 			setCoordSystemWindow.getStage().show();
 		}
-		else {
-			this.setCoordSystemWindow = new SetDrawingSystemDataWindow(this);
-		}
 	}
 	
-	public void createSetPillarDataWindow() {
-		if( setPillarDataWindow != null ) {
+	public void getSetPillarDataWindow() {
+		if( setPillarDataWindow == null ) {
+			setPillarDataWindow = new SetPillarDataWindow(this);
+		}
+		else {
 			setPillarDataWindow.getStage().show();
 		}
-		else {
-			this.setPillarDataWindow = new SetPillarDataWindow(this);
-		}
 	}
 	
-	public void createSetWireDataWindow() {
-		if( setWireDataWindow != null ) {
+	public void getSetWireDataWindow() {
+		if( setWireDataWindow == null ) {
+			
+			setWireDataWindow = new SetWireDataWindow(this);
+		}
+		else {
 			setWireDataWindow.getStage().show();
 		}
+	}
+	
+	public void getSetTextWindow() {
+		if( setTextWindow == null) {
+			setTextWindow = new SetTextWindow(this);
+		}
 		else {
-			this.setWireDataWindow = new SetWireDataWindow(this);
+			setTextWindow.getStage().show();
 		}
 	}
 	
-	public SetDrawingSystemDataWindow getSetCoordSystemWindow() {
-		return setCoordSystemWindow;
-	}
-	
-	public SetPillarDataWindow getSetPillarDataWindow() {
-		return setPillarDataWindow;
-	}
-
 	public String setInputText(String title, String text) {
 		TextInputDialog input = new TextInputDialog();
 		input.setTitle(title);

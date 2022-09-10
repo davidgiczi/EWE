@@ -23,6 +23,7 @@ public class ModifyTextWindow {
 	public void setInputText(Text inputText) {
 		controller.setInputText(inputText);
 		controller.inputTextField.setText(inputText.getText());
+		controller.textSizeComboBox.setValue(String.valueOf((int)inputText.getFont().getSize()));
 	}
 
 	public ModifyTextWindow(Drawer drawer) {
@@ -35,7 +36,7 @@ public class ModifyTextWindow {
 			stage = new Stage();
 			controller.setStage(stage);
 			Scene scene = new Scene(root);
-			stage.setX(Drawer.PAGE_X + Drawer.HOR_SHIFT);
+			stage.setX((Drawer.MONITOR_WIDTH - root.getPrefWidth()) / 2);
 			stage.setY(50);
 			stage.setScene(scene);
 			stage.setResizable(false);

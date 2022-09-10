@@ -13,7 +13,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></TextField>
-      <Button onAction="#modifyInputText" layoutX="358.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="Módosít">
+      <Button layoutX="358.0" layoutY="10.0" mnemonicParsing="false" onAction="#modifyInputText" prefHeight="31.0" prefWidth="51.0" text="Módosít">
          <font>
             <Font size="10.0" />
          </font>
@@ -21,7 +21,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button onAction="#moveInputTextLeft"  layoutX="423.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="←">
+      <Button layoutX="423.0" layoutY="10.0" mnemonicParsing="false" onAction="#moveInputTextLeft" prefHeight="31.0" prefWidth="51.0" text="←">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -29,7 +29,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button onAction="#moveInputTextUp" layoutX="487.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="↑">
+      <Button layoutX="487.0" layoutY="10.0" mnemonicParsing="false" onAction="#moveInputTextUp" prefHeight="31.0" prefWidth="51.0" text="↑">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -37,7 +37,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button onAction="#moveInputTextDown" layoutX="547.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="↓">
+      <Button layoutX="547.0" layoutY="10.0" mnemonicParsing="false" onAction="#moveInputTextDown" prefHeight="31.0" prefWidth="51.0" text="↓">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -45,7 +45,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button onAction="#moveInputTextRight" layoutX="609.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="→">
+      <Button layoutX="609.0" layoutY="10.0" mnemonicParsing="false" onAction="#moveInputTextRight" prefHeight="31.0" prefWidth="51.0" text="→">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -53,7 +53,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button onAction="#deleteInputText" layoutX="670.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="Töröl">
+      <Button layoutX="670.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteInputText" prefHeight="31.0" prefWidth="51.0" text="Töröl">
          <font>
             <Font size="10.0" />
          </font>
@@ -61,7 +61,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button onAction="#rotateInputText" layoutX="729.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="51.0" text="Forgat">
+      <Button layoutX="729.0" layoutY="10.0" mnemonicParsing="false" onAction="#rotateInputText" prefHeight="31.0" prefWidth="51.0" text="Forgat">
          <font>
             <Font size="10.0" />
          </font>
@@ -69,7 +69,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ComboBox fx:id="textSizeComboBox" layoutX="795.0" layoutY="10.0" prefHeight="31.0" prefWidth="71.0" value="18" visibleRowCount="6">
+      <ComboBox fx:id="textSizeComboBox" layoutX="795.0" layoutY="10.0" onAction="#setSizeInputText" prefHeight="31.0" prefWidth="71.0" visibleRowCount="6">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>

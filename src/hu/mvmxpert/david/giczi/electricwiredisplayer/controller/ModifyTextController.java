@@ -35,36 +35,40 @@ public class ModifyTextController implements Initializable {
 	@FXML
 	public TextField inputTextField;
 	@FXML
-	private ComboBox<String> textSizeComboBox;
+	public ComboBox<String> textSizeComboBox;
 	
 	@FXML
 	public void modifyInputText() {
-		
+		if( inputTextField.getText().isBlank() ) {
+			inputTextField.setText(inputText.getText());
+			return;
+		}
+		drawer.modifyText(inputText, inputTextField.getText());
 	}
 	
 	@FXML
 	public void moveInputTextLeft() {
-		
+		drawer.moveTextLeft(inputText);
 	}
 	
 	@FXML
 	public void moveInputTextUp() {
-		
+		drawer.moveTextUp(inputText);
 	}
 	
 	@FXML
 	public void moveInputTextDown() {
-		
+		drawer.moveTextDown(inputText);
 	}
 	
 	@FXML
 	public void moveInputTextRight() {
-		
+		drawer.moveTextRight(inputText);
 	}
 	
 	@FXML
 	public void rotateInputText() {
-		
+		drawer.rotateText(inputText);
 	}
 	
 	@FXML
@@ -72,10 +76,15 @@ public class ModifyTextController implements Initializable {
 		if( drawer.deleteText(inputText) )
 		stage.hide();
 	}
-
+	
+	@FXML
+	public void setSizeInputText() {
+		drawer.setTextSize(inputText, Integer.valueOf(textSizeComboBox.getValue()));
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		for(int i = 18; i > 8; i-- )
+		for(int i = 24; i > 8; i-- )
 		textSizeComboBox.getItems().add(String.valueOf(i));
 	}
 	

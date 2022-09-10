@@ -17,15 +17,15 @@ import javafx.scene.transform.Rotate;
 
 public class Drawer {
 	
+	public static final double HOR_SHIFT = 12;
+	public static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	private static final double MILLIMETER = 1000 / 224.0;
-	private static final double MONITOR_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private static final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	private static final double PAGE_WIDTH =  211 * MILLIMETER;
-	private static final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
 	public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
+	private final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
 	private final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
-	public static final double HOR_SHIFT = 12;
 	private final double VER_SHIFT = 5;
 	private final double START_X = 45 * MILLIMETER;
 	private final double START_Y = 550.0;
@@ -36,6 +36,7 @@ public class Drawer {
 	private BorderPane root;
 	private ModifyTextWindow modifyTextWindow;
 	
+
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
 	}
@@ -73,17 +74,17 @@ public class Drawer {
 		page.xProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2));
 		page.setY(PAGE_Y);
 		page.setWidth(PAGE_WIDTH);
-		page.setHeight(PAGE_HEIGHT);
-		Line leftMargin = new Line(
-				PAGE_X + (PAGE_WIDTH - MARGIN) / 2, 
-				PAGE_Y, 
-				PAGE_X +(PAGE_WIDTH - MARGIN) / 2, 
-				PAGE_HEIGHT + 20);
-		Line rightMargin = new Line(
-				PAGE_X + (PAGE_WIDTH - MARGIN) / 2 + MARGIN,
-				PAGE_Y, 
-				PAGE_X +(PAGE_WIDTH - MARGIN) / 2 + MARGIN,
-				PAGE_HEIGHT + 20);
+		page.setHeight(PAGE_HEIGHT);		
+		Line leftMargin = new Line();
+		leftMargin.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2));
+		leftMargin.setStartY(PAGE_Y);
+		leftMargin.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2));
+		leftMargin.setEndY(PAGE_HEIGHT + 20);
+		Line rightMargin = new Line();
+		rightMargin.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2).add(MARGIN));
+		rightMargin.setStartY(PAGE_Y);
+		rightMargin.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2).add(MARGIN));
+		rightMargin.setEndY(PAGE_HEIGHT + 20);
 		leftMargin.setStroke(Color.LIGHTGRAY);
 		leftMargin.getStrokeDashArray().addAll(4d);
 		rightMargin.setStroke(Color.LIGHTGRAY);
@@ -93,7 +94,7 @@ public class Drawer {
 	}
 	
 	public void drawVerticalAxis() {
-		double startY = START_Y;
+		double startY = START_Y - 10 * MILLIMETER;
 		Line leftBorder = new Line(
 				PAGE_X + START_X,
 				PAGE_Y + START_Y, 
@@ -110,7 +111,7 @@ public class Drawer {
 				PAGE_X + START_X + 2 * MILLIMETER,
 				PAGE_Y + - 100 * MILLIMETER + START_Y);
 		root.getChildren().addAll(leftBorder, rightBorder, topBorder);
-		for(int i = 0; i < 10; i++) {
+		for(int i = 1; i < 11; i++) {
 		Rectangle axisComponent = new Rectangle(
 				PAGE_X + START_X,
 				PAGE_Y + startY,
@@ -256,6 +257,103 @@ public class Drawer {
 		return false;
 		}
 	
+	public void rotateText(Text text) {
+		text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
+	}
+	
+	public void modifyText(Text text, String txt) {
+		text.setText(txt);
+	}
+	
+	public void moveTextLeft(Text text) {
+		
+		double actualXPosition = text.getX();
+		double actualYPosition = text.getY();
+		int rotateStatus = text.getTransforms().size() % 4;
+		
+		switch ( rotateStatus ) {
+		case 1:
+			text.setY(actualYPosition - MILLIMETER);
+			break;
+		case 2:
+			text.setX(actualXPosition + MILLIMETER);
+			break;
+		case 3:
+			text.setY(actualYPosition + MILLIMETER);
+			break;
+		default:
+			text.setX(actualXPosition - MILLIMETER);
+		}
+	}
+	
+	public void moveTextRight(Text text) {
+		
+		double actualXPosition = text.getX();
+		double actualYPosition = text.getY();
+		int rotateStatus = text.getTransforms().size() % 4;
+		
+		switch ( rotateStatus ) {
+		case 1:
+			text.setY(actualYPosition + MILLIMETER);
+			break;
+		case 2:
+			text.setX(actualXPosition - MILLIMETER);
+			break;
+		case 3:
+			text.setY(actualYPosition - MILLIMETER);
+			break;
+		default:
+			text.setX(actualXPosition + MILLIMETER);
+		}
+			
+	}
+	
+	public void moveTextUp(Text text) {
+		double actualXPosition = text.getX();
+		double actualYPosition = text.getY();
+		int rotateStatus = text.getTransforms().size() % 4;
+		
+		switch ( rotateStatus ) {
+		case 1:
+			text.setX(actualXPosition + MILLIMETER);
+			break;
+		case 2:
+			text.setY(actualYPosition + MILLIMETER);
+			break;
+		case 3:
+			text.setX(actualXPosition - MILLIMETER);
+			break;
+		default:
+			text.setY(actualYPosition - MILLIMETER);
+		}
+
+	}
+	
+	public void moveTextDown(Text text) {
+		double actualXPosition = text.getX();
+		double actualYPosition = text.getY();
+		int rotateStatus = text.getTransforms().size() % 4;
+		
+		switch ( rotateStatus ) {
+		case 1:
+			text.setX(actualXPosition - MILLIMETER);
+			break;
+		case 2:
+			text.setY(actualYPosition - MILLIMETER);
+			break;
+		case 3:
+			text.setX(actualXPosition + MILLIMETER);
+			break;
+		default:
+			text.setY(actualYPosition + MILLIMETER);
+		}
+	}
+	
+	public void setTextSize(Text text, int size) {
+		Font font = Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size);
+		text.setFont(font);
+	}
+	
 	private void deleteLine(Line line) {
 	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválaszott vonalat?") ) {
 		root.getChildren().remove(line);
@@ -267,15 +365,16 @@ public class Drawer {
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		txt.setX(startX);
 		txt.setY(startY);
+		if( rotate == -90 )
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));
 		txt.setCursor(Cursor.HAND);
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
-		createModifyTextWindow(inputText); });
+		getModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
 	}
 	
-	private void createModifyTextWindow(Text text) {
+	private void getModifyTextWindow(Text text) {
 		
 		if( modifyTextWindow == null ) {
 			modifyTextWindow = new ModifyTextWindow(this);

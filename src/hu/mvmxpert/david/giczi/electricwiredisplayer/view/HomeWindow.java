@@ -21,6 +21,7 @@ public class HomeWindow  {
 	private BorderPane root;
 	public MenuItem setPillarData;
 	public MenuItem setWireData;
+	public MenuItem setText;
 		
 	public HomeWindow(HomeController homeController) {
 			this.homeController = homeController;
@@ -74,10 +75,11 @@ public class HomeWindow  {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.createSetCoordSystemWindow();
+				homeController.getSetCoordSystemWindow();
 				clearRoot();
 				setPillarData.setDisable(true);
 				setWireData.setDisable(true);
+				setText.setDisable(false);
 				homeController.getDrawer().drawPage();
 			}
 		});
@@ -87,7 +89,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.createSetPillarDataWindow();
+				homeController.getSetPillarDataWindow();
 			}
 		});
 		setWireData = new MenuItem("Távvezeték adatok megadása");
@@ -96,7 +98,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.createSetWireDataWindow();
+				homeController.getSetWireDataWindow();
 			}
 		});
 		
@@ -122,12 +124,13 @@ public class HomeWindow  {
 		projectProcess.getItems().addAll(createNewProject, new SeparatorMenuItem(), 
 				openProject, new SeparatorMenuItem(), saveProject, new SeparatorMenuItem(), exitProject);
 		Menu modifyDraw = new Menu("Rajz módosítása");
-		MenuItem setText = new MenuItem("Felirat hozzáadása");
+		setText = new MenuItem("Felirat hozzáadása");
+		setText.setDisable(true);
 		setText.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			
+				homeController.getSetTextWindow();
 			}
 		});
 		modifyDraw.getItems().addAll(setText);
