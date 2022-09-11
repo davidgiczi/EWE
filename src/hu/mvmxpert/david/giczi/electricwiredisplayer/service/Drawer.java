@@ -246,7 +246,7 @@ public class Drawer {
 	
 	public void writeText(String text, double startX, double startY, int size, double rotate) {
 		setText(text, PAGE_X + START_X + (HOR_SHIFT + startX) * MILLIMETER, 
-				PAGE_Y + START_Y + startY * MILLIMETER, size, rotate);
+				PAGE_Y + START_Y - startY * MILLIMETER, size, rotate);
 	}
 	
 	public boolean deleteText(Text text) {

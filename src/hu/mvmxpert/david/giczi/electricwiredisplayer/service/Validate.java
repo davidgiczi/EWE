@@ -5,6 +5,11 @@ import javax.management.InvalidAttributeValueException;
 public class Validate {
 
 	
+	public static final int MIN_X_VALUE = -120;
+	public static final int MIN_Y_VALUE = -50;
+	public static final int MAX_X_VALUE = 200;
+	public static final int MAX_Y_VALUE = 120;
+	
 	public static boolean isValidProjectName(String projectName) {
 		
 		if(projectName == null || projectName.isBlank() || 3 > projectName.length()) {
@@ -42,5 +47,15 @@ public class Validate {
 	
 	public static boolean isValidElevationValue(double elevation, int minElevation, int maxElevation) {
 		return minElevation > elevation || elevation > maxElevation;
+	}
+	
+	public static boolean isValidInputTextXPosition(String textX) throws NumberFormatException{
+		int text_X = Integer.parseInt(textX);
+		return MIN_X_VALUE > text_X || text_X > MAX_X_VALUE;
+	}
+	
+	public static boolean isValidInputTextYPosition(String textY) throws NumberFormatException{
+		int text_Y = Integer.parseInt(textY);
+		return MIN_Y_VALUE > text_Y || text_Y > MAX_Y_VALUE;
 	}
 }
