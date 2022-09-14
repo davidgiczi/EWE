@@ -71,6 +71,8 @@ public class HomeController {
 		else {
 			setTextWindow.getStage().show();
 		}
+		
+		setTextWindow.getInputTextField().requestFocus();
 	}
 	
 	public String setInputText(String title, String text) {

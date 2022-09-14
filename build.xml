@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="ElectricWireDisplayer">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../apps/sts-4.10.0.RELEASE/"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
+    <path id="JavaFX SDK.libraryclasspath">
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx-swt.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.base.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.controls.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.fxml.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.graphics.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.media.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.swing.jar"/>
+        <pathelement location="../../apps/javafx-sdk-18.0.2/lib/javafx.web.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.eclipse.fx.ide.css.jfx8_3.8.0.202204150904.jar"/>
+    </path>
+    <path id="ElectricWireDisplayer.classpath">
+        <pathelement location="bin"/>
+        <path refid="JavaFX SDK.libraryclasspath"/>
+    </path>
+    <path id="run.Css2Bin (1).classpath">
+        <path refid="ElectricWireDisplayer.classpath"/>
+        <path refid="JavaFX SDK.libraryclasspath"/>
+    </path>
+    <path id="run.ElectricWireDisplayerApp.classpath">
+        <path refid="ElectricWireDisplayer.classpath"/>
+        <path refid="JavaFX SDK.libraryclasspath"/>
+    </path>
+    <path id="run.HomeWindow (1).classpath">
+        <path refid="ElectricWireDisplayer.classpath"/>
+        <path refid="JavaFX SDK.libraryclasspath"/>
+    </path>
+    <path id="run.Main (1).classpath">
+        <path refid="ElectricWireDisplayer.classpath"/>
+        <path refid="JavaFX SDK.libraryclasspath"/>
+    </path>
+    <path id="run.SetDrawingSystemDataWindow.classpath">
+        <path refid="ElectricWireDisplayer.classpath"/>
+        <path refid="JavaFX SDK.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.xtend"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="ElectricWireDisplayer.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="Css2Bin (1)">
+        <java classname="hu.mvmxpert.david.giczi.electricwiredisplayer.app.ElectricWireDisplayerApp" failonerror="true" fork="yes">
+            <jvmarg line="--module-path C:\Users\User\Documents\apps\javafx-sdk-18.0.2\lib --add-modules=javafx.controls,javafx.fxml"/>
+            <classpath refid="run.Css2Bin (1).classpath"/>
+        </java>
+    </target>
+    <target name="ElectricWireDisplayerApp">
+        <java classname="hu.mvmxpert.david.giczi.electricwiredisplayer.controllers.ElectricWireDisplayerApp" failonerror="true" fork="yes">
+            <jvmarg line="--module-path &quot;C:\Users\User\Documents\apps\javafx-sdk-18.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml"/>
+            <classpath refid="run.ElectricWireDisplayerApp.classpath"/>
+        </java>
+    </target>
+    <target name="HomeWindow (1)">
+        <java classname="hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow" failonerror="true" fork="yes">
+            <jvmarg line="--module-path=&quot;C:\Users\User\Documents\apps\javafx-sdk-18.0.2\lib&quot; --add-modules=javafx.controls,javafx.fxml"/>
+            <classpath refid="run.HomeWindow (1).classpath"/>
+        </java>
+    </target>
+    <target name="Main (1)">
+        <java classname="hu.mvmxpert.david.giczi.electricwiredisplayer.service.Main" failonerror="true" fork="yes">
+            <jvmarg line="--module-path &quot;C:\Users\User\Documents\apps\javafx-sdk-18.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml"/>
+            <classpath refid="run.Main (1).classpath"/>
+        </java>
+    </target>
+    <target name="SetDrawingSystemDataWindow">
+        <java classname="hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetDrawingSystemDataWindow" failonerror="true" fork="yes">
+            <classpath refid="run.SetDrawingSystemDataWindow.classpath"/>
+        </java>
+    </target>
+</project>

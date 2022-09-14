@@ -25,7 +25,7 @@ public class HomeWindow  {
 		
 	public HomeWindow(HomeController homeController) {
 			this.homeController = homeController;
-		 	Stage primaryStage = new Stage();
+			Stage primaryStage = new Stage();
 		 	root = new BorderPane();
 			createMenu();
 			homeController.getDrawer().setRoot(root);

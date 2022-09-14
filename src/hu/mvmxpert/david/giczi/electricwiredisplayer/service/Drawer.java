@@ -237,8 +237,8 @@ public class Drawer {
 				});
 			root.getChildren().add(hood);
 		}
-		setText("bal ak.: Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY(), 18, -90);
-		setText("bal ak.: Bf. " + topElevation + "m", wire.getEndX(), wire.getEndY() - MILLIMETER, 18, -90);
+		setText("bal af.: Bf. " + groundElevation + "m", wire.getStartX() - MILLIMETER, wire.getStartY(), 18, -90);
+		setText("bal af.: Bf. " + topElevation + "m", wire.getEndX(), wire.getEndY() - MILLIMETER, 18, -90);
 		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
 				distance + "m", wire.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 		setText(text, wire.getStartX() - 5 * MILLIMETER, PAGE_Y + START_Y + 65, 18, 0);

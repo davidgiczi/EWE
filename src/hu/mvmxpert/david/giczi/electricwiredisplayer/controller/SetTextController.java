@@ -24,7 +24,7 @@ public class SetTextController {
 	}
 	
 	@FXML
-	private TextField inputTextField;
+	public TextField inputTextField;
 	@FXML
 	private TextField inputTextXField;
 	@FXML
