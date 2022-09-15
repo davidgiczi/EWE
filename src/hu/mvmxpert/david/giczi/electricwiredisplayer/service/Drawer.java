@@ -22,8 +22,6 @@ public class Drawer {
 	private static final double MILLIMETER = 1000 / 224.0;
 	private static final double PAGE_WIDTH =  211 * MILLIMETER;
 	public static final double PAGE_X = (MONITOR_WIDTH - PAGE_WIDTH) / 2;
-	private final double MONITOR_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private final double PAGE_HEIGHT =  MONITOR_HEIGHT - 50;
 	private final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
 	private final double VER_SHIFT = 5;
@@ -74,17 +72,17 @@ public class Drawer {
 		page.xProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2));
 		page.setY(PAGE_Y);
 		page.setWidth(PAGE_WIDTH);
-		page.setHeight(PAGE_HEIGHT);		
+		page.heightProperty().bind(root.widthProperty().subtract(50));
 		Line leftMargin = new Line();
 		leftMargin.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2));
 		leftMargin.setStartY(PAGE_Y);
 		leftMargin.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2));
-		leftMargin.setEndY(PAGE_HEIGHT + 20);
+		leftMargin.endYProperty().bind(root.heightProperty().add(20));
 		Line rightMargin = new Line();
 		rightMargin.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2).add(MARGIN));
 		rightMargin.setStartY(PAGE_Y);
 		rightMargin.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add((PAGE_WIDTH - MARGIN) / 2).add(MARGIN));
-		rightMargin.setEndY(PAGE_HEIGHT + 20);
+		rightMargin.endYProperty().bind(root.heightProperty().add(20));
 		leftMargin.setStroke(Color.LIGHTGRAY);
 		leftMargin.getStrokeDashArray().addAll(4d);
 		rightMargin.setStroke(Color.LIGHTGRAY);
@@ -95,28 +93,28 @@ public class Drawer {
 	
 	public void drawVerticalAxis() {
 		double startY = START_Y - 10 * MILLIMETER;
-		Line leftBorder = new Line(
-				PAGE_X + START_X,
-				PAGE_Y + START_Y, 
-				PAGE_X + START_X, 
-				PAGE_Y + START_Y - 100 * MILLIMETER);
-		Line rightBorder = new Line(
-				PAGE_X + START_X + 2 * MILLIMETER, 
-				PAGE_Y + START_Y,
-				PAGE_X + START_X + 2 * MILLIMETER,
-				PAGE_Y + START_Y - 100 * MILLIMETER);
-		Line topBorder = new Line(
-				PAGE_X + START_X,
-				PAGE_Y - 100 * MILLIMETER + START_Y, 
-				PAGE_X + START_X + 2 * MILLIMETER,
-				PAGE_Y + - 100 * MILLIMETER + START_Y);
+		Line leftBorder = new Line();
+		leftBorder.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X));
+		leftBorder.setStartY(PAGE_Y + START_Y);
+		leftBorder.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X));
+		leftBorder.setEndY(PAGE_Y + START_Y - 100  * MILLIMETER);
+		Line rightBorder = new Line();
+		rightBorder.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X).add(2 * MILLIMETER));
+		rightBorder.setStartY(PAGE_Y + START_Y);
+		rightBorder.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X).add(2 * MILLIMETER));
+		rightBorder.setEndY(PAGE_Y + START_Y - 100  * MILLIMETER);
+		Line topBorder = new Line();
+		topBorder.startXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X));
+		topBorder.setStartY(PAGE_Y + START_Y - 100 * MILLIMETER);
+		topBorder.endXProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X).add(2 * MILLIMETER));
+		topBorder.setEndY(PAGE_Y + START_Y - 100 * MILLIMETER);
 		root.getChildren().addAll(leftBorder, rightBorder, topBorder);
 		for(int i = 1; i < 11; i++) {
-		Rectangle axisComponent = new Rectangle(
-				PAGE_X + START_X,
-				PAGE_Y + startY,
-				2 * MILLIMETER,
-				10 * MILLIMETER);
+		Rectangle axisComponent = new Rectangle();
+		axisComponent.xProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(START_X));
+		axisComponent.setY(PAGE_Y + startY);
+		axisComponent.setWidth(2 * MILLIMETER);
+		axisComponent.setHeight(10 * MILLIMETER);
 		if( i % 2 == 0) {
 			axisComponent.setFill(Color.WHITE);
 		}
@@ -153,17 +151,17 @@ public class Drawer {
 		double startY = START_Y;
 		int startValue = elevationStartValue;
 		for(int i = 0; i <= 10; i++) {
-		setText(String.valueOf(startValue) + "m", PAGE_X + START_X - 70, PAGE_Y + startY, 18, 0);
+		setText(String.valueOf(startValue) + "m", START_X - 70, PAGE_Y + startY, 18, 0);
 		startY -= 10 * MILLIMETER;
 		startValue += verticalScale;
 		}
-		setText("Oszlopszám:", PAGE_X + 30 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
+		setText("Oszlopszám:", 30 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
 	}
 	
 	public void writeDistanceValueForHorizontalAxis() {
-		setText("0", PAGE_X + START_X + (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
+		setText("0", START_X + (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 		setText(String.valueOf(lengthOfHorizontalAxis) + "m", 
-				PAGE_X + START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
+				START_X + getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
@@ -245,7 +243,7 @@ public class Drawer {
 	}
 	
 	public void writeText(String text, double startX, double startY, int size, double rotate) {
-		setText(text, PAGE_X + START_X + (HOR_SHIFT + startX) * MILLIMETER, 
+		setText(text, START_X + (HOR_SHIFT + startX) * MILLIMETER, 
 				PAGE_Y + START_Y - startY * MILLIMETER, size, rotate);
 	}
 	
@@ -363,7 +361,7 @@ public class Drawer {
 	private void setText(String text, double startX, double startY, int size, double rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
-		txt.setX(startX);
+		txt.xProperty().bind(root.widthProperty().divide(2).subtract(PAGE_WIDTH / 2).add(startX));
 		txt.setY(startY);
 		if( rotate == -90 )
 		txt.getTransforms().add(new Rotate(rotate, startX, startY));

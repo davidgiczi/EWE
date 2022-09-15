@@ -21,7 +21,8 @@ public class HomeWindow  {
 	private BorderPane root;
 	public MenuItem setPillarData;
 	public MenuItem setWireData;
-	public MenuItem setText;
+	public MenuItem addText;
+	public MenuItem addLine;
 		
 	public HomeWindow(HomeController homeController) {
 			this.homeController = homeController;
@@ -31,7 +32,7 @@ public class HomeWindow  {
 			homeController.getDrawer().setRoot(root);
 			Scene scene = new Scene(root);
 			primaryStage.setMinWidth(1000);
-			primaryStage.setMinHeight(600);
+			primaryStage.setMinHeight(700);
 			primaryStage.setMaximized(true);
 			primaryStage.setTitle("Elektromos távvezeték szabad magasságának dokumentálása");
 			primaryStage.getIcons().add(new Image("/logo/MVM.jpg"));
@@ -79,7 +80,7 @@ public class HomeWindow  {
 				clearRoot();
 				setPillarData.setDisable(true);
 				setWireData.setDisable(true);
-				setText.setDisable(false);
+				addText.setDisable(false);
 				homeController.getDrawer().drawPage();
 			}
 		});
@@ -124,16 +125,18 @@ public class HomeWindow  {
 		projectProcess.getItems().addAll(createNewProject, new SeparatorMenuItem(), 
 				openProject, new SeparatorMenuItem(), saveProject, new SeparatorMenuItem(), exitProject);
 		Menu modifyDraw = new Menu("Rajz módosítása");
-		setText = new MenuItem("Felirat hozzáadása");
-		setText.setDisable(true);
-		setText.setOnAction(new EventHandler<ActionEvent>() {
+		addText = new MenuItem("Felirat hozzáadása");
+		addText.setDisable(true);
+		addText.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				homeController.getSetTextWindow();
 			}
 		});
-		modifyDraw.getItems().addAll(setText);
+		addLine = new MenuItem("Vonal hozzáadása");
+		addLine.setDisable(true);
+		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), addLine);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
 		root.setTop(menuBar);
 	}
