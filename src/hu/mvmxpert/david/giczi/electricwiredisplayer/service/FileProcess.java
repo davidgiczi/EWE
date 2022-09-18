@@ -1,4 +1,4 @@
-package hu.mvmxpert.david.giczi.electricwiredisplayer.fileprocess;
+package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Component;
 import java.awt.HeadlessException;

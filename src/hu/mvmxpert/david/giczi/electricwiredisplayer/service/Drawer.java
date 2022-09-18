@@ -16,8 +16,8 @@ import javafx.scene.transform.Rotate;
 public class Drawer {
 	
 	private BorderPane root;
+	public static double MILLIMETER = 1000 / 224.0;
 	private final double HOR_SHIFT = 12;
-	private final double MILLIMETER = 1000 / 224.0;
 	private final double A4_WIDTH =  211 * MILLIMETER;
 	private final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
@@ -281,9 +281,16 @@ public class Drawer {
 				PAGE_Y + START_Y + 65, 18, 0);
 	}
 	
-	public void writeText(String text, double startX, double startY, int size, double rotate) {
-		setText(text, START_X + (HOR_SHIFT + startX) * MILLIMETER, 
-				PAGE_Y + START_Y - startY * MILLIMETER, size, rotate);
+	public void writeText(String text, double startX, double startY) {
+		Text txt = new Text(text);
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
+		txt.xProperty().bind(root.widthProperty().subtract(root.widthProperty()).add(startX * MILLIMETER));
+		txt.setY(startY * MILLIMETER);
+		txt.setCursor(Cursor.HAND); 
+		txt.setOnMouseClicked( t -> {
+		Text inputText = (Text) t.getSource();
+		getModifyTextWindow(inputText); });
+		root.getChildren().add(txt);
 	}
 	
 	private void setText(String text, double startX, double startY, int size, double rotate) {
@@ -316,7 +323,26 @@ public class Drawer {
 		}
 	
 	public void rotateText(Text text) {
+		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
+		double yDistance = text.getY() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
+		text.xProperty().unbind();
+		text.yProperty().unbind();
+		int rotateStatus = text.getTransforms().size() % 4;
+		
+		switch ( rotateStatus ) {
+		case 1:
+			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
+			break;
+		case 2:
+			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
+			break;
+		case 3:
+			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
+			break;
+		default:
+			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
+		}
 	}
 	
 	public void modifyText(Text text, String txt) {
@@ -328,6 +354,7 @@ public class Drawer {
 		double actualXPosition = text.getX();
 		double actualYPosition = text.getY();
 		text.xProperty().unbind();
+		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		int rotateStatus = text.getTransforms().size() % 4;
@@ -352,6 +379,7 @@ public class Drawer {
 		double actualXPosition = text.getX();
 		double actualYPosition = text.getY();
 		text.xProperty().unbind();
+		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		int rotateStatus = text.getTransforms().size() % 4;
@@ -376,6 +404,7 @@ public class Drawer {
 		double actualXPosition = text.getX();
 		double actualYPosition = text.getY();
 		text.xProperty().unbind();
+		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		int rotateStatus = text.getTransforms().size() % 4;
@@ -400,6 +429,7 @@ public class Drawer {
 		double actualXPosition = text.getX();
 		double actualYPosition = text.getY();
 		text.xProperty().unbind();
+		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		int rotateStatus = text.getTransforms().size() % 4;

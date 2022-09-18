@@ -47,7 +47,7 @@ public class SetTextController {
 			}
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő X koordináta érték", 
-					"Az X koordináta csak egész szám lehet: X >=" + Validate.MIN_X_VALUE  + "mm és " + Validate.MAX_X_VALUE + "mm >= X.");
+					"Az X koordináta csak egész szám lehet: X >= "+ Validate.MIN_X_VALUE + "mm és " + Validate.MAX_X_VALUE + "mm >= X.");
 			return;
 		}
 		try {
@@ -56,11 +56,11 @@ public class SetTextController {
 			}
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő Y koordináta érték", 
-					"Az Y koordináta csak egész szám lehet: Y >=" + Validate.MIN_Y_VALUE  + "mm és " + Validate.MAX_Y_VALUE + "mm >= Y.");
+					"Az Y koordináta csak egész szám lehet: Y >= " + Validate.MIN_Y_VALUE + "mm és " + Validate.MAX_Y_VALUE + "mm >= Y.");
 			return;
 		}
 		homeController.getDrawer().writeText(inputText, Integer.parseInt(inputTextXField.getText()),
-				Integer.parseInt(inputTextYField.getText()), 18, 0);
+				Integer.parseInt(inputTextYField.getText()));
 		stage.hide();
 	}
 	

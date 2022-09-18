@@ -1,7 +1,7 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.fileprocess.FileProcess;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,7 +23,12 @@ public class HomeWindow  {
 	public MenuItem setWireData;
 	public MenuItem addText;
 	public MenuItem addLine;
-		
+	
+	
+	public BorderPane getRoot() {
+		return root;
+	}
+
 	public HomeWindow(HomeController homeController) {
 			this.homeController = homeController;
 			Stage primaryStage = new Stage();
