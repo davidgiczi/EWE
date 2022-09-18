@@ -1,6 +1,7 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.view;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import javafx.event.ActionEvent;
@@ -33,6 +34,12 @@ public class HomeWindow  {
 			this.homeController = homeController;
 			Stage primaryStage = new Stage();
 		 	root = new BorderPane();
+		 	root.widthProperty().addListener((obs, oldVal, newVal) -> {
+		 		Validate.MAX_X_VALUE = (int) (root.getWidth() / Drawer.MILLIMETER);
+		 	});
+		 	root.heightProperty().addListener((obs, oldVal, newVal) -> {
+		 		Validate.MAX_Y_VALUE = (int) (root.getHeight() / Drawer.MILLIMETER);
+		 	});
 			createMenu();
 			homeController.getDrawer().setRoot(root);
 			Scene scene = new Scene(root);

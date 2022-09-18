@@ -71,8 +71,6 @@ public class HomeController {
 		else {
 			setTextWindow.getStage().show();
 		}
-		
-		Validate.setRoot(homeWindow.getRoot());
 		setTextWindow.getInputTextField().requestFocus();
 	}
 	
