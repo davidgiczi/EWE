@@ -36,7 +36,7 @@ public class ModifyTextWindow {
 			stage = new Stage();
 			controller.setStage(stage);
 			Scene scene = new Scene(root);
-			stage.setX((Drawer.MONITOR_WIDTH - root.getPrefWidth()) / 2);
+			stage.setX((drawer.getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(50);
 			stage.setScene(scene);
 			stage.setResizable(false);

@@ -32,7 +32,7 @@ public class HomeWindow  {
 			homeController.getDrawer().setRoot(root);
 			Scene scene = new Scene(root);
 			primaryStage.setMinWidth(1000);
-			primaryStage.setMinHeight(700);
+			primaryStage.setMinHeight(750);
 			primaryStage.setMaximized(true);
 			primaryStage.setTitle("Elektromos távvezeték szabad magasságának dokumentálása");
 			primaryStage.getIcons().add(new Image("/logo/MVM.jpg"));

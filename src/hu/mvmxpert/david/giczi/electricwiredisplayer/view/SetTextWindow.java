@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetTextController;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -38,7 +37,7 @@ public class SetTextWindow {
 			controller.setHomeController(homeController);
 			setInputTextField(controller.inputTextField);
 			stage = new Stage();
-			stage.setX((Drawer.MONITOR_WIDTH - root.getPrefWidth()) / 2);
+			stage.setX((homeController.getDrawer().getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(50);
 			controller.setStage(stage);
 			Scene scene = new Scene(root);
