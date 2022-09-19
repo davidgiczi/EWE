@@ -76,6 +76,8 @@ public class HomeController {
 	
 	public String setInputText(String title, String text) {
 		TextInputDialog input = new TextInputDialog();
+		Stage stage = (Stage) input.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		input.setTitle(title);
 		input.setHeaderText(text);
 		input.showAndWait();
@@ -90,6 +92,8 @@ public class HomeController {
 
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle("Kilépés a programból");
 		alert.setHeaderText("Biztos, hogy kilépsz a programból?");
 		Optional<ButtonType> result = alert.showAndWait();

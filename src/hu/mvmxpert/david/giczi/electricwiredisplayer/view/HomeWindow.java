@@ -24,6 +24,11 @@ public class HomeWindow  {
 	public MenuItem setWireData;
 	public MenuItem addText;
 	public MenuItem addLine;
+	public MenuItem modifyLengthOfBaseLine;
+	public MenuItem modifyHorizontalScale;
+	public MenuItem modifyElevationStartValue;
+	public MenuItem modifyElevationMeasurment;
+	public MenuItem exchangePillars; 
 	
 	
 	public BorderPane getRoot() {
@@ -88,12 +93,18 @@ public class HomeWindow  {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
+				
+				if(HomeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
+						"Mented a korábbi projekt adatait?")) {
+				}
+				
 				homeController.getSetCoordSystemWindow();
 				clearRoot();
 				setPillarData.setDisable(true);
 				setWireData.setDisable(true);
 				addText.setDisable(false);
 				homeController.getDrawer().drawPage();
+				
 			}
 		});
 		setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
@@ -129,6 +140,9 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				if(HomeController.getConfirmationAlert("A projekt adatainak mentése szükséges", 
+						"Mented a projekt adatait?")) {
+				}
 				homeController.exit();
 			}
 		});
@@ -147,8 +161,21 @@ public class HomeWindow  {
 			}
 		});
 		addLine = new MenuItem("Vonal hozzáadása");
-		addLine.setDisable(true);
-		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), addLine);
+		//addLine.setDisable(true);
+		Menu modifyBaseLine = new Menu("Nyomvonal módosítása");
+		modifyLengthOfBaseLine = new MenuItem("Az oszlopok távolságának módosítása");
+		modifyHorizontalScale = new MenuItem("Vízszintes lépték módosítása");
+		modifyBaseLine.getItems().addAll(modifyLengthOfBaseLine, modifyHorizontalScale);
+		Menu modifyVerticalScale = new Menu("Magassági lépték módosítása");
+		modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
+		modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
+		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
+		exchangePillars = new MenuItem("Az oszlopok felcserélése");
+		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
+				addLine, new SeparatorMenuItem(), 
+				modifyBaseLine, new SeparatorMenuItem(),
+				modifyVerticalScale,  new SeparatorMenuItem(),
+				exchangePillars);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
 		root.setTop(menuBar);
 	}
