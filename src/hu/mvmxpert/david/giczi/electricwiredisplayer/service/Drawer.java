@@ -327,9 +327,9 @@ public class Drawer {
 	public void rotateText(Text text) {
 		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = text.getY() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
 		text.xProperty().unbind();
 		text.yProperty().unbind();
+		text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
 		int rotateStatus = text.getTransforms().size() % 4;
 		
 		switch ( rotateStatus ) {
@@ -345,6 +345,7 @@ public class Drawer {
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
 		}
+		
 	}
 	
 	public void modifyText(Text text, String txt) {

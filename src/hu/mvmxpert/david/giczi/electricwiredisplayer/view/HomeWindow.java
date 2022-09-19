@@ -94,9 +94,9 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-				if(HomeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
-						"Mented a korábbi projekt adatait?")) {
-				}
+//				if(HomeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
+//						"Mented a korábbi projekt adatait?")) {
+//				}
 				
 				homeController.getSetCoordSystemWindow();
 				clearRoot();

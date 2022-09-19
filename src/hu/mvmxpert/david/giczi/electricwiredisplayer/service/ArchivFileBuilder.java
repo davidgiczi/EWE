@@ -10,7 +10,6 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 
 public class ArchivFileBuilder {
-
 	
 	public static int id;
 	public static DrawingSystemData systemData;
@@ -19,12 +18,7 @@ public class ArchivFileBuilder {
 	public static List<TextData> textData;
 	public static List<LineData> lineData;
 	
-	
-	public ArchivFileBuilder() {
-		init();
-	}
-	
-	private void init() {
+	public static void init() {
 		id = 0;
 		systemData = new DrawingSystemData();
 		pillarData = new ArrayList<>();
