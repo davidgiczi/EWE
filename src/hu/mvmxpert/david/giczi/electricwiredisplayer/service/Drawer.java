@@ -1,13 +1,7 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
-import java.util.List;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.DrawingSystemData;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.LineData;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
@@ -36,11 +30,7 @@ public class Drawer {
 	private int verticalScale;
 	private int elevationStartValue;
 	private ModifyTextWindow modifyTextWindow;
-	private DrawingSystemData systemData;
-	private List<PillarData> pillarData;
-	private List<WireData> wireData;
-	private List<TextData> textData;
-	private List<LineData> lineData;
+	
 
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
