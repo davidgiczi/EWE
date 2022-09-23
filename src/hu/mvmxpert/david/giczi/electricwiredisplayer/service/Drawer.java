@@ -33,7 +33,12 @@ public class Drawer {
 	private int elevationStartValue;
 	private ModifyTextWindow modifyTextWindow;
 	private DecimalFormat df = new DecimalFormat("0.00");
+	private ArchivFileBuilder archivFileBuilder;
 	
+	
+	public void setArchivFileBuilder(ArchivFileBuilder archivFileBuilder) {
+		this.archivFileBuilder = archivFileBuilder;
+	}
 
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
@@ -167,16 +172,16 @@ public class Drawer {
 		double startY = START_Y;
 		int startValue = elevationStartValue;
 		for(int i = 0; i <= 10; i++) {
-		setText(String.valueOf(startValue) + "m", - 70, PAGE_Y + startY, 18, 0);
+		setText(-1, String.valueOf(startValue) + "m", - 70, PAGE_Y + startY, 18, 0);
 		startY -= 10 * MILLIMETER;
 		startValue += verticalScale;
 		}
-		setText("Oszlopszám:", - 17 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
+		setText(-1, "Oszlopszám:", - 17 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
 	}
 	
 	public void writeDistanceValueForHorizontalAxis() {
-		setText("0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
-		setText(String.valueOf(lengthOfHorizontalAxis) + "m", 
+		setText(-1, "0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
+		setText(-1, String.valueOf(lengthOfHorizontalAxis) + "m", 
 				getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
 	}
@@ -224,15 +229,15 @@ public class Drawer {
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
-		setText("jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", pillar.getStartX(), pillar.getStartY(), 18, -90);
-		setText("jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m",  pillar.getEndX(), pillar.getEndY(), 18, -90);
-		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
+		setText(0, "jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", pillar.getStartX(), pillar.getStartY(), 18, -90);
+		setText(0, "jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m",  pillar.getEndX(), pillar.getEndY(), 18, -90);
+		setText(0, distance == 0 || distance == lengthOfHorizontalAxis ? "" :
 			df.format(distance).replace(",", ".") + "m", 
 				getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
 	private void writePillarId(String id, double x) { 
-		setText(id + ".", x, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
+		setText(0, id + ".", x, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
 	}
 	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -277,12 +282,12 @@ public class Drawer {
 				});
 			root.getChildren().add(hood);
 		}
-		setText("jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
-		setText("jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
-		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
+		setText(0, "jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
+		setText(0, "jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
+		setText(0, distance == 0 || distance == lengthOfHorizontalAxis ? "" :
 			df.format(distance).replace(",", ".") + "m", getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
-		setText(text, getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 7) * MILLIMETER, 
+		setText(0, text, getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 7) * MILLIMETER, 
 				PAGE_Y + START_Y + 65, 18, 0);
 	}
 	
@@ -298,7 +303,7 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	private void setText(String text, double startX, double startY, int size, double rotate) {
+	private void setText(int id, String text, double startX, double startY, int size, double rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		

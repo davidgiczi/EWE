@@ -20,6 +20,7 @@ public class HomeWindow  {
 
 	private HomeController homeController;
 	private BorderPane root;
+	private FileProcess fileProcess;
 	public MenuItem setPillarData;
 	public MenuItem setWireData;
 	public MenuItem addText;
@@ -28,11 +29,20 @@ public class HomeWindow  {
 	public MenuItem modifyHorizontalScale;
 	public MenuItem modifyElevationStartValue;
 	public MenuItem modifyElevationMeasurment;
-	public MenuItem exchangePillars; 
+	public MenuItem come2ndPillarTo1stPlace;
+	public MenuItem exchangePillars;
 	
 	
 	public BorderPane getRoot() {
 		return root;
+	}
+	
+	public void setRoot(BorderPane root) {
+		this.root = root;
+	}
+
+	public void setFileProcess(FileProcess fileProcess) {
+		this.fileProcess = fileProcess;
 	}
 
 	public HomeWindow(HomeController homeController) {
@@ -85,7 +95,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				FileProcess.setFolder();
+				fileProcess.setFolder();
 			}
 		});
 		MenuItem setCoordSystem = new MenuItem("Rajzi rendszer beállítása");
@@ -131,7 +141,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			FileProcess.setProject();	
+			fileProcess.setProject();	
 			}
 		});
 		MenuItem saveProject = new MenuItem("Projekt mentése");
@@ -170,11 +180,14 @@ public class HomeWindow  {
 		modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
 		modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
-		exchangePillars = new MenuItem("A második oszlop legyen a kezdő oszlop");
+		come2ndPillarTo1stPlace = new MenuItem("A második oszlop legyen a kezdő oszlop");
+		exchangePillars = new MenuItem("Az oszlopok felcserélése");
 		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
 				addLine, new SeparatorMenuItem(), 
 				modifyBaseLine, new SeparatorMenuItem(),
 				modifyVerticalScale,  new SeparatorMenuItem(),
+				come2ndPillarTo1stPlace,
+				new SeparatorMenuItem(), 
 				exchangePillars);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
 		root.setTop(menuBar);

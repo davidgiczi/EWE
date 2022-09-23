@@ -3,13 +3,19 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.model;
 public class TextData {
 
 	
+	private int id;
 	private String textValue;
 	private int X;
 	private int Y;
 	private int size;
 	private int direction;
 	
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getTextValue() {
 		return textValue;
 	}

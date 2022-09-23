@@ -2,7 +2,9 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.controller;
 
 import java.util.Optional;
 
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetDrawingSystemDataWindow;
@@ -22,6 +24,8 @@ public class HomeController {
 	public HomeWindow homeWindow;
 	public static String PROJECT_NAME;
 	private Drawer drawer;
+	private ArchivFileBuilder archivFileBuilder;
+	private FileProcess fileProcess;
 	private SetDrawingSystemDataWindow setCoordSystemWindow;
 	private SetPillarDataWindow setPillarDataWindow;
 	private SetWireDataWindow setWireDataWindow;
@@ -30,6 +34,11 @@ public class HomeController {
 	public HomeController() {
 		drawer = new Drawer();
 		homeWindow = new HomeWindow(this);
+		fileProcess = new FileProcess();
+		homeWindow.setFileProcess(fileProcess);
+		archivFileBuilder = new ArchivFileBuilder();
+		drawer.setArchivFileBuilder(archivFileBuilder);
+		fileProcess.setArchivFileBuilder(archivFileBuilder);
 	}
 	
 	public Drawer getDrawer() {

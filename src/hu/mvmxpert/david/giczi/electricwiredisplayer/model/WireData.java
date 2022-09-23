@@ -1,21 +1,24 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.model;
 
+import java.util.List;
+
 public class WireData {
 
 	
-	private String wireID;
+	private int id;
 	private double groundElevation;
 	private double topElevetaion;
 	private double distanceOfPillar;
+	private List<TextData> wireTextList;
 	private boolean hasCap;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	
-	public String getWireID() {
-		return wireID;
-	}
-	public void setWireID(String wireID) {
-		this.wireID = wireID;
-	}
 	public double getGroundElevation() {
 		return groundElevation;
 	}
@@ -34,6 +37,14 @@ public class WireData {
 	public void setDistanceOfPillar(double distanceOfPillar) {
 		this.distanceOfPillar = distanceOfPillar;
 	}
+	
+	public List<TextData> getWireTextList() {
+		return wireTextList;
+	}
+	public void setWireTextList(List<TextData> wireTextList) {
+		this.wireTextList = wireTextList;
+	}
+	
 	public boolean isHasCap() {
 		return hasCap;
 	}

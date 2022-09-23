@@ -12,13 +12,33 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 public class ArchivFileBuilder {
 	
 	public static int id;
-	public static DrawingSystemData systemData;
-	public static List<PillarData> pillarData;
-	public static List<WireData> wireData;
-	public static List<TextData> textData;
-	public static List<LineData> lineData;
+	private DrawingSystemData systemData;
+	private List<PillarData> pillarData;
+	private List<WireData> wireData;
+	private List<TextData> textData;
+	private List<LineData> lineData;
 	
-	public static void init() {
+	public DrawingSystemData getSystemData() {
+		return systemData;
+	}
+
+	public List<PillarData> getPillarData() {
+		return pillarData;
+	}
+
+	public List<WireData> getWireData() {
+		return wireData;
+	}
+
+	public List<TextData> getTextData() {
+		return textData;
+	}
+
+	public List<LineData> getLineData() {
+		return lineData;
+	}
+
+	public void init() {
 		id = 0;
 		systemData = new DrawingSystemData();
 		pillarData = new ArrayList<>();
@@ -32,35 +52,35 @@ public class ArchivFileBuilder {
 		return id;
 	}
 	
-	public static void addPillar() {
+	public static void addPillar(PillarData pillar) {
 		
 	}
 	
-	public static void removePillar() {
+	public static void removePillar(int id) {
 		
 	}
 	
-	public static void addWire() {
+	public static void addWire(WireData wire) {
 		
 	}
 	
-	public static void removeWire() {
+	public static void removeWire(int id) {
 		
 	}
 	
-	public static void addText() {
+	public static void addText(TextData text) {
 		
 	}
 	
-	public static void removeText() {
+	public static void removeText(int id) {
 		
 	}
 	
-	public static void addLine() {
+	public static void addLine(LineData line) {
 		
 	}
 	
-	public static void removeLine() {
+	public static void removeLine(int line) {
 		
 	}	
 	

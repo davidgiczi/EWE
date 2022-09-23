@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.model;
 
 public class LineData {
 
+	private int id;
 	private int startX;
 	private int startY;
 	private int endX;
@@ -9,7 +10,13 @@ public class LineData {
 	private int lenghtOfLine;
 	private String typeOfLine;
 	
-	
+
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getStartX() {
 		return startX;
 	}

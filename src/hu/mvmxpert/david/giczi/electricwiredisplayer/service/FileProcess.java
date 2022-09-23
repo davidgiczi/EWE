@@ -15,8 +15,13 @@ import javax.swing.filechooser.FileSystemView;
 public class FileProcess {
 	
 	public static String FOLDER_PATH;
+	private ArchivFileBuilder archivFileBuilder;
 	
-	public static void setFolder() {
+	public void setArchivFileBuilder(ArchivFileBuilder archivFileBuilder) {
+		this.archivFileBuilder = archivFileBuilder;
+	}
+
+	public void setFolder() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
@@ -48,7 +53,7 @@ public class FileProcess {
 		}
 	}
 	
-	public static String setProject() {
+	public String setProject() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
