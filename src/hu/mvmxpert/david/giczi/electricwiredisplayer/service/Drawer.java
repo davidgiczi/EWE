@@ -1,6 +1,8 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 
+import java.text.DecimalFormat;
+
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
@@ -30,6 +32,7 @@ public class Drawer {
 	private int verticalScale;
 	private int elevationStartValue;
 	private ModifyTextWindow modifyTextWindow;
+	private DecimalFormat df = new DecimalFormat("0.00");
 	
 
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
@@ -221,10 +224,10 @@ public class Drawer {
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
-		setText("jobb ak.: Bf. " + groundElevation + "m", pillar.getStartX(), pillar.getStartY(), 18, -90);
-		setText("jobb ak.: Bf. " + topElevation + "m",  pillar.getEndX(), pillar.getEndY(), 18, -90);
+		setText("jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", pillar.getStartX(), pillar.getStartY(), 18, -90);
+		setText("jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m",  pillar.getEndX(), pillar.getEndY(), 18, -90);
 		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
-				distance + "m", 
+			df.format(distance).replace(",", ".") + "m", 
 				getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
@@ -274,10 +277,10 @@ public class Drawer {
 				});
 			root.getChildren().add(hood);
 		}
-		setText("jobb af.: Bf. " + groundElevation + "m", wire.getStartX(), wire.getStartY(), 18, -90);
-		setText("jobb af.: Bf. " + topElevation + "m", wire.getEndX(), wire.getEndY(), 18, -90);
+		setText("jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
+		setText("jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
 		setText(distance == 0 || distance == lengthOfHorizontalAxis ? "" :
-				distance + "m", getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, 
+			df.format(distance).replace(",", ".") + "m", getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
 		setText(text, getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 7) * MILLIMETER, 
 				PAGE_Y + START_Y + 65, 18, 0);

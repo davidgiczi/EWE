@@ -170,7 +170,7 @@ public class HomeWindow  {
 		modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
 		modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
-		exchangePillars = new MenuItem("Az oszlopok felcserélése");
+		exchangePillars = new MenuItem("A második oszlop legyen a kezdő oszlop");
 		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
 				addLine, new SeparatorMenuItem(), 
 				modifyBaseLine, new SeparatorMenuItem(),
