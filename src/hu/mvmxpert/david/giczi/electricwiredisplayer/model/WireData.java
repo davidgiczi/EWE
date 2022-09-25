@@ -1,16 +1,38 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WireData {
 
-	
 	private int id;
 	private double groundElevation;
 	private double topElevetaion;
 	private double distanceOfPillar;
 	private List<TextData> wireTextList;
 	private boolean hasCap;
+	
+	public WireData(double groundElevation, double topElevetaion, double distanceOfPillar, boolean hasCap) {
+		
+		this.groundElevation = groundElevation;
+		this.topElevetaion = topElevetaion;
+		this.distanceOfPillar = distanceOfPillar;
+		this.hasCap = hasCap;
+		wireTextList = new ArrayList<>();
+	}
+	
+	public String getWireData() {
+		return groundElevation + "\t" + topElevetaion + "\t" + distanceOfPillar + "\t" + hasCap;
+	}
+	
+	public String getWireTexts() {
+		StringBuilder bd = new StringBuilder();
+		for (TextData textData : wireTextList) {
+			bd.append(textData.getTextData())
+			.append("\n");
+		}
+		return bd.toString();
+	}
 	
 	public int getId() {
 		return id;

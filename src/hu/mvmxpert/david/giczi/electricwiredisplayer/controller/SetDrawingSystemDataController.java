@@ -63,6 +63,7 @@ public class SetDrawingSystemDataController {
 			HomeController.getWarningAlert("Nem megfelelő vízszintes lépték érték", "A vízszintes lépték értéke csak pozitív egész szám lehet.");
 			return;
 		}
+		homeController.archivFileBuilder.setSystemData(length, horizontalScale, startElevation, verticalScale);
 		homeController.getDrawer().setElevationStartValue(startElevation);
 		homeController.getDrawer().setVerticalScale(verticalScale);
 		homeController.getDrawer().setLengthOfHorizontalAxis(length);

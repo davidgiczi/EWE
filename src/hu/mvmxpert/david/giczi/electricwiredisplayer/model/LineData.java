@@ -10,6 +10,19 @@ public class LineData {
 	private int lenghtOfLine;
 	private String typeOfLine;
 	
+	
+	public LineData(int startX, int startY, int endX, int endY, int lenghtOfLine, String typeOfLine) {
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
+		this.lenghtOfLine = lenghtOfLine;
+		this.typeOfLine = typeOfLine;
+	}
+
+	public String getLineData() {
+		return  "Line\t" + startX + "\t" + startY + "\t" + endX + "\t" + endY + "\t" + lenghtOfLine + "\t" + typeOfLine;
+ 	}
 
 	public int getId() {
 		return id;

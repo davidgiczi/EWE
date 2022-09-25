@@ -9,6 +9,21 @@ public class DrawingSystemData {
 	private int horizontalScale;
 	
 	
+	public DrawingSystemData() {
+	}
+	
+	public DrawingSystemData(int elevationStartValue, int verticalScale,
+			double lengthOfHorizontalAxis, int horizontalScale) {
+		this.elevationStartValue = elevationStartValue;
+		this.verticalScale = verticalScale;
+		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
+		this.horizontalScale = horizontalScale;
+	}
+
+	public String getDrawingSystemData() {
+		return "System\t" + lengthOfHorizontalAxis + "\t" + horizontalScale + "\t" + elevationStartValue + "\t" + verticalScale;
+	}
+	
 	public int getElevationStartValue() {
 		return elevationStartValue;
 	}

@@ -1,5 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PillarData {
@@ -12,6 +13,28 @@ public class PillarData {
 	private List<TextData> pillarTextList;
 	private boolean hasCap;
 	
+	
+	public PillarData(double groundElevation, double topElevetaion, double distanceOfPillar, boolean hasCap) {
+
+		this.groundElevation = groundElevation;
+		this.topElevetaion = topElevetaion;
+		this.distanceOfPillar = distanceOfPillar;
+		this.hasCap = hasCap;
+		pillarTextList = new ArrayList<>();
+	}
+
+	public String getPillarData() {
+		return "Pillar\t" + groundElevation + "\t" + topElevetaion + "\t" + distanceOfPillar + "\t" + hasCap;
+	}
+	
+	public String getPillarTexts() {
+		StringBuilder bd = new StringBuilder();
+		for (TextData textData : pillarTextList) {
+			bd.append(textData.getTextData())
+			.append("\n");
+		}
+		return bd.toString();
+	}
 	
 	public int getId() {
 		return id;

@@ -52,36 +52,86 @@ public class ArchivFileBuilder {
 		return id;
 	}
 	
-	public static void addPillar(PillarData pillar) {
-		
+	public void setSystemData(double lengthOfHorizontalAxis, int horizontalScale, int elevationStartValue, int verticalScale) {
+		systemData.setLengthOfHorizontalAxis(lengthOfHorizontalAxis);
+		systemData.setHorizontalScale(horizontalScale);
+		systemData.setElevationStartValue(elevationStartValue);
+		systemData.setVerticalScale(verticalScale);
 	}
 	
-	public static void removePillar(int id) {
-		
+	public void addPillar(PillarData pillar) {
+		pillarData.add(pillar);
 	}
 	
-	public static void addWire(WireData wire) {
+	
+	public PillarData getPillarData(int id) {
 		
+		PillarData data = null;
+		
+		for (PillarData pillar : pillarData) {
+			if( pillar.getId() == id) {
+				data = pillar;
+			}
+		}
+
+		return data;
 	}
 	
-	public static void removeWire(int id) {
-		
+	public void removePillar(int id) {
+		for (PillarData pillar : pillarData) {
+			if( pillar.getId() == id ) {
+				pillarData.remove(pillar);
+			}
+		}
 	}
 	
-	public static void addText(TextData text) {
-		
+	public void addWire(WireData wire) {
+		wireData.add(wire);
 	}
 	
-	public static void removeText(int id) {
+	public WireData getWireData(int id) {
 		
+		WireData data = null;
+		
+		for (WireData wire : wireData) {
+			if( wire.getId() == id ) {
+				data = wire;
+			}
+		}
+		
+		return data;
 	}
 	
-	public static void addLine(LineData line) {
-		
+	public void removeWire(int id) {
+		for(WireData wire : wireData) {
+			if( wire.getId() == id ) {
+				wireData.remove(wire);
+			}
+		}
 	}
 	
-	public static void removeLine(int line) {
-		
+	public void addText(TextData text) {
+		textData.add(text);
+	}
+	
+	public void removeText(int id) {
+		for(TextData text : textData) {
+			if( text.getId() == id ) {
+				textData.remove(text);
+			}
+		}
+	}
+	
+	public void addLine(LineData line) {
+		lineData.add(line);
+	}
+	
+	public void removeLine(int id) {
+		for(LineData line : lineData) {
+			if( line.getId() == id ) {
+				lineData.remove(line);
+			}
+		}
 	}	
 	
 	

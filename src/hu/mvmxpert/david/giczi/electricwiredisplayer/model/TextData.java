@@ -2,13 +2,25 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.model;
 
 public class TextData {
 
-	
 	private int id;
 	private String textValue;
-	private int X;
-	private int Y;
+	private double X;
+	private double Y;
 	private int size;
 	private int direction;
+	
+	public TextData(String textValue, double x, double y, int size, int direction) {
+		
+		this.textValue = textValue;
+		X = x;
+		Y = y;
+		this.size = size;
+		this.direction = direction;
+	}
+
+	public String getTextData() {
+		return "Text\t" + textValue + "\t" + X + "\t" + Y + "\t" + size + "\t" + direction;
+	}
 	
 	public int getId() {
 		return id;
@@ -22,18 +34,23 @@ public class TextData {
 	public void setTextValue(String textValue) {
 		this.textValue = textValue;
 	}
-	public int getX() {
+	
+	public double getX() {
 		return X;
 	}
-	public void setX(int x) {
+
+	public void setX(double x) {
 		X = x;
 	}
-	public int getY() {
+
+	public double getY() {
 		return Y;
 	}
-	public void setY(int y) {
+
+	public void setY(double y) {
 		Y = y;
 	}
+
 	public int getSize() {
 		return size;
 	}

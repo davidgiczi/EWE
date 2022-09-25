@@ -22,9 +22,9 @@ import javafx.stage.Stage;
 public class HomeController {
 
 	public HomeWindow homeWindow;
+	public ArchivFileBuilder archivFileBuilder;
 	public static String PROJECT_NAME;
 	private Drawer drawer;
-	private ArchivFileBuilder archivFileBuilder;
 	private FileProcess fileProcess;
 	private SetDrawingSystemDataWindow setCoordSystemWindow;
 	private SetPillarDataWindow setPillarDataWindow;
@@ -37,6 +37,7 @@ public class HomeController {
 		fileProcess = new FileProcess();
 		homeWindow.setFileProcess(fileProcess);
 		archivFileBuilder = new ArchivFileBuilder();
+		archivFileBuilder.init();
 		drawer.setArchivFileBuilder(archivFileBuilder);
 		fileProcess.setArchivFileBuilder(archivFileBuilder);
 	}

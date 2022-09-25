@@ -4,6 +4,9 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 import java.text.DecimalFormat;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
@@ -229,15 +232,23 @@ public class Drawer {
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
-		setText(0, "jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", pillar.getStartX(), pillar.getStartY(), 18, -90);
-		setText(0, "jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m",  pillar.getEndX(), pillar.getEndY(), 18, -90);
-		setText(0, distance == 0 || distance == lengthOfHorizontalAxis ? "" :
+		
+		PillarData pillarData = new PillarData(groundElevation, topElevation, distance, isHooded);
+		pillarData.setId(ArchivFileBuilder.addID());
+		pillar.setId(String.valueOf(pillarData.getId()));
+		archivFileBuilder.addPillar(pillarData);
+
+		setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
+				pillar.getStartX(), pillar.getStartY(), 18, -90);
+		setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
+				pillar.getEndX(), pillar.getEndY(), 18, -90);
+		setText(pillarData.getId(), distance == 0 || distance == lengthOfHorizontalAxis ? "" :
 			df.format(distance).replace(",", ".") + "m", 
 				getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
 	private void writePillarId(String id, double x) { 
-		setText(0, id + ".", x, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
+		setText(-1, id + ".", x, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);
 	}
 	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -282,12 +293,18 @@ public class Drawer {
 				});
 			root.getChildren().add(hood);
 		}
-		setText(0, "jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
-		setText(0, "jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
-		setText(0, distance == 0 || distance == lengthOfHorizontalAxis ? "" :
+		
+		WireData wireData = new WireData(groundElevation, topElevation, distance, isHooded);
+		wireData.setId(ArchivFileBuilder.addID());
+		wire.setId(String.valueOf(wireData.getId()));
+		archivFileBuilder.addWire(wireData);
+		
+		setText(wireData.getId(), "jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
+		setText(wireData.getId(), "jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
+		setText(wireData.getId(), distance == 0 || distance == lengthOfHorizontalAxis ? "" :
 			df.format(distance).replace(",", ".") + "m", getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 5) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
-		setText(0, text, getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 7) * MILLIMETER, 
+		setText(wireData.getId(), text, getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 7) * MILLIMETER, 
 				PAGE_Y + START_Y + 65, 18, 0);
 	}
 	
@@ -296,14 +313,18 @@ public class Drawer {
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
 		txt.xProperty().bind(root.widthProperty().subtract(root.widthProperty()).add(startX * MILLIMETER));
 		txt.setY(startY * MILLIMETER);
-		txt.setCursor(Cursor.HAND); 
+		txt.setCursor(Cursor.HAND);
+		TextData textData = new TextData(text, startX, startY, 18, 0);
+		textData.setId(ArchivFileBuilder.addID());
+		archivFileBuilder.addText(textData);
+		txt.setId(String.valueOf(textData.getId()));
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
 		getModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
 	}
 	
-	private void setText(int id, String text, double startX, double startY, int size, double rotate) {
+	private void setText(int id, String text, double startX, double startY, int size, int rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		
@@ -317,11 +338,23 @@ public class Drawer {
 		double yDistance = PAGE_Y - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		txt.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(startY));
 		}
+		setPillarText(id, text, startX, startY, size, rotate);
+		setWireText(id, text, startX, startY, size, rotate);
 		txt.setCursor(Cursor.HAND); 
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
 		getModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
+	}
+	
+	private void setPillarText(int id, String text, double startX, double startY, int size, int rotate) {
+		PillarData pillar = archivFileBuilder.getPillarData(id);
+		pillar.getPillarTextList().add(new TextData(text, startX, startY, size, rotate));
+	}
+	
+	private void setWireText(int id, String text, double startX, double startY, int size, int rotate) {
+		WireData wire = archivFileBuilder.getWireData(id);
+		wire.getWireTextList().add(new TextData(text, startX, startY, size, rotate));
 	}
 	
 	public boolean deleteText(Text text) {
