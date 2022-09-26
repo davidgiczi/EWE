@@ -338,8 +338,15 @@ public class Drawer {
 		double yDistance = PAGE_Y - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		txt.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(startY));
 		}
-		setPillarText(id, text, startX, startY, size, rotate);
-		setWireText(id, text, startX, startY, size, rotate);
+		
+		PillarData pillar = setPillarText(id, text, startX, startY, size, rotate);
+		WireData wire = setWireText(id, text, startX, startY, size, rotate);
+		
+		if( pillar != null )
+		txt.setId(String.valueOf(pillar.getId()));
+		else if( wire != null)
+		txt.setId(String.valueOf(wire.getId()));
+			
 		txt.setCursor(Cursor.HAND); 
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
@@ -347,18 +354,32 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	private void setPillarText(int id, String text, double startX, double startY, int size, int rotate) {
+	private PillarData setPillarText(int id, String text, double startX, double startY, int size, int rotate) {
 		PillarData pillar = archivFileBuilder.getPillarData(id);
-		pillar.getPillarTextList().add(new TextData(text, startX, startY, size, rotate));
+		if( pillar != null ) {
+		TextData pillarText = new TextData(text, startX, startY, size, rotate);
+		pillarText.setId(ArchivFileBuilder.addID());
+		pillar.getPillarTextList().add(pillarText);
+		}
+		return pillar;
 	}
 	
-	private void setWireText(int id, String text, double startX, double startY, int size, int rotate) {
+	private WireData setWireText(int id, String text, double startX, double startY, int size, int rotate) {
 		WireData wire = archivFileBuilder.getWireData(id);
-		wire.getWireTextList().add(new TextData(text, startX, startY, size, rotate));
+		if( wire != null ) {
+		TextData wireText = new TextData(text, startX, startY, size, rotate);
+		wireText.setId(ArchivFileBuilder.addID());
+		wire.getWireTextList().add(wireText);
+		}
+		return wire;
 	}
 	
 	public boolean deleteText(Text text) {
 		if( HomeController.getConfirmationAlert("Felirat törlése", "Biztos, hogy törlöd a kiválaszott feliratot?") ) {
+			int id = Integer.valueOf(text.getId());
+			archivFileBuilder.removeText(id);
+			archivFileBuilder.removeWireText(id);
+			archivFileBuilder.removePillarText(id);
 			root.getChildren().remove(text);
 			return true;
 		}
@@ -373,23 +394,34 @@ public class Drawer {
 		text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
 		int rotateStatus = text.getTransforms().size() % 4;
 		
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		
 		switch ( rotateStatus ) {
 		case 1:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
+			if( textData != null )
+				textData.setDirection(-90);
 			break;
 		case 2:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
+			if( textData != null )
+				textData.setDirection(-180);
 			break;
 		case 3:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
+			if( textData != null )
+				textData.setDirection(-270);
 			break;
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
+			if( textData != null )
+				textData.setDirection(0);
 		}
-		
 	}
 	
 	public void modifyText(Text text, String txt) {
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		textData.setTextValue(txt);
 		text.setText(txt);
 	}
 	
@@ -416,6 +448,13 @@ public class Drawer {
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
 		}
+		
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		
+		if( textData != null ) {
+			textData.setX(text.xProperty().get() / MILLIMETER);
+			textData.setY(text.yProperty().get() / MILLIMETER);
+		}
 	}
 	
 	public void moveTextRight(Text text) {
@@ -440,6 +479,13 @@ public class Drawer {
 			break;
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
+		}
+		
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		
+		if( textData != null ) {
+			textData.setX(text.xProperty().get() / MILLIMETER);
+			textData.setY(text.yProperty().get() / MILLIMETER);
 		}
 	}
 	
@@ -466,6 +512,13 @@ public class Drawer {
 		default:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
 		}
+		
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		
+		if( textData != null ) {
+			textData.setX(text.xProperty().get() / MILLIMETER);
+			textData.setY(text.yProperty().get() / MILLIMETER);
+		}
 	}
 	
 	public void moveTextDown(Text text) {
@@ -491,15 +544,27 @@ public class Drawer {
 		default:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
 		}
+		
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		
+		if( textData != null ) {
+			textData.setX(text.xProperty().get() / MILLIMETER);
+			textData.setY(text.yProperty().get() / MILLIMETER);
+		}
 	}
 	
 	public void setTextSize(Text text, int size) {
 		Font font = Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size);
 		text.setFont(font);
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
+		if( textData != null ) {
+			textData.setSize(size);
+		}
 	}
 	
 	private void deleteLine(Line line) {
 	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválaszott vonalat?") ) {
+		archivFileBuilder.removeLine(Integer.valueOf(line.getId()));
 		root.getChildren().remove(line);
 	}
 	}

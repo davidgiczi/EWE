@@ -85,6 +85,16 @@ public class ArchivFileBuilder {
 		}
 	}
 	
+	public void removePillarText(int id) {
+		for (PillarData pillar : pillarData) {
+			for(TextData text : pillar.getPillarTextList()) {
+				if(text.getId() == id) {
+					pillar.getPillarTextList().remove(text);
+				}
+			}
+		}
+	}
+	
 	public void addWire(WireData wire) {
 		wireData.add(wire);
 	}
@@ -110,6 +120,16 @@ public class ArchivFileBuilder {
 		}
 	}
 	
+	public void removeWireText(int id) {
+		for(WireData wire : wireData) {
+			for(TextData text : wire.getWireTextList()) {
+				if( text.getId() == id ) {
+					wire.getWireTextList().remove(text);
+				}
+			}
+		}
+	}
+	
 	public void addText(TextData text) {
 		textData.add(text);
 	}
@@ -120,6 +140,16 @@ public class ArchivFileBuilder {
 				textData.remove(text);
 			}
 		}
+	}
+	
+	public TextData getTextData(int id) {
+		TextData text = null;
+		for (TextData data : textData) {
+			if( data.getId() == id ) {
+				text = data;
+			}
+		}
+		return text;
 	}
 	
 	public void addLine(LineData line) {
