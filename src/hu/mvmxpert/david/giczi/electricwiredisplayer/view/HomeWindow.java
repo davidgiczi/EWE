@@ -172,6 +172,19 @@ public class HomeWindow  {
 		});
 		addLine = new MenuItem("Vonal hozzáadása");
 		//addLine.setDisable(true);
+		addLine.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+			System.out.println(homeController.archivFileBuilder.getSystemData().getDrawingSystemData());
+			homeController.archivFileBuilder.getPillarData().forEach(p -> System.out.println(p.getPillarData()));
+			homeController.archivFileBuilder.getPillarData().forEach(p -> System.out.println(p.getPillarTexts()));
+			homeController.archivFileBuilder.getWireData().forEach(p -> System.out.println(p.getWireData()));
+			homeController.archivFileBuilder.getWireData().forEach(p -> System.out.println(p.getWireTexts()));
+			homeController.archivFileBuilder.getTextData().forEach(p -> System.out.println(p.getTextData()));
+			
+			}
+		});
 		Menu modifyBaseLine = new Menu("Nyomvonal módosítása");
 		modifyLengthOfBaseLine = new MenuItem("Az oszlopok távolságának módosítása");
 		modifyHorizontalScale = new MenuItem("Vízszintes lépték módosítása");

@@ -8,18 +8,20 @@ public class TextData {
 	private double Y;
 	private int size;
 	private int direction;
+	private String type;
 	
-	public TextData(String textValue, double x, double y, int size, int direction) {
+	public TextData(String textValue, double x, double y, int size, int direction, String type) {
 		
 		this.textValue = textValue;
 		X = x;
 		Y = y;
 		this.size = size;
 		this.direction = direction;
+		this.type = type;
 	}
 
 	public String getTextData() {
-		return "Text\t" + textValue + "\t" + X + "\t" + Y + "\t" + size + "\t" + direction;
+		return type + "\t" + textValue + "\t" + X + "\t" + Y + "\t" + size + "\t" + direction;
 	}
 	
 	public int getId() {
@@ -63,9 +65,13 @@ public class TextData {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
-	
-	
-	
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 	
 }

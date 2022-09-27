@@ -33,7 +33,7 @@ public class PillarData {
 			bd.append(textData.getTextData())
 			.append("\n");
 		}
-		return bd.toString();
+		return bd.substring(0, bd.length() - 1);
 	}
 	
 	public int getId() {

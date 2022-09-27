@@ -8,6 +8,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.model.LineData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
+import javafx.scene.layout.BorderPane;
 
 public class ArchivFileBuilder {
 	
@@ -78,18 +79,18 @@ public class ArchivFileBuilder {
 	}
 	
 	public void removePillar(int id) {
-		for (PillarData pillar : pillarData) {
-			if( pillar.getId() == id ) {
-				pillarData.remove(pillar);
+		for (int i = pillarData.size() - 1; i >= 0; i--) {
+			if( pillarData.get(i).getId() == id ) {
+				pillarData.remove(pillarData.get(i));
 			}
 		}
 	}
 	
 	public void removePillarText(int id) {
 		for (PillarData pillar : pillarData) {
-			for(TextData text : pillar.getPillarTextList()) {
-				if(text.getId() == id) {
-					pillar.getPillarTextList().remove(text);
+			for(int i = pillar.getPillarTextList().size() - 1; i >= 0; i--) {
+				if(pillar.getPillarTextList().get(i).getId() == id) {
+					pillar.getPillarTextList().remove(pillar.getPillarTextList().get(i).getId());
 				}
 			}
 		}
@@ -113,18 +114,17 @@ public class ArchivFileBuilder {
 	}
 	
 	public void removeWire(int id) {
-		for(WireData wire : wireData) {
-			if( wire.getId() == id ) {
-				wireData.remove(wire);
+		for(int i = wireData.size() - 1; i >= 0; i--) {
+			if( wireData.get(i).getId() == id )
+				wireData.remove(wireData.get(i));
 			}
 		}
-	}
 	
 	public void removeWireText(int id) {
 		for(WireData wire : wireData) {
-			for(TextData text : wire.getWireTextList()) {
-				if( text.getId() == id ) {
-					wire.getWireTextList().remove(text);
+			for(int i = wire.getWireTextList().size() - 1; i >= 0; i--) {
+				if(  wire.getWireTextList().get(i).getId() == id ) {
+					wire.getWireTextList().remove(wire.getWireTextList().get(i));
 				}
 			}
 		}
@@ -135,9 +135,9 @@ public class ArchivFileBuilder {
 	}
 	
 	public void removeText(int id) {
-		for(TextData text : textData) {
-			if( text.getId() == id ) {
-				textData.remove(text);
+		for(int i = textData.size() - 1; i >= 0; i--) {
+			if( textData.get(i).getId() == id ) {
+				textData.remove(textData.get(i));
 			}
 		}
 	}
@@ -157,9 +157,9 @@ public class ArchivFileBuilder {
 	}
 	
 	public void removeLine(int id) {
-		for(LineData line : lineData) {
-			if( line.getId() == id ) {
-				lineData.remove(line);
+		for(int i = lineData.size() - 1; i >= 0; i--) {
+			if( lineData.get(i).getId() == id ) {
+				lineData.remove(lineData.get(i));
 			}
 		}
 	}	
