@@ -78,19 +78,28 @@ public class ArchivFileBuilder {
 		return data;
 	}
 	
-	public void removePillar(int id) {
-		for (int i = pillarData.size() - 1; i >= 0; i--) {
-			if( pillarData.get(i).getId() == id ) {
-				pillarData.remove(pillarData.get(i));
+	public void removePillar(int id, BorderPane root) {
+		
+		PillarData pillar = getPillarData(id);
+		for(TextData pillarText : pillar.getPillarTextList()) {
+			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				
+				if(root.getChildren().get(i).getId() != null && 
+						Integer.valueOf(root.getChildren().get(i).getId()) == pillarText.getId()) {
+					root.getChildren().remove(i);
+				}
 			}
 		}
+		
+		
+		
 	}
 	
 	public void removePillarText(int id) {
 		for (PillarData pillar : pillarData) {
 			for(int i = pillar.getPillarTextList().size() - 1; i >= 0; i--) {
 				if(pillar.getPillarTextList().get(i).getId() == id) {
-					pillar.getPillarTextList().remove(pillar.getPillarTextList().get(i).getId());
+					pillar.getPillarTextList().remove(i);
 				}
 			}
 		}
@@ -113,23 +122,30 @@ public class ArchivFileBuilder {
 		return data;
 	}
 	
-	public void removeWire(int id) {
-		for(int i = wireData.size() - 1; i >= 0; i--) {
-			if( wireData.get(i).getId() == id )
-				wireData.remove(wireData.get(i));
+	public void removeWire(int id, BorderPane root) {
+		
+		WireData wire = getWireData(id);
+		for(TextData wireText : wire.getWireTextList()) {
+			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				if( root.getChildren().get(i).getId() != null && 
+						Integer.valueOf(root.getChildren().get(i).getId()) == wireText.getId()) {
+					root.getChildren().remove(i);
+				}
 			}
 		}
+		
+		
+	}
 	
 	public void removeWireText(int id) {
 		for(WireData wire : wireData) {
 			for(int i = wire.getWireTextList().size() - 1; i >= 0; i--) {
 				if(  wire.getWireTextList().get(i).getId() == id ) {
-					wire.getWireTextList().remove(wire.getWireTextList().get(i));
-				}
+					wire.getWireTextList().remove(i);
 			}
 		}
 	}
-	
+}
 	public void addText(TextData text) {
 		textData.add(text);
 	}

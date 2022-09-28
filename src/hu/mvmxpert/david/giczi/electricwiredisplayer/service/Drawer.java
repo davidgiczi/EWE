@@ -206,9 +206,14 @@ public class Drawer {
 		pillar.setCursor(Cursor.HAND);
 		pillar.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
-			deleteLine(line);
+			deletePillarOrWire(line);
 			});
 		root.getChildren().add(pillar);
+		
+		PillarData pillarData = new PillarData(groundElevation, topElevation, distance, isHooded);
+		pillarData.setId(ArchivFileBuilder.addID());
+		pillar.setId(String.valueOf(pillarData.getId()));
+		archivFileBuilder.addPillar(pillarData);
 		
 		if( isHooded ) {
 			Line hood = new Line();
@@ -225,19 +230,14 @@ public class Drawer {
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
-				deleteLine(line);
+				deletePillarOrWire(line);
 				});
-			hood.setId("-1");
+			hood.setId(String.valueOf(pillarData.getId()));
 			hood.setStroke(Color.BLUE);
 			hood.setStrokeWidth(3);
 			root.getChildren().add(hood);
 		}
 		
-		PillarData pillarData = new PillarData(groundElevation, topElevation, distance, isHooded);
-		pillarData.setId(ArchivFileBuilder.addID());
-		pillar.setId(String.valueOf(pillarData.getId()));
-		archivFileBuilder.addPillar(pillarData);
-
 		setText(pillarData.getId(), id + ".", 
 				getHorizontalScaledDownLengthValue(distance) * MILLIMETER + (HOR_SHIFT - 1) * MILLIMETER, 
 				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);	
@@ -267,9 +267,15 @@ public class Drawer {
 		wire.setCursor(Cursor.HAND);
 		wire.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
-			deleteLine(line);
+			deletePillarOrWire(line);
 			});
 		root.getChildren().add(wire);
+		
+		WireData wireData = new WireData(groundElevation, topElevation, distance, isHooded);
+		wireData.setId(ArchivFileBuilder.addID());
+		wire.setId(String.valueOf(wireData.getId()));
+		archivFileBuilder.addWire(wireData);
+		
 		if( isHooded ) {
 			Line hood = new Line();
 			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
@@ -284,20 +290,15 @@ public class Drawer {
 			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
 			hood.setCursor(Cursor.HAND);
 			hood.setStroke(Color.RED);
-			hood.setId("-1");
+			hood.setId(String.valueOf(wireData.getId()));
 			hood.setStrokeWidth(3);
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
-				deleteLine(line);
+				deletePillarOrWire(line);
 				});
 			root.getChildren().add(hood);
 		}
-		
-		WireData wireData = new WireData(groundElevation, topElevation, distance, isHooded);
-		wireData.setId(ArchivFileBuilder.addID());
-		wire.setId(String.valueOf(wireData.getId()));
-		archivFileBuilder.addWire(wireData);
 		
 		setText(wireData.getId(), "jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
 		setText(wireData.getId(), "jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
@@ -570,13 +571,13 @@ public class Drawer {
 		}
 	}
 	
-	private void deleteLine(Line line) {
-	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválaszott vonalat?") ) {
-		archivFileBuilder.removePillar(Integer.valueOf(line.getId()));
-		archivFileBuilder.removeWire(Integer.valueOf(line.getId()));
-		root.getChildren().remove(line);
+	private void deletePillarOrWire(Line line) {
+	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválasztott oszlopot/vezetéket?") ) {
+		int id = Integer.valueOf(line.getId());
+		archivFileBuilder.removePillar(id, root);
+		//archivFileBuilder.removeWire(id, root);
 	}
-	}
+}
 	
 	private void getModifyTextWindow(Text text) {
 		
