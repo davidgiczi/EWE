@@ -2,7 +2,9 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,6 +13,12 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileSystemView;
+
+import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.LineData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 
 public class FileProcess {
 	
@@ -98,7 +106,7 @@ public class FileProcess {
 		return projectName;
 	}
 	
-	public static boolean isProjectFileExist() {
+	public boolean isProjectFileExist() {
 		
 		String[] pcc = new File(FOLDER_PATH).list(new FilenameFilter() {
 			
@@ -111,5 +119,48 @@ public class FileProcess {
 		return Arrays.asList(pcc).contains(null);
 	}
 	
+	public boolean saveProject() {
+		
+		if( FOLDER_PATH == null || HomeController.PROJECT_NAME == null) {
+			return false;
+		}
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME+ ".ewd");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file))) {
+			
+			writer.write(archivFileBuilder.getSystemData().getDrawingSystemData());
+			writer.newLine();
+			for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			writer.write(pillarData.getPillarData());
+			writer.newLine();
+			writer.write(pillarData.getPillarTexts());
+			writer.newLine();
+			}
+			for (WireData wireData : archivFileBuilder.getWireData()) {
+				writer.write(wireData.getWireData());
+				writer.newLine();
+				writer.write(wireData.getWireTexts());
+				writer.newLine();
+				}
+			for(LineData lineData : archivFileBuilder.getLineData()) {
+				writer.write(lineData.getLineData());
+				writer.newLine();
+			}
+			for(TextData textData : archivFileBuilder.getTextData()) {
+				if( textData.getId() != -1 ) {
+				writer.write(textData.getTextData());
+				writer.newLine();
+			}
+		}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			return false;
+		} 
+		
+		return true;
+	}
 	
 }

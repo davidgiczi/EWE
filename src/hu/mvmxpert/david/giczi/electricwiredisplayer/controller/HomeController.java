@@ -99,6 +99,18 @@ public class HomeController {
 				PROJECT_NAME + " - Elektromos távvezeték szabad magasságának dokumentálása" 
 				: "Elektromos távvezeték szabad magasságának dokumentálása");
 	}
+	
+	public void saveProject() {
+		
+		if( fileProcess.saveProject() ) {
+			getInfoAlert("Projekt fájl mentve", "\"" + HomeController.PROJECT_NAME + ".ewd\" projekt fájl mentve az alábbi mappába: "
+					+ FileProcess.FOLDER_PATH + "\\") ;
+		}
+		else {
+			getWarningAlert("Projekt fájl mentése sikertelen", "Add meg a projekt nevét és a mentési mappát!");
+			fileProcess.setFolder();
+		}
+	}
 
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

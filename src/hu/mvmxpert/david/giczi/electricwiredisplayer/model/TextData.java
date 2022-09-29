@@ -21,7 +21,7 @@ public class TextData {
 	}
 
 	public String getTextData() {
-		return type + "\t" + textValue + "\t" + X + "\t" + Y + "\t" + size + "\t" + direction + "\tid= " + id;
+		return type + "\t" + textValue + "\t" + X + "\t" + Y + "\t" + size + "\t" + direction;
 	}
 	
 	public int getId() {

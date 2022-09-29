@@ -31,6 +31,8 @@ public class HomeWindow  {
 	public MenuItem modifyElevationMeasurment;
 	public MenuItem come2ndPillarTo1stPlace;
 	public MenuItem exchangePillars;
+	private MenuItem saveProject;
+	private MenuItem setProjectFolder;
 	
 	
 	public BorderPane getRoot() {
@@ -83,6 +85,7 @@ public class HomeWindow  {
 			}
 			else if( Validate.isValidProjectName(projectName) ) {
 				HomeController.PROJECT_NAME = projectName;
+				setProjectFolder.setDisable(false);
 			}
 			else {
 				HomeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
@@ -90,12 +93,14 @@ public class HomeWindow  {
 			homeController.setTitle(root);
 			}
 		});
-		MenuItem setProjectFolder = new MenuItem("Projekt mappa megadása");
+		setProjectFolder = new MenuItem("Projekt mappa megadása");
+		setProjectFolder.setDisable(true);
 		setProjectFolder.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				fileProcess.setFolder();
+				saveProject.setDisable(false);
 			}
 		});
 		MenuItem setCoordSystem = new MenuItem("Rajzi rendszer beállítása");
@@ -108,6 +113,7 @@ public class HomeWindow  {
 //						"Mented a korábbi projekt adatait?")) {
 //				}
 				
+				homeController.archivFileBuilder.init();
 				homeController.getSetCoordSystemWindow();
 				clearRoot();
 				setPillarData.setDisable(true);
@@ -141,10 +147,21 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			fileProcess.setProject();	
+			fileProcess.setProject();
+			
 			}
 		});
-		MenuItem saveProject = new MenuItem("Projekt mentése");
+		saveProject = new MenuItem("Projekt mentése");
+		saveProject.setDisable(true);
+		saveProject.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.saveProject();
+			}
+		});
+		
+		
 		MenuItem exitProject = new MenuItem("Kilépés");
 		exitProject.setOnAction(new EventHandler<ActionEvent>() {
 
