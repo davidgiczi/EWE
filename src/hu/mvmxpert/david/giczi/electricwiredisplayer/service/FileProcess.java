@@ -56,9 +56,6 @@ public class FileProcess {
 			File selectedFile = jfc.getSelectedFile();
 			FOLDER_PATH = selectedFile.getAbsolutePath();
 		}
-		else {
-			FOLDER_PATH = null;
-		}
 	}
 	
 	public String setProject() {
@@ -108,7 +105,10 @@ public class FileProcess {
 	
 	public boolean isProjectFileExist() {
 		
-		String[] pcc = new File(FOLDER_PATH).list(new FilenameFilter() {
+		if( FOLDER_PATH == null )
+			return false;
+		
+		String[] ewd = new File(FOLDER_PATH).list(new FilenameFilter() {
 			
 			@Override
 			public boolean accept(File dir, String name) {
@@ -116,7 +116,7 @@ public class FileProcess {
 			}
 		});
 
-		return Arrays.asList(pcc).contains(null);
+		return Arrays.asList(ewd).contains(HomeController.PROJECT_NAME + ".ewd");
 	}
 	
 	public boolean saveProject() {

@@ -46,6 +46,11 @@ public class HomeController {
 		return drawer;
 	}
 	
+	public void init() {
+		FileProcess.FOLDER_PATH = null;
+		PROJECT_NAME = null;
+	}
+	
 	public void getSetCoordSystemWindow() {
 		if( setCoordSystemWindow == null ) {
 			setCoordSystemWindow = new SetDrawingSystemDataWindow(this);
@@ -90,8 +95,7 @@ public class HomeController {
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		input.setTitle(title);
 		input.setHeaderText(text);
-		input.showAndWait();
-		return input.getEditor().getText();
+		return input.showAndWait().isPresent() ? input.getEditor().getText() : null;
 	}
 	
 	public void setTitle(BorderPane root) {
@@ -101,17 +105,81 @@ public class HomeController {
 	}
 	
 	public void saveProject() {
+					
+		if( PROJECT_NAME == null ) {
+			String projectName = null;
+			projectName = homeWindow.setProjectName();
+			 if( projectName ==  null )
+				 return;
+			 if( !saveExistedProjectFile() ) {
+				 fileProcess.setFolder();
+
+				 if( fileProcess.isProjectFileExist() && 
+						 !getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+				 	projectName = homeWindow.setProjectName();
+				 }
+				if( projectName != null )
+				 save();
+		}
+			 return;
+		} 
+			
+		if( FileProcess.FOLDER_PATH == null ) {
+			 String projectName = null;
+			 fileProcess.setFolder();
+			 if( FileProcess.FOLDER_PATH == null )
+				 return;
+			 if( fileProcess.isProjectFileExist() && 
+					 !getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+			 	projectName = homeWindow.setProjectName();
+			 }
+			if( projectName != null )
+			 save();
+			 
+		}
+		
+		if( !saveExistedProjectFile() ) {
+			
+			String projectName = PROJECT_NAME;
+			
+			if( fileProcess.isProjectFileExist() && 
+					 !getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+			 	projectName = homeWindow.setProjectName();
+			 }
+			if( projectName != null )
+				save();
+	}
+}
+	
+	private boolean save() {
 		
 		if( fileProcess.saveProject() ) {
-			getInfoAlert("Projekt fájl mentve", "\"" + HomeController.PROJECT_NAME + ".ewd\" projekt fájl mentve az alábbi mappába: "
+			getInfoAlert("Projekt fájl mentve", "\"" + HomeController.PROJECT_NAME + ".ewd\" projekt fájl mentve az alábbi mappába: \n"
 					+ FileProcess.FOLDER_PATH + "\\") ;
+			init();
+			return true;
 		}
-		else {
-			getWarningAlert("Projekt fájl mentése sikertelen", "Add meg a projekt nevét és a mentési mappát!");
-			fileProcess.setFolder();
-		}
+		
+		return false;
 	}
-
+	
+	private boolean saveExistedProjectFile() {
+		
+		if( HomeController.PROJECT_NAME == null  ||  FileProcess.FOLDER_PATH == null )
+			return false;
+		
+		if( fileProcess.isProjectFileExist() ) {
+			
+			if( getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+				save();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();

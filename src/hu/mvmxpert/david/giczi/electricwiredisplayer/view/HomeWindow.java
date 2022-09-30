@@ -31,8 +31,7 @@ public class HomeWindow  {
 	public MenuItem modifyElevationMeasurment;
 	public MenuItem come2ndPillarTo1stPlace;
 	public MenuItem exchangePillars;
-	private MenuItem saveProject;
-	private MenuItem setProjectFolder;
+	public MenuItem saveProject;
 	
 	
 	public BorderPane getRoot() {
@@ -79,28 +78,15 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			String projectName = homeController.setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
-			if( projectName.isEmpty() ) {
-				return;
-			}
-			else if( Validate.isValidProjectName(projectName) ) {
-				HomeController.PROJECT_NAME = projectName;
-				setProjectFolder.setDisable(false);
-			}
-			else {
-				HomeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
-			}
-			homeController.setTitle(root);
+				setProjectName();
 			}
 		});
-		setProjectFolder = new MenuItem("Projekt mappa megadása");
-		setProjectFolder.setDisable(true);
+		MenuItem setProjectFolder = new MenuItem("Projekt mappa megadása");
 		setProjectFolder.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				fileProcess.setFolder();
-				saveProject.setDisable(false);
 			}
 		});
 		MenuItem setCoordSystem = new MenuItem("Rajzi rendszer beállítása");
@@ -167,9 +153,16 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				
+			if( !homeController.archivFileBuilder.getPillarData().isEmpty() || 
+					!homeController.archivFileBuilder.getWireData().isEmpty() ||
+					!homeController.archivFileBuilder.getTextData().isEmpty() ) {
+				
 				if(HomeController.getConfirmationAlert("A projekt adatainak mentése szükséges", 
 						"Mented a projekt adatait?")) {
+					homeController.saveProject();
 				}
+			}
 				homeController.exit();
 			}
 		});
@@ -188,7 +181,6 @@ public class HomeWindow  {
 			}
 		});
 		addLine = new MenuItem("Vonal hozzáadása");
-		//addLine.setDisable(true);
 		addLine.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -222,7 +214,24 @@ public class HomeWindow  {
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
 		root.setTop(menuBar);
 	}
-
+	
+	public String setProjectName() {
+		
+		String projectName = homeController.setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
+		if(projectName == null){
+			return null;
+		}
+		else if( Validate.isValidProjectName(projectName) ) {
+			HomeController.PROJECT_NAME = projectName;
+		}
+		else {
+			HomeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
+		}
+		homeController.setTitle(root);
+		
+		return projectName;
+}
+	
 	private void clearRoot(){
 		
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {

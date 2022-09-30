@@ -74,6 +74,7 @@ public class SetDrawingSystemDataController {
 		homeController.getDrawer().writeElevationValueForVerticalAxis();
 		homeController.homeWindow.setPillarData.setDisable(false);
 		homeController.homeWindow.setWireData.setDisable(false);
+		homeController.homeWindow.saveProject.setDisable(false);
 		stage.hide();
 	}
 
