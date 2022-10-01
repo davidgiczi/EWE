@@ -8,6 +8,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -35,6 +36,7 @@ public class Drawer {
 	private int verticalScale;
 	private int elevationStartValue;
 	private ModifyTextWindow modifyTextWindow;
+	private HomeController homeController;
 	private DecimalFormat df = new DecimalFormat("0.00");
 	private ArchivFileBuilder archivFileBuilder;
 	
@@ -78,7 +80,12 @@ public class Drawer {
 	public void setRoot(BorderPane root) {
 		this.root = root;
 	}
-
+	
+	
+	public void setHomeController(HomeController homeController) {
+		this.homeController = homeController;
+	}
+	
 	public void drawPage() {
 		Rectangle page = new Rectangle();
 		page.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2));
@@ -590,6 +597,8 @@ public class Drawer {
 	
 	private void getModifyTextWindow(Text text) {
 		
+		addChosenTextToSetTextWindow(text);
+		
 		if( modifyTextWindow == null ) {
 			modifyTextWindow = new ModifyTextWindow(this);
 		}
@@ -608,5 +617,15 @@ public class Drawer {
 		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
 	
+	private void addChosenTextToSetTextWindow(Text text) {
+		
+		homeController.getSetTextWindow();
+		homeController.setTextWindow.getInputTextField().setText(text.getText());
+		DecimalFormat df = new DecimalFormat("0.0");
+		String XPosition = df.format(text.getX() / MILLIMETER).replace(',', '.');
+		String YPosition = df.format(text.getY() / MILLIMETER).replace(',', '.');
+		homeController.setTextWindow.getInputTextXField().setText(XPosition);
+		homeController.setTextWindow.getInputTextYField().setText(YPosition);
+	}
 		
 }

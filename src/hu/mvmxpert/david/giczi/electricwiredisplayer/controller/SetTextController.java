@@ -26,9 +26,9 @@ public class SetTextController {
 	@FXML
 	public TextField inputTextField;
 	@FXML
-	private TextField inputTextXField;
+	public TextField inputTextXField;
 	@FXML
-	private TextField inputTextYField;
+	public TextField inputTextYField;
 	
 	
 	@FXML
@@ -47,7 +47,7 @@ public class SetTextController {
 			}
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő X koordináta érték", 
-					"Az X koordináta csak egész szám lehet: X >= "+ Validate.MIN_X_VALUE + "mm és " + Validate.MAX_X_VALUE + "mm >= X.");
+					"Az X koordináta értéke: X >= "+ Validate.MIN_X_VALUE + "mm és " + Validate.MAX_X_VALUE + "mm >= X.");
 			return;
 		}
 		try {
@@ -56,11 +56,11 @@ public class SetTextController {
 			}
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő Y koordináta érték", 
-					"Az Y koordináta csak egész szám lehet: Y >= " + Validate.MIN_Y_VALUE + "mm és " + Validate.MAX_Y_VALUE + "mm >= Y.");
+					"Az Y koordináta értéke: Y >= " + Validate.MIN_Y_VALUE + "mm és " + Validate.MAX_Y_VALUE + "mm >= Y.");
 			return;
 		}
-		homeController.getDrawer().writeText(inputText, Integer.parseInt(inputTextXField.getText()),
-				Integer.parseInt(inputTextYField.getText()));
+		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
+				Double.parseDouble(inputTextYField.getText().replace(',', '.')));
 		stage.hide();
 	}
 	

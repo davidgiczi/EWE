@@ -29,11 +29,12 @@ public class HomeController {
 	private SetDrawingSystemDataWindow setCoordSystemWindow;
 	private SetPillarDataWindow setPillarDataWindow;
 	private SetWireDataWindow setWireDataWindow;
-	private SetTextWindow setTextWindow;
+	public SetTextWindow setTextWindow;
 	
 	public HomeController() {
 		drawer = new Drawer();
 		homeWindow = new HomeWindow(this);
+		drawer.setHomeController(this);
 		fileProcess = new FileProcess();
 		homeWindow.setFileProcess(fileProcess);
 		archivFileBuilder = new ArchivFileBuilder();
@@ -86,6 +87,7 @@ public class HomeController {
 		else {
 			setTextWindow.getStage().show();
 		}
+		setTextWindow.getStage().setAlwaysOnTop(true);
 		setTextWindow.getInputTextField().requestFocus();
 	}
 	
@@ -115,7 +117,7 @@ public class HomeController {
 				 fileProcess.setFolder();
 
 				 if( fileProcess.isProjectFileExist() && 
-						 !getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+						 !getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
 				 	projectName = homeWindow.setProjectName();
 				 }
 				if( projectName != null )
@@ -130,7 +132,7 @@ public class HomeController {
 			 if( FileProcess.FOLDER_PATH == null )
 				 return;
 			 if( fileProcess.isProjectFileExist() && 
-					 !getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+					 !getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
 			 	projectName = homeWindow.setProjectName();
 			 }
 			if( projectName != null )
@@ -143,7 +145,7 @@ public class HomeController {
 			String projectName = PROJECT_NAME;
 			
 			if( fileProcess.isProjectFileExist() && 
-					 !getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+					 !getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
 			 	projectName = homeWindow.setProjectName();
 			 }
 			if( projectName != null )

@@ -49,12 +49,12 @@ public class Validate {
 	}
 	
 	public static boolean isValidInputTextXPosition(String textX) throws NumberFormatException{
-		int text_X = Integer.parseInt(textX);
+		double text_X = Double.parseDouble(textX);
 		return MIN_X_VALUE > text_X || text_X > MAX_X_VALUE ;
 	}
 	
 	public static boolean isValidInputTextYPosition(String textY) throws NumberFormatException{
-		int text_Y = Integer.parseInt(textY);
+		double text_Y = Double.parseDouble(textY);
 		return MIN_Y_VALUE > text_Y || text_Y >  MAX_Y_VALUE;
 	}
 }

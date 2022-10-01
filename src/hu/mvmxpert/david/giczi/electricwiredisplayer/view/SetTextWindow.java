@@ -15,6 +15,8 @@ public class SetTextWindow {
 	
 	private Stage stage;
 	private TextField inputTextField;
+	private TextField inputTextXField;
+	private TextField inputTextYField;
 	
 	public Stage getStage() {
 		return stage;
@@ -28,6 +30,22 @@ public class SetTextWindow {
 		this.inputTextField = inputTextField;
 	}
 
+	public void setInputTextXField(TextField inputTextXField) {
+		this.inputTextXField = inputTextXField;
+	}
+
+	public void setInputTextYField(TextField inputTextYField) {
+		this.inputTextYField = inputTextYField;
+	}
+
+	public TextField getInputTextXField() {
+		return inputTextXField;
+	}
+
+	public TextField getInputTextYField() {
+		return inputTextYField;
+	}
+
 	public SetTextWindow(HomeController homeController) {
 		
 		try {
@@ -36,6 +54,8 @@ public class SetTextWindow {
 			SetTextController controller = (SetTextController) loader.getController();
 			controller.setHomeController(homeController);
 			setInputTextField(controller.inputTextField);
+			setInputTextXField(controller.inputTextXField);
+			setInputTextYField(controller.inputTextYField);
 			stage = new Stage();
 			stage.setX((homeController.getDrawer().getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(150);
