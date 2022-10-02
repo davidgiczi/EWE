@@ -21,7 +21,7 @@ public class DrawingSystemData {
 	}
 
 	public String getDrawingSystemData() {
-		return "System\t" + lengthOfHorizontalAxis + "\t" + horizontalScale + "\t" + elevationStartValue + "\t" + verticalScale;
+		return "System#" + lengthOfHorizontalAxis + "#" + horizontalScale + "#" + elevationStartValue + "#" + verticalScale;
 	}
 	
 	public int getElevationStartValue() {

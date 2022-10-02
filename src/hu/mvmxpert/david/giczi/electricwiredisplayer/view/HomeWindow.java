@@ -32,6 +32,7 @@ public class HomeWindow  {
 	public MenuItem come2ndPillarTo1stPlace;
 	public MenuItem exchangePillars;
 	public MenuItem saveProject;
+	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
 	
 	
 	public BorderPane getRoot() {
@@ -62,7 +63,7 @@ public class HomeWindow  {
 			primaryStage.setMinWidth(1000);
 			primaryStage.setMinHeight(750);
 			primaryStage.setMaximized(true);
-			primaryStage.setTitle("Elektromos távvezeték szabad magasságának dokumentálása");
+			primaryStage.setTitle(DEFAULT_STAGE_TITLE);
 			primaryStage.getIcons().add(new Image("/logo/MVM.jpg"));
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -94,19 +95,23 @@ public class HomeWindow  {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
+	
+				if( !homeController.archivFileBuilder.getPillarData().isEmpty() || 
+						!homeController.archivFileBuilder.getWireData().isEmpty() ||
+						!homeController.archivFileBuilder.getTextData().isEmpty() ) {
 				
-//				if(HomeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
-//						"Mented a korábbi projekt adatait?")) {
-//				}
-				
+				if(HomeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
+						"Mented a korábbi projekt adatait?")) {
+					homeController.saveProject();
+				}
+		}	
 				homeController.archivFileBuilder.init();
 				homeController.getSetCoordSystemWindow();
 				clearRoot();
 				setPillarData.setDisable(true);
 				setWireData.setDisable(true);
 				addText.setDisable(false);
-				homeController.getDrawer().drawPage();
-				
+				homeController.getDrawer().drawPage();	
 			}
 		});
 		setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
@@ -133,8 +138,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			fileProcess.setProject();
-			
+			homeController.openProject();
 			}
 		});
 		saveProject = new MenuItem("Projekt mentése");
@@ -232,7 +236,7 @@ public class HomeWindow  {
 		return projectName;
 }
 	
-	private void clearRoot(){
+	public void clearRoot(){
 		
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
 			if( root.getChildren().get(i) instanceof MenuBar ) {

@@ -1,7 +1,9 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.controller;
 
+import java.util.List;
 import java.util.Optional;
 
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
@@ -102,8 +104,7 @@ public class HomeController {
 	
 	public void setTitle(BorderPane root) {
 		((Stage) root.getScene().getWindow()).setTitle(Validate.isValidProjectName(PROJECT_NAME) ? 
-				PROJECT_NAME + " - Elektromos távvezeték szabad magasságának dokumentálása" 
-				: "Elektromos távvezeték szabad magasságának dokumentálása");
+				PROJECT_NAME + " - " + HomeWindow.DEFAULT_STAGE_TITLE : HomeWindow.DEFAULT_STAGE_TITLE);
 	}
 	
 	public void saveProject() {
@@ -181,6 +182,57 @@ public class HomeController {
 		return false;
 	}
 	
+	public void openProject() {
+	List<String> projectData = fileProcess.openProject();
+	setTitle(homeWindow.getRoot());
+	loadDrawingSystemData(projectData);
+	loadTextData(projectData);
+}
+	
+	private void loadDrawingSystemData(List<String> projectData) {
+		
+		if( !projectData.isEmpty() ) {
+			String[] data = projectData.get(0).split("#");
+			archivFileBuilder.init();
+			archivFileBuilder.setSystemData(new DrawingSystemData(
+				Integer.parseInt(data[3]), 
+				Integer.parseInt(data[4]), 
+				Double.parseDouble(data[1]), 
+				Integer.valueOf(data[2])));
+			drawer.setLengthOfHorizontalAxis(archivFileBuilder.getSystemData().getLengthOfHorizontalAxis());
+			drawer.setHorizontalScale(archivFileBuilder.getSystemData().getHorizontalScale());
+			drawer.setElevationStartValue(archivFileBuilder.getSystemData().getElevationStartValue());
+			drawer.setVerticalScale(archivFileBuilder.getSystemData().getVerticalScale());
+			homeWindow.clearRoot();
+			homeWindow.setPillarData.setDisable(false);
+			homeWindow.setWireData.setDisable(false);
+			homeWindow.addText.setDisable(false);
+			homeWindow.saveProject.setDisable(false);
+			drawer.drawPage();
+			drawer.drawHorizontalAxis();
+			drawer.writeDistanceValueForHorizontalAxis();
+			drawer.drawVerticalAxis();
+			drawer.writeElevationValueForVerticalAxis();
+			}	
+	}
+	
+	private void loadTextData(List<String> projectData) {
+	
+		if( !projectData.isEmpty() ) {
+		archivFileBuilder.init();
+		for (String dataLine : projectData) {
+			String[] textData = dataLine.split("#"); 
+			if( "SingleText".equals(textData[0]) ) {
+				drawer.setText(-1,
+						textData[1], 
+						Double.parseDouble(textData[2]), 
+						Double.parseDouble(textData[3]),
+						Integer.parseInt(textData[4]),
+						Integer.parseInt(textData[5]));
+			}
+		}
+	}
+}
 	
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

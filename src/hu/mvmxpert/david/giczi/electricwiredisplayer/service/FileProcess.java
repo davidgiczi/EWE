@@ -2,12 +2,17 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -58,7 +63,7 @@ public class FileProcess {
 		}
 	}
 	
-	public String setProject() {
+	public List<String> openProject() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
@@ -77,7 +82,6 @@ public class FileProcess {
 		        return dialog;
 		    }
 		};
-		String projectName = null;
 		jfc.setCurrentDirectory(FOLDER_PATH == null ? FileSystemView.getFileSystemView().getHomeDirectory() : new File(FOLDER_PATH));
 		jfc.setDialogTitle("Válassz projekt fájlt.");
 		jfc.setFileFilter(new FileFilter() {
@@ -96,12 +100,37 @@ public class FileProcess {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
 			FOLDER_PATH = selectedFile.getParent();
-			
-				projectName = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
+			HomeController.PROJECT_NAME = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
 		}
 		
-		return projectName;
+		return getProjectFileData();
 	}
+	
+	private List<String> getProjectFileData(){
+	
+		List<String> projectData = new ArrayList<>();
+		
+		if(HomeController.PROJECT_NAME == null || FOLDER_PATH == null)
+			return projectData;
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME+ ".ewd");
+		
+		try(BufferedReader reader = new BufferedReader(
+				new FileReader(file))) {
+			
+				String row = reader.readLine();
+				while( row != null ) {
+					projectData.add(row);
+					row = reader.readLine();
+				}
+		}
+			catch (IOException e) {
+			HomeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
+			} 
+		
+		return projectData;
+	}
+	
 	
 	public boolean isProjectFileExist() {
 		

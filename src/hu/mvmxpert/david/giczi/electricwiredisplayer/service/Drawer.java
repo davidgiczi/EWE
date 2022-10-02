@@ -8,7 +8,6 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -23,7 +22,7 @@ import javafx.scene.transform.Rotate;
 public class Drawer {
 	
 	private BorderPane root;
-	public static double MILLIMETER = 1000 / 224.0;
+	public static final double MILLIMETER = 1000 / 224.0;
 	private final double HOR_SHIFT = 12;
 	private final double A4_WIDTH =  211 * MILLIMETER;
 	private final double PAGE_Y = 25;
@@ -333,7 +332,7 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	private void setText(int id, String text, double startX, double startY, int size, int rotate) {
+	public void setText(int id, String text, double startX, double startY, int size, int rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		

@@ -22,6 +22,10 @@ public class ArchivFileBuilder {
 	public DrawingSystemData getSystemData() {
 		return systemData;
 	}
+	
+	public void setSystemData(DrawingSystemData systemData) {
+		this.systemData = systemData;
+	}
 
 	public List<PillarData> getPillarData() {
 		return pillarData;

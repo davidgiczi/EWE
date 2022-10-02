@@ -22,7 +22,7 @@ public class WireData {
 	}
 	
 	public String getWireData() {
-		return "Wire\t"+  groundElevation + "\t" + topElevetaion + "\t" + distanceOfPillar + "\t" + hasCap;
+		return "Wire#"+  groundElevation + "#" + topElevetaion + "#" + distanceOfPillar + "#" + hasCap;
 	}
 	
 	public String getWireTexts() {

@@ -21,7 +21,7 @@ public class LineData {
 	}
 
 	public String getLineData() {
-		return  "Line\t" + startX + "\t" + startY + "\t" + endX + "\t" + endY + "\t" + lenghtOfLine + "\t" + typeOfLine;
+		return  "Line#" + startX + "#" + startY + "#" + endX + "#" + endY + "#" + lenghtOfLine + "#" + typeOfLine;
  	}
 
 	public int getId() {

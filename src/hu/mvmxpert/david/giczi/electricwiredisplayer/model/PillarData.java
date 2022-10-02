@@ -24,7 +24,7 @@ public class PillarData {
 	}
 
 	public String getPillarData() {
-		return "Pillar\t" + groundElevation + "\t" + topElevetaion + "\t" + distanceOfPillar + "\t" + hasCap;
+		return "Pillar#" + groundElevation + "#" + topElevetaion + "#" + distanceOfPillar + "#" + hasCap;
 	}
 	
 	public String getPillarTexts() {
