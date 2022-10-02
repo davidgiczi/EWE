@@ -413,26 +413,19 @@ public class Drawer {
 		double yDistance = text.getY() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		text.xProperty().unbind();
 		text.yProperty().unbind();
-		text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
-		int rotateStatus = text.getTransforms().size() % 4;
+		int rotateStatus = text.getTransforms().size() % 2;
+		if( rotateStatus == 0)
+			text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
+		else
+			text.getTransforms().add(new Rotate(90, text.getX(), text.getY()));
 		
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		
-		switch ( rotateStatus ) {
+		switch ( rotateStatus + 1 ) {
 		case 1:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
 			if( textData != null )
 				textData.setDirection(-90);
-			break;
-		case 2:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
-			if( textData != null )
-				textData.setDirection(-180);
-			break;
-		case 3:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
-			if( textData != null )
-				textData.setDirection(-270);
 			break;
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
@@ -457,17 +450,11 @@ public class Drawer {
 		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 4;
+		int rotateStatus = text.getTransforms().size() % 2;
 		
 		switch ( rotateStatus ) {
 		case 1:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
-			break;
-		case 2:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
-			break;
-		case 3:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
 			break;
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
@@ -489,17 +476,11 @@ public class Drawer {
 		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 4;
+		int rotateStatus = text.getTransforms().size() % 2;
 		
 		switch ( rotateStatus ) {
 		case 1:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
-			break;
-		case 2:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
-			break;
-		case 3:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
 			break;
 		default:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
@@ -521,17 +502,11 @@ public class Drawer {
 		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 4;
+		int rotateStatus = text.getTransforms().size() % 2;
 		
 		switch ( rotateStatus ) {
 		case 1:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
-			break;
-		case 2:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
-			break;
-		case 3:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
 			break;
 		default:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
@@ -553,17 +528,11 @@ public class Drawer {
 		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 4;
+		int rotateStatus = text.getTransforms().size() % 2;
 		
 		switch ( rotateStatus ) {
 		case 1:
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
-			break;
-		case 2:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
-			break;
-		case 3:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
 			break;
 		default:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
