@@ -217,15 +217,16 @@ public class HomeController {
 	}
 	
 	private void loadTextData(List<String> projectData) {
-	
+		
 		if( !projectData.isEmpty() ) {
 		archivFileBuilder.init();
+		double constX = (drawer.getRoot().widthProperty().get() - drawer.A4_WIDTH) / 2 + drawer.START_X;
 		for (String dataLine : projectData) {
 			String[] textData = dataLine.split("#"); 
 			if( "SingleText".equals(textData[0]) ) {
 				drawer.setText(-1,
 						textData[1], 
-						Double.parseDouble(textData[2]), 
+						Double.parseDouble(textData[2]) - constX, 
 						Double.parseDouble(textData[3]),
 						Integer.parseInt(textData[4]),
 						Integer.parseInt(textData[5]));

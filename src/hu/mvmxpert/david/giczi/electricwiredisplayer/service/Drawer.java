@@ -24,11 +24,11 @@ public class Drawer {
 	private BorderPane root;
 	public static final double MILLIMETER = 1000 / 224.0;
 	private final double HOR_SHIFT = 12;
-	private final double A4_WIDTH =  211 * MILLIMETER;
+	public final double A4_WIDTH =  211 * MILLIMETER;
 	private final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
 	private final double VER_SHIFT = 5;
-	private final double START_X = 45 * MILLIMETER;
+	public final double START_X = 45 * MILLIMETER;
 	private final double START_Y = 550.0;
 	private double lengthOfHorizontalAxis;
 	private int horizontalScale;
@@ -318,8 +318,9 @@ public class Drawer {
 	
 	public void writeText(String text, double startX, double startY) {
 		Text txt = new Text(text);
-		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
-		txt.xProperty().bind(root.widthProperty().subtract(root.widthProperty()).add(startX * MILLIMETER));
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18)); 
+		double constX = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
+		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(constX));
 		txt.setY(startY * MILLIMETER);
 		txt.setCursor(Cursor.HAND);
 		TextData textData = new TextData(text, txt.xProperty().get(), txt.yProperty().get(), 18, 0, "SingleText");
