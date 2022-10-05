@@ -53,6 +53,7 @@ public class HomeWindow  {
 		 	root = new BorderPane();
 		 	root.widthProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_X_VALUE = (int) (root.getWidth() / Drawer.MILLIMETER);
+		 		Drawer.WINDOW_SIZE_RATO = newVal.doubleValue() / oldVal.doubleValue();
 		 	});
 		 	root.heightProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_Y_VALUE = (int) (root.getHeight() / Drawer.MILLIMETER);
@@ -104,14 +105,8 @@ public class HomeWindow  {
 						"Mented a korábbi projekt adatait?")) {
 					homeController.saveProject();
 				}
-		}	
-				homeController.archivFileBuilder.init();
-				homeController.getSetCoordSystemWindow();
-				clearRoot();
-				setPillarData.setDisable(true);
-				setWireData.setDisable(true);
-				addText.setDisable(false);
-				homeController.getDrawer().drawPage();	
+		}		
+				homeController.init();
 			}
 		});
 		setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");

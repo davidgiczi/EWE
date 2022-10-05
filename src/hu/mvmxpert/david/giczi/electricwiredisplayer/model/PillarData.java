@@ -13,7 +13,6 @@ public class PillarData {
 	private List<TextData> pillarTextList;
 	private boolean hasCap;
 	
-	
 	public PillarData(double groundElevation, double topElevetaion, double distanceOfPillar, boolean hasCap) {
 
 		this.groundElevation = groundElevation;

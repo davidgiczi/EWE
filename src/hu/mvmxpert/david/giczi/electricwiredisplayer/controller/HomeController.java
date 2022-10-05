@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.DrawingSystemData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
@@ -52,6 +53,14 @@ public class HomeController {
 	public void init() {
 		FileProcess.FOLDER_PATH = null;
 		PROJECT_NAME = null;
+		archivFileBuilder.init();
+		getSetCoordSystemWindow();
+		homeWindow.clearRoot();
+		homeWindow.setPillarData.setDisable(true);
+		homeWindow.setWireData.setDisable(true);
+		homeWindow.addText.setDisable(false);
+		((Stage) homeWindow.getRoot().getScene().getWindow()).setTitle(HomeWindow.DEFAULT_STAGE_TITLE);
+		drawer.drawPage();	
 	}
 	
 	public void getSetCoordSystemWindow() {
@@ -159,7 +168,6 @@ public class HomeController {
 		if( fileProcess.saveProject() ) {
 			getInfoAlert("Projekt fájl mentve", "\"" + HomeController.PROJECT_NAME + ".ewd\" projekt fájl mentve az alábbi mappába: \n"
 					+ FileProcess.FOLDER_PATH + "\\") ;
-			init();
 			return true;
 		}
 		
@@ -173,7 +181,7 @@ public class HomeController {
 		
 		if( fileProcess.isProjectFileExist() ) {
 			
-			if( getConfirmationAlert("Létező projekt", "Biztos, hogy felülírod?") ) {
+			if( getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
 				save();
 				return true;
 			}
@@ -185,8 +193,11 @@ public class HomeController {
 	public void openProject() {
 	List<String> projectData = fileProcess.openProject();
 	setTitle(homeWindow.getRoot());
+	if( !projectData.isEmpty() ) {
 	loadDrawingSystemData(projectData);
-	loadTextData(projectData);
+	drawSystem();
+	loadPillarData(projectData);
+}
 }
 	
 	private void loadDrawingSystemData(List<String> projectData) {
@@ -199,22 +210,40 @@ public class HomeController {
 				Integer.parseInt(data[4]), 
 				Double.parseDouble(data[1]), 
 				Integer.valueOf(data[2])));
-			drawer.setLengthOfHorizontalAxis(archivFileBuilder.getSystemData().getLengthOfHorizontalAxis());
-			drawer.setHorizontalScale(archivFileBuilder.getSystemData().getHorizontalScale());
-			drawer.setElevationStartValue(archivFileBuilder.getSystemData().getElevationStartValue());
-			drawer.setVerticalScale(archivFileBuilder.getSystemData().getVerticalScale());
-			homeWindow.clearRoot();
-			homeWindow.setPillarData.setDisable(false);
-			homeWindow.setWireData.setDisable(false);
-			homeWindow.addText.setDisable(false);
-			homeWindow.saveProject.setDisable(false);
-			drawer.drawPage();
-			drawer.drawHorizontalAxis();
-			drawer.writeDistanceValueForHorizontalAxis();
-			drawer.drawVerticalAxis();
-			drawer.writeElevationValueForVerticalAxis();
 			}	
 	}
+	
+	
+	private void loadPillarData(List<String> projectData) {
+		
+		PillarData pillar = null;
+		
+		for (String dataLine : projectData) {
+			String[] data = dataLine.split("#");
+			if( "Pillar".equals(data[0]) ) {
+			pillar = new PillarData(
+					Double.parseDouble(data[1]),
+					Double.parseDouble(data[2]),
+					Double.parseDouble(data[3]), 
+					Boolean.parseBoolean(data[4]));
+			pillar.setId(ArchivFileBuilder.addID());
+			archivFileBuilder.addPillar(pillar);
+			}
+			else if( "PillarText".equals(data[0]) ) {
+				drawer.setText(pillar.getId(), 
+						data[1], 
+						Double.parseDouble(data[2]), 
+						Double.parseDouble(data[3]), 
+						Integer.parseInt(data[4]), 
+						Integer.parseInt(data[5]));
+			}
+		}
+	}
+	
+	private void loadWireData(List<String> projectData) {
+		
+	}	
+	
 	
 	private void loadTextData(List<String> projectData) {
 		
@@ -226,7 +255,7 @@ public class HomeController {
 			if( "SingleText".equals(textData[0]) ) {
 				drawer.setText(-1,
 						textData[1], 
-						Double.parseDouble(textData[2]) - constX, 
+						Double.parseDouble(textData[2]) - constX,
 						Double.parseDouble(textData[3]),
 						Integer.parseInt(textData[4]),
 						Integer.parseInt(textData[5]));
@@ -234,6 +263,24 @@ public class HomeController {
 		}
 	}
 }
+
+	private void drawSystem() {
+		
+		drawer.setLengthOfHorizontalAxis(archivFileBuilder.getSystemData().getLengthOfHorizontalAxis());
+		drawer.setHorizontalScale(archivFileBuilder.getSystemData().getHorizontalScale());
+		drawer.setElevationStartValue(archivFileBuilder.getSystemData().getElevationStartValue());
+		drawer.setVerticalScale(archivFileBuilder.getSystemData().getVerticalScale());
+		homeWindow.clearRoot();
+		homeWindow.setPillarData.setDisable(false);
+		homeWindow.setWireData.setDisable(false);
+		homeWindow.addText.setDisable(false);
+		homeWindow.saveProject.setDisable(false);
+		drawer.drawPage();
+		drawer.drawHorizontalAxis();
+		drawer.writeDistanceValueForHorizontalAxis();
+		drawer.drawVerticalAxis();
+		drawer.writeElevationValueForVerticalAxis();
+	}
 	
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

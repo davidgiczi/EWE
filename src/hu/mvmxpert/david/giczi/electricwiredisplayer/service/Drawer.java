@@ -2,7 +2,6 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 
 import java.text.DecimalFormat;
-
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
@@ -23,6 +22,7 @@ public class Drawer {
 	
 	private BorderPane root;
 	public static final double MILLIMETER = 1000 / 224.0;
+	public static double WINDOW_SIZE_RATO = 1.0;
 	private final double HOR_SHIFT = 12;
 	public final double A4_WIDTH =  211 * MILLIMETER;
 	private final double PAGE_Y = 25;
@@ -318,10 +318,10 @@ public class Drawer {
 	
 	public void writeText(String text, double startX, double startY) {
 		Text txt = new Text(text);
-		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18)); 
-		double constX = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
-		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(constX));
-		txt.setY(startY * MILLIMETER);
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
+		double xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
+		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
+		txt.setY(startY * MILLIMETER);	 
 		txt.setCursor(Cursor.HAND);
 		TextData textData = new TextData(text, txt.xProperty().get(), txt.yProperty().get(), 18, 0, "SingleText");
 		textData.setId(ArchivFileBuilder.addID());
@@ -348,8 +348,8 @@ public class Drawer {
 		txt.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(startY));
 		}
 		
-		int pillarTextId = getPillarTextId(id, text, txt.xProperty().get(), txt.yProperty().get(), size, rotate);
-		int wireTextId = getWireTextId(id, text, txt.xProperty().get(), txt.yProperty().get(), size, rotate);
+		int pillarTextId = getPillarTextId(id, text, startX, startY, size, rotate);
+		int wireTextId = getWireTextId(id, text, startX, startY, size, rotate);
 		
 		if( pillarTextId != -1 ) {
 			txt.setId(String.valueOf(pillarTextId));
@@ -358,13 +358,13 @@ public class Drawer {
 			txt.setId(String.valueOf(wireTextId));
 		}
 		else if ( id != - 1){
-		TextData singleText = new TextData(text, txt.xProperty().get(), txt.yProperty().get(), size, rotate, "SingleText");
+		TextData singleText = new TextData(text, startX, startY, size, rotate, "SingleText");
 		singleText.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addText(singleText);
 		txt.setId(String.valueOf(singleText.getId()));
 		}
 		else if( id == -1 ) {
-		TextData baseText = new TextData(text, txt.xProperty().get(), txt.yProperty().get(), size, rotate, "SingleText");
+		TextData baseText = new TextData(text, startX, startY, size, rotate, "SingleText");
 		baseText.setId(id);
 		archivFileBuilder.addText(baseText);
 		txt.setId("-1");
@@ -587,12 +587,11 @@ public class Drawer {
 	}
 	
 	private void addChosenTextToSetTextWindow(Text text) {
-		
 		homeController.getSetTextWindow();
 		homeController.setTextWindow.getInputTextField().setText(text.getText());
 		DecimalFormat df = new DecimalFormat("0.0");
-		String XPosition = df.format(text.getX() / MILLIMETER).replace(',', '.');
-		String YPosition = df.format(text.getY() / MILLIMETER).replace(',', '.');
+		String XPosition = df.format(text.xProperty().get() / MILLIMETER).replace(',', '.');
+		String YPosition = df.format(text.yProperty().get() / MILLIMETER).replace(',', '.');
 		homeController.setTextWindow.getInputTextXField().setText(XPosition);
 		homeController.setTextWindow.getInputTextYField().setText(YPosition);
 	}

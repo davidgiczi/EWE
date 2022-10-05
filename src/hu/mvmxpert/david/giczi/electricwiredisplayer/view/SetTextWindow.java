@@ -17,6 +17,7 @@ public class SetTextWindow {
 	private TextField inputTextField;
 	private TextField inputTextXField;
 	private TextField inputTextYField;
+
 	
 	public Stage getStage() {
 		return stage;
@@ -45,7 +46,7 @@ public class SetTextWindow {
 	public TextField getInputTextYField() {
 		return inputTextYField;
 	}
-
+	
 	public SetTextWindow(HomeController homeController) {
 		
 		try {
