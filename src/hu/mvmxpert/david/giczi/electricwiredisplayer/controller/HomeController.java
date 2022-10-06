@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
@@ -197,6 +198,8 @@ public class HomeController {
 	loadDrawingSystemData(projectData);
 	drawSystem();
 	loadPillarData(projectData);
+	loadWireData(projectData);
+	loadTextData(projectData);
 }
 }
 	
@@ -228,9 +231,37 @@ public class HomeController {
 					Boolean.parseBoolean(data[4]));
 			pillar.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addPillar(pillar);
+			drawer.drawInputPillar(pillar.getId());
 			}
 			else if( "PillarText".equals(data[0]) ) {
+				
 				drawer.setText(pillar.getId(), 
+						data[1], 
+						Double.parseDouble(data[2]), 
+						Double.parseDouble(data[3]), 
+						Integer.parseInt(data[4]), 
+						Integer.parseInt(data[5]));			
+			}
+		}
+	}
+	
+	private void loadWireData(List<String> projectData) {
+		
+		WireData wire = null;
+		
+		for (String dataLine : projectData) {
+			String[] data = dataLine.split("#");
+			if( "Wire".equals(data[0]) ) {
+			wire = new WireData(Double.parseDouble(data[1]), 
+					Double.parseDouble(data[2]),
+					Double.parseDouble(data[3]), 
+					Boolean.parseBoolean(data[4]));
+			wire.setId(ArchivFileBuilder.addID());
+			archivFileBuilder.addWire(wire);
+			drawer.drawInputWire(wire.getId());
+			}
+			else if( "WireText".equals(data[0]) ) {
+				drawer.setText(wire.getId(), 
 						data[1], 
 						Double.parseDouble(data[2]), 
 						Double.parseDouble(data[3]), 
@@ -238,30 +269,23 @@ public class HomeController {
 						Integer.parseInt(data[5]));
 			}
 		}
-	}
-	
-	private void loadWireData(List<String> projectData) {
 		
 	}	
 	
 	
 	private void loadTextData(List<String> projectData) {
 		
-		if( !projectData.isEmpty() ) {
-		archivFileBuilder.init();
-		double constX = (drawer.getRoot().widthProperty().get() - drawer.A4_WIDTH) / 2 + drawer.START_X;
 		for (String dataLine : projectData) {
 			String[] textData = dataLine.split("#"); 
 			if( "SingleText".equals(textData[0]) ) {
-				drawer.setText(-1,
+				drawer.setText(0,
 						textData[1], 
-						Double.parseDouble(textData[2]) - constX,
+						Double.parseDouble(textData[2]),
 						Double.parseDouble(textData[3]),
 						Integer.parseInt(textData[4]),
 						Integer.parseInt(textData[5]));
 			}
 		}
-	}
 }
 
 	private void drawSystem() {

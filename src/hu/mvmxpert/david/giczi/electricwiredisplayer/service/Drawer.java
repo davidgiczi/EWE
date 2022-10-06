@@ -6,6 +6,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
@@ -22,13 +23,13 @@ public class Drawer {
 	
 	private BorderPane root;
 	public static final double MILLIMETER = 1000 / 224.0;
-	public static double WINDOW_SIZE_RATO = 1.0;
-	private final double HOR_SHIFT = 12;
-	public final double A4_WIDTH =  211 * MILLIMETER;
-	private final double PAGE_Y = 25;
+	public static final double A4_WIDTH =  211 * MILLIMETER;
 	private final double MARGIN = 156 * MILLIMETER;
+	public static final double START_X = 45 * MILLIMETER;
+	public static double X_DISTANCE;
+	private final double HOR_SHIFT = 12;
+	private final double PAGE_Y = 25;
 	private final double VER_SHIFT = 5;
-	public final double START_X = 45 * MILLIMETER;
 	private final double START_Y = 550.0;
 	private double lengthOfHorizontalAxis;
 	private int horizontalScale;
@@ -412,26 +413,26 @@ public class Drawer {
 	public void rotateText(Text text) {
 		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		double yDistance = text.getY() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
+		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		text.xProperty().unbind();
 		text.yProperty().unbind();
 		int rotateStatus = text.getTransforms().size() % 2;
-		if( rotateStatus == 0)
+		if( rotateStatus == 0) {
 			text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
-		else
+			if( textData != null )
+			textData.setDirection(-90);
+		}
+		else {
 			text.getTransforms().add(new Rotate(90, text.getX(), text.getY()));
-		
-		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		
+			if( textData != null )
+			textData.setDirection(0);
+		}
 		switch ( rotateStatus + 1 ) {
 		case 1:
 			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
-			if( textData != null )
-				textData.setDirection(-90);
 			break;
 		default:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
-			if( textData != null )
-				textData.setDirection(0);
+			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));	
 		}
 	}
 	
@@ -463,8 +464,12 @@ public class Drawer {
 		
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		
-		if( textData != null ) {
-			textData.setX(text.xProperty().get());
+		if( textData != null && textData.getDirection() == 0) {
+			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
+			textData.setY(text.yProperty().get());
+		}
+		else if( textData != null && textData.getDirection() == -90) {
+			textData.setX(text.xProperty().get() - PAGE_Y);
 			textData.setY(text.yProperty().get());
 		}
 	}
@@ -489,8 +494,12 @@ public class Drawer {
 		
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		
-		if( textData != null ) {
-			textData.setX(text.xProperty().get());
+		if( textData != null && textData.getDirection() == 0) {
+			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
+			textData.setY(text.yProperty().get());
+		}
+		else if( textData != null && textData.getDirection() == -90) {
+			textData.setX(text.xProperty().get() - PAGE_Y);
 			textData.setY(text.yProperty().get());
 		}
 	}
@@ -515,8 +524,12 @@ public class Drawer {
 		
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		
-		if( textData != null ) {
-			textData.setX(text.xProperty().get());
+		if( textData != null && textData.getDirection() == 0) {
+			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
+			textData.setY(text.yProperty().get());
+		}
+		else if( textData != null && textData.getDirection() == -90) {
+			textData.setX(text.xProperty().get() - PAGE_Y);
 			textData.setY(text.yProperty().get());
 		}
 	}
@@ -541,8 +554,12 @@ public class Drawer {
 		
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		
-		if( textData != null ) {
-			textData.setX(text.xProperty().get());
+		if( textData != null && textData.getDirection() == 0) {
+			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
+			textData.setY(text.yProperty().get());
+		}
+		else if( textData != null && textData.getDirection() == -90) {
+			textData.setX(text.xProperty().get() - PAGE_Y);
 			textData.setY(text.yProperty().get());
 		}
 	}
@@ -555,6 +572,115 @@ public class Drawer {
 			textData.setSize(size);
 		}
 	}
+	
+	public void drawInputPillar(int id) {
+		
+		PillarData pD = archivFileBuilder.getPillarData(id);
+		Line pillar = new Line();
+		pillar.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		pillar.setStartY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(pD.getGroundElevation() - 
+						archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+		pillar.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		pillar.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
+				archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+		pillar.setStroke(Color.BLUE);
+		pillar.setStrokeWidth(3);
+		pillar.setCursor(Cursor.HAND);
+		pillar.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			deletePillarOrWire(line);
+			});
+		pillar.setId(String.valueOf(id));
+		root.getChildren().add(pillar);
+		
+		if( pD.isHasCap() ) {
+			Line hood = new Line();
+			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(START_X)
+					.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+					.add((HOR_SHIFT - 1) * MILLIMETER));
+			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
+					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(START_X)
+					.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+					.add((HOR_SHIFT + 1) * MILLIMETER));
+			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
+					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+			hood.setCursor(Cursor.HAND);
+			hood.setOnMouseClicked( h -> {
+				Line line = (Line) h.getSource();
+				deletePillarOrWire(line);
+				});
+			hood.setId(String.valueOf(id));
+			hood.setStroke(Color.BLUE);
+			hood.setStrokeWidth(3);
+			root.getChildren().add(hood);
+		}
+		
+	}
+	
+	
+	public void drawInputWire(int id) {
+		
+		WireData wD = archivFileBuilder.getWireData(id);
+		Line wire = new Line();
+		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfPillar()) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		wire.setStartY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(wD.getGroundElevation() - 
+						archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfPillar()) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		wire.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(wD.getTopElevetaion() - 
+				archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+		wire.setStroke(Color.RED);
+		wire.setStrokeWidth(3);
+		wire.setCursor(Cursor.HAND);
+		wire.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			deletePillarOrWire(line);
+			});
+		wire.setId(String.valueOf(id));
+		root.getChildren().add(wire);
+		
+		if( wD.isHasCap() ) {
+			Line hood = new Line();
+			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(START_X)
+					.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfPillar()) * MILLIMETER)
+					.add((HOR_SHIFT - 1) * MILLIMETER));
+			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(wD.getTopElevetaion() - 
+					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(START_X)
+					.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfPillar()) * MILLIMETER)
+					.add((HOR_SHIFT + 1) * MILLIMETER));
+			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(wD.getTopElevetaion() - 
+					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+			hood.setCursor(Cursor.HAND);
+			hood.setOnMouseClicked( h -> {
+				Line line = (Line) h.getSource();
+				deletePillarOrWire(line);
+				});
+			hood.setId(String.valueOf(id));
+			hood.setStroke(Color.RED);
+			hood.setStrokeWidth(3);
+			root.getChildren().add(hood);
+		}
+	}
+	
 	
 	private void deletePillarOrWire(Line line) {
 	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválasztott oszlopot/vezetéket?") ) {

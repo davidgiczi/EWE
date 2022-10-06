@@ -178,11 +178,28 @@ public class ArchivFileBuilder {
 	
 	public TextData getTextData(int id) {
 		TextData text = null;
-		for (TextData data : textData) {
-			if( data.getId() == id ) {
-				text = data;
+		for (TextData textData : textData) {
+			if( textData.getId() == id ) {
+				text = textData;
 			}
 		}
+		
+		for(PillarData pillarData : pillarData) {
+			for(TextData textData : pillarData.getPillarTextList()) {
+				if( textData.getId() == id ) {
+					text = textData;
+				}
+			}
+		}
+		
+		for(WireData wireData : wireData) {
+			for(TextData textData : wireData.getWireTextList()) {
+				if( textData.getId() == id ) {
+					text = textData;
+				}
+			}
+		}
+
 		return text;
 	}
 	
