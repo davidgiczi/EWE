@@ -48,6 +48,10 @@ public class Drawer {
 	public void setLengthOfHorizontalAxis(double lengthOfHorizontalAxis) {
 		this.lengthOfHorizontalAxis = lengthOfHorizontalAxis;
 	}
+	
+	public int getHorizontalScale() {
+		return horizontalScale;
+	}
 
 	public void setHorizontalScale(int horizontalScale) {
 		this.horizontalScale = horizontalScale;
@@ -72,6 +76,7 @@ public class Drawer {
 	public double getLengthOfHorizontalAxis() {
 		return lengthOfHorizontalAxis;
 	}
+	
 
 	public BorderPane getRoot() {
 		return root;
@@ -324,7 +329,7 @@ public class Drawer {
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
 		txt.setY(startY * MILLIMETER);	 
 		txt.setCursor(Cursor.HAND);
-		TextData textData = new TextData(text, txt.xProperty().get(), txt.yProperty().get(), 18, 0, "SingleText");
+		TextData textData = new TextData(text, txt.xProperty().get() - HomeWindow.X_DISTANCE, txt.yProperty().get(), 18, 0, "SingleText");
 		textData.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addText(textData);
 		txt.setId(String.valueOf(textData.getId()));

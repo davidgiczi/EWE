@@ -208,11 +208,11 @@ public class HomeController {
 		if( !projectData.isEmpty() ) {
 			String[] data = projectData.get(0).split("#");
 			archivFileBuilder.init();
-			archivFileBuilder.setSystemData(new DrawingSystemData(
+			archivFileBuilder.setSystemData(
+				Double.parseDouble(data[1]),
+				Integer.valueOf(data[2]),
 				Integer.parseInt(data[3]), 
-				Integer.parseInt(data[4]), 
-				Double.parseDouble(data[1]), 
-				Integer.valueOf(data[2])));
+				Integer.parseInt(data[4]));
 			}	
 	}
 	
@@ -272,7 +272,6 @@ public class HomeController {
 		
 	}	
 	
-	
 	private void loadTextData(List<String> projectData) {
 		
 		for (String dataLine : projectData) {
@@ -300,10 +299,15 @@ public class HomeController {
 		homeWindow.addText.setDisable(false);
 		homeWindow.saveProject.setDisable(false);
 		drawer.drawPage();
+		if( drawer.getLengthOfHorizontalAxis() != 0 &&
+				drawer.getHorizontalScale() != 0 &&
+				drawer.getElevationStartValue() != 0 && 
+				drawer.getVerticalScale()!= 0) {
 		drawer.drawHorizontalAxis();
 		drawer.writeDistanceValueForHorizontalAxis();
 		drawer.drawVerticalAxis();
 		drawer.writeElevationValueForVerticalAxis();
+		}
 	}
 	
 	public void exit() {
