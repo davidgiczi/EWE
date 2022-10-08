@@ -429,7 +429,6 @@ public class Drawer {
 		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		text.setRotationAxis(Rotate.Z_AXIS);
-		
 		if( text.getRotate() == -90) {
 			text.setRotate(0);
 			if( textData != null )
@@ -441,7 +440,7 @@ public class Drawer {
 				textData.setDirection(-90);
 		}
 		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));	
-		textData.setX(text.xProperty().get());
+		textData.setX(text.xProperty().get() - X_DISTANCE);
 		textData.setY(text.yProperty().get());	
 	}
 	
