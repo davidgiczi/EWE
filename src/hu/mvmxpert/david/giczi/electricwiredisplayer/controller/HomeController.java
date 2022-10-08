@@ -3,7 +3,6 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.controller;
 import java.util.List;
 import java.util.Optional;
 
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.ArchivFileBuilder;
@@ -52,8 +51,6 @@ public class HomeController {
 	}
 	
 	public void init() {
-		FileProcess.FOLDER_PATH = null;
-		PROJECT_NAME = null;
 		archivFileBuilder.init();
 		getSetCoordSystemWindow();
 		homeWindow.clearRoot();

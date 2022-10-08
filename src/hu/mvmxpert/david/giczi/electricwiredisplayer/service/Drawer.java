@@ -6,7 +6,6 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.layout.BorderPane;
@@ -197,7 +196,7 @@ public class Drawer {
 	public void writeDistanceValueForHorizontalAxis() {
 		setText(-1, "0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 		setText(-1, String.valueOf(lengthOfHorizontalAxis) + "m", 
-				getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER + (HOR_SHIFT - 8) * MILLIMETER, 
+				getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
@@ -253,13 +252,13 @@ public class Drawer {
 		setText(pillarData.getId(), id + ".", 
 				getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER, 
 				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0);	
-		setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
-				pillar.getStartX(), pillar.getStartY(), 18, -90);
-		setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
-				pillar.getEndX(), pillar.getEndY(), 18, -90);
+		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90);
+		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90);
 		if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(pillarData.getId(), df.format(distance).replace(",", ".") + "m", 
-				getHorizontalScaledDownLengthValue(distance) * MILLIMETER + HOR_SHIFT * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
+				getHorizontalScaledDownLengthValue(distance) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0);
 	}
 	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -312,24 +311,35 @@ public class Drawer {
 			root.getChildren().add(hood);
 		}
 		
-		setText(wireData.getId(), "jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", wire.getStartX(), wire.getStartY(), 18, -90);
-		setText(wireData.getId(), "jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", wire.getEndX(), wire.getEndY(), 18, -90);
+		setText(wireData.getId(), "bal af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90);
+		setText(wireData.getId(), "bal af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90);
 		if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(wireData.getId(), df.format(distance).replace(",", ".") + "m", 
-				getHorizontalScaledDownLengthValue(distance) * MILLIMETER, 
+				(getHorizontalScaledDownLengthValue(distance) + VER_SHIFT) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0);
-		setText(wireData.getId(), text, getHorizontalScaledDownLengthValue(distance) * MILLIMETER, 
+		setText(wireData.getId(), text, (getHorizontalScaledDownLengthValue(distance) + VER_SHIFT) * MILLIMETER, 
 				PAGE_Y + START_Y + 65, 18, 0);
 	}
 	
-	public void writeText(String text, double startX, double startY) {
+	public void writeText(String text, double startX, double startY, double rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
-		double xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
+		TextData textData = new TextData(text, txt.xProperty().get() - X_DISTANCE, txt.yProperty().get(), 18, 0, "SingleText");
+		double xDistance;
+		if( rotate == -90 ) {
+			txt.setRotationAxis(Rotate.Z_AXIS);
+			txt.setRotate(-90);
+			textData.setDirection(-90);
+			xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + (HOR_SHIFT - 4) * MILLIMETER;
+		}
+		else {
+			xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
+		}
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
-		txt.setY(startY * MILLIMETER);	 
+		txt.setY(startY * MILLIMETER);
 		txt.setCursor(Cursor.HAND);
-		TextData textData = new TextData(text, txt.xProperty().get() - HomeWindow.X_DISTANCE, txt.yProperty().get(), 18, 0, "SingleText");
 		textData.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addText(textData);
 		txt.setId(String.valueOf(textData.getId()));
@@ -342,17 +352,12 @@ public class Drawer {
 	public void setText(int id, String text, double startX, double startY, int size, int rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
-		
-		if( rotate == 0 ) {
+		if( rotate == -90 ) {
+		txt.setRotationAxis(Rotate.Z_AXIS);
+		txt.setRotate(-90);
+		}
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(startX));
 		txt.setY(startY);
-		}
-		else if( rotate == -90 ) {
-		txt.getTransforms().add(new Rotate(rotate, startX, startY));
-		txt.setX(startX);
-		double yDistance = PAGE_Y - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		txt.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(startY));
-		}
 		
 		int pillarTextId = getPillarTextId(id, text, startX, startY, size, rotate);
 		int wireTextId = getWireTextId(id, text, startX, startY, size, rotate);
@@ -375,7 +380,6 @@ public class Drawer {
 		archivFileBuilder.addText(baseText);
 		txt.setId("-1");
 		}
-		
 		txt.setCursor(Cursor.HAND); 
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
@@ -417,28 +421,22 @@ public class Drawer {
 	
 	public void rotateText(Text text) {
 		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		double yDistance = text.getY() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		text.xProperty().unbind();
-		text.yProperty().unbind();
-		int rotateStatus = text.getTransforms().size() % 2;
-		if( rotateStatus == 0) {
-			text.getTransforms().add(new Rotate(-90, text.getX(), text.getY()));
+		text.setRotationAxis(Rotate.Z_AXIS);
+		
+		if( text.getRotate() == -90) {
+			text.setRotate(0);
 			if( textData != null )
-			textData.setDirection(-90);
+			text.setRotate(0);
 		}
 		else {
-			text.getTransforms().add(new Rotate(90, text.getX(), text.getY()));
+			text.setRotate(-90);
 			if( textData != null )
-			textData.setDirection(0);
+				textData.setDirection(-90);
 		}
-		switch ( rotateStatus + 1 ) {
-		case 1:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance));
-			break;
-		default:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));	
-		}
+		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));	
+		textData.setX(text.xProperty().get());
+		textData.setY(text.yProperty().get());	
 	}
 	
 	public void modifyText(Text text, String txt) {
@@ -450,123 +448,35 @@ public class Drawer {
 	}
 	
 	public void moveTextLeft(Text text) {
-		
 		double actualXPosition = text.getX();
-		double actualYPosition = text.getY();
-		text.xProperty().unbind();
-		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 2;
-		
-		switch ( rotateStatus ) {
-		case 1:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
-			break;
-		default:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
-		}
-		
+		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		
-		if( textData != null && textData.getDirection() == 0) {
-			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
-			textData.setY(text.yProperty().get());
-		}
-		else if( textData != null && textData.getDirection() == -90) {
-			textData.setX(text.xProperty().get() - PAGE_Y);
-			textData.setY(text.yProperty().get());
-		}
+		textData.setX(text.xProperty().get() - X_DISTANCE);
+		textData.setY(text.yProperty().get());
 	}
 	
 	public void moveTextRight(Text text) {
-		
 		double actualXPosition = text.getX();
-		double actualYPosition = text.getY();
-		text.xProperty().unbind();
-		text.yProperty().unbind();
 		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 2;
-		
-		switch ( rotateStatus ) {
-		case 1:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
-			break;
-		default:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
-		}
-		
+		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		
-		if( textData != null && textData.getDirection() == 0) {
-			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
-			textData.setY(text.yProperty().get());
-		}
-		else if( textData != null && textData.getDirection() == -90) {
-			textData.setX(text.xProperty().get() - PAGE_Y);
-			textData.setY(text.yProperty().get());
-		}
+		textData.setX(text.xProperty().get() - X_DISTANCE);
+		textData.setY(text.yProperty().get());
 	}
 	
 	public void moveTextUp(Text text) {
-		
-		double actualXPosition = text.getX();
-		double actualYPosition = text.getY();
-		text.xProperty().unbind();
-		text.yProperty().unbind();
-		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 2;
-		
-		switch ( rotateStatus ) {
-		case 1:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).add(MILLIMETER));
-			break;
-		default:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).subtract(MILLIMETER));
-		}
-		
+		text.setY(text.getY() - MILLIMETER);
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		
-		if( textData != null && textData.getDirection() == 0) {
-			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
-			textData.setY(text.yProperty().get());
-		}
-		else if( textData != null && textData.getDirection() == -90) {
-			textData.setX(text.xProperty().get() - PAGE_Y);
-			textData.setY(text.yProperty().get());
-		}
+		textData.setX(text.xProperty().get() - X_DISTANCE);
+		textData.setY(text.yProperty().get());
 	}
 	
 	public void moveTextDown(Text text) {
-		
-		double actualXPosition = text.getX();
-		double actualYPosition = text.getY();
-		text.xProperty().unbind();
-		text.yProperty().unbind();
-		double xDistance = actualXPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		double yDistance = actualYPosition - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		int rotateStatus = text.getTransforms().size() % 2;
-		
-		switch ( rotateStatus ) {
-		case 1:
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance).subtract(MILLIMETER));
-			break;
-		default:
-			text.yProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(yDistance).add(MILLIMETER));
-		}
-		
+		text.setY(text.getY() + MILLIMETER);
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		
-		if( textData != null && textData.getDirection() == 0) {
-			textData.setX(text.xProperty().get() - HomeWindow.X_DISTANCE);
-			textData.setY(text.yProperty().get());
-		}
-		else if( textData != null && textData.getDirection() == -90) {
-			textData.setX(text.xProperty().get() - PAGE_Y);
-			textData.setY(text.yProperty().get());
-		}
+		textData.setX(text.xProperty().get() - X_DISTANCE);
+		textData.setY(text.yProperty().get());
 	}
 	
 	public void setTextSize(Text text, int size) {
@@ -720,6 +630,7 @@ public class Drawer {
 	private void addChosenTextToSetTextWindow(Text text) {
 		homeController.getSetTextWindow();
 		homeController.setTextWindow.getInputTextField().setText(text.getText());
+		homeController.setTextWindow.getController().setRotate(text.getRotate());
 		DecimalFormat df = new DecimalFormat("0.0");
 		String XPosition = df.format(text.xProperty().get() / MILLIMETER).replace(',', '.');
 		String YPosition = df.format(text.yProperty().get() / MILLIMETER).replace(',', '.');

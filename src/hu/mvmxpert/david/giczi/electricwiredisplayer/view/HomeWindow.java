@@ -33,7 +33,6 @@ public class HomeWindow  {
 	public MenuItem exchangePillars;
 	public MenuItem saveProject;
 	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
-	public static double X_DISTANCE;
 	
 	public BorderPane getRoot() {
 		return root;
@@ -53,8 +52,8 @@ public class HomeWindow  {
 		 	root = new BorderPane();
 		 	root.widthProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_X_VALUE = (int) (root.getWidth() / Drawer.MILLIMETER);
-		 		X_DISTANCE = (root.widthProperty().get() - Drawer.A4_WIDTH) / 2 + Drawer.START_X;
-		 		
+		 		Drawer.X_DISTANCE = (root.widthProperty().get() - Drawer.A4_WIDTH) / 2 + Drawer.START_X;
+		 	 
 		 	});
 		 	root.heightProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_Y_VALUE = (int) (root.getHeight() / Drawer.MILLIMETER);

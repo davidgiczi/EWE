@@ -17,6 +17,7 @@ public class SetTextWindow {
 	private TextField inputTextField;
 	private TextField inputTextXField;
 	private TextField inputTextYField;
+	private SetTextController controller;
 
 	
 	public Stage getStage() {
@@ -47,12 +48,16 @@ public class SetTextWindow {
 		return inputTextYField;
 	}
 	
+	public SetTextController getController() {
+		return controller;
+	}
+
 	public SetTextWindow(HomeController homeController) {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetText.fxml"));
 			AnchorPane root = loader.load();
-			SetTextController controller = (SetTextController) loader.getController();
+			controller = (SetTextController) loader.getController();
 			controller.setHomeController(homeController);
 			setInputTextField(controller.inputTextField);
 			setInputTextXField(controller.inputTextXField);

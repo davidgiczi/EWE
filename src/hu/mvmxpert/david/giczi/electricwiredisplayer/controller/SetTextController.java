@@ -11,6 +11,7 @@ public class SetTextController {
 
 	private Stage stage;
 	private HomeController homeController;
+	private double rotate;
 	
 	public SetTextController() {
 	}
@@ -23,6 +24,10 @@ public class SetTextController {
 		this.stage = stage;
 	}
 	
+	public void setRotate(double rotate) {
+		this.rotate = rotate;
+	}
+
 	@FXML
 	public TextField inputTextField;
 	@FXML
@@ -60,7 +65,8 @@ public class SetTextController {
 			return;
 		}
 		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
-				Double.parseDouble(inputTextYField.getText().replace(',', '.')));
+				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate);
+		rotate = 0;
 		stage.hide();
 	}
 	
