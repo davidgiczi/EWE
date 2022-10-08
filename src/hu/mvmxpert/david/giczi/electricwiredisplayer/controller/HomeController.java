@@ -57,7 +57,7 @@ public class HomeController {
 		homeWindow.setPillarData.setDisable(true);
 		homeWindow.setWireData.setDisable(true);
 		homeWindow.addText.setDisable(false);
-		((Stage) homeWindow.getRoot().getScene().getWindow()).setTitle(HomeWindow.DEFAULT_STAGE_TITLE);
+		setTitle(drawer.getRoot());
 		drawer.drawPage();	
 	}
 	

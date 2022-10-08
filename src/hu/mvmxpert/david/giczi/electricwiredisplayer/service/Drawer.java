@@ -23,9 +23,9 @@ public class Drawer {
 	private BorderPane root;
 	public static final double MILLIMETER = 1000 / 224.0;
 	public static final double A4_WIDTH =  211 * MILLIMETER;
-	private final double MARGIN = 156 * MILLIMETER;
 	public static final double START_X = 45 * MILLIMETER;
 	public static double X_DISTANCE;
+	private final double MARGIN = 156 * MILLIMETER;
 	private final double HOR_SHIFT = 12;
 	private final double PAGE_Y = 25;
 	private final double VER_SHIFT = 5;
@@ -326,7 +326,10 @@ public class Drawer {
 	public void writeText(String text, double startX, double startY, double rotate) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
-		TextData textData = new TextData(text, txt.xProperty().get() - X_DISTANCE, txt.yProperty().get(), 18, 0, "SingleText");
+		TextData textData = new TextData();
+		textData.setTextValue(text);
+		textData.setSize(18);
+		textData.setType("SingleText");
 		double xDistance;
 		if( rotate == -90 ) {
 			txt.setRotationAxis(Rotate.Z_AXIS);
@@ -335,10 +338,13 @@ public class Drawer {
 			xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + (HOR_SHIFT - 4) * MILLIMETER;
 		}
 		else {
+			textData.setDirection(0);
 			xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
 		}
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
 		txt.setY(startY * MILLIMETER);
+		textData.setX(txt.xProperty().get() - X_DISTANCE);
+		textData.setY(txt.yProperty().get());
 		txt.setCursor(Cursor.HAND);
 		textData.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addText(textData);

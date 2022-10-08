@@ -10,6 +10,9 @@ public class TextData {
 	private int direction;
 	private String type;
 	
+	public TextData() {
+	}
+	
 	public TextData(String textValue, double x, double y, int size, int direction, String type) {
 		
 		this.textValue = textValue;
