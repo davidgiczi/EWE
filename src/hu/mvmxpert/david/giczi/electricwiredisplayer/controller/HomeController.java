@@ -149,8 +149,6 @@ public class HomeController {
 			 
 		}
 		
-		if( !saveExistedProjectFile() ) {
-			
 			String projectName = PROJECT_NAME;
 			
 			if( fileProcess.isProjectFileExist() && 
@@ -159,7 +157,6 @@ public class HomeController {
 			 }
 			if( projectName != null )
 				save();
-	}
 }
 	
 	private boolean save() {
@@ -205,6 +202,19 @@ public class HomeController {
 	homeWindow.exchangePillars.setDisable(false);
 	}
 }
+	
+	public void showInputDrawingSystemDataOnCoordSystemDataWindow() {
+		
+		getSetCoordSystemWindow();
+		if( drawer.getElevationStartValue() != 0)
+		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(drawer.getElevationStartValue()));
+		if( drawer.getVerticalScale() != 0)
+		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(drawer.getVerticalScale()));
+		if( drawer.getLengthOfHorizontalAxis() != 0d)
+		setCoordSystemWindow.getController().lengthOfPillars.setText(String.valueOf(drawer.getLengthOfHorizontalAxis()));
+		if( drawer.getHorizontalScale() != 0)
+		setCoordSystemWindow.getController().horizontalScaleValue.setText(String.valueOf(drawer.getHorizontalScale()));
+	}
 	
 	private void loadDrawingSystemData(List<String> projectData) {
 		
@@ -361,14 +371,17 @@ public class HomeController {
 	public void modifyLengthOfBaseLine() {
 		Double length;
 		try {
-			length = Validate.isValidDoubleValue(setInputText("A nyomvonal hosszának módosítása", "Add meg a nyomvonal hosszát méterben:"));
-		} catch (Exception e) {
+			String inputValue = setInputText("A nyomvonal hosszának módosítása", "Add meg a nyomvonal hosszát méterben:");
+			if( inputValue == null )
+				return;
+			length = Validate.isValidDoubleValue(inputValue);
+		} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő nyomvonal hossz érték", "A nyomvonal hossza csak pozitív szám érték lehet.");
 			return;
 		}	
 		
 		double distanceRatio = length / drawer.getLengthOfHorizontalAxis();
-		
+	
 		archivFileBuilder.setSystemData(length, drawer.getHorizontalScale(),
 				drawer.getElevationStartValue(), drawer.getVerticalScale());
 		drawSystem();
@@ -384,11 +397,42 @@ public class HomeController {
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData);
 		}
+		for (TextData textData : archivFileBuilder.getTextData()) {
+			if(textData.getId() != -1)
+			drawer.drawInputText(textData);
+		}
+	}
+
+	public void modifyScaleOfBaseLine() {
+		int scale;
+		try {
+			String inputValue = setInputText("A nyomvonal méretarányának módosítása", 
+					"Add meg a nyomvonal méretaránytényezőjét M= 1:");
+			if( inputValue == null )
+				return;
+			scale = Validate.isValidIntegerValue(inputValue);
+		} catch (NumberFormatException e) {
+			getWarningAlert("Nem megfelelő nyomvonal méretaránytényező érték", "A nyomvonal hossza csak pozitív egész szám érték lehet.");
+			return;
+		}	
 		
-//		for (TextData textData : archivFileBuilder.getTextData()) {
-//			textData.setX(textData.getX() + distanceDifference * Drawer.MILLIMETER);
-//			drawer.drawInputText(textData);
-//		}
+		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), scale,
+				drawer.getElevationStartValue(), drawer.getVerticalScale());
+		
+		drawSystem();
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			drawer.drawInputPillar(pillarData.getId());
+			drawer.drawInputPillarText(pillarData);
+		}
+		
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			drawer.drawInputWire(wireData.getId());
+			drawer.drawInputWireText(wireData);
+		}
+		for (TextData textData : archivFileBuilder.getTextData()) {
+			if(textData.getId() != -1)
+			drawer.drawInputText(textData);
+		}
 	}
 	
 }

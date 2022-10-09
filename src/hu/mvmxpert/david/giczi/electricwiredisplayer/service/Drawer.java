@@ -652,6 +652,7 @@ public class Drawer {
 	
 	public void drawInputText(TextData textData) {
 		Text text = new Text(textData.getTextValue());
+		text.setId(String.valueOf(textData.getId()));
 		text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, textData.getSize()));
 		if( textData.getDirection() == -90 ) {
 			text.setRotationAxis(Rotate.Z_AXIS);
@@ -659,6 +660,10 @@ public class Drawer {
 			}
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
 			text.setY(textData.getY());
+			text.setCursor(Cursor.HAND);
+			text.setOnMouseClicked( t -> {
+				Text inputText = (Text) t.getSource();
+				getModifyTextWindow(inputText); });
 			root.getChildren().add(text);
 	}
 	
@@ -684,7 +689,7 @@ public class Drawer {
 		modifyTextWindow.setInputText(text);
 	}
 
-	private double getHorizontalScaledDownLengthValue(double length) {
+	public double getHorizontalScaledDownLengthValue(double length) {
 		return horizontalScale == 1000 ? length : 1000.0  * length / horizontalScale;
 	}
 	

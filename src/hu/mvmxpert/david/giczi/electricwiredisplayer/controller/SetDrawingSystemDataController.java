@@ -42,28 +42,39 @@ public class SetDrawingSystemDataController {
 		try {
 			startElevation = Validate.isValidIntegerValue(startElevationValue.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő magassági lépték kezdő érték", "A magassági lépték kezdő magasság értéke csak pozitív egész szám lehet.");
+			HomeController.getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
+					"A magassági lépték kezdő magasság értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		try {
 			verticalScale = Validate.isValidIntegerValue(elevationScaleValue.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő magassági lépték beosztás érték", "A magassági lépték beosztás értéke csak pozitív egész szám lehet.");
+			HomeController.getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
+					"A magassági lépték beosztás értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		try {
 			length = Validate.isValidDoubleValue(lengthOfPillars.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő az oszlopok távolság értéke", "Az oszlopok távolság értéke csak pozitív szám lehet.");
+			HomeController.getWarningAlert("Nem megfelelő az oszlopok távolság értéke", 
+					"Az oszlopok távolság értéke csak pozitív szám lehet.");
 			return;
 		}
 		try {
 			horizontalScale = Validate.isValidIntegerValue(horizontalScaleValue.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő vízszintes lépték érték", "A vízszintes lépték értéke csak pozitív egész szám lehet.");
+			HomeController.getWarningAlert("Nem megfelelő vízszintes lépték érték", 
+					"A vízszintes lépték értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		homeController.archivFileBuilder.setSystemData(length, horizontalScale, startElevation, verticalScale);
+		if( !homeController.archivFileBuilder.getPillarData().isEmpty() ||
+			!homeController.archivFileBuilder.getWireData().isEmpty() ||
+			!homeController.archivFileBuilder.getLineData().isEmpty() ||
+			!homeController.archivFileBuilder.getTextData().isEmpty()) {
+		homeController.homeWindow.clearRoot();
+		homeController.getDrawer().drawPage();
+		}
 		homeController.getDrawer().setElevationStartValue(startElevation);
 		homeController.getDrawer().setVerticalScale(verticalScale);
 		homeController.getDrawer().setLengthOfHorizontalAxis(length);

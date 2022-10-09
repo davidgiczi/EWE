@@ -13,9 +13,14 @@ import javafx.stage.Stage;
 public class SetDrawingSystemDataWindow  {
 
 	private Stage stage;
+	private SetDrawingSystemDataController controller;
 	
 	public Stage getStage() {
 		return stage;
+	}
+	
+	public SetDrawingSystemDataController getController() {
+		return controller;
 	}
 
 	public SetDrawingSystemDataWindow(HomeController homeController) {
@@ -23,7 +28,7 @@ public class SetDrawingSystemDataWindow  {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetDrawingSystemData.fxml"));
 			AnchorPane root = loader.load();
-			SetDrawingSystemDataController controller =	(SetDrawingSystemDataController) loader.getController();
+			controller =	(SetDrawingSystemDataController) loader.getController();
 			controller.setHomeController(homeController);
 			stage = new Stage();
 			controller.setStage(stage);

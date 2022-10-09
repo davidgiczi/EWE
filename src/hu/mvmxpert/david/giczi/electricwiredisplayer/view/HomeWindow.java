@@ -132,6 +132,7 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 			homeController.openProject();
+			homeController.showInputDrawingSystemDataOnCoordSystemDataWindow();
 			}
 		});
 		saveProject = new MenuItem("Projekt mentése");
@@ -198,6 +199,13 @@ public class HomeWindow  {
 			}
 		});
 		MenuItem modifyHorizontalScale = new MenuItem("Vízszintes lépték módosítása");
+		modifyHorizontalScale.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.modifyScaleOfBaseLine();
+			}
+		});
 		modifyBaseLine.getItems().addAll(modifyLengthOfBaseLine, modifyHorizontalScale);
 		modifyVerticalScale = new Menu("Magassági lépték módosítása");
 		MenuItem modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
