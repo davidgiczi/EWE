@@ -25,10 +25,8 @@ public class HomeWindow  {
 	public MenuItem setWireData;
 	public MenuItem addText;
 	public MenuItem addLine;
-	public MenuItem modifyLengthOfBaseLine;
-	public MenuItem modifyHorizontalScale;
-	public MenuItem modifyElevationStartValue;
-	public MenuItem modifyElevationMeasurment;
+	public Menu modifyBaseLine;
+	public Menu modifyVerticalScale;
 	public MenuItem come2ndPillarTo1stPlace;
 	public MenuItem exchangePillars;
 	public MenuItem saveProject;
@@ -180,29 +178,36 @@ public class HomeWindow  {
 			}
 		});
 		addLine = new MenuItem("Vonal hozzáadása");
+		addLine.setDisable(true);
 		addLine.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			System.out.println(homeController.archivFileBuilder.getSystemData().getDrawingSystemData());
-			homeController.archivFileBuilder.getPillarData().forEach(p -> System.out.println(p.getPillarData()));
-			homeController.archivFileBuilder.getPillarData().forEach(p -> System.out.println(p.getPillarTexts()));
-			homeController.archivFileBuilder.getWireData().forEach(p -> System.out.println(p.getWireData()));
-			homeController.archivFileBuilder.getWireData().forEach(p -> System.out.println(p.getWireTexts()));
-			homeController.archivFileBuilder.getTextData().forEach(p -> System.out.println(p.getTextData()));
+			
 			
 			}
 		});
-		Menu modifyBaseLine = new Menu("Nyomvonal módosítása");
-		modifyLengthOfBaseLine = new MenuItem("Az oszlopok távolságának módosítása");
-		modifyHorizontalScale = new MenuItem("Vízszintes lépték módosítása");
+		modifyBaseLine = new Menu("Nyomvonal módosítása");
+		modifyBaseLine.setDisable(true);
+		MenuItem modifyLengthOfBaseLine = new MenuItem("A nyomvonal hosszának módosítása");
+		modifyLengthOfBaseLine.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.modifyLengthOfBaseLine();
+			}
+		});
+		MenuItem modifyHorizontalScale = new MenuItem("Vízszintes lépték módosítása");
 		modifyBaseLine.getItems().addAll(modifyLengthOfBaseLine, modifyHorizontalScale);
-		Menu modifyVerticalScale = new Menu("Magassági lépték módosítása");
-		modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
-		modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
+		modifyVerticalScale = new Menu("Magassági lépték módosítása");
+		MenuItem modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
+		MenuItem modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
+		modifyVerticalScale.setDisable(true);
 		come2ndPillarTo1stPlace = new MenuItem("A második oszlop legyen a kezdő oszlop");
+		come2ndPillarTo1stPlace.setDisable(true);
 		exchangePillars = new MenuItem("Az oszlopok felcserélése");
+		exchangePillars.setDisable(true);
 		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
 				addLine, new SeparatorMenuItem(), 
 				modifyBaseLine, new SeparatorMenuItem(),

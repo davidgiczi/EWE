@@ -1,5 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,8 +216,26 @@ public class ArchivFileBuilder {
 		}
 	}	
 	
+	public void changePillarDistanceText(int id,  double distanceRatio) {
+		PillarData pillarData = getPillarData(id);
+		DecimalFormat df = new DecimalFormat("0.00");
+		for (TextData pillarText : pillarData.getPillarTextList()) {
+			if(	pillarText.getTextValue().equals(df.format(pillarData.getDistanceOfPillar()).replace(",", ".") + "m")) {
+				pillarText.setTextValue(df.format((pillarData.getDistanceOfPillar() * distanceRatio)).replace(",", ".") + "m");
+			}
+		}
+		
+	}
 	
-	
+	public void changeWireDistanceText(int id, double distanceRatio) {
+		WireData wireData = getWireData(id);
+		DecimalFormat df = new DecimalFormat("0.00");
+		for (TextData wireText : wireData.getWireTextList()) {
+			if(	wireText.getTextValue().equals(df.format(wireData.getDistanceOfWire()).replace(",", ".") + "m")) {
+				wireText.setTextValue(df.format((wireData.getDistanceOfWire() * distanceRatio)).replace(",", ".") + "m");
+			}
+		}
+	}
 	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Drawer;
@@ -197,7 +198,12 @@ public class HomeController {
 	loadPillarData(projectData);
 	loadWireData(projectData);
 	loadTextData(projectData);
-}
+	homeWindow.addLine.setDisable(false);
+	homeWindow.modifyBaseLine.setDisable(false);
+	homeWindow.modifyVerticalScale.setDisable(false);
+	homeWindow.come2ndPillarTo1stPlace.setDisable(false);
+	homeWindow.exchangePillars.setDisable(false);
+	}
 }
 	
 	private void loadDrawingSystemData(List<String> projectData) {
@@ -351,4 +357,38 @@ public class HomeController {
 			return false;
 		}
 	}
+	
+	public void modifyLengthOfBaseLine() {
+		Double length;
+		try {
+			length = Validate.isValidDoubleValue(setInputText("A nyomvonal hosszának módosítása", "Add meg a nyomvonal hosszát méterben:"));
+		} catch (Exception e) {
+			getWarningAlert("Nem megfelelő nyomvonal hossz érték", "A nyomvonal hossza csak pozitív szám érték lehet.");
+			return;
+		}	
+		
+		double distanceRatio = length / drawer.getLengthOfHorizontalAxis();
+		
+		archivFileBuilder.setSystemData(length, drawer.getHorizontalScale(),
+				drawer.getElevationStartValue(), drawer.getVerticalScale());
+		drawSystem();
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
+			pillarData.setDistanceOfPillar(pillarData.getDistanceOfPillar() * distanceRatio);
+			drawer.drawInputPillar(pillarData.getId());
+			drawer.drawInputPillarText(pillarData);
+		}
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			archivFileBuilder.changeWireDistanceText(wireData.getId(), distanceRatio);
+			wireData.setDistanceOfWire(wireData.getDistanceOfWire() * distanceRatio);
+			drawer.drawInputWire(wireData.getId());
+			drawer.drawInputWireText(wireData);
+		}
+		
+//		for (TextData textData : archivFileBuilder.getTextData()) {
+//			textData.setX(textData.getX() + distanceDifference * Drawer.MILLIMETER);
+//			drawer.drawInputText(textData);
+//		}
+	}
+	
 }

@@ -94,6 +94,8 @@ public class SetPillarDataController {
 			homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, false);
 		}
 		
+		homeController.homeWindow.come2ndPillarTo1stPlace.setDisable(false);
+		homeController.homeWindow.exchangePillars.setDisable(false);
 	}
 	
 }

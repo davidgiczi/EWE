@@ -8,21 +8,21 @@ public class WireData {
 	private int id;
 	private double groundElevation;
 	private double topElevetaion;
-	private double distanceOfPillar;
+	private double distanceOfWire;
 	private List<TextData> wireTextList;
 	private boolean hasCap;
 	
-	public WireData(double groundElevation, double topElevetaion, double distanceOfPillar, boolean hasCap) {
+	public WireData(double groundElevation, double topElevetaion, double distanceOfWire, boolean hasCap) {
 		
 		this.groundElevation = groundElevation;
 		this.topElevetaion = topElevetaion;
-		this.distanceOfPillar = distanceOfPillar;
+		this.distanceOfWire = distanceOfWire;
 		this.hasCap = hasCap;
 		wireTextList = new ArrayList<>();
 	}
 	
 	public String getWireData() {
-		return "Wire#"+  groundElevation + "#" + topElevetaion + "#" + distanceOfPillar + "#" + hasCap;
+		return "Wire#"+  groundElevation + "#" + topElevetaion + "#" + distanceOfWire + "#" + hasCap;
 	}
 	
 	public String getWireTexts() {
@@ -53,13 +53,15 @@ public class WireData {
 	public void setTopElevetaion(double topElevetaion) {
 		this.topElevetaion = topElevetaion;
 	}
-	public double getDistanceOfPillar() {
-		return distanceOfPillar;
-	}
-	public void setDistanceOfPillar(double distanceOfPillar) {
-		this.distanceOfPillar = distanceOfPillar;
-	}
 	
+	public double getDistanceOfWire() {
+		return distanceOfWire;
+	}
+
+	public void setDistanceOfWire(double distanceOfWire) {
+		this.distanceOfWire = distanceOfWire;
+	}
+
 	public List<TextData> getWireTextList() {
 		return wireTextList;
 	}
