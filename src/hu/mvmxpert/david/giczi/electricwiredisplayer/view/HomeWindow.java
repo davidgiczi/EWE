@@ -27,7 +27,7 @@ public class HomeWindow  {
 	public MenuItem addLine;
 	public Menu modifyBaseLine;
 	public Menu modifyVerticalScale;
-	public MenuItem come2ndPillarTo1stPlace;
+	public MenuItem toBeLastPillarTheBeginner;
 	public MenuItem exchangePillars;
 	public MenuItem saveProject;
 	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
@@ -212,15 +212,29 @@ public class HomeWindow  {
 		MenuItem modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
 		modifyVerticalScale.setDisable(true);
-		come2ndPillarTo1stPlace = new MenuItem("A második oszlop legyen a kezdő oszlop");
-		come2ndPillarTo1stPlace.setDisable(true);
+		toBeLastPillarTheBeginner = new MenuItem("Az utolsó oszlop legyen a kezdő oszlop");
+		toBeLastPillarTheBeginner.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.toBeTheLastPillarTheBeginner();
+			}
+		});
+		toBeLastPillarTheBeginner.setDisable(true);
 		exchangePillars = new MenuItem("Az oszlopok felcserélése");
+		exchangePillars.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.exchangePillars();
+			}
+		});
 		exchangePillars.setDisable(true);
 		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
 				addLine, new SeparatorMenuItem(), 
 				modifyBaseLine, new SeparatorMenuItem(),
 				modifyVerticalScale,  new SeparatorMenuItem(),
-				come2ndPillarTo1stPlace,
+				toBeLastPillarTheBeginner,
 				new SeparatorMenuItem(), 
 				exchangePillars);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw);
@@ -244,13 +258,5 @@ public class HomeWindow  {
 		return projectName;
 }
 	
-	public void clearRoot(){
-		
-		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
-			if( root.getChildren().get(i) instanceof MenuBar ) {
-				continue;
-			}
-			root.getChildren().remove(i);
-		}
-	}
+	
 }

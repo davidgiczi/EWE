@@ -83,6 +83,19 @@ public class ArchivFileBuilder {
 		return data;
 	}
 	
+	public PillarData getLastPillar() {
+		
+		PillarData data = null;
+		
+		for (PillarData pillar : pillarData) {
+			if( pillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis()) {
+				data = pillar;
+			}
+		}
+	
+		return data;
+	}
+	
 	public void removePillar(int id, BorderPane root) {
 		
 		PillarData pillar = getPillarData(id);
@@ -237,5 +250,46 @@ public class ArchivFileBuilder {
 		}
 	}
 	
+	public int getChosenTextOwnerId(String chosenText) {
+		
+		int ownerId = -1;
+		
+		for ( PillarData pillarData : pillarData ) {
+			for( TextData textData : pillarData.getPillarTextList() )
+					if( textData.getTextValue().equals(chosenText))
+							ownerId = pillarData.getId();
+		}
+		for(WireData wireData : wireData) {
+			for( TextData textData : wireData.getWireTextList() )
+					if( textData.getTextValue().equals(chosenText) )
+							ownerId = wireData.getId();
+		}
+		
+		for( TextData textData : textData) {
+			if(textData.getTextValue().equals(chosenText))
+					ownerId = textData.getId();
+		}
+		
+		return ownerId;
+	}
 	
+	public void addChosenTextToOwnerTextList(TextData chosenTextData, int ownerId) {
+		
+		chosenTextData.setOnLeftSide(false);
+		PillarData pillar = getPillarData(ownerId);
+		if( pillar != null) {
+			chosenTextData.setType("PillarText");
+			pillar.getPillarTextList().add(chosenTextData);
+			return;
+		}
+		WireData wire = getWireData(ownerId);
+		if( wire != null ) {
+			chosenTextData.setType("WireText");
+			wire.getWireTextList().add(chosenTextData);
+			return;
+		}
+		chosenTextData.setType("SingleText");
+		chosenTextData.setOnLeftSide(false);
+		textData.add(chosenTextData);
+	}
 }

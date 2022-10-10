@@ -54,10 +54,11 @@ public class HomeController {
 	public void init() {
 		archivFileBuilder.init();
 		getSetCoordSystemWindow();
-		homeWindow.clearRoot();
+		drawer.clearRoot();
 		homeWindow.setPillarData.setDisable(true);
 		homeWindow.setWireData.setDisable(true);
 		homeWindow.addText.setDisable(false);
+		PROJECT_NAME = null;
 		setTitle(drawer.getRoot());
 		drawer.drawPage();	
 	}
@@ -198,7 +199,7 @@ public class HomeController {
 	homeWindow.addLine.setDisable(false);
 	homeWindow.modifyBaseLine.setDisable(false);
 	homeWindow.modifyVerticalScale.setDisable(false);
-	homeWindow.come2ndPillarTo1stPlace.setDisable(false);
+	homeWindow.toBeLastPillarTheBeginner.setDisable(false);
 	homeWindow.exchangePillars.setDisable(false);
 	}
 }
@@ -253,7 +254,8 @@ public class HomeController {
 						Double.parseDouble(data[2]), 
 						Double.parseDouble(data[3]), 
 						Integer.parseInt(data[4]), 
-						Integer.parseInt(data[5]));			
+						Integer.parseInt(data[5]),
+						Boolean.parseBoolean(data[6]));			
 			}
 		}
 	}
@@ -279,7 +281,8 @@ public class HomeController {
 						Double.parseDouble(data[2]), 
 						Double.parseDouble(data[3]), 
 						Integer.parseInt(data[4]), 
-						Integer.parseInt(data[5]));
+						Integer.parseInt(data[5]),
+						Boolean.parseBoolean(data[6]));
 			}
 		}
 		
@@ -295,7 +298,8 @@ public class HomeController {
 						Double.parseDouble(textData[2]),
 						Double.parseDouble(textData[3]),
 						Integer.parseInt(textData[4]),
-						Integer.parseInt(textData[5]));
+						Integer.parseInt(textData[5]),
+						false);
 			}
 		}
 }
@@ -306,7 +310,7 @@ public class HomeController {
 		drawer.setHorizontalScale(archivFileBuilder.getSystemData().getHorizontalScale());
 		drawer.setElevationStartValue(archivFileBuilder.getSystemData().getElevationStartValue());
 		drawer.setVerticalScale(archivFileBuilder.getSystemData().getVerticalScale());
-		homeWindow.clearRoot();
+		drawer.clearRoot();
 		homeWindow.setPillarData.setDisable(false);
 		homeWindow.setWireData.setDisable(false);
 		homeWindow.addText.setDisable(false);
@@ -374,7 +378,7 @@ public class HomeController {
 			String inputValue = setInputText("A nyomvonal hosszának módosítása", "Add meg a nyomvonal hosszát méterben:");
 			if( inputValue == null )
 				return;
-			length = Validate.isValidDoubleValue(inputValue);
+			length = Validate.isValidPositiveDoubleValue(inputValue);
 		} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő nyomvonal hossz érték", "A nyomvonal hossza csak pozitív szám érték lehet.");
 			return;
@@ -382,8 +386,10 @@ public class HomeController {
 		
 		double distanceRatio = length / drawer.getLengthOfHorizontalAxis();
 	
-		archivFileBuilder.setSystemData(length, drawer.getHorizontalScale(),
-				drawer.getElevationStartValue(), drawer.getVerticalScale());
+		archivFileBuilder.setSystemData(length, 
+										drawer.getHorizontalScale(),
+										drawer.getElevationStartValue(), 
+										drawer.getVerticalScale());
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
@@ -410,14 +416,16 @@ public class HomeController {
 					"Add meg a nyomvonal méretaránytényezőjét M= 1:");
 			if( inputValue == null )
 				return;
-			scale = Validate.isValidIntegerValue(inputValue);
+			scale = Validate.isValidPositiveIntegerValue(inputValue);
 		} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő nyomvonal méretaránytényező érték", "A nyomvonal hossza csak pozitív egész szám érték lehet.");
 			return;
 		}	
 		
-		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), scale,
-				drawer.getElevationStartValue(), drawer.getVerticalScale());
+		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
+										scale,
+										drawer.getElevationStartValue(), 
+										drawer.getVerticalScale());
 		
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
@@ -435,4 +443,45 @@ public class HomeController {
 		}
 	}
 	
+	public void toBeTheLastPillarTheBeginner() {
+		
+		PillarData lastPillar = archivFileBuilder.getLastPillar();
+		lastPillar.setDistanceOfPillar(0);
+		archivFileBuilder.init();
+		drawer.clearRoot();
+		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
+										drawer.getHorizontalScale(),
+										drawer.getElevationStartValue(), 
+										drawer.getVerticalScale());
+		archivFileBuilder.addPillar(lastPillar);
+		drawSystem();
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			drawer.drawInputPillar(pillarData.getId());
+			drawer.drawInputPillarText(pillarData);
+		}
+	}
+	
+	public void exchangePillars() {
+		
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			double distanceRatio = (drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar() ) / pillarData.getDistanceOfPillar();
+			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
+			pillarData.setDistanceOfPillar(drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar());
+		}
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			double distanceRatio = (drawer.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire() ) / wireData.getDistanceOfWire();
+			archivFileBuilder.changeWireDistanceText(wireData.getId(), distanceRatio);
+			wireData.setDistanceOfWire(drawer.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire());
+		}
+		drawer.clearRoot();
+		drawSystem();
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			drawer.drawInputPillar(pillarData.getId());
+			drawer.drawInputPillarText(pillarData);
+		}
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			drawer.drawInputWire(wireData.getId());
+			drawer.drawInputWireText(wireData);
+		}
+	}
 }

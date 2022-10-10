@@ -40,28 +40,28 @@ public class SetDrawingSystemDataController {
 		int horizontalScale;
 		
 		try {
-			startElevation = Validate.isValidIntegerValue(startElevationValue.getText());
+			startElevation = Validate.isValidPositiveIntegerValue(startElevationValue.getText());
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
 					"A magassági lépték kezdő magasság értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		try {
-			verticalScale = Validate.isValidIntegerValue(elevationScaleValue.getText());
+			verticalScale = Validate.isValidPositiveIntegerValue(elevationScaleValue.getText());
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
 					"A magassági lépték beosztás értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		try {
-			length = Validate.isValidDoubleValue(lengthOfPillars.getText());
+			length = Validate.isValidPositiveDoubleValue(lengthOfPillars.getText());
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő az oszlopok távolság értéke", 
 					"Az oszlopok távolság értéke csak pozitív szám lehet.");
 			return;
 		}
 		try {
-			horizontalScale = Validate.isValidIntegerValue(horizontalScaleValue.getText());
+			horizontalScale = Validate.isValidPositiveIntegerValue(horizontalScaleValue.getText());
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő vízszintes lépték érték", 
 					"A vízszintes lépték értéke csak pozitív egész szám lehet.");
@@ -72,8 +72,7 @@ public class SetDrawingSystemDataController {
 			!homeController.archivFileBuilder.getWireData().isEmpty() ||
 			!homeController.archivFileBuilder.getLineData().isEmpty() ||
 			!homeController.archivFileBuilder.getTextData().isEmpty()) {
-		homeController.homeWindow.clearRoot();
-		homeController.getDrawer().drawPage();
+		homeController.init();
 		}
 		homeController.getDrawer().setElevationStartValue(startElevation);
 		homeController.getDrawer().setVerticalScale(verticalScale);

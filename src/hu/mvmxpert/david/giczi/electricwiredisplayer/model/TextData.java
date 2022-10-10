@@ -9,6 +9,7 @@ public class TextData {
 	private int size;
 	private int direction;
 	private String type;
+	private boolean isOnLeftSide;
 	
 	public TextData() {
 	}
@@ -24,7 +25,7 @@ public class TextData {
 	}
 
 	public String getTextData() {
-		return type + "#" + textValue + "#" + X + "#" + Y + "#" + size + "#" + direction;
+		return type + "#" + textValue + "#" + X + "#" + Y + "#" + size + "#" + direction + "#" + isOnLeftSide;
 	}
 	
 	public int getId() {
@@ -33,6 +34,7 @@ public class TextData {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getTextValue() {
 		return textValue;
 	}
@@ -75,6 +77,14 @@ public class TextData {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public boolean isOnLeftSide() {
+		return isOnLeftSide;
+	}
+
+	public void setOnLeftSide(boolean isOnLeftSide) {
+		this.isOnLeftSide = isOnLeftSide;
 	}
 	
 }

@@ -12,6 +12,7 @@ public class SetTextController {
 	private Stage stage;
 	private HomeController homeController;
 	private double rotate;
+	private String chosenText;
 	
 	public SetTextController() {
 	}
@@ -28,6 +29,10 @@ public class SetTextController {
 		this.rotate = rotate;
 	}
 
+	public void setChosenText(String chosenText) {
+		this.chosenText = chosenText;
+	}
+
 	@FXML
 	public TextField inputTextField;
 	@FXML
@@ -38,6 +43,8 @@ public class SetTextController {
 	
 	@FXML
 	public void handleSetTextButtonClick() {
+		
+		int ownerId = homeController.archivFileBuilder.getChosenTextOwnerId(chosenText);
 		
 		String inputText;
 		try {
@@ -65,7 +72,7 @@ public class SetTextController {
 			return;
 		}
 		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
-				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate);
+				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId);
 		rotate = 0;
 		stage.hide();
 	}
