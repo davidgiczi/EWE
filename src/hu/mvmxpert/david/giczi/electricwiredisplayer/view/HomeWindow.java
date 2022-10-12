@@ -209,6 +209,13 @@ public class HomeWindow  {
 		modifyBaseLine.getItems().addAll(modifyLengthOfBaseLine, modifyHorizontalScale);
 		modifyVerticalScale = new Menu("Magassági lépték módosítása");
 		MenuItem modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
+		modifyElevationStartValue.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.modifyElevationStartValue();
+			}
+		});
 		MenuItem modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
 		modifyVerticalScale.setDisable(true);

@@ -1,5 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
+import java.beans.DefaultPersistenceDelegate;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -292,4 +293,37 @@ public class ArchivFileBuilder {
 		chosenTextData.setOnLeftSide(false);
 		textData.add(chosenTextData);
 	}
+	
+	public double getMinElevationStartValue() {
+		
+	double minValue = systemData.getElevationStartValue() + 10 * systemData.getVerticalScale();
+	
+	for (PillarData pillarData : pillarData) {
+		if( minValue > pillarData.getGroundElevation() )
+			minValue = pillarData.getGroundElevation();
+	}
+	for(WireData wireData : wireData) {
+		if( minValue > wireData.getGroundElevation() )
+			minValue = wireData.getGroundElevation();
+	}
+		
+		return minValue;
+	}
+	
+	public double getMaxElevationStartValue() {
+		
+		double maxValue = 0;
+		
+		for (PillarData pillarData : pillarData) {
+			if( maxValue < pillarData.getTopElevetaion() )
+				maxValue = pillarData.getTopElevetaion();
+		}
+		for(WireData wireData : wireData) {
+			if( maxValue < wireData.getTopElevetaion() )
+				maxValue = wireData.getTopElevetaion();
+		}
+		
+		return maxValue;
+	}
+	
 }

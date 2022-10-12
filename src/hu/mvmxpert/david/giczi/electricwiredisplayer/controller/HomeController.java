@@ -384,22 +384,16 @@ public class HomeController {
 			return;
 		}	
 		
-		double distanceRatio = length / drawer.getLengthOfHorizontalAxis();
-	
 		archivFileBuilder.setSystemData(length, 
 										drawer.getHorizontalScale(),
 										drawer.getElevationStartValue(), 
 										drawer.getVerticalScale());
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
-			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
-			pillarData.setDistanceOfPillar(pillarData.getDistanceOfPillar() * distanceRatio);
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
-			archivFileBuilder.changeWireDistanceText(wireData.getId(), distanceRatio);
-			wireData.setDistanceOfWire(wireData.getDistanceOfWire() * distanceRatio);
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData);
 		}
@@ -418,7 +412,7 @@ public class HomeController {
 				return;
 			scale = Validate.isValidPositiveIntegerValue(inputValue);
 		} catch (NumberFormatException e) {
-			getWarningAlert("Nem megfelelő nyomvonal méretaránytényező érték", "A nyomvonal hossza csak pozitív egész szám érték lehet.");
+			getWarningAlert("Nem megfelelő nyomvonal méretaránytényező érték", "A nyomvonal méretaránytényezője csak pozitív egész szám érték lehet.");
 			return;
 		}	
 		
@@ -446,6 +440,8 @@ public class HomeController {
 	public void toBeTheLastPillarTheBeginner() {
 		
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
+		if( lastPillar == null )
+			return;
 		lastPillar.setDistanceOfPillar(0);
 		archivFileBuilder.init();
 		drawer.clearRoot();
@@ -483,5 +479,41 @@ public class HomeController {
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData);
 		}
+	}
+	
+	public void modifyElevationStartValue() {
+		int elevationStartValue;
+		try {
+			String inputValue = setInputText("A magassági lépték kezdő értékének megadása", 
+					"Add meg a magassági lépték kezdő magasságát:");
+			if( inputValue == null )
+				return;
+			elevationStartValue = Validate.isValidIntegerValue(inputValue);
+			if( elevationStartValue  > archivFileBuilder.getMinElevationStartValue()  ||
+					archivFileBuilder.getMaxElevationStartValue() > elevationStartValue + 100 )
+				throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+			getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
+					"Magassági lépték kezdő értéke: "
+					+ archivFileBuilder.getMinElevationStartValue()  + " >= kezdő érték"
+					+ " és kezdő érték >= " + (archivFileBuilder.getMaxElevationStartValue() - 100));
+			return;
+		} 
+		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
+				drawer.getHorizontalScale(),
+				elevationStartValue,
+				drawer.getVerticalScale());
+		drawer.clearRoot();
+		drawSystem();
+		
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			drawer.drawInputPillar(pillarData.getId());
+			drawer.drawInputPillarText(pillarData);
+		}
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			drawer.drawInputWire(wireData.getId());
+			drawer.drawInputWireText(wireData);
+		}
+		
 	}
 }
