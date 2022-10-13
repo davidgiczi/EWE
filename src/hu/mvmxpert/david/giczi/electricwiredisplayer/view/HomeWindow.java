@@ -217,6 +217,13 @@ public class HomeWindow  {
 			}
 		});
 		MenuItem modifyElevationMeasurment = new MenuItem("Magassági lépték beosztás értékének módosítása");
+		modifyElevationMeasurment.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.modifyVerticalScale();
+			}
+		});
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
 		modifyVerticalScale.setDisable(true);
 		toBeLastPillarTheBeginner = new MenuItem("Az utolsó oszlop legyen a kezdő oszlop");

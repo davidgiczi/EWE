@@ -490,19 +490,55 @@ public class HomeController {
 				return;
 			elevationStartValue = Validate.isValidIntegerValue(inputValue);
 			if( elevationStartValue  > archivFileBuilder.getMinElevationStartValue()  ||
-					archivFileBuilder.getMaxElevationStartValue() > elevationStartValue + 100 )
+					archivFileBuilder.getMaxElevationStartValue() > elevationStartValue + 10 * drawer.getVerticalScale() )
 				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
-					"Magassági lépték kezdő értéke: "
+					"Magassági lépték kezdő értéke egész szám lehet: "
 					+ archivFileBuilder.getMinElevationStartValue()  + " >= kezdő érték"
-					+ " és kezdő érték >= " + (archivFileBuilder.getMaxElevationStartValue() - 100));
+					+ " és kezdő érték >= " + (archivFileBuilder.getMaxElevationStartValue() - 10 * drawer.getVerticalScale()));
 			return;
 		} 
 		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
 				drawer.getHorizontalScale(),
 				elevationStartValue,
 				drawer.getVerticalScale());
+		drawer.clearRoot();
+		drawSystem();
+		
+		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
+			drawer.drawInputPillar(pillarData.getId());
+			drawer.drawInputPillarText(pillarData);
+		}
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			drawer.drawInputWire(wireData.getId());
+			drawer.drawInputWireText(wireData);
+		}
+		
+	}
+	
+	public void modifyVerticalScale() {
+		int verticalScale = drawer.getVerticalScale();
+		try {
+			String inputValue = setInputText("A magassági lépték beosztás értékének megadása", 
+					"Add meg a magassági lépték beosztás értékét:");
+			if( inputValue == null )
+				return;
+			verticalScale = Validate.isValidPositiveIntegerValue(inputValue);
+			if( archivFileBuilder.getMinElevationStartValue() > drawer.getElevationStartValue() + 10 * verticalScale ||
+				drawer.getElevationStartValue() + 10 * verticalScale < archivFileBuilder.getMaxElevationStartValue())
+				throw new NumberFormatException();
+				} catch (NumberFormatException e) {
+			getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
+					"Magassági lépték beosztás értéke egész szám lehet: " + 
+					((archivFileBuilder.getMaxElevationStartValue() - drawer.getElevationStartValue()) / 10) + 
+					"m  =< beosztás érték");
+			return;
+		} 
+		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
+				drawer.getHorizontalScale(),
+				drawer.getElevationStartValue(),
+				verticalScale);
 		drawer.clearRoot();
 		drawSystem();
 		
