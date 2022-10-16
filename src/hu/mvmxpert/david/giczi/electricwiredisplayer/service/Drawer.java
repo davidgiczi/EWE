@@ -586,7 +586,7 @@ public class Drawer {
 				textData.setY(textData.getY() + shiftY);
 				else if( !textData.isOnLeftSide() && shiftY != 0)
 				textData.setY(textData.getY() + shiftY);	
-				else if(  textData.isOnLeftSide() && ratioY < 1)
+				else if(  textData.isOnLeftSide() && ratioY < 1) {}
 				
 				//else if( !textData.isOnLeftSide() && ratioY != 1)
 					
@@ -675,7 +675,7 @@ public class Drawer {
 				textData.setY(textData.getY() + shiftY);
 				else if( !textData.isOnLeftSide() && shiftY != 0)
 				textData.setY(textData.getY() + shiftY);
-				else if(  textData.isOnLeftSide() && ratioY != 1 )
+				else if(  textData.isOnLeftSide() && ratioY != 1 ) {}
 					
 				//else if( !textData.isOnLeftSide() && ratioY != 1)
 					
