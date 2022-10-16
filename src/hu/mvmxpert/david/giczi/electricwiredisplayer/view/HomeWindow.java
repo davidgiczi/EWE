@@ -251,7 +251,31 @@ public class HomeWindow  {
 				toBeLastPillarTheBeginner,
 				new SeparatorMenuItem(), 
 				exchangePillars);
-		menuBar.getMenus().addAll(projectProcess, modifyDraw);
+		Menu drawWire = new Menu("Sodrony rajzolása");
+		Menu leftWire = new Menu("Bal sodrony");
+		MenuItem visibleLeftWire = new MenuItem("Bal sodrony látható");
+		visibleLeftWire.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.showLeftWire();
+			}
+		});
+		MenuItem invisibleLeftWire = new MenuItem("Bal sodrony nem látható");
+		invisibleLeftWire.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.deleteLeftWire();
+			}
+		});
+		leftWire.getItems().addAll(visibleLeftWire, invisibleLeftWire);
+		Menu rightWire = new Menu("Jobb sodrony");
+		MenuItem visibleRightWire = new MenuItem("Jobb sodrony látható");
+		MenuItem invisibleRightWire = new MenuItem("Jobb sodrony nem látható");
+		rightWire.getItems().addAll(visibleRightWire, invisibleRightWire);
+		drawWire.getItems().addAll(leftWire, rightWire);
+		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}
 	

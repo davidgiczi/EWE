@@ -10,6 +10,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.model.LineData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WirePoint;
 import javafx.scene.layout.BorderPane;
 
 public class ArchivFileBuilder {
@@ -324,6 +325,25 @@ public class ArchivFileBuilder {
 		}
 		
 		return maxValue;
+	}
+	
+	public List<WirePoint> getLeftWirePoints(){
+		List<WirePoint> leftWirePoints = new ArrayList<>();
+		
+		for (PillarData pillarData : pillarData) {
+			leftWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
+					pillarData.getTopElevetaion() - systemData.getElevationStartValue()));
+		}
+		for (WireData wireData : wireData) {
+			leftWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
+					wireData.getTopElevetaion() - systemData.getElevationStartValue()));
+		}
+		return leftWirePoints;
+	}
+	
+	public List<WirePoint> getRightWirePoints(){
+		List<WirePoint> rightWirePoints = new ArrayList<>();
+		return rightWirePoints;
 	}
 	
 }

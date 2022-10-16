@@ -2,16 +2,20 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 
 import java.text.DecimalFormat;
+import java.util.List;
+
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -25,12 +29,12 @@ public class Drawer {
 	public static final double MILLIMETER = 1000 / 224.0;
 	public static final double A4_WIDTH =  211 * MILLIMETER;
 	public static final double START_X = 45 * MILLIMETER;
-	public static double X_DISTANCE;
+	public static final double HOR_SHIFT = 12;
+	public static final double START_Y = 550.0;
+	public static final double PAGE_Y = 25;
 	private final double MARGIN = 156 * MILLIMETER;
-	private final double HOR_SHIFT = 12;
-	private final double PAGE_Y = 25;
+	public static double X_DISTANCE;
 	private final double VER_SHIFT = 5;
-	private final double START_Y = 550.0;
 	private double lengthOfHorizontalAxis;
 	private int horizontalScale;
 	private int verticalScale;
@@ -559,7 +563,7 @@ public class Drawer {
 		
 	}
 	
-	public void drawInputPillarText(PillarData pillarData) {
+	public void drawInputPillarText(PillarData pillarData, double deltaY) {
 		
 		for (TextData textData : pillarData.getPillarTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -576,6 +580,8 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
+				if( text.getText().startsWith("bal") || text.getText().startsWith("jobb") )
+				textData.setY(textData.getY() + deltaY);
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -639,7 +645,7 @@ public class Drawer {
 		}
 	}
 	
-	public void drawInputWireText(WireData wireData) {
+	public void drawInputWireText(WireData wireData, double deltaY) {
 		
 		for (TextData textData : wireData.getWireTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -656,6 +662,8 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
+				if( text.getText().startsWith("bal") || text.getText().startsWith("jobb") )
+				textData.setY(textData.getY() + deltaY);
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -683,6 +691,88 @@ public class Drawer {
 			root.getChildren().add(text);
 	}
 	
+	public void drawLeftWireLine(List<WirePoint> poinsOfWire) {
+		
+		QuadCurve curve = new QuadCurve(); 
+	    		   curve.setStroke(Color.BLACK);
+	    		   curve.setStrokeWidth(1);
+	    		   curve.setFill( null );
+	    		   curve.getStrokeDashArray().addAll(1d, 5d);
+	    		   curve.setId("-2");
+	    		      		
+	     if( poinsOfWire.size() == 2 ) {
+	    	 curve.startXProperty()
+	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+	    	 .add(poinsOfWire.get(0).getDistanceOfWirePoint()));
+	    	 curve.setStartY(poinsOfWire.get(0).getElevationOfWirePoint());
+	    	 
+	    	 curve.controlXProperty()
+	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+	    	 .add(poinsOfWire.get(0).getDistanceOfWirePoint()));
+	    	 curve.setControlY(poinsOfWire.get(0).getElevationOfWirePoint());
+	    	
+	    	 curve.endXProperty()
+	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+	    	 .add(poinsOfWire.get(1).getDistanceOfWirePoint()));
+	    	 curve.setEndY(poinsOfWire.get(1).getElevationOfWirePoint());
+	     }
+	     else if( poinsOfWire.size() == 3 ) {
+	    double middleX = poinsOfWire.get(1).getDistanceOfWirePoint() / 0.5 - 
+	    		poinsOfWire.get(0).getDistanceOfWirePoint() * 0.5 - 
+	    		poinsOfWire.get(2).getDistanceOfWirePoint() * 0.5;
+	    double middleY = poinsOfWire.get(1).getElevationOfWirePoint() / 0.5 - 
+	    		poinsOfWire.get(0).getElevationOfWirePoint() * 0.5 - 
+	    		poinsOfWire.get(2).getElevationOfWirePoint() * 0.5;
+	    	 curve.startXProperty()
+	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+	    	 .add(poinsOfWire.get(0).getDistanceOfWirePoint()));
+	    	 curve.setStartY(poinsOfWire.get(0).getElevationOfWirePoint());
+	    	 
+	    	 curve.controlXProperty()
+	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+	    	 .add(middleX));
+	    	 curve.setControlY(middleY);
+	    	
+	    	 curve.endXProperty()
+	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+	    	 .add(poinsOfWire.get(2).getDistanceOfWirePoint()));
+	    	 curve.setEndY(poinsOfWire.get(2).getElevationOfWirePoint());
+	     }
+	    		   
+	    root.getChildren().add(curve);
+	}
+	
+	public void deleteLeftWire() {
+		
+		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if( "-2".equals(root.getChildren().get(i).getId()) ) {
+				root.getChildren().remove(i);
+			}
+
+		}
+	}
+	
+	 void drawRightWireLine(List<WirePoint> poinsOfWire) {
+		QuadCurve curve = new QuadCurve(); 
+	      
+	      curve.setStroke(Color.BLACK);
+	      curve.setStrokeWidth(1);
+	      curve.setFill( null );
+	      curve.getStrokeDashArray().addAll(1d, 5d);
+	      curve.setId("-3");
+	     
+	      root.getChildren().add(curve);
+	}
+	
+	 public void deleteRightWire() {
+			
+			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				if( "-3".equals(root.getChildren().get(i).getId()) ) {
+					root.getChildren().remove(i);
+				}
+			}
+		} 
+	 
 	private void deletePillarOrWire(Line line) {
 	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválasztott oszlopot/vezetéket?") ) {
 		int id = Integer.valueOf(line.getId());
@@ -709,7 +799,7 @@ public class Drawer {
 		return horizontalScale == 1000 ? length : 1000.0  * length / horizontalScale;
 	}
 	
-	private double getVerticalScaledDownHeightValue(double height) {
+	public double getVerticalScaledDownHeightValue(double height) {
 		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
 	
