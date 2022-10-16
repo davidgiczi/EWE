@@ -393,11 +393,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, 1);
 		}
 		for (TextData textData : archivFileBuilder.getTextData()) {
 			if(textData.getId() != -1)
@@ -426,12 +426,12 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 		
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, 1);
 		}
 		for (TextData textData : archivFileBuilder.getTextData()) {
 			if(textData.getId() != -1)
@@ -455,7 +455,7 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 	}
 	
@@ -475,11 +475,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, 1);
 		}
 	}
 	
@@ -501,7 +501,7 @@ public class HomeController {
 					+ " és kezdő érték >= " + (archivFileBuilder.getMaxElevationStartValue() - 10 * drawer.getVerticalScale()));
 			return;
 		}
-		double deltaY = (elevationStartValue - drawer.getElevationStartValue()) * Drawer.MILLIMETER;
+		double shiftY = (elevationStartValue - drawer.getElevationStartValue()) * Drawer.MILLIMETER;
 		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
 				drawer.getHorizontalScale(),
 				elevationStartValue,
@@ -511,11 +511,11 @@ public class HomeController {
 		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, deltaY);
+			drawer.drawInputPillarText(pillarData, shiftY, 1);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, deltaY);
+			drawer.drawInputWireText(wireData, shiftY, 1);
 		}
 		
 	}
@@ -537,21 +537,21 @@ public class HomeController {
 					((archivFileBuilder.getMaxElevationStartValue() - drawer.getElevationStartValue()) / 10) + 
 					"m  =< beosztás érték");
 			return;
-		} 
+		}
+		double ratioY = drawer.getVerticalScale() / verticalScale;
 		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
 				drawer.getHorizontalScale(),
 				drawer.getElevationStartValue(),
 				verticalScale);
 		drawer.clearRoot();
 		drawSystem();
-		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, ratioY);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, ratioY);
 		}
 	}
 	
@@ -574,10 +574,24 @@ public class HomeController {
 	public void deleteLeftWire() {
 		drawer.deleteLeftWire();
 	}
+	
 	public void showRightWire() { 
-		
+		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
+		if(wirePoints.size() < 2) {
+			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
+			return;
+		}
+		for (WirePoint wirePoint : wirePoints) {
+			wirePoint.setDistanceOfWirePoint(Drawer.START_X +
+					(drawer.getHorizontalScaledDownLengthValue(wirePoint.getDistanceOfWirePoint()) + Drawer.HOR_SHIFT) * Drawer.MILLIMETER);
+			wirePoint.setElevationOfWirePoint(Drawer.PAGE_Y + Drawer.START_Y - 
+					drawer.getVerticalScaledDownHeightValue(wirePoint.getElevationOfWirePoint()) * Drawer.MILLIMETER);
+		}
+		Collections.sort(wirePoints);
+		drawer.drawLeftWireLine(wirePoints);
 	}
+	
 	public void deleteRightWire() {
-		
+		drawer.deleteRightWire();
 	}
 }

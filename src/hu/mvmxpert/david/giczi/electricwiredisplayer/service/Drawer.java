@@ -2,6 +2,8 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
@@ -563,7 +565,7 @@ public class Drawer {
 		
 	}
 	
-	public void drawInputPillarText(PillarData pillarData, double deltaY) {
+	public void drawInputPillarText(PillarData pillarData, double shiftY, double ratioY) {
 		
 		for (TextData textData : pillarData.getPillarTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -580,8 +582,15 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				if( text.getText().startsWith("bal") || text.getText().startsWith("jobb") )
-				textData.setY(textData.getY() + deltaY);
+				if( textData.isOnLeftSide() && shiftY != 0 )
+				textData.setY(textData.getY() + shiftY);
+				else if( !textData.isOnLeftSide() && shiftY != 0)
+				textData.setY(textData.getY() + shiftY);	
+				else if(  textData.isOnLeftSide() && ratioY < 1)
+				
+				//else if( !textData.isOnLeftSide() && ratioY != 1)
+					
+					
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -645,7 +654,7 @@ public class Drawer {
 		}
 	}
 	
-	public void drawInputWireText(WireData wireData, double deltaY) {
+	public void drawInputWireText(WireData wireData, double shiftY, double ratioY) {
 		
 		for (TextData textData : wireData.getWireTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -662,8 +671,14 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				if( text.getText().startsWith("bal") || text.getText().startsWith("jobb") )
-				textData.setY(textData.getY() + deltaY);
+				if( textData.isOnLeftSide() && shiftY != 0 )
+				textData.setY(textData.getY() + shiftY);
+				else if( !textData.isOnLeftSide() && shiftY != 0)
+				textData.setY(textData.getY() + shiftY);
+				else if(  textData.isOnLeftSide() && ratioY != 1 )
+					
+				//else if( !textData.isOnLeftSide() && ratioY != 1)
+					
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -691,55 +706,22 @@ public class Drawer {
 			root.getChildren().add(text);
 	}
 	
-	public void drawLeftWireLine(List<WirePoint> poinsOfWire) {
-		
-		QuadCurve curve = new QuadCurve(); 
-	    		   curve.setStroke(Color.BLACK);
-	    		   curve.setStrokeWidth(1);
-	    		   curve.setFill( null );
-	    		   curve.getStrokeDashArray().addAll(1d, 5d);
-	    		   curve.setId("-2");
-	    		      		
-	     if( poinsOfWire.size() == 2 ) {
-	    	 curve.startXProperty()
-	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-	    	 .add(poinsOfWire.get(0).getDistanceOfWirePoint()));
-	    	 curve.setStartY(poinsOfWire.get(0).getElevationOfWirePoint());
-	    	 
-	    	 curve.controlXProperty()
-	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-	    	 .add(poinsOfWire.get(0).getDistanceOfWirePoint()));
-	    	 curve.setControlY(poinsOfWire.get(0).getElevationOfWirePoint());
-	    	
-	    	 curve.endXProperty()
-	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-	    	 .add(poinsOfWire.get(1).getDistanceOfWirePoint()));
-	    	 curve.setEndY(poinsOfWire.get(1).getElevationOfWirePoint());
+	public void drawLeftWireLine(List<WirePoint> pointsOfWire) {
+			List<QuadCurve> curveStore;
+			
+	     if( pointsOfWire.size() == 2 ) {
+	    	curveStore = drawWireByTwoPoints(pointsOfWire);
 	     }
-	     else if( poinsOfWire.size() == 3 ) {
-	    double middleX = poinsOfWire.get(1).getDistanceOfWirePoint() / 0.5 - 
-	    		poinsOfWire.get(0).getDistanceOfWirePoint() * 0.5 - 
-	    		poinsOfWire.get(2).getDistanceOfWirePoint() * 0.5;
-	    double middleY = poinsOfWire.get(1).getElevationOfWirePoint() / 0.5 - 
-	    		poinsOfWire.get(0).getElevationOfWirePoint() * 0.5 - 
-	    		poinsOfWire.get(2).getElevationOfWirePoint() * 0.5;
-	    	 curve.startXProperty()
-	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-	    	 .add(poinsOfWire.get(0).getDistanceOfWirePoint()));
-	    	 curve.setStartY(poinsOfWire.get(0).getElevationOfWirePoint());
-	    	 
-	    	 curve.controlXProperty()
-	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-	    	 .add(middleX));
-	    	 curve.setControlY(middleY);
-	    	
-	    	 curve.endXProperty()
-	    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-	    	 .add(poinsOfWire.get(2).getDistanceOfWirePoint()));
-	    	 curve.setEndY(poinsOfWire.get(2).getElevationOfWirePoint());
+	     else if( pointsOfWire.size() == 3 ) {
+	    	curveStore = drawWireByThreePoints(pointsOfWire);
 	     }
-	    		   
-	    root.getChildren().add(curve);
+	     else {
+	    	 curveStore = drawWireByMoreThanThreePoints(pointsOfWire);
+	     }
+	    
+	    for (QuadCurve curve : curveStore) {
+			root.getChildren().add(curve);
+		}
 	}
 	
 	public void deleteLeftWire() {
@@ -750,6 +732,71 @@ public class Drawer {
 			}
 
 		}
+	}
+	
+	private List<QuadCurve> drawWireByTwoPoints(List<WirePoint> pointsOfWire) {
+		QuadCurve curve = new QuadCurve(); 
+		curve.setStroke(Color.BLACK);
+		curve.setStrokeWidth(1);
+		curve.setFill( null );
+		curve.getStrokeDashArray().addAll(1d, 5d);
+		curve.setId("-2");
+		
+		curve.startXProperty()
+   	 	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+   	 	.add(pointsOfWire.get(0).getDistanceOfWirePoint()));
+   	 	curve.setStartY(pointsOfWire.get(0).getElevationOfWirePoint());
+   	 
+   	 	curve.controlXProperty()
+   	 	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+   	 	.add(pointsOfWire.get(0).getDistanceOfWirePoint()));
+   	 	curve.setControlY(pointsOfWire.get(0).getElevationOfWirePoint());
+   	
+   	 	curve.endXProperty()
+   	 	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+   	 	.add(pointsOfWire.get(1).getDistanceOfWirePoint()));
+   	 	curve.setEndY(pointsOfWire.get(1).getElevationOfWirePoint());
+		
+		return Arrays.asList(curve);
+	}
+	
+	private List <QuadCurve> drawWireByThreePoints(List<WirePoint> pointsOfWire) {
+				
+				QuadCurve curve = new QuadCurve(); 
+				curve.setStroke(Color.BLACK);
+				curve.setStrokeWidth(1);
+				curve.setFill( null );
+				curve.getStrokeDashArray().addAll(1d, 5d);
+				curve.setId("-2");
+		 		double middleX = pointsOfWire.get(1).getDistanceOfWirePoint() / 0.5 - 
+		    		pointsOfWire.get(0).getDistanceOfWirePoint() * 0.5 - 
+		    		pointsOfWire.get(2).getDistanceOfWirePoint() * 0.5;
+		 		double middleY = pointsOfWire.get(1).getElevationOfWirePoint() / 0.5 - 
+		    		pointsOfWire.get(0).getElevationOfWirePoint() * 0.5 - 
+		    		pointsOfWire.get(2).getElevationOfWirePoint() * 0.5;
+		    	 curve.startXProperty()
+		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		    	 .add(pointsOfWire.get(0).getDistanceOfWirePoint()));
+		    	 curve.setStartY(pointsOfWire.get(0).getElevationOfWirePoint());
+		    	 
+		    	 curve.controlXProperty()
+		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		    	 .add(middleX));
+		    	 curve.setControlY(middleY);
+		    	
+		    	 curve.endXProperty()
+		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		    	 .add(pointsOfWire.get(2).getDistanceOfWirePoint()));
+		    	 curve.setEndY(pointsOfWire.get(2).getElevationOfWirePoint());
+		
+		    	 return Arrays.asList(curve);
+	}
+	
+	private List<QuadCurve> drawWireByMoreThanThreePoints(List<WirePoint> pointsOfWire) {
+		List<QuadCurve> curveStore = new ArrayList<>();
+		
+	
+		return curveStore;
 	}
 	
 	 void drawRightWireLine(List<WirePoint> poinsOfWire) {
