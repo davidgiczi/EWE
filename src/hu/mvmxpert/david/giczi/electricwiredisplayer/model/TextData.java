@@ -10,6 +10,7 @@ public class TextData {
 	private int direction;
 	private String type;
 	private boolean isOnLeftSide;
+	private boolean isAtTop;
 	
 	public TextData() {
 	}
@@ -25,7 +26,7 @@ public class TextData {
 	}
 
 	public String getTextData() {
-		return type + "#" + textValue + "#" + X + "#" + Y + "#" + size + "#" + direction + "#" + isOnLeftSide;
+		return type + "#" + textValue + "#" + X + "#" + Y + "#" + size + "#" + direction + "#" + isOnLeftSide + "#" + isAtTop;
 	}
 	
 	public int getId() {
@@ -85,6 +86,14 @@ public class TextData {
 
 	public void setOnLeftSide(boolean isOnLeftSide) {
 		this.isOnLeftSide = isOnLeftSide;
+	}
+
+	public boolean isAtTop() {
+		return isAtTop;
+	}
+
+	public void setAtTop(boolean isAtTop) {
+		this.isAtTop = isAtTop;
 	}
 	
 }

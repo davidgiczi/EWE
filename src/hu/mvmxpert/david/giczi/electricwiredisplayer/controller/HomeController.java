@@ -257,7 +257,8 @@ public class HomeController {
 						Double.parseDouble(data[3]), 
 						Integer.parseInt(data[4]), 
 						Integer.parseInt(data[5]),
-						Boolean.parseBoolean(data[6]));			
+						Boolean.parseBoolean(data[6]),
+						Boolean.parseBoolean(data[7]));			
 			}
 		}
 	}
@@ -284,7 +285,8 @@ public class HomeController {
 						Double.parseDouble(data[3]), 
 						Integer.parseInt(data[4]), 
 						Integer.parseInt(data[5]),
-						Boolean.parseBoolean(data[6]));
+						Boolean.parseBoolean(data[6]),
+						Boolean.parseBoolean(data[7]));
 			}
 		}
 		
@@ -301,7 +303,8 @@ public class HomeController {
 						Double.parseDouble(textData[3]),
 						Integer.parseInt(textData[4]),
 						Integer.parseInt(textData[5]),
-						false);
+						Boolean.parseBoolean(textData[6]),
+						Boolean.parseBoolean(textData[7]));
 			}
 		}
 }
@@ -393,11 +396,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0, 1);
+			drawer.drawInputPillarText(pillarData, 0);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0, 1);
+			drawer.drawInputWireText(wireData, 0);
 		}
 		for (TextData textData : archivFileBuilder.getTextData()) {
 			if(textData.getId() != -1)
@@ -426,12 +429,12 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0, 1);
+			drawer.drawInputPillarText(pillarData, 0);
 		}
 		
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0, 1);
+			drawer.drawInputWireText(wireData, 0);
 		}
 		for (TextData textData : archivFileBuilder.getTextData()) {
 			if(textData.getId() != -1)
@@ -455,7 +458,7 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0, 1);
+			drawer.drawInputPillarText(pillarData, 0);
 		}
 	}
 	
@@ -475,11 +478,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0, 1);
+			drawer.drawInputPillarText(pillarData, 0);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0, 1);
+			drawer.drawInputWireText(wireData, 0);
 		}
 	}
 	
@@ -511,11 +514,11 @@ public class HomeController {
 		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, shiftY, 1);
+			drawer.drawInputPillarText(pillarData, shiftY);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, shiftY, 1);
+			drawer.drawInputWireText(wireData, shiftY);
 		}
 		
 	}
@@ -538,7 +541,6 @@ public class HomeController {
 					"m  =< beosztás érték");
 			return;
 		}
-		double ratioY = drawer.getVerticalScale() / verticalScale;
 		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
 				drawer.getHorizontalScale(),
 				drawer.getElevationStartValue(),
@@ -547,11 +549,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0, ratioY);
+			drawer.drawInputPillarText(pillarData, 0);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0, ratioY);
+			drawer.drawInputWireText(wireData, 0);
 		}
 	}
 	

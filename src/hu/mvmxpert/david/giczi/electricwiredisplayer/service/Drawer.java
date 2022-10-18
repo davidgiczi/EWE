@@ -203,18 +203,18 @@ public class Drawer {
 		double startY = START_Y;
 		int startValue = elevationStartValue;
 		for(int i = 0; i <= 10; i++) {
-		setText(-1, String.valueOf(startValue) + "m", - 70, PAGE_Y + startY, 18, 0, false);
+		setText(-1, String.valueOf(startValue) + "m", - 70, PAGE_Y + startY, 18, 0, false, false);
 		startY -= 10 * MILLIMETER;
 		startValue += verticalScale;
 		}
-		setText(-1, "Oszlopszám:", - 17 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false);
+		setText(-1, "Oszlopszám:", - 17 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false);
 	}
 	
 	public void writeDistanceValueForHorizontalAxis() {
-		setText(-1, "0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false);
+		setText(-1, "0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false);
 		setText(-1, String.valueOf(lengthOfHorizontalAxis) + "m", 
 				getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER, 
-				PAGE_Y + START_Y + 50, 18, 0, false);
+				PAGE_Y + START_Y + 50, 18, 0, false, false);
 	}
 	
 	public void drawPillar(String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -268,14 +268,14 @@ public class Drawer {
 		
 		setText(pillarData.getId(), id + ".", 
 				(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false);	
+				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false);	
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true, false);
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true, true);
 		if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(pillarData.getId(), df.format(distance).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false);
+				(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false);
 	}
 	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -329,15 +329,15 @@ public class Drawer {
 		}
 		
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false);
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true, true);
 		if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(wireData.getId(), df.format(distance).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 50, 18, 0, false);
+				PAGE_Y + START_Y + 50, 18, 0, false, false);
 		setText(wireData.getId(), text, (getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 65, 18, 0, false);
+				PAGE_Y + START_Y + 65, 18, 0, false, false);
 	}
 	
 	public void writeText(String text, double startX, double startY, double rotate, int ownerId) {
@@ -371,7 +371,7 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	public void setText(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide) {
+	public void setText(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide, boolean isAtTop) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
 		if( rotate == -90 ) {
@@ -381,8 +381,8 @@ public class Drawer {
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(startX));
 		txt.setY(startY);
 		
-		int pillarTextId = getPillarTextId(id, text, startX, startY, size, rotate, isOnLeftSide);
-		int wireTextId = getWireTextId(id, text, startX, startY, size, rotate, isOnLeftSide);
+		int pillarTextId = getPillarTextId(id, text, startX, startY, size, rotate, isOnLeftSide, isAtTop);
+		int wireTextId = getWireTextId(id, text, startX, startY, size, rotate, isOnLeftSide, isAtTop);
 		
 		if( pillarTextId != -1 ) {
 			txt.setId(String.valueOf(pillarTextId));
@@ -409,24 +409,26 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	private int getPillarTextId(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide) {
+	private int getPillarTextId(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide, boolean isAtTop) {
 		PillarData pillar = archivFileBuilder.getPillarData(id);
 		if( pillar == null )
 			return -1;
 		TextData pillarText = new TextData(text, startX, startY, size, rotate, "PillarText");
 		pillarText.setId(ArchivFileBuilder.addID());
 		pillarText.setOnLeftSide(isOnLeftSide);
+		pillarText.setAtTop(isAtTop);
 		pillar.getPillarTextList().add(pillarText);
 		return pillarText.getId();
 	}
 	
-	private int getWireTextId(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide) {
+	private int getWireTextId(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide, boolean isAtTop) {
 		WireData wire = archivFileBuilder.getWireData(id);
 		if( wire == null )
 			return -1;
 		TextData wireText = new TextData(text, startX, startY, size, rotate, "WireText");
 		wireText.setId(ArchivFileBuilder.addID());
 		wireText.setOnLeftSide(isOnLeftSide);
+		wireText.setAtTop(isAtTop);
 		wire.getWireTextList().add(wireText);
 		return wireText.getId();
 	}
@@ -565,7 +567,7 @@ public class Drawer {
 		
 	}
 	
-	public void drawInputPillarText(PillarData pillarData, double shiftY, double ratioY) {
+	public void drawInputPillarText(PillarData pillarData, double shiftY) {
 		
 		for (TextData textData : pillarData.getPillarTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -582,15 +584,29 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				if( textData.isOnLeftSide() && shiftY != 0 )
+				if( textData.getTextValue().startsWith("bal") && shiftY != 0 )
 				textData.setY(textData.getY() + shiftY);
-				else if( !textData.isOnLeftSide() && shiftY != 0)
+				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0)
 				textData.setY(textData.getY() + shiftY);	
-				else if(  textData.isOnLeftSide() && ratioY < 1) {}
-				
-				//else if( !textData.isOnLeftSide() && ratioY != 1)
-					
-					
+				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() )
+					textData.setY(textData.getY() + getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - pillarData.getGroundElevation()) * MILLIMETER);
+				else if(  textData.getTextValue().startsWith("bal") && !textData.isAtTop() )
+					textData.setY(textData.getY() + (getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER));
+//				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() )
+//					textData.setY(PAGE_Y + START_Y - (pillarData.getTopElevetaion() - pillarData.getGroundElevation()) * MILLIMETER);
+//				else if(  textData.getTextValue().startsWith("bal") && !textData.isAtTop() )
+//					textData.setY(PAGE_Y + START_Y +
+//							(getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER));
+//				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() )
+//					textData.setY(PAGE_Y + START_Y + (pillarData.getTopElevetaion() - pillarData.getGroundElevation()) * MILLIMETER);
+//				else if(  textData.getTextValue().startsWith("jobb") && !textData.isAtTop() )
+//					textData.setY(PAGE_Y + START_Y -
+//							(getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER));
+//				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() )
+//					textData.setY(PAGE_Y + START_Y - (pillarData.getTopElevetaion() - pillarData.getGroundElevation()) * MILLIMETER);
+//				else if(  textData.getTextValue().startsWith("jobb") && !textData.isAtTop() )
+//					textData.setY(PAGE_Y + START_Y +
+//							(getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER));
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -654,7 +670,7 @@ public class Drawer {
 		}
 	}
 	
-	public void drawInputWireText(WireData wireData, double shiftY, double ratioY) {
+	public void drawInputWireText(WireData wireData, double shiftY) {
 		
 		for (TextData textData : wireData.getWireTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -671,14 +687,36 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				if( textData.isOnLeftSide() && shiftY != 0 )
+				if( textData.getTextValue().startsWith("bal") && shiftY != 0 )
 				textData.setY(textData.getY() + shiftY);
-				else if( !textData.isOnLeftSide() && shiftY != 0)
+				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0 )
 				textData.setY(textData.getY() + shiftY);
-				else if(  textData.isOnLeftSide() && ratioY != 1 ) {}
-					
-				//else if( !textData.isOnLeftSide() && ratioY != 1)
-					
+				
+				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y + (wireData.getTopElevetaion() - wireData.getGroundElevation()) * MILLIMETER);
+				else if(  textData.getTextValue().startsWith("bal") && !textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y -
+							(getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER));
+				
+				
+				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y - (wireData.getTopElevetaion() - wireData.getGroundElevation()) * MILLIMETER);
+				else if(  textData.getTextValue().startsWith("bal") && !textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y +
+							(getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER));
+				
+				
+				
+				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y + (wireData.getTopElevetaion() - wireData.getGroundElevation()) * MILLIMETER);
+				else if(  textData.getTextValue().startsWith("jobb") && !textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y -
+							(getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER));
+				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y - (wireData.getTopElevetaion() - wireData.getGroundElevation()) * MILLIMETER);
+				else if(  textData.getTextValue().startsWith("jobb") && !textData.isAtTop() )
+					textData.setY(PAGE_Y + START_Y +
+							(getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER));
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -707,13 +745,13 @@ public class Drawer {
 	}
 	
 	public void drawLeftWireLine(List<WirePoint> pointsOfWire) {
-			List<QuadCurve> curveStore;
+			List<QuadCurve> curveStore = new ArrayList<>();
 			
 	     if( pointsOfWire.size() == 2 ) {
-	    	curveStore = drawWireByTwoPoints(pointsOfWire);
+	    	curveStore.add(drawWireByTwoPoints(pointsOfWire));
 	     }
 	     else if( pointsOfWire.size() == 3 ) {
-	    	curveStore = drawWireByThreePoints(pointsOfWire);
+	    	curveStore.add(drawWireByThreePoints(pointsOfWire));
 	     }
 	     else {
 	    	 curveStore = drawWireByMoreThanThreePoints(pointsOfWire);
@@ -734,7 +772,7 @@ public class Drawer {
 		}
 	}
 	
-	private List<QuadCurve> drawWireByTwoPoints(List<WirePoint> pointsOfWire) {
+	private QuadCurve drawWireByTwoPoints(List<WirePoint> pointsOfWire) {
 		QuadCurve curve = new QuadCurve(); 
 		curve.setStroke(Color.BLACK);
 		curve.setStrokeWidth(1);
@@ -757,10 +795,10 @@ public class Drawer {
    	 	.add(pointsOfWire.get(1).getDistanceOfWirePoint()));
    	 	curve.setEndY(pointsOfWire.get(1).getElevationOfWirePoint());
 		
-		return Arrays.asList(curve);
+		return curve;
 	}
 	
-	private List <QuadCurve> drawWireByThreePoints(List<WirePoint> pointsOfWire) {
+	private QuadCurve drawWireByThreePoints(List<WirePoint> pointsOfWire) {
 				
 				QuadCurve curve = new QuadCurve(); 
 				curve.setStroke(Color.BLACK);
@@ -774,6 +812,7 @@ public class Drawer {
 		 		double middleY = pointsOfWire.get(1).getElevationOfWirePoint() / 0.5 - 
 		    		pointsOfWire.get(0).getElevationOfWirePoint() * 0.5 - 
 		    		pointsOfWire.get(2).getElevationOfWirePoint() * 0.5;
+		 		
 		    	 curve.startXProperty()
 		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 		    	 .add(pointsOfWire.get(0).getDistanceOfWirePoint()));
@@ -789,13 +828,37 @@ public class Drawer {
 		    	 .add(pointsOfWire.get(2).getDistanceOfWirePoint()));
 		    	 curve.setEndY(pointsOfWire.get(2).getElevationOfWirePoint());
 		
-		    	 return Arrays.asList(curve);
+		    	 return curve;
 	}
 	
 	private List<QuadCurve> drawWireByMoreThanThreePoints(List<WirePoint> pointsOfWire) {
+		
 		List<QuadCurve> curveStore = new ArrayList<>();
 		
-	
+		if( pointsOfWire.size() % 2 == 0) {
+		
+		for(int i = 0; i < pointsOfWire.size() - 2; i += 2) {
+			
+			curveStore.add(drawWireByThreePoints(Arrays.asList(pointsOfWire.get(i), pointsOfWire.get( i + 1 ), pointsOfWire.get( i + 2 ))));
+		}
+		
+		for(int i = 0; i < pointsOfWire.size(); i++) {
+		
+		if( i % 3 == 2)
+			curveStore.add(drawWireByThreePoints(Arrays.asList(pointsOfWire.get(i), 
+					new WirePoint((pointsOfWire.get(i).getDistanceOfWirePoint() + pointsOfWire.get( i + 1).getDistanceOfWirePoint()) / 2, 
+							(pointsOfWire.get(i).getElevationOfWirePoint() + pointsOfWire.get( i + 1).getElevationOfWirePoint()) / 2),
+					pointsOfWire.get( i + 1 ))));
+		}
+	}
+		else {
+			
+			for(int i = 0; i < pointsOfWire.size() - 2; i += 2) {
+				curveStore.add(drawWireByThreePoints(Arrays.asList(pointsOfWire.get(i), pointsOfWire.get( i + 1 ), pointsOfWire.get( i + 2 ))));
+			}
+			
+		}
+		
 		return curveStore;
 	}
 	
