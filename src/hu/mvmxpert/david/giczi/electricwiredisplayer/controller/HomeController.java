@@ -396,11 +396,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, 1);
 		}
 		for (TextData textData : archivFileBuilder.getTextData()) {
 			if(textData.getId() != -1)
@@ -429,12 +429,12 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 		
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, 1);
 		}
 		for (TextData textData : archivFileBuilder.getTextData()) {
 			if(textData.getId() != -1)
@@ -458,7 +458,7 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 	}
 	
@@ -478,11 +478,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, 1);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, 1);
 		}
 	}
 	
@@ -514,11 +514,11 @@ public class HomeController {
 		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, shiftY);
+			drawer.drawInputPillarText(pillarData, shiftY, 1);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, shiftY);
+			drawer.drawInputWireText(wireData, shiftY, 1);
 		}
 		
 	}
@@ -541,6 +541,7 @@ public class HomeController {
 					"m  =< beosztás érték");
 			return;
 		}
+		double ratioY = (double) drawer.getVerticalScale() / verticalScale;
 		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
 				drawer.getHorizontalScale(),
 				drawer.getElevationStartValue(),
@@ -549,11 +550,11 @@ public class HomeController {
 		drawSystem();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
+			drawer.drawInputPillarText(pillarData, 0, ratioY);
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
-			drawer.drawInputWireText(wireData, 0);
+			drawer.drawInputWireText(wireData, 0, ratioY);
 		}
 	}
 	
