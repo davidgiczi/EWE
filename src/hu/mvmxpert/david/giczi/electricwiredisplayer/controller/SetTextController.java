@@ -45,6 +45,7 @@ public class SetTextController {
 	public void handleSetTextButtonClick() {
 		
 		int ownerId = homeController.archivFileBuilder.getChosenTextOwnerId(chosenText);
+		boolean isAtTop = homeController.archivFileBuilder.isChosenTextAtTop(chosenText);
 		
 		String inputText;
 		try {
@@ -72,7 +73,7 @@ public class SetTextController {
 			return;
 		}
 		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
-				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId);
+				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId, isAtTop);
 		rotate = 0;
 		stage.hide();
 	}

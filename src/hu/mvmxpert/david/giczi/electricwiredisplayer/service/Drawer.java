@@ -340,11 +340,12 @@ public class Drawer {
 				PAGE_Y + START_Y + 65, 18, 0, false, false);
 	}
 	
-	public void writeText(String text, double startX, double startY, double rotate, int ownerId) {
+	public void writeText(String text, double startX, double startY, double rotate, int ownerId, boolean isAtTop) {
 		Text txt = new Text(text);
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
 		TextData textData = new TextData();
 		textData.setTextValue(text);
+		textData.setAtTop(isAtTop);
 		textData.setSize(18);
 		double xDistance;
 		if( rotate == -90 ) {
@@ -567,7 +568,7 @@ public class Drawer {
 		
 	}
 	
-	public void drawInputPillarText(PillarData pillarData, double shiftY, double ratioY) {
+	public void drawInputPillarText(PillarData pillarData, double shiftY) {
 		
 		for (TextData textData : pillarData.getPillarTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -589,25 +590,14 @@ public class Drawer {
 				textData.setY(textData.getY() + shiftY);
 			else if( textData.getTextValue().startsWith("jobb") && shiftY != 0)
 				textData.setY(textData.getY() + shiftY);
-			if( textData.getTextValue().startsWith("bal") && textData.isAtTop() && ratioY < 1 )
-					textData.setY(textData.getY() + (pillarData.getTopElevetaion() - elevationStartValue) * ratioY * MILLIMETER);
-			else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() && ratioY > 1 )
-				textData.setY(textData.getY() - (pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER / ratioY);
-			
-			if( textData.getTextValue().startsWith("bal") && !textData.isAtTop() && ratioY < 1 )					
-					textData.setY(textData.getY() + (pillarData.getGroundElevation() - elevationStartValue) * ratioY * MILLIMETER);
-			else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop() && ratioY > 1 ) 				
-				textData.setY(textData.getY() - (pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER / ratioY);	
-			
-			
-
-			
-			
-			
-			
-			
-			
-			
+			else if( textData.getTextValue().startsWith("bal") && textData.isAtTop())
+				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
+			else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop())
+				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);
+			else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop())
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
+			else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop())
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);	
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
@@ -671,7 +661,7 @@ public class Drawer {
 		}
 	}
 	
-	public void drawInputWireText(WireData wireData, double shiftY, double ratioY) {
+	public void drawInputWireText(WireData wireData, double shiftY) {
 		
 		for (TextData textData : wireData.getWireTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -692,7 +682,14 @@ public class Drawer {
 				textData.setY(textData.getY() + shiftY);
 				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0 )
 				textData.setY(textData.getY() + shiftY);
-				
+				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop())
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
+				else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop())
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
+				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop())
+						textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
+				else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop())
+						textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
 				
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
@@ -722,21 +719,9 @@ public class Drawer {
 	}
 	
 	public void drawLeftWireLine(List<WirePoint> pointsOfWire) {
-			List<QuadCurve> curveStore = new ArrayList<>();
 			
-	     if( pointsOfWire.size() == 2 ) {
-	    	curveStore.add(drawWireByTwoPoints(pointsOfWire));
-	     }
-	     else if( pointsOfWire.size() == 3 ) {
-	    	curveStore.add(drawWireByThreePoints(pointsOfWire));
-	     }
-	     else {
-	    	 curveStore = drawWireByMoreThanThreePoints(pointsOfWire);
-	     }
-	    
-	    for (QuadCurve curve : curveStore) {
-			root.getChildren().add(curve);
-		}
+		if( pointsOfWire.size() == 2)
+			drawWireByTwoPoints(pointsOfWire, "-2");
 	}
 	
 	public void deleteLeftWire() {
@@ -745,110 +730,23 @@ public class Drawer {
 			if( "-2".equals(root.getChildren().get(i).getId()) ) {
 				root.getChildren().remove(i);
 			}
-
 		}
 	}
 	
-	private QuadCurve drawWireByTwoPoints(List<WirePoint> pointsOfWire) {
-		QuadCurve curve = new QuadCurve(); 
-		curve.setStroke(Color.BLACK);
-		curve.setStrokeWidth(1);
-		curve.setFill( null );
-		curve.getStrokeDashArray().addAll(1d, 5d);
-		curve.setId("-2");
-		
-		curve.startXProperty()
-   	 	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-   	 	.add(pointsOfWire.get(0).getDistanceOfWirePoint()));
-   	 	curve.setStartY(pointsOfWire.get(0).getElevationOfWirePoint());
-   	 
-   	 	curve.controlXProperty()
-   	 	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-   	 	.add(pointsOfWire.get(0).getDistanceOfWirePoint()));
-   	 	curve.setControlY(pointsOfWire.get(0).getElevationOfWirePoint());
-   	
-   	 	curve.endXProperty()
-   	 	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-   	 	.add(pointsOfWire.get(1).getDistanceOfWirePoint()));
-   	 	curve.setEndY(pointsOfWire.get(1).getElevationOfWirePoint());
-		
-		return curve;
-	}
-	
-	private QuadCurve drawWireByThreePoints(List<WirePoint> pointsOfWire) {
-				
-				QuadCurve curve = new QuadCurve(); 
-				curve.setStroke(Color.BLACK);
-				curve.setStrokeWidth(1);
-				curve.setFill( null );
-				curve.getStrokeDashArray().addAll(1d, 5d);
-				curve.setId("-2");
-		 		double middleX = pointsOfWire.get(1).getDistanceOfWirePoint() / 0.5 - 
-		    		pointsOfWire.get(0).getDistanceOfWirePoint() * 0.5 - 
-		    		pointsOfWire.get(2).getDistanceOfWirePoint() * 0.5;
-		 		double middleY = pointsOfWire.get(1).getElevationOfWirePoint() / 0.5 - 
-		    		pointsOfWire.get(0).getElevationOfWirePoint() * 0.5 - 
-		    		pointsOfWire.get(2).getElevationOfWirePoint() * 0.5;
-		 		
-		    	 curve.startXProperty()
-		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-		    	 .add(pointsOfWire.get(0).getDistanceOfWirePoint()));
-		    	 curve.setStartY(pointsOfWire.get(0).getElevationOfWirePoint());
-		    	 
-		    	 curve.controlXProperty()
-		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-		    	 .add(middleX));
-		    	 curve.setControlY(middleY);
-		    	
-		    	 curve.endXProperty()
-		    	 .bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-		    	 .add(pointsOfWire.get(2).getDistanceOfWirePoint()));
-		    	 curve.setEndY(pointsOfWire.get(2).getElevationOfWirePoint());
-		
-		    	 return curve;
-	}
-	
-	private List<QuadCurve> drawWireByMoreThanThreePoints(List<WirePoint> pointsOfWire) {
-		
-		List<QuadCurve> curveStore = new ArrayList<>();
-		
-		if( pointsOfWire.size() % 2 == 0) {
-		
-		for(int i = 0; i < pointsOfWire.size() - 2; i += 2) {
-			
-			curveStore.add(drawWireByThreePoints(Arrays.asList(pointsOfWire.get(i), pointsOfWire.get( i + 1 ), pointsOfWire.get( i + 2 ))));
-		}
-		
-		for(int i = 0; i < pointsOfWire.size(); i++) {
-		
-		if( i % 3 == 2)
-			curveStore.add(drawWireByThreePoints(Arrays.asList(pointsOfWire.get(i), 
-					new WirePoint((pointsOfWire.get(i).getDistanceOfWirePoint() + pointsOfWire.get( i + 1).getDistanceOfWirePoint()) / 2, 
-							(pointsOfWire.get(i).getElevationOfWirePoint() + pointsOfWire.get( i + 1).getElevationOfWirePoint()) / 2),
-					pointsOfWire.get( i + 1 ))));
-		}
-	}
-		else {
-			
-			for(int i = 0; i < pointsOfWire.size() - 2; i += 2) {
-				curveStore.add(drawWireByThreePoints(Arrays.asList(pointsOfWire.get(i), pointsOfWire.get( i + 1 ), pointsOfWire.get( i + 2 ))));
-			}
-			
-		}
-		
-		return curveStore;
+	private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
+		Line wire = new Line();
+		wire.setStroke(Color.BLACK);
+		wire.setStrokeWidth(1);
+		wire.getStrokeDashArray().addAll(1d, 5d);
+		wire.setId(id);
+		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(pointsOfWire.get(0).getDistanceOfWirePoint()));
+		wire.setStartY(pointsOfWire.get(0).getElevationOfWirePoint());
+		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(pointsOfWire.get(1).getDistanceOfWirePoint()));
+		wire.setEndY(pointsOfWire.get(1).getElevationOfWirePoint());
+		root.getChildren().add(wire);
 	}
 	
 	 void drawRightWireLine(List<WirePoint> poinsOfWire) {
-		QuadCurve curve = new QuadCurve(); 
-	      
-	      curve.setStroke(Color.BLACK);
-	      curve.setStrokeWidth(1);
-	      curve.setFill( null );
-	      curve.getStrokeDashArray().addAll(1d, 5d);
-	      curve.setId("-3");
-	     
-	      root.getChildren().add(curve);
 	}
 	
 	 public void deleteRightWire() {
