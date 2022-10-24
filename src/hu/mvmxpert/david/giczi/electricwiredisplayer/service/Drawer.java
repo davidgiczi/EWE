@@ -2,11 +2,12 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.naming.directory.InvalidAttributesException;
+
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.Parabola;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
@@ -16,8 +17,8 @@ import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -568,7 +569,7 @@ public class Drawer {
 		
 	}
 	
-	public void drawInputPillarText(PillarData pillarData, double shiftY) {
+	public void drawInputPillarText(PillarData pillarData, double shiftY1) {
 		
 		for (TextData textData : pillarData.getPillarTextList()) {
 			if( textData.getDirection() == -90 && textData.isOnLeftSide())
@@ -586,10 +587,10 @@ public class Drawer {
 				}
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
 				
-			if( textData.getTextValue().startsWith("bal") && shiftY != 0 )
-				textData.setY(textData.getY() + shiftY);
-			else if( textData.getTextValue().startsWith("jobb") && shiftY != 0)
-				textData.setY(textData.getY() + shiftY);
+			if( textData.getTextValue().startsWith("bal") && shiftY1 != 0 )
+				textData.setY(textData.getY() + shiftY1);
+			else if( textData.getTextValue().startsWith("jobb") && shiftY1 != 0)
+				textData.setY(textData.getY() + shiftY1);
 			else if( textData.getTextValue().startsWith("bal") && textData.isAtTop())
 				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
 			else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop())
@@ -719,9 +720,14 @@ public class Drawer {
 	}
 	
 	public void drawLeftWireLine(List<WirePoint> pointsOfWire) {
-			
-		if( pointsOfWire.size() == 2)
+				
+		if( pointsOfWire.size() == 2) {
 			drawWireByTwoPoints(pointsOfWire, "-2");
+			return;
+		}
+		else if ( pointsOfWire.size() == 3) {
+			drawWireByThreePoints(pointsOfWire, "-2");
+		}
 	}
 	
 	public void deleteLeftWire() {
@@ -746,6 +752,21 @@ public class Drawer {
 		root.getChildren().add(wire);
 	}
 	
+	private void drawWireByThreePoints(List<WirePoint> pointsOfWire, String id) {
+		
+			
+			
+//			double stepY = getHorizontalScaledDownLengthValue(1 / 1000) * MILLIMETER;
+//			for( int i = (int) stepY; i < getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER; i+= stepY) {
+//				Circle dot = new Circle(i, parabola.getElevation(i), 1);
+//				dot.setId(id);
+//				root.getChildren().add(dot);
+//			}
+			
+		
+	}
+	
+
 	 void drawRightWireLine(List<WirePoint> poinsOfWire) {
 	}
 	

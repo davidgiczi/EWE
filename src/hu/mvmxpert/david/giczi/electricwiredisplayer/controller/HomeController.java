@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.naming.directory.InvalidAttributesException;
+
+import hu.mvmxpert.david.giczi.electricwiredisplayer.model.Parabola;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
@@ -562,6 +565,18 @@ public class HomeController {
 		if(wirePoints.size() < 2) {
 			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
 			return;
+		}
+		else if (wirePoints.size() >= 3){
+		try {
+				
+			Parabola parabola = new Parabola(wirePoints.get(0), wirePoints.get(1), wirePoints.get(2));
+			System.out.println(parabola.getElevation(0));
+			return;
+			
+		} catch (InvalidAttributesException e) {
+			HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+		}
+			
 		}
 		for (WirePoint wirePoint : wirePoints) {
 			wirePoint.setDistanceOfWirePoint(Drawer.START_X +
