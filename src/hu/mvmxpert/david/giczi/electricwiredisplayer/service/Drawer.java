@@ -7,7 +7,6 @@ import java.util.List;
 import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
-import hu.mvmxpert.david.giczi.electricwiredisplayer.model.Parabola;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.TextData;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WireData;
@@ -752,18 +751,20 @@ public class Drawer {
 		root.getChildren().add(wire);
 	}
 	
-	private void drawWireByThreePoints(List<WirePoint> pointsOfWire, String id) {
+	private void drawWireByThreePoints(List<WirePoint> wirePoints, String id) {
 		
-			
-			
-//			double stepY = getHorizontalScaledDownLengthValue(1 / 1000) * MILLIMETER;
-//			for( int i = (int) stepY; i < getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER; i+= stepY) {
-//				Circle dot = new Circle(i, parabola.getElevation(i), 1);
-//				dot.setId(id);
-//				root.getChildren().add(dot);
-//			}
-			
-		
+			try {
+				
+				Parabola parabola = new Parabola(wirePoints.get(0), wirePoints.get(1), wirePoints.get(2));
+				for( double i = X_DISTANCE + HOR_SHIFT * MILLIMETER; 
+						i < X_DISTANCE + (getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) + HOR_SHIFT) * MILLIMETER; i+= MILLIMETER) {
+					Circle dot = new Circle(i , 0, 1);
+					root.getChildren().add(dot);
+				} 
+					
+			} catch (InvalidAttributesException e) {
+				HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+			}
 	}
 	
 
