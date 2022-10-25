@@ -1,10 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
-
-import java.text.DecimalFormat;
-
 import javax.naming.directory.InvalidAttributesException;
-
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.WirePoint;
 
 public class Parabola {
@@ -13,13 +9,15 @@ public class Parabola {
 	private double rightA;
 	private WirePoint startPoint;
 	private WirePoint mediumPoint;
-	private WirePoint lastPoint;
+	private WirePoint endPoint;
+	private WirePoint leftPoint;
+	private WirePoint rightPoint;
 	
 	public Parabola(WirePoint startPoint, WirePoint mediumPoint, WirePoint lastPoint) throws InvalidAttributesException {
 		
 		this.startPoint = startPoint;
 		this.mediumPoint = mediumPoint;
-		this.lastPoint = lastPoint;
+		this.endPoint = lastPoint;
 		calcParams();
 	}
 
@@ -27,16 +25,16 @@ public class Parabola {
 		
 		if( mediumPoint.getDistanceOfWirePoint() - startPoint.getDistanceOfWirePoint() == 0 )
 			throw new InvalidAttributesException();
-		if( lastPoint.getDistanceOfWirePoint() - mediumPoint.getDistanceOfWirePoint() == 0 )
+		if( endPoint.getDistanceOfWirePoint() - mediumPoint.getDistanceOfWirePoint() == 0 )
 			throw new InvalidAttributesException();
 		
-		WirePoint left = new WirePoint(startPoint.getDistanceOfWirePoint() - mediumPoint.getDistanceOfWirePoint(), 
+		leftPoint = new WirePoint(startPoint.getDistanceOfWirePoint() - mediumPoint.getDistanceOfWirePoint(), 
 				startPoint.getElevationOfWirePoint() - mediumPoint.getElevationOfWirePoint());
-		WirePoint right = new WirePoint(lastPoint.getDistanceOfWirePoint() - mediumPoint.getDistanceOfWirePoint(), 
-				lastPoint.getElevationOfWirePoint() - mediumPoint.getElevationOfWirePoint());
+		rightPoint = new WirePoint(endPoint.getDistanceOfWirePoint() - mediumPoint.getDistanceOfWirePoint(), 
+				endPoint.getElevationOfWirePoint() - mediumPoint.getElevationOfWirePoint());
 		
-		leftA = left.getElevationOfWirePoint() /  (left.getDistanceOfWirePoint() * left.getDistanceOfWirePoint());
-		rightA = right.getElevationOfWirePoint() / (right.getDistanceOfWirePoint() * right.getDistanceOfWirePoint());
+		leftA = leftPoint.getElevationOfWirePoint() /  (leftPoint.getDistanceOfWirePoint() * leftPoint.getDistanceOfWirePoint());
+		rightA = rightPoint.getElevationOfWirePoint() / (rightPoint.getDistanceOfWirePoint() * rightPoint.getDistanceOfWirePoint());
 	}
 	
 	public double getElevationOfLeftSideOfParabola(double distance) {
@@ -47,15 +45,20 @@ public class Parabola {
 		return rightA * distance * distance;
 	}
 
-	public static void main(String[] args) throws InvalidAttributesException {
-		Parabola p = new Parabola(new WirePoint(0, 180), new WirePoint(60, 160), new WirePoint(100, 180));
-		DecimalFormat f = new DecimalFormat("0.00");
-		for(int i = 0; i >= -60; i--) {
-			System.out.println(i + " " + f.format(p.getElevationOfLeftSideOfParabola(i)) + " 0");
-		}
-		for(int i = 0; i <= 40; i++) {
-			System.out.println(i + " " + f.format(p.getElevationOfRightSideOfParabola(i)) + " 0");
-		}
+	public WirePoint getLeftPoint() {
+		return leftPoint;
 	}
-	
+
+	public void setLeftPoint(WirePoint leftPoint) {
+		this.leftPoint = leftPoint;
+	}
+
+	public WirePoint getRightPoint() {
+		return rightPoint;
+	}
+
+	public void setRightPoint(WirePoint rightPoint) {
+		this.rightPoint = rightPoint;
+	}
+
 }

@@ -562,7 +562,6 @@ public class HomeController {
 			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
 			return;
 		}
-		
 		Collections.sort(wirePoints);
 		drawer.drawLeftWireLine(wirePoints);
 	}

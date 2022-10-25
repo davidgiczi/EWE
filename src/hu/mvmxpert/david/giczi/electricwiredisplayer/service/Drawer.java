@@ -722,11 +722,13 @@ public class Drawer {
 				
 		if( pointsOfWire.size() == 2) {
 			drawWireByTwoPoints(pointsOfWire, "-2");
-			return;
 		}
 		else if ( pointsOfWire.size() == 3) {
-			drawWireByThreePoints(pointsOfWire, "-2");
+			drawWireByThreePoints(pointsOfWire.get(0), 
+					archivFileBuilder.getMiddleWirePoint(pointsOfWire), 
+					pointsOfWire.get(pointsOfWire.size() - 1), "-2");		
 		}
+		
 	}
 	
 	public void deleteLeftWire() {
@@ -744,23 +746,32 @@ public class Drawer {
 		wire.setStrokeWidth(1);
 		wire.getStrokeDashArray().addAll(1d, 5d);
 		wire.setId(id);
-		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(pointsOfWire.get(0).getDistanceOfWirePoint()));
-		wire.setStartY(pointsOfWire.get(0).getElevationOfWirePoint());
-		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(pointsOfWire.get(1).getDistanceOfWirePoint()));
-		wire.setEndY(pointsOfWire.get(1).getElevationOfWirePoint());
+		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X).add(HOR_SHIFT * MILLIMETER).add(pointsOfWire.get(0).getDistanceOfWirePoint()));
+		wire.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(0).getElevationOfWirePoint()) * MILLIMETER);
+		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X).add(HOR_SHIFT * MILLIMETER)
+				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(1).getDistanceOfWirePoint())* MILLIMETER));
+		wire.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(1).getElevationOfWirePoint()) * MILLIMETER);
 		root.getChildren().add(wire);
 	}
 	
-	private void drawWireByThreePoints(List<WirePoint> wirePoints, String id) {
-		
+	private void drawWireByThreePoints(WirePoint start, WirePoint middle, WirePoint end, String id) { 
 			try {
-				
-				Parabola parabola = new Parabola(wirePoints.get(0), wirePoints.get(1), wirePoints.get(2));
-				for( double i = X_DISTANCE + HOR_SHIFT * MILLIMETER; 
-						i < X_DISTANCE + (getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) + HOR_SHIFT) * MILLIMETER; i+= MILLIMETER) {
-					Circle dot = new Circle(i , 0, 1);
+				Parabola parabola = new Parabola(start, middle, end);
+				double verticalShift =  PAGE_Y + START_Y;
+				for(double i = parabola.getLeftPoint().getDistanceOfWirePoint(); i < 1; i++) {
+					Circle dot = new Circle();
+					dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
+							.add(getHorizontalScaledDownLengthValue(middle.getDistanceOfWirePoint()) * MILLIMETER).add(i * MILLIMETER));
+					dot.setCenterY(verticalShift - 
+							(getVerticalScaledDownHeightValue(middle.getElevationOfWirePoint()) + 
+									parabola.getElevationOfLeftSideOfParabola(i)) * MILLIMETER);
+					dot.setRadius(1);
+					dot.setId(id);
 					root.getChildren().add(dot);
-				} 
+				}
+				
 					
 			} catch (InvalidAttributesException e) {
 				HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
