@@ -365,17 +365,4 @@ public class ArchivFileBuilder {
 		return rightWirePoints;
 	}
 	
-	public WirePoint getMiddleWirePoint(List<WirePoint> wirePoints) {
-		
-		double halfDistance = wirePoints.get(wirePoints.size() - 1).getDistanceOfWirePoint() / 2;
-		WirePoint middle = wirePoints.get(1);
-		double deltaDistance = Math.abs(halfDistance - wirePoints.get(1).getDistanceOfWirePoint());
-		for( int i = 1; i < wirePoints.size() - 1; i++) {
-			if( Math.abs( halfDistance - wirePoints.get(i).getDistanceOfWirePoint() ) < deltaDistance) {
-				deltaDistance = Math.abs(halfDistance - wirePoints.get(i).getDistanceOfWirePoint());
-				middle = wirePoints.get(i);
-			}
-		}
-		return middle;
-	}
 }
