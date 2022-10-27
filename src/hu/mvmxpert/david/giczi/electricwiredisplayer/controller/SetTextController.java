@@ -43,10 +43,10 @@ public class SetTextController {
 	
 	@FXML
 	public void handleSetTextButtonClick() {
-		
 		int ownerId = homeController.archivFileBuilder.getChosenTextOwnerId(chosenText);
 		boolean isAtTop = homeController.archivFileBuilder.isChosenTextAtTop(chosenText);
-		
+		if( chosenText.startsWith("bal") )
+			chosenText = "jobb" + chosenText.substring(3);
 		String inputText;
 		try {
 			inputText = Validate.isValidTextValue(inputTextField.getText());
@@ -72,6 +72,7 @@ public class SetTextController {
 					"Az Y koordináta értéke: Y >= " + Validate.MIN_Y_VALUE + "mm és " + Validate.MAX_Y_VALUE + "mm >= Y.");
 			return;
 		}
+		
 		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
 				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId, isAtTop);
 		rotate = 0;

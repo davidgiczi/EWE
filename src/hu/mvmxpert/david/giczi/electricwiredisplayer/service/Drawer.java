@@ -845,6 +845,8 @@ public class Drawer {
 	private void addChosenTextToSetTextWindow(Text text) {
 		homeController.getSetTextWindow();
 		homeController.setTextWindow.getInputTextField().setText(text.getText());
+		if( text.getRotate() == -90 && text.getText().startsWith("bal"))
+		homeController.setTextWindow.getInputTextField().setText("jobb" + text.getText().substring(3));
 		homeController.setTextWindow.getController().setRotate(text.getRotate());
 		homeController.setTextWindow.getController().setChosenText(text.getText());
 		DecimalFormat df = new DecimalFormat("0.0");

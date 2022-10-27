@@ -256,11 +256,10 @@ public class ArchivFileBuilder {
 	public int getChosenTextOwnerId(String chosenText) {
 		
 		int ownerId = -1;
-		
 		for ( PillarData pillarData : pillarData ) {
-			for( TextData textData : pillarData.getPillarTextList() )
+			for( TextData textData : pillarData.getPillarTextList() ) 
 					if( textData.getTextValue().equals(chosenText))
-							ownerId = pillarData.getId();
+							ownerId = pillarData.getId();	
 		}
 		for(WireData wireData : wireData) {
 			for( TextData textData : wireData.getWireTextList() )
@@ -275,7 +274,7 @@ public class ArchivFileBuilder {
 		
 		return ownerId;
 	}
-	
+
 	
 	public boolean isChosenTextAtTop(String chosenText) {
 		
