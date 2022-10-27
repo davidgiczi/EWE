@@ -740,8 +740,8 @@ public class Drawer {
 	private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
 		Line wire = new Line();
 		wire.setStroke(Color.BLACK);
-		wire.setStrokeWidth(1);
-		wire.getStrokeDashArray().addAll(1d, 3d);
+		wire.setStrokeWidth(1.5);
+		wire.getStrokeDashArray().addAll(1d, 4d);
 		wire.setId(id);
 		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X).add(HOR_SHIFT * MILLIMETER).add(pointsOfWire.get(0).getDistanceOfWirePoint()));
@@ -756,30 +756,35 @@ public class Drawer {
 	private void drawWire(List<WirePoint> pointsOfWire, String id) { 
 			try {
 				double verticalShift =  PAGE_Y + START_Y;
+				double scale = horizontalScale / 1000d;
 				for(int i = 0; i < pointsOfWire.size() - 1; i++) {
 					
 				HalfParabola parabola = new HalfParabola(pointsOfWire.get(i), pointsOfWire.get(i + 1));
 				if( pointsOfWire.get(i).getElevationOfWirePoint() - pointsOfWire.get(i + 1).getElevationOfWirePoint() > 0) {
-					
 					for(int y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y++) {
+						if( y %  scale == 0 ) {
 					Circle dot = new Circle();
 					dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i + 1).getDistanceOfWirePoint()) * MILLIMETER).subtract(y * MILLIMETER));
+					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i + 1).getDistanceOfWirePoint()) * MILLIMETER)
+					.subtract(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
 					dot.setCenterY(verticalShift - 
 							(getVerticalScaledDownHeightValue(pointsOfWire.get(i + 1).getElevationOfWirePoint()) + 
 									parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
 					dot.setRadius(1);
 					dot.setId(id);
 					root.getChildren().add(dot);
+						}
 					}
 				}
 				else {	
 					parabola = new HalfParabola(pointsOfWire.get(i + 1), pointsOfWire.get(i));
 					
 					for(int y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y++) {
+						if(  y %  scale == 0 ) {
 						Circle dot = new Circle();
 						dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) * MILLIMETER).add(y * MILLIMETER));
+					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) * MILLIMETER)
+					.add(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
 					dot.setCenterY(verticalShift - 
 								(getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + 
 										parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
@@ -787,10 +792,11 @@ public class Drawer {
 					dot.setRadius(1);
 					dot.setId(id);
 					root.getChildren().add(dot);
+						}	
 					}
 				}
-		}
-				} 
+			}
+		} 
 			catch (InvalidAttributesException e) {
 				HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
 			}

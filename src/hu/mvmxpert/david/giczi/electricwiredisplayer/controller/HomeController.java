@@ -1,6 +1,5 @@
 package hu.mvmxpert.david.giczi.electricwiredisplayer.controller;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.PillarData;
@@ -562,7 +561,6 @@ public class HomeController {
 			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
 			return;
 		}
-		Collections.sort(wirePoints);
 		drawer.drawLeftWireLine(wirePoints);
 	}
 	
@@ -576,13 +574,6 @@ public class HomeController {
 			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
 			return;
 		}
-		for (WirePoint wirePoint : wirePoints) {
-			wirePoint.setDistanceOfWirePoint(Drawer.START_X +
-					(drawer.getHorizontalScaledDownLengthValue(wirePoint.getDistanceOfWirePoint()) + Drawer.HOR_SHIFT) * Drawer.MILLIMETER);
-			wirePoint.setElevationOfWirePoint(Drawer.PAGE_Y + Drawer.START_Y - 
-					drawer.getVerticalScaledDownHeightValue(wirePoint.getElevationOfWirePoint()) * Drawer.MILLIMETER);
-		}
-		Collections.sort(wirePoints);
 		drawer.drawLeftWireLine(wirePoints);
 	}
 	

@@ -40,10 +40,10 @@ public class SetDrawingSystemDataController {
 		int horizontalScale;
 		
 		try {
-			startElevation = Validate.isValidPositiveIntegerValue(startElevationValue.getText());
+			startElevation = Validate.isValidIntegerValue(startElevationValue.getText());
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
-					"A magassági lépték kezdő magasság értéke csak pozitív egész szám lehet.");
+					"A magassági lépték kezdő magasság értéke csak egész szám lehet.");
 			return;
 		}
 		try {

@@ -3,6 +3,7 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.model.DrawingSystemData;
@@ -357,11 +358,26 @@ public class ArchivFileBuilder {
 			leftWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
 					wireData.getTopElevetaion() - systemData.getElevationStartValue()));
 		}
+		Collections.sort(leftWirePoints);
+		
+		for(int i = leftWirePoints.size() - 1; i > 0; i--) {
+			
+			if( leftWirePoints.get(i).getDistanceOfWirePoint() == leftWirePoints.get(i - 1).getDistanceOfWirePoint()) {
+				if(leftWirePoints.get(i).getElevationOfWirePoint() < leftWirePoints.get(i - 1).getElevationOfWirePoint()) {
+					leftWirePoints.remove(i);
+				}
+				else {
+					leftWirePoints.remove(--i);
+				}
+			}
+			
+		}		
 		return leftWirePoints;
 	}
 	
 	public List<WirePoint> getRightWirePoints(){
 		List<WirePoint> rightWirePoints = new ArrayList<>();
+		Collections.sort(rightWirePoints);
 		return rightWirePoints;
 	}
 	
