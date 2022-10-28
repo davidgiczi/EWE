@@ -30,9 +30,9 @@ public class HomeController {
 	public static String PROJECT_NAME;
 	private Drawer drawer;
 	private FileProcess fileProcess;
-	private SetDrawingSystemDataWindow setCoordSystemWindow;
-	private SetPillarDataWindow setPillarDataWindow;
-	private SetWireDataWindow setWireDataWindow;
+	public SetDrawingSystemDataWindow setCoordSystemWindow;
+	public SetPillarDataWindow setPillarDataWindow;
+	public SetWireDataWindow setWireDataWindow;
 	public SetTextWindow setTextWindow;
 	
 	public HomeController() {
@@ -556,10 +556,10 @@ public class HomeController {
 	public void showLeftWire() {
 		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
 		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
+			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két bal oldali oszlop vagy vezeték pont szükséges.");
 			return;
 		}	
-		drawer.drawLeftWireLine(wirePoints);
+		drawer.drawLeftWireCurve(wirePoints);
 	}
 	
 	public void deleteLeftWire() {
@@ -569,10 +569,10 @@ public class HomeController {
 	public void showRightWire() { 
 		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
 		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
+			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két jobb oldali oszlop vagy vezeték pont szükséges.");
 			return;
 		}
-		drawer.drawLeftWireLine(wirePoints);
+		drawer.drawRightWireCurve(wirePoints);
 	}
 	
 	public void deleteRightWire() {

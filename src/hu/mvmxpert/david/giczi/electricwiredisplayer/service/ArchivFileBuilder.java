@@ -395,11 +395,64 @@ public class ArchivFileBuilder {
 		return leftWireText == 0;
 	}
 	
-	
 	public List<WirePoint> getRightWirePoints(){
 		List<WirePoint> rightWirePoints = new ArrayList<>();
+		for (PillarData pillarData : pillarData) {
+			if( !isLeftPillar(pillarData)) {
+				for (TextData text : pillarData.getPillarTextList()) {
+					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
+						rightWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
+								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().length() - 1))
+								- systemData.getElevationStartValue()));
+					}
+				}	
+			}
+		}
+		for (WireData wireData : wireData) {
+			if( !isLeftWire(wireData)) {
+				for (TextData text : wireData.getWireTextList()) {
+					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
+						rightWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
+								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().length() - 1))
+								- systemData.getElevationStartValue()));
+					}
+				}	
+			}
+		}
 		Collections.sort(rightWirePoints);
+		for(int i = rightWirePoints.size() - 1; i > 0; i--) {
+			
+			if( rightWirePoints.get(i).getDistanceOfWirePoint() == rightWirePoints.get(i - 1).getDistanceOfWirePoint()) {
+				if(rightWirePoints.get(i).getElevationOfWirePoint() < rightWirePoints.get(i - 1).getElevationOfWirePoint()) {
+					rightWirePoints.remove(i);
+				}
+				else {
+					rightWirePoints.remove(--i);
+				}
+			}
+		}
+		
 		return rightWirePoints;
 	}
+	
+	private boolean isLeftPillar(PillarData pillar) {
+		int rightPillarText = 0;
+		for (TextData text : pillar.getPillarTextList()) {
+			if(text.getTextValue().startsWith("jobb"))
+				rightPillarText++;
+		}
+		return rightPillarText == 0;
+	}
+	
+	
+	private boolean isLeftWire(WireData wire) {
+		int rightWireText = 0;
+		for (TextData text : wire.getWireTextList()) {
+			if(text.getTextValue().startsWith("jobb"))
+				rightWireText++;
+		}
+		return rightWireText == 0;
+	}
+	
 	
 }

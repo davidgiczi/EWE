@@ -41,7 +41,7 @@ public class Drawer {
 	private int horizontalScale;
 	private int verticalScale;
 	private int elevationStartValue;
-	private ModifyTextWindow modifyTextWindow;
+	public ModifyTextWindow modifyTextWindow;
 	private HomeController homeController;
 	private DecimalFormat df = new DecimalFormat("0.00");
 	private ArchivFileBuilder archivFileBuilder;
@@ -718,7 +718,7 @@ public class Drawer {
 			root.getChildren().add(text);
 	}
 	
-	public void drawLeftWireLine(List<WirePoint> pointsOfWire) {
+	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
 				
 		if( pointsOfWire.size() == 2) {
 			drawWireByTwoPoints(pointsOfWire, "-2");
@@ -739,12 +739,16 @@ public class Drawer {
 	
 	private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
 		Line wire = new Line();
-		wire.setStroke(Color.GREEN);
+		if( "-2".equals(id) )
+		wire.setStroke(Color.MAGENTA);
+		else
+		wire.setStroke(Color.ORANGE);	
 		wire.setStrokeWidth(1.5);
 		wire.getStrokeDashArray().addAll(1d, 4d);
 		wire.setId(id);
 		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-				.add(START_X).add(HOR_SHIFT * MILLIMETER).add(pointsOfWire.get(0).getDistanceOfWirePoint()));
+				.add(START_X).add(HOR_SHIFT * MILLIMETER)
+				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(0).getDistanceOfWirePoint()) * MILLIMETER));
 		wire.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(0).getElevationOfWirePoint()) * MILLIMETER);
 		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X).add(HOR_SHIFT * MILLIMETER)
@@ -772,7 +776,10 @@ public class Drawer {
 					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
 					dot.setRadius(1);
 					dot.setId(id);
+					if( "-2".equals(id) )
 					dot.setStroke(Color.MAGENTA);
+					else
+					dot.setStroke(Color.ORANGE);
 					root.getChildren().add(dot);
 					
 					}
@@ -789,7 +796,10 @@ public class Drawer {
 					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
 					dot.setRadius(1);
 					dot.setId(id);
+					if( "-2".equals(id) )
 					dot.setStroke(Color.MAGENTA);
+					else
+					dot.setStroke(Color.ORANGE);	
 					root.getChildren().add(dot);
 					}
 				}
@@ -800,6 +810,15 @@ public class Drawer {
 			}
 	}
 	
+	public void drawRightWireCurve(List<WirePoint> pointsOfWire) {
+		
+		if( pointsOfWire.size() == 2) {
+			drawWireByTwoPoints(pointsOfWire, "-3");
+		}
+		else {
+			drawWire(pointsOfWire, "-3");
+		}
+	}
 	
 	 public void deleteRightWire() {
 			

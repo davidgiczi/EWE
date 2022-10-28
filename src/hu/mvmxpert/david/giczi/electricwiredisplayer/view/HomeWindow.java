@@ -15,6 +15,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class HomeWindow  {
 
@@ -51,7 +52,6 @@ public class HomeWindow  {
 		 	root.widthProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_X_VALUE = (int) (root.getWidth() / Drawer.MILLIMETER);
 		 		Drawer.X_DISTANCE = (root.widthProperty().get() - Drawer.A4_WIDTH) / 2 + Drawer.START_X;
-		 	 
 		 	});
 		 	root.heightProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_Y_VALUE = (int) (root.getHeight() / Drawer.MILLIMETER);
@@ -66,6 +66,22 @@ public class HomeWindow  {
 			primaryStage.getIcons().add(new Image("/logo/MVM.jpg"));
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent arg0) {
+					if(homeController.setCoordSystemWindow != null )
+						homeController.setCoordSystemWindow.getStage().hide();
+					if(homeController.setPillarDataWindow != null ) 
+						homeController.setPillarDataWindow.getStage().hide();
+					if(homeController.setWireDataWindow != null ) 
+						homeController.setWireDataWindow.getStage().hide();
+					if(homeController.setTextWindow!= null ) 
+						homeController.setTextWindow.getStage().hide();
+					if(homeController.getDrawer().modifyTextWindow != null)
+						homeController.getDrawer().modifyTextWindow.getStage().hide();
+				}
+			});
 	}
 	
 	private void createMenu() {
@@ -269,11 +285,27 @@ public class HomeWindow  {
 				homeController.deleteLeftWire();
 			}
 		});
-		leftWire.getItems().addAll(visibleLeftWire, invisibleLeftWire);
+		MenuItem showDeltaDifferenceOfLeftWire = new MenuItem("Különbségek kiírása");
+		leftWire.getItems().addAll(visibleLeftWire, invisibleLeftWire, new SeparatorMenuItem(), showDeltaDifferenceOfLeftWire);
 		Menu rightWire = new Menu("Jobb sodrony");
 		MenuItem visibleRightWire = new MenuItem("Jobb sodrony látható");
+		visibleRightWire.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.showRightWire();
+			}
+		});
 		MenuItem invisibleRightWire = new MenuItem("Jobb sodrony nem látható");
-		rightWire.getItems().addAll(visibleRightWire, invisibleRightWire);
+		invisibleRightWire.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.deleteRightWire();
+			}
+		});
+		MenuItem showDeltaDifferenceOfRightWire = new MenuItem("Különbségek kiírása");
+		rightWire.getItems().addAll(visibleRightWire, invisibleRightWire, new SeparatorMenuItem(), showDeltaDifferenceOfRightWire);
 		drawWire.getItems().addAll(leftWire, rightWire);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
