@@ -350,10 +350,12 @@ public class ArchivFileBuilder {
 		List<WirePoint> leftWirePoints = new ArrayList<>();
 		
 		for (PillarData pillarData : pillarData) {
+			if( !isRightPillar(pillarData) )
 			leftWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
 					pillarData.getTopElevetaion() - systemData.getElevationStartValue()));
 		}
 		for (WireData wireData : wireData) {
+			if( !isRightWire(wireData) )
 			leftWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
 					wireData.getTopElevetaion() - systemData.getElevationStartValue()));
 		}
@@ -373,6 +375,26 @@ public class ArchivFileBuilder {
 		}		
 		return leftWirePoints;
 	}
+	
+	private boolean isRightPillar(PillarData pillar) {
+		int leftPillarText = 0;
+		for (TextData text : pillar.getPillarTextList()) {
+			if(text.getTextValue().startsWith("bal"))
+				leftPillarText++;
+		}
+		return leftPillarText == 0;
+	}
+	
+	
+	private boolean isRightWire(WireData wire) {
+		int leftWireText = 0;
+		for (TextData text : wire.getWireTextList()) {
+			if(text.getTextValue().startsWith("bal"))
+				leftWireText++;
+		}
+		return leftWireText == 0;
+	}
+	
 	
 	public List<WirePoint> getRightWirePoints(){
 		List<WirePoint> rightWirePoints = new ArrayList<>();

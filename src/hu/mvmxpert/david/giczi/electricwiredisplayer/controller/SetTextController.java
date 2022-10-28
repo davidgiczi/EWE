@@ -45,8 +45,6 @@ public class SetTextController {
 	public void handleSetTextButtonClick() {
 		int ownerId = homeController.archivFileBuilder.getChosenTextOwnerId(chosenText);
 		boolean isAtTop = homeController.archivFileBuilder.isChosenTextAtTop(chosenText);
-		if( chosenText.startsWith("bal") )
-			chosenText = "jobb" + chosenText.substring(3);
 		String inputText;
 		try {
 			inputText = Validate.isValidTextValue(inputTextField.getText());

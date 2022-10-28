@@ -207,7 +207,6 @@ public class HomeController {
 	public void showInputDrawingSystemDataOnCoordSystemDataWindow() {
 		
 		getSetCoordSystemWindow();
-		if( drawer.getElevationStartValue() != 0)
 		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(drawer.getElevationStartValue()));
 		if( drawer.getVerticalScale() != 0)
 		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(drawer.getVerticalScale()));
@@ -321,7 +320,6 @@ public class HomeController {
 		drawer.drawPage();
 		if( drawer.getLengthOfHorizontalAxis() != 0 &&
 				drawer.getHorizontalScale() != 0 &&
-				drawer.getElevationStartValue() != 0 && 
 				drawer.getVerticalScale()!= 0) {
 		drawer.drawHorizontalAxis();
 		drawer.writeDistanceValueForHorizontalAxis();
@@ -560,7 +558,7 @@ public class HomeController {
 		if(wirePoints.size() < 2) {
 			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két oszlop vagy vezeték pont szükséges.");
 			return;
-		}
+		}	
 		drawer.drawLeftWireLine(wirePoints);
 	}
 	
