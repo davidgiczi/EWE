@@ -277,7 +277,7 @@ public class HomeWindow  {
 				homeController.showLeftWire();
 			}
 		});
-		MenuItem invisibleLeftWire = new MenuItem("Bal sodrony nem látható");
+		MenuItem invisibleLeftWire = new MenuItem("Sodrony és különbségek törlése");
 		invisibleLeftWire.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -286,7 +286,15 @@ public class HomeWindow  {
 			}
 		});
 		MenuItem showDeltaDifferenceOfLeftWire = new MenuItem("Különbségek kiírása");
-		leftWire.getItems().addAll(visibleLeftWire, invisibleLeftWire, new SeparatorMenuItem(), showDeltaDifferenceOfLeftWire);
+		showDeltaDifferenceOfLeftWire.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.showDifferenceOfCurveOfLeftWire();
+				
+			}
+		});
+		leftWire.getItems().addAll(visibleLeftWire, showDeltaDifferenceOfLeftWire, new SeparatorMenuItem(), invisibleLeftWire);
 		Menu rightWire = new Menu("Jobb sodrony");
 		MenuItem visibleRightWire = new MenuItem("Jobb sodrony látható");
 		visibleRightWire.setOnAction(new EventHandler<ActionEvent>() {
@@ -296,7 +304,7 @@ public class HomeWindow  {
 				homeController.showRightWire();
 			}
 		});
-		MenuItem invisibleRightWire = new MenuItem("Jobb sodrony nem látható");
+		MenuItem invisibleRightWire = new MenuItem("Sodrony és különbségek törlése");
 		invisibleRightWire.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -305,7 +313,14 @@ public class HomeWindow  {
 			}
 		});
 		MenuItem showDeltaDifferenceOfRightWire = new MenuItem("Különbségek kiírása");
-		rightWire.getItems().addAll(visibleRightWire, invisibleRightWire, new SeparatorMenuItem(), showDeltaDifferenceOfRightWire);
+		showDeltaDifferenceOfRightWire.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.showDifferenceOfCurveOfRightWire();
+			}
+		});
+		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
 		drawWire.getItems().addAll(leftWire, rightWire);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);

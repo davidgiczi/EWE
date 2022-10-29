@@ -556,7 +556,7 @@ public class HomeController {
 	public void showLeftWire() {
 		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
 		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két bal oldali oszlop vagy vezeték pont szükséges.");
+			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két különböző bal oldali oszlop vagy vezeték pont szükséges.");
 			return;
 		}	
 		drawer.drawLeftWireCurve(wirePoints);
@@ -566,10 +566,36 @@ public class HomeController {
 		drawer.deleteLeftWire();
 	}
 	
+	public void showDifferenceOfCurveOfLeftWire() {
+		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
+		if(wirePoints.size() < 4) {
+			getWarningAlert("Mért sodrony eltérések nem számíthatók ", 
+					"A sodrony eltéréseinek számításához legalább négy különböző bal oldali oszlop vagy vezeték pont szükséges.");
+			return;
+		}
+		int minimumPlace = 0;
+		try {
+			String inputValue = setInputText("Minimum magasságú sodrony pont helyének megadása", 
+					"A mért helyeket balról-jobbra értelmezve 1-től " + 
+			(wirePoints.size() - 2) +"-ig való számozás alapján add meg a minimum pont helyét:");
+			if( inputValue == null )
+				return;
+				minimumPlace = Validate.isValidPositiveIntegerValue(inputValue);
+			if( minimumPlace < 1 || wirePoints.size() - 2 < minimumPlace )
+				throw new NumberFormatException();
+				} catch (NumberFormatException e) {
+			getWarningAlert("Hibás minimum magasságú helyre való hivatkozás", "A minimum magasságú hely sorszáma 1-től " 
+				+ (wirePoints.size() - 2) + "-ig lehet.");
+			return;
+		}
+		drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-2");
+	}
+	
 	public void showRightWire() { 
 		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
 		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két jobb oldali oszlop vagy vezeték pont szükséges.");
+			getWarningAlert("Sodrony nem rajzolható", 
+					"Sodrony kirajzolásához legalább két különböző jobb oldali oszlop vagy vezeték pont szükséges.");
 			return;
 		}
 		drawer.drawRightWireCurve(wirePoints);
@@ -578,4 +604,30 @@ public class HomeController {
 	public void deleteRightWire() {
 		drawer.deleteRightWire();
 	}
+	
+	public void showDifferenceOfCurveOfRightWire() {
+		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
+		if(wirePoints.size() < 4) {
+			getWarningAlert("Mért sodrony eltérések nem számíthatók ", 
+					"A sodrony eltéréseinek számításához legalább négy különböző jobb oldali oszlop vagy vezeték pont szükséges.");
+			return;
+		}
+			int minimumPlace = 0;
+			try {
+				String inputValue = setInputText("Minimum magasságú sodrony pont helyének megadása", 
+						"A mért helyeket balról-jobbra értelmezve 1-től " + 
+				(wirePoints.size() - 2) +"-ig való számozás alapján add meg a minimum pont helyét:");
+				if( inputValue == null )
+					return;
+					minimumPlace = Validate.isValidPositiveIntegerValue(inputValue);
+				if( minimumPlace < 1 || wirePoints.size() - 2 < minimumPlace )
+					throw new NumberFormatException();
+					} catch (NumberFormatException e) {
+				getWarningAlert("Hibás minimum magasságú helyre való hivatkozás", "A minimum magasságú hely sorszáma 1-től " 
+					+ (wirePoints.size() - 2) + "-ig lehet.");
+				return;
+			}
+			drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-3");
+		}
+		
 }

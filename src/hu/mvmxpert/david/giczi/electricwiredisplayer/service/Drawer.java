@@ -3,7 +3,6 @@ package hu.mvmxpert.david.giczi.electricwiredisplayer.service;
 
 import java.text.DecimalFormat;
 import java.util.List;
-
 import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwiredisplayer.controller.HomeController;
@@ -742,7 +741,7 @@ public class Drawer {
 		if( "-2".equals(id) )
 		wire.setStroke(Color.MAGENTA);
 		else
-		wire.setStroke(Color.ORANGE);	
+		wire.setStroke(Color.GREEN);	
 		wire.setStrokeWidth(1.5);
 		wire.getStrokeDashArray().addAll(1d, 4d);
 		wire.setId(id);
@@ -779,7 +778,7 @@ public class Drawer {
 					if( "-2".equals(id) )
 					dot.setStroke(Color.MAGENTA);
 					else
-					dot.setStroke(Color.ORANGE);
+					dot.setStroke(Color.GREEN);
 					root.getChildren().add(dot);
 					
 					}
@@ -799,7 +798,7 @@ public class Drawer {
 					if( "-2".equals(id) )
 					dot.setStroke(Color.MAGENTA);
 					else
-					dot.setStroke(Color.ORANGE);	
+					dot.setStroke(Color.GREEN);	
 					root.getChildren().add(dot);
 					}
 				}
@@ -829,6 +828,66 @@ public class Drawer {
 			}
 		} 
 	 
+	 
+	 public void writeDifferenceOfWireCurve(List<WirePoint> pointsOfWire, int minimumPlace, String id)  {
+		 try {
+			HalfParabola leftCurve = new HalfParabola(pointsOfWire.get(0), pointsOfWire.get(minimumPlace));
+			HalfParabola rightCurve = new HalfParabola(pointsOfWire.get(pointsOfWire.size() - 1), pointsOfWire.get(minimumPlace));
+			DecimalFormat df = new DecimalFormat("+0.00;-0.00");
+			int vShift = "-2".equals(id) ? 5 : 12;
+			for(int i = 1; i < pointsOfWire.size() - 1; i++) {
+				if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() < 
+						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
+			Text diffText =  new Text(df.format(leftCurve
+				.getElevationOfHalfParabolaPoint(
+				pointsOfWire.get(i).getDistanceOfWirePoint() 
+				- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint())
+				- pointsOfWire.get(i).getElevationOfWirePoint()
+				+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
+				diffText.setId(id);
+				if( "-2".equals(id))
+					diffText.setStroke(Color.MAGENTA);
+				else
+				diffText.setStroke(Color.GREEN);
+				diffText.setRotationAxis(Rotate.Z_AXIS);
+				diffText.setRotate(-90);
+				diffText.xProperty()
+				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
+				diffText.setY(PAGE_Y + START_Y 
+						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
+				root.getChildren().add(diffText);
+				}
+				else if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() >= 
+						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
+				Text diffText = new Text(df.format(rightCurve
+					.getElevationOfHalfParabolaPoint(
+					pointsOfWire.get(i).getDistanceOfWirePoint() 
+					- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint()) 
+					- pointsOfWire.get(i).getElevationOfWirePoint()
+					+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
+				diffText.setId(id);
+				if( "-2".equals(id))
+				diffText.setStroke(Color.MAGENTA);
+				else
+				diffText.setStroke(Color.GREEN);
+				diffText.setRotationAxis(Rotate.Z_AXIS);
+				diffText.setRotate(-90);
+				diffText.xProperty()
+				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
+				diffText.setY(PAGE_Y + START_Y 
+						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
+				root.getChildren().add(diffText);
+				}
+				
+			}
+			
+		} catch (InvalidAttributesException e) {
+			HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+		}
+	 }
+	
 	private void deletePillarOrWire(Line line) {
 	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválasztott oszlopot/vezetéket?") ) {
 		int id = Integer.valueOf(line.getId());
