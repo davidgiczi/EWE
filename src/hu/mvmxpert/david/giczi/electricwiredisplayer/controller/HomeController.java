@@ -12,6 +12,7 @@ import hu.mvmxpert.david.giczi.electricwiredisplayer.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.service.Validate;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetDrawingSystemDataWindow;
+import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetLineWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetPillarDataWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetTextWindow;
 import hu.mvmxpert.david.giczi.electricwiredisplayer.view.SetWireDataWindow;
@@ -34,6 +35,7 @@ public class HomeController {
 	public SetPillarDataWindow setPillarDataWindow;
 	public SetWireDataWindow setWireDataWindow;
 	public SetTextWindow setTextWindow;
+	public SetLineWindow setLineWindow;
 	
 	public HomeController() {
 		drawer = new Drawer();
@@ -53,7 +55,7 @@ public class HomeController {
 	
 	public void init() {
 		archivFileBuilder.init();
-		getSetCoordSystemWindow();
+		showSetCoordSystemWindow();
 		drawer.clearRoot();
 		homeWindow.setPillarData.setDisable(true);
 		homeWindow.setWireData.setDisable(true);
@@ -63,7 +65,16 @@ public class HomeController {
 		drawer.drawPage();	
 	}
 	
-	public void getSetCoordSystemWindow() {
+	public void showSetLineDataWindow() {
+		if( setLineWindow == null ) {
+			setLineWindow = new SetLineWindow(this);
+		}
+		else {
+			setLineWindow.getStage().show();
+		}
+	}
+	
+	public void showSetCoordSystemWindow() {
 		if( setCoordSystemWindow == null ) {
 			setCoordSystemWindow = new SetDrawingSystemDataWindow(this);
 		}
@@ -72,7 +83,7 @@ public class HomeController {
 		}
 	}
 	
-	public void getSetPillarDataWindow() {
+	public void showSetPillarDataWindow() {
 		if( setPillarDataWindow == null ) {
 			setPillarDataWindow = new SetPillarDataWindow(this);
 		}
@@ -81,7 +92,7 @@ public class HomeController {
 		}
 	}
 	
-	public void getSetWireDataWindow() {
+	public void showSetWireDataWindow() {
 		if( setWireDataWindow == null ) {
 			
 			setWireDataWindow = new SetWireDataWindow(this);
@@ -91,7 +102,7 @@ public class HomeController {
 		}
 	}
 	
-	public void getSetTextWindow() {
+	public void showSetTextWindow() {
 		if( setTextWindow == null) {
 			setTextWindow = new SetTextWindow(this);
 		}
@@ -206,7 +217,7 @@ public class HomeController {
 	
 	public void showInputDrawingSystemDataOnCoordSystemDataWindow() {
 		
-		getSetCoordSystemWindow();
+		showSetCoordSystemWindow();
 		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(drawer.getElevationStartValue()));
 		if( drawer.getVerticalScale() != 0)
 		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(drawer.getVerticalScale()));

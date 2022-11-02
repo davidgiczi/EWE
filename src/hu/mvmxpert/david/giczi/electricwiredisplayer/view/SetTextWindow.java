@@ -55,7 +55,7 @@ public class SetTextWindow {
 	public SetTextWindow(HomeController homeController) {
 		
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetText.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetTextData.fxml"));
 			AnchorPane root = loader.load();
 			controller = (SetTextController) loader.getController();
 			controller.setHomeController(homeController);

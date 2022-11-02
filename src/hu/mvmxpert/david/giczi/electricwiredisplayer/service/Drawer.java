@@ -367,7 +367,7 @@ public class Drawer {
 		txt.setId(String.valueOf(textData.getId()));
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
-		getModifyTextWindow(inputText); });
+		showModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
 	}
 	
@@ -405,7 +405,7 @@ public class Drawer {
 		txt.setCursor(Cursor.HAND); 
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
-		getModifyTextWindow(inputText); });
+		showModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
 	}
 	
@@ -600,7 +600,7 @@ public class Drawer {
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
-					getModifyTextWindow(inputText); });
+					showModifyTextWindow(inputText); });
 				text.setCursor(Cursor.HAND);
 				root.getChildren().add(text);
 		}
@@ -693,7 +693,7 @@ public class Drawer {
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
-					getModifyTextWindow(inputText); });
+					showModifyTextWindow(inputText); });
 				text.setCursor(Cursor.HAND);
 				root.getChildren().add(text);
 		}
@@ -713,7 +713,7 @@ public class Drawer {
 			text.setCursor(Cursor.HAND);
 			text.setOnMouseClicked( t -> {
 				Text inputText = (Text) t.getSource();
-				getModifyTextWindow(inputText); });
+				showModifyTextWindow(inputText); });
 			root.getChildren().add(text);
 	}
 	
@@ -834,7 +834,7 @@ public class Drawer {
 			HalfParabola leftCurve = new HalfParabola(pointsOfWire.get(0), pointsOfWire.get(minimumPlace));
 			HalfParabola rightCurve = new HalfParabola(pointsOfWire.get(pointsOfWire.size() - 1), pointsOfWire.get(minimumPlace));
 			DecimalFormat df = new DecimalFormat("+0.00;-0.00");
-			int vShift = "-2".equals(id) ? 5 : 12;
+			int vShift = "-2".equals(id) ? 12 : 5;
 			for(int i = 1; i < pointsOfWire.size() - 1; i++) {
 				if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() < 
 						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
@@ -896,7 +896,7 @@ public class Drawer {
 	}
 }
 	
-	private void getModifyTextWindow(Text text) {
+	private void showModifyTextWindow(Text text) {
 		
 		addChosenTextToSetTextWindow(text);
 		
@@ -919,7 +919,7 @@ public class Drawer {
 	}
 	
 	private void addChosenTextToSetTextWindow(Text text) {
-		homeController.getSetTextWindow();
+		homeController.showSetTextWindow();
 		homeController.setTextWindow.getInputTextField().setText(text.getText());
 		if( text.getRotate() == -90 && text.getText().startsWith("bal"))
 		homeController.setTextWindow.getInputTextField().setText("jobb" + text.getText().substring(3));

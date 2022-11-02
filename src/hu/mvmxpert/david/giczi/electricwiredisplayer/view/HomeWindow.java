@@ -76,10 +76,12 @@ public class HomeWindow  {
 						homeController.setPillarDataWindow.getStage().hide();
 					if(homeController.setWireDataWindow != null ) 
 						homeController.setWireDataWindow.getStage().hide();
-					if(homeController.setTextWindow!= null ) 
+					if(homeController.setTextWindow != null ) 
 						homeController.setTextWindow.getStage().hide();
 					if(homeController.getDrawer().modifyTextWindow != null)
 						homeController.getDrawer().modifyTextWindow.getStage().hide();
+					if(homeController.setLineWindow != null )
+						homeController.setLineWindow.getStage().hide();
 				}
 			});
 	}
@@ -129,7 +131,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetPillarDataWindow();
+				homeController.showSetPillarDataWindow();
 			}
 		});
 		setWireData = new MenuItem("Távvezeték adatok megadása");
@@ -138,7 +140,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetWireDataWindow();
+				homeController.showSetWireDataWindow();
 			}
 		});
 		
@@ -191,17 +193,16 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.getSetTextWindow();
+				homeController.showSetTextWindow();
 			}
 		});
 		addLine = new MenuItem("Vonal hozzáadása");
-		addLine.setDisable(true);
+		//addLine.setDisable(true);
 		addLine.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			
-			
+			homeController.showSetLineDataWindow();
 			}
 		});
 		modifyBaseLine = new Menu("Nyomvonal módosítása");
