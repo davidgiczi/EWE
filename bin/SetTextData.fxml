@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetTextController">
+<AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwireeditor.controller.SetTextController">
    <children>
       <Button onAction="#handleSetTextButtonClick" layoutX="514.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="78.0" text="Elhelyez">
          <cursor>

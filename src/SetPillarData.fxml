@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetPillarDataController">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwireeditor.controller.SetPillarDataController">
  <children>
       <Label layoutX="36.0" layoutY="29.0" style="-fx-text-fill: #708090;" text="Az oszlop azonosítója:">
          <font>

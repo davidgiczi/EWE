@@ -7,48 +7,52 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="50.0" prefWidth="880.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwiredisplayer.controller.SetLineController">
+<AnchorPane prefHeight="50.0" prefWidth="880.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwireeditor.controller.SetLineController">
    <children>
-      <TextField fx:id="" layoutX="54.0" layoutY="10.0" prefHeight="31.0" prefWidth="53.0">
+      <TextField fx:id="startXTextField" layoutX="40.0" layoutY="12.0" prefHeight="31.0" prefWidth="53.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></TextField>
-      <Button layoutX="777.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="76.0" text="Elhelyez">
+      <Button fx:id="setButton" onAction="#handleSettingLineButtonClick" layoutX="790.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Elhelyez">
          <font>
-            <Font size="14.0" />
+            <Font size="12.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ComboBox fx:id="" layoutX="671.0" layoutY="10.0" prefHeight="31.0" prefWidth="86.0" visibleRowCount="6">
+      <ComboBox fx:id="lineWidthComboBox" layoutX="692.0" layoutY="12.0" prefHeight="31.0" prefWidth="86.0" promptText="normál" visibleRowCount="6">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
-      <TextField fx:id="" layoutX="156.0" layoutY="10.0" prefHeight="31.0" prefWidth="53.0">
+      <TextField fx:id="startYTextField" layoutX="150.0" layoutY="12.0" prefHeight="31.0" prefWidth="53.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </TextField>
-      <TextField fx:id="" layoutX="264.0" layoutY="10.0" prefHeight="31.0" prefWidth="53.0">
+      <TextField fx:id="endXTextField" layoutX="272.0" layoutY="12.0" prefHeight="31.0" prefWidth="53.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </TextField>
-      <TextField fx:id="" layoutX="373.0" layoutY="10.0" prefHeight="31.0" prefWidth="53.0">
+      <TextField fx:id="endYTextField" layoutX="392.0" layoutY="12.0" prefHeight="31.0" prefWidth="53.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </TextField>
-      <ComboBox fx:id="" layoutX="440.0" layoutY="10.0" prefHeight="31.0" prefWidth="86.0" visibleRowCount="6">
+      <ComboBox fx:id="lineTypeComboBox" layoutX="465.0" layoutY="12.0" prefHeight="31.0" prefWidth="110.0" promptText="folyamatos" visibleRowCount="6">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
-      <ColorPicker layoutX="547.0" layoutY="10.0" prefHeight="31.0" prefWidth="97.0" />
-      <Label layoutX="6.0" layoutY="15.0" text="StartX" />
-      <Label layoutX="107.0" layoutY="15.0" text="StartY" />
-      <Label layoutX="209.0" layoutY="15.0" text="VégeX" />
-      <Label layoutX="324.0" layoutY="15.0" text="VégeY" />
+      <ColorPicker fx:id="lineColorPicker" layoutX="585.0" layoutY="12.0" prefHeight="31.0" prefWidth="97.0" />
+      <Label layoutX="2.0" layoutY="25.0" text="StartX" />
+      <Label layoutX="115.0" layoutY="25.0" text="StartY" />
+      <Label layoutX="232.0" layoutY="25.0" text="VégeX" />
+      <Label layoutX="352.0" layoutY="25.0" text="VégeY" />
+      <Label layoutX="447.0" layoutY="25.0" text="m" />
+      <Label layoutX="327.0" layoutY="25.0" text="m" />
+      <Label layoutX="207.0" layoutY="25.0" text="m" />
+      <Label layoutX="96.0" layoutY="25.0" text="m" />
    </children>
 </AnchorPane>
