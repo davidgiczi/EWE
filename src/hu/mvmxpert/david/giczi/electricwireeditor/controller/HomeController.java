@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class HomeController {
@@ -208,6 +209,7 @@ public class HomeController {
 	loadPillarData(projectData);
 	loadWireData(projectData);
 	loadTextData(projectData);
+	loadLineData(projectData);
 	homeWindow.addLine.setDisable(false);
 	homeWindow.modifyBaseLine.setDisable(false);
 	homeWindow.modifyVerticalScale.setDisable(false);
@@ -317,6 +319,24 @@ public class HomeController {
 			}
 		}
 }
+	
+	private void loadLineData(List<String> projectData) {
+		for(String dataLine : projectData) {
+			String[] lineData = dataLine.split("#");
+			if( "Line".equals(lineData[0])) {
+				drawer.drawLine(Double.parseDouble(lineData[1]),
+						Double.parseDouble(lineData[2]),
+						Double.parseDouble(lineData[3]),
+						Double.parseDouble(lineData[4]),
+						lineData[5],
+						new Color(Double.parseDouble(lineData[6]),
+								Double.parseDouble(lineData[7]),
+								Double.parseDouble(lineData[8]),
+								Double.parseDouble(lineData[9])),
+						lineData[10]);
+			}
+		}
+	}
 
 	private void drawSystem() {
 		
