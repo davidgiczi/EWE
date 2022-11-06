@@ -197,7 +197,7 @@ public class HomeWindow  {
 			}
 		});
 		addLine = new MenuItem("Vonal hozzáadása");
-		//addLine.setDisable(true);
+		addLine.setDisable(true);
 		addLine.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

@@ -224,13 +224,31 @@ public class ArchivFileBuilder {
 		lineData.add(line);
 	}
 	
-	public void removeLine(int id) {
+	public void removeLine(int id, BorderPane root) {
 		for(int i = lineData.size() - 1; i >= 0; i--) {
 			if( lineData.get(i).getId() == id ) {
 				lineData.remove(lineData.get(i));
 			}
 		}
+		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if(root.getChildren().get(i).getId() != null && Integer.valueOf(root.getChildren().get(i).getId()) == id) {
+				root.getChildren().remove(i);
+			}
+		}
 	}	
+	
+	public LineData getLineData(int id) {
+		
+		LineData line = null;
+		
+		for (LineData lineData : lineData) {
+			if( lineData.getId() == id) {
+				line = lineData;
+			}
+		}
+	
+		return line;
+	}
 	
 	public void changePillarDistanceText(int id,  double distanceRatio) {
 		PillarData pillarData = getPillarData(id);

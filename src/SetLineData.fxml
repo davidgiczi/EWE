@@ -13,19 +13,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></TextField>
-      <Button fx:id="setButton" onAction="#handleSettingLineButtonClick" layoutX="790.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Elhelyez">
-         <font>
-            <Font size="12.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <ComboBox fx:id="lineWidthComboBox" layoutX="692.0" layoutY="12.0" prefHeight="31.0" prefWidth="86.0" promptText="normál" visibleRowCount="6">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></ComboBox>
-      <TextField fx:id="startYTextField" layoutX="150.0" layoutY="12.0" prefHeight="31.0" prefWidth="53.0">
+          <TextField fx:id="startYTextField" layoutX="150.0" layoutY="12.0" prefHeight="31.0" prefWidth="53.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -40,12 +28,25 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </TextField>
-      <ComboBox fx:id="lineTypeComboBox" layoutX="465.0" layoutY="12.0" prefHeight="31.0" prefWidth="110.0" promptText="folyamatos" visibleRowCount="6">
+       <ComboBox fx:id="lineTypeComboBox" layoutX="465.0" layoutY="12.0" prefHeight="31.0" prefWidth="110.0" promptText="folyamatos" visibleRowCount="6">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
       <ColorPicker fx:id="lineColorPicker" layoutX="585.0" layoutY="12.0" prefHeight="31.0" prefWidth="97.0" />
+      <ComboBox fx:id="lineWidthComboBox" layoutX="692.0" layoutY="12.0" prefHeight="31.0" prefWidth="86.0" promptText="1" visibleRowCount="6">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         </ComboBox>
+       <Button fx:id="setButton" onAction="#handleSettingLineButtonClick" layoutX="790.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Elhelyez">
+         <font>
+            <Font size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
       <Label layoutX="2.0" layoutY="25.0" text="StartX" />
       <Label layoutX="115.0" layoutY="25.0" text="StartY" />
       <Label layoutX="232.0" layoutY="25.0" text="VégeX" />

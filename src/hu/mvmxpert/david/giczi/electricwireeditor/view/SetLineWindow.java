@@ -19,6 +19,10 @@ public class SetLineWindow {
 		return stage;
 	}
 	
+	public SetLineController getController() {
+		return controller;
+	}
+
 	public SetLineWindow(HomeController homeController) {
 
 		try {
@@ -29,7 +33,6 @@ public class SetLineWindow {
 			stage = new Stage();
 			stage.setX((homeController.getDrawer().getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(50);
-			controller.setStage(stage);
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setResizable(false);

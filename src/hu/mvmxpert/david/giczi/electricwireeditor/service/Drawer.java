@@ -6,6 +6,7 @@ import java.util.List;
 import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
@@ -233,7 +234,8 @@ public class Drawer {
 		pillar.setCursor(Cursor.HAND);
 		pillar.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
-			deletePillarOrWire(line);
+			setDrawLineWindowData(line);
+			deleteLine(line);
 			});
 		root.getChildren().add(pillar);
 		
@@ -257,7 +259,8 @@ public class Drawer {
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
-				deletePillarOrWire(line);
+				setDrawLineWindowData(line);
+				deleteLine(line);
 				});
 			hood.setId(String.valueOf(pillarData.getId()));
 			hood.setStroke(Color.BLUE);
@@ -294,7 +297,8 @@ public class Drawer {
 		wire.setCursor(Cursor.HAND);
 		wire.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
-			deletePillarOrWire(line);
+			setDrawLineWindowData(line);
+			deleteLine(line);
 			});
 		root.getChildren().add(wire);
 		
@@ -322,7 +326,8 @@ public class Drawer {
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
-				deletePillarOrWire(line);
+				setDrawLineWindowData(line);
+				deleteLine(line);
 				});
 			root.getChildren().add(hood);
 		}
@@ -535,7 +540,8 @@ public class Drawer {
 		pillar.setCursor(Cursor.HAND);
 		pillar.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
-			deletePillarOrWire(line);
+			setDrawLineWindowData(line);
+			deleteLine(line);
 			});
 		pillar.setId(String.valueOf(id));
 		root.getChildren().add(pillar);
@@ -557,7 +563,8 @@ public class Drawer {
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
-				deletePillarOrWire(line);
+				setDrawLineWindowData(line);
+				deleteLine(line);
 				});
 			hood.setId(String.valueOf(id));
 			hood.setStroke(Color.BLUE);
@@ -629,7 +636,8 @@ public class Drawer {
 		wire.setCursor(Cursor.HAND);
 		wire.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
-			deletePillarOrWire(line);
+			setDrawLineWindowData(line);
+			deleteLine(line);
 			});
 		wire.setId(String.valueOf(id));
 		root.getChildren().add(wire);
@@ -651,7 +659,8 @@ public class Drawer {
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
-				deletePillarOrWire(line);
+				setDrawLineWindowData(line);
+				deleteLine(line);
 				});
 			hood.setId(String.valueOf(id));
 			hood.setStroke(Color.RED);
@@ -888,13 +897,98 @@ public class Drawer {
 		}
 	 }
 	
-	private void deletePillarOrWire(Line line) {
-	if( HomeController.getConfirmationAlert("Oszlop/vezeték törlése", "Biztos, hogy törlöd a kiválasztott oszlopot/vezetéket?") ) {
+	private void deleteLine(Line line) {
+	if( HomeController.getConfirmationAlert("Vonal törlése", "Biztos, hogy törlöd a kiválasztott vonalat?") ) {
 		int id = Integer.valueOf(line.getId());
 		archivFileBuilder.removePillar(id, root);
 		archivFileBuilder.removeWire(id, root);
+		archivFileBuilder.removeLine(id, root);
 	}
 }
+	private void setDrawLineWindowData(Line line) {
+		homeController.showSetLineDataWindow();
+		LineData lineData = archivFileBuilder.getLineData(Integer.valueOf(line.getId()));
+		homeController.setLineWindow.getController().getStartXTextField().setText(String.valueOf(lineData.getStartX()));
+		homeController.setLineWindow.getController().getStartYTextField().setText(String.valueOf(lineData.getStartY()));
+		homeController.setLineWindow.getController().getEndXTextField().setText(String.valueOf(lineData.getEndX()));
+		homeController.setLineWindow.getController().getEndYTextField().setText(String.valueOf(lineData.getEndY()));
+		homeController.setLineWindow.getController().getLineTypeComboBox().setValue(lineData.getType());
+		homeController.setLineWindow.getController().getLineColorPicker()
+		.setValue(new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()));
+		homeController.setLineWindow.getController().getLineWidthComboBox().setValue(lineData.getWidth());
+	}
+	
+	public void drawLine(double startX, double startY, double endX, double endY, String type, Color color, String width) {
+		
+		if( 0 > startX || startX > lengthOfHorizontalAxis ) {
+			HomeController.getWarningAlert("Nem megfelelő megfelelő StartX koordináta érték",
+					"Az X koordináta értéke: X >= 0 és " + lengthOfHorizontalAxis + " >= X");
+			return;
+		}
+		if( 0 > endX || endX > lengthOfHorizontalAxis ) {
+			HomeController.getWarningAlert("Nem megfelelő VégeX koordináta érték",
+					"Az X koordináta értéke: X >= 0 és " + lengthOfHorizontalAxis + " >= X");
+			return;
+		}
+		if( elevationStartValue > startY  ||  startY > elevationStartValue + 10 * verticalScale) {
+			HomeController.getWarningAlert("Nem megfelelő StartY koordináta érték", 
+					"Az Y koordináta értéke: Y >= " + elevationStartValue + " és " +
+				(elevationStartValue + 10 * verticalScale) + " >= Y");
+			return;
+		}
+		if( elevationStartValue > endY  ||  endY > elevationStartValue + 10 * verticalScale) {
+			HomeController.getWarningAlert("Nem megfelelő VégeY koordináta érték", 
+					"Az Y koordináta értéke: Y >= " + elevationStartValue + " és " +
+				(elevationStartValue + 10 * verticalScale) + " >= Y");
+			return;
+		}
+		LineData lineData = new LineData(startX, startY, endX, endY, type, 
+				color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity(), width);
+		archivFileBuilder.addLine(lineData);
+		Line newLine = new Line();
+		newLine.setStrokeWidth(1);
+		switch (width) {
+		case "0.5":
+			newLine.setStrokeWidth(0.5);
+			break;
+		case "3":
+			newLine.setStrokeWidth(3);
+			break;
+		
+		}
+		switch (type) {
+		case "szaggatott":
+			newLine.getStrokeDashArray().addAll(4d, 5d);
+			break;
+		case "pontozott":
+			newLine.getStrokeDashArray().addAll(1d, 4d);
+			break;
+		
+		}
+		newLine.setStyle("-fx-stroke:" + toHexString(color) + ";");
+		newLine.setCursor(Cursor.HAND);
+		newLine.setId(String.valueOf(lineData.getId()));
+		newLine.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			setDrawLineWindowData(line);
+			deleteLine(line);
+			});
+		newLine.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X).add((getHorizontalScaledDownLengthValue(startX) + HOR_SHIFT) * MILLIMETER));
+		newLine.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(startY - elevationStartValue) * MILLIMETER);
+		newLine.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X).add((getHorizontalScaledDownLengthValue(endX) + HOR_SHIFT) * MILLIMETER));
+		newLine.setEndY(PAGE_Y + START_Y  - getVerticalScaledDownHeightValue(endY - elevationStartValue) * MILLIMETER);
+		root.getChildren().add(newLine);
+	}
+	
+	private String toHexString(Color color) {
+		  int r = ((int) Math.round(color.getRed()     * 255)) << 24;
+		  int g = ((int) Math.round(color.getGreen()   * 255)) << 16;
+		  int b = ((int) Math.round(color.getBlue()    * 255)) << 8;
+		  int a = ((int) Math.round(color.getOpacity() * 255));
+		  return String.format("#%08X", (r + g + b + a));
+		}
 	
 	private void showModifyTextWindow(Text text) {
 		
