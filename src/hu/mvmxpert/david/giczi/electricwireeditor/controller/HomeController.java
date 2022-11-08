@@ -436,6 +436,7 @@ public class HomeController {
 			drawer.drawInputText(textData);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
+			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(),lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -477,6 +478,7 @@ public class HomeController {
 			drawer.drawInputText(textData);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
+			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -531,6 +533,7 @@ public class HomeController {
 			drawer.drawInputWireText(wireData, 0);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
+			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -574,6 +577,7 @@ public class HomeController {
 			drawer.drawInputWireText(wireData, shiftY);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
+			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -615,6 +619,7 @@ public class HomeController {
 			drawer.drawInputWireText(wireData, 0);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
+			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
