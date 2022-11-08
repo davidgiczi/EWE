@@ -982,6 +982,43 @@ public class Drawer {
 		root.getChildren().add(newLine);
 	}
 	
+	public void drawInputLine(int id, double startX, double startY, double endX, double endY, String type, Color color, String width) {
+		Line newLine = new Line();
+		newLine.setStrokeWidth(1);
+		switch (width) {
+		case "0.5":
+			newLine.setStrokeWidth(0.5);
+			break;
+		case "3":
+			newLine.setStrokeWidth(3);
+			break;
+		}
+		switch (type) {
+		case "szaggatott":
+			newLine.getStrokeDashArray().addAll(4d, 5d);
+			break;
+		case "pontozott":
+			newLine.getStrokeDashArray().addAll(1d, 4d);
+			break;
+		
+		}
+		newLine.setStyle("-fx-stroke:" + toHexString(color) + ";");
+		newLine.setCursor(Cursor.HAND);
+		newLine.setId(String.valueOf(id));
+		newLine.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			setDrawLineWindowData(line);
+			deleteLine(line);
+			});
+		newLine.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X).add((getHorizontalScaledDownLengthValue(startX) + HOR_SHIFT) * MILLIMETER));
+		newLine.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(startY - elevationStartValue) * MILLIMETER);
+		newLine.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X).add((getHorizontalScaledDownLengthValue(endX) + HOR_SHIFT) * MILLIMETER));
+		newLine.setEndY(PAGE_Y + START_Y  - getVerticalScaledDownHeightValue(endY - elevationStartValue) * MILLIMETER);
+		root.getChildren().add(newLine);
+	}
+	
 	private String toHexString(Color color) {
 		  int r = ((int) Math.round(color.getRed()     * 255)) << 24;
 		  int g = ((int) Math.round(color.getGreen()   * 255)) << 16;

@@ -3,6 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 import java.util.List;
 import java.util.Optional;
 
+import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
@@ -434,6 +435,13 @@ public class HomeController {
 			if(textData.getId() != -1)
 			drawer.drawInputText(textData);
 		}
+		for (LineData lineData : archivFileBuilder.getLineData()) {
+			drawer.drawInputLine(lineData.getId(),lineData.getStartX(), lineData.getStartY(), 
+							lineData.getEndX(), lineData.getEndY(), 
+							lineData.getType(),
+							new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()), 
+							lineData.getWidth());
+		}
 	}
 
 	public void modifyScaleOfBaseLine() {
@@ -468,6 +476,13 @@ public class HomeController {
 			if(textData.getId() != -1)
 			drawer.drawInputText(textData);
 		}
+		for (LineData lineData : archivFileBuilder.getLineData()) {
+			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
+							lineData.getEndX(), lineData.getEndY(), 
+							lineData.getType(),
+							new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()), 
+							lineData.getWidth());
+		}
 	}
 	
 	public void toBeTheLastPillarTheBeginner() {
@@ -492,6 +507,9 @@ public class HomeController {
 	
 	public void exchangePillars() {
 		
+		if( archivFileBuilder.getPillarData().size() < 2)
+			return;
+		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			double distanceRatio = (drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar() ) / pillarData.getDistanceOfPillar();
 			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
@@ -511,6 +529,13 @@ public class HomeController {
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData, 0);
+		}
+		for (LineData lineData : archivFileBuilder.getLineData()) {
+			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
+							lineData.getEndX(), lineData.getEndY(), 
+							lineData.getType(),
+							new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()), 
+							lineData.getWidth());
 		}
 	}
 	
@@ -548,7 +573,13 @@ public class HomeController {
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData, shiftY);
 		}
-		
+		for (LineData lineData : archivFileBuilder.getLineData()) {
+			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
+							lineData.getEndX(), lineData.getEndY(), 
+							lineData.getType(),
+							new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()), 
+							lineData.getWidth());
+		}
 	}
 	
 	public void modifyVerticalScale() {
@@ -582,6 +613,13 @@ public class HomeController {
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData, 0);
+		}
+		for (LineData lineData : archivFileBuilder.getLineData()) {
+			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
+							lineData.getEndX(), lineData.getEndY(), 
+							lineData.getType(),
+							new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()), 
+							lineData.getWidth());
 		}
 	}
 	
