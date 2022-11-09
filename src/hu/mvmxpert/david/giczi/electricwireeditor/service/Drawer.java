@@ -907,7 +907,11 @@ public class Drawer {
 }
 	private void setDrawLineWindowData(Line line) {
 		homeController.showSetLineDataWindow();
-		LineData lineData = archivFileBuilder.getLineData(Integer.valueOf(line.getId()));
+		int id = Integer.valueOf(line.getId());
+		LineData lineData = archivFileBuilder.getLineData(id);
+		PillarData pillarData = archivFileBuilder.getPillarData(id);
+		WireData wireData = archivFileBuilder.getWireData(id);
+		if( lineData != null) {
 		homeController.setLineWindow.getController().getStartXTextField().setText(String.valueOf(lineData.getStartX()));
 		homeController.setLineWindow.getController().getStartYTextField().setText(String.valueOf(lineData.getStartY()));
 		homeController.setLineWindow.getController().getEndXTextField().setText(String.valueOf(lineData.getEndX()));
@@ -916,12 +920,31 @@ public class Drawer {
 		homeController.setLineWindow.getController().getLineColorPicker()
 		.setValue(new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()));
 		homeController.setLineWindow.getController().getLineWidthComboBox().setValue(lineData.getWidth());
+		}
+		else if( pillarData != null ) {
+		homeController.setLineWindow.getController().getStartXTextField().setText(String.valueOf(pillarData.getDistanceOfPillar()));
+		homeController.setLineWindow.getController().getStartYTextField().setText(String.valueOf(pillarData.getGroundElevation()));
+		homeController.setLineWindow.getController().getEndXTextField().setText(String.valueOf(pillarData.getDistanceOfPillar()));
+		homeController.setLineWindow.getController().getEndYTextField().setText(String.valueOf(pillarData.getTopElevetaion()));
+		homeController.setLineWindow.getController().getLineTypeComboBox().setValue("folyamatos");
+		homeController.setLineWindow.getController().getLineColorPicker().setValue(Color.BLUE);
+			homeController.setLineWindow.getController().getLineWidthComboBox().setValue("3");
+		}
+		else if( wireData != null ) {
+		homeController.setLineWindow.getController().getStartXTextField().setText(String.valueOf(wireData.getDistanceOfWire()));
+		homeController.setLineWindow.getController().getStartYTextField().setText(String.valueOf(wireData.getGroundElevation()));
+		homeController.setLineWindow.getController().getEndXTextField().setText(String.valueOf(wireData.getDistanceOfWire()));
+		homeController.setLineWindow.getController().getEndYTextField().setText(String.valueOf(wireData.getTopElevetaion()));
+		homeController.setLineWindow.getController().getLineTypeComboBox().setValue("folyamatos");
+		homeController.setLineWindow.getController().getLineColorPicker().setValue(Color.RED);
+		homeController.setLineWindow.getController().getLineWidthComboBox().setValue("3");	
+		}
 	}
 	
 	public void drawLine(double startX, double startY, double endX, double endY, String type, Color color, String width) {
 		
 		if( 0 > startX || startX > lengthOfHorizontalAxis ) {
-			HomeController.getWarningAlert("Nem megfelelő megfelelő StartX koordináta érték",
+			HomeController.getWarningAlert("Nem megfelelő StartX koordináta érték",
 					"Az X koordináta értéke: X >= 0 és " + lengthOfHorizontalAxis + " >= X");
 			return;
 		}
@@ -944,6 +967,7 @@ public class Drawer {
 		}
 		LineData lineData = new LineData(startX, startY, endX, endY, type, 
 				color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity(), width);
+		lineData.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addLine(lineData);
 		Line newLine = new Line();
 		newLine.setStrokeWidth(1);

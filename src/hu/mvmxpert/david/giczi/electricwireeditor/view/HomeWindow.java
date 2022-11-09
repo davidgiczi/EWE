@@ -149,7 +149,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			homeController.openProject();
+			if( homeController.openProject() )
 			homeController.showInputDrawingSystemDataOnCoordSystemDataWindow();
 			}
 		});

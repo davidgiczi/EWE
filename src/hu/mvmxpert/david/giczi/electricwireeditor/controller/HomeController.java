@@ -201,7 +201,7 @@ public class HomeController {
 		return false;
 	}
 	
-	public void openProject() {
+	public boolean openProject() {
 	List<String> projectData = fileProcess.openProject();
 	setTitle(homeWindow.getRoot());
 	if( !projectData.isEmpty() ) {
@@ -217,6 +217,7 @@ public class HomeController {
 	homeWindow.toBeLastPillarTheBeginner.setDisable(false);
 	homeWindow.exchangePillars.setDisable(false);
 	}
+	return  !projectData.isEmpty(); 
 }
 	
 	public void showInputDrawingSystemDataOnCoordSystemDataWindow() {
@@ -436,7 +437,6 @@ public class HomeController {
 			drawer.drawInputText(textData);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
-			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(),lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -478,7 +478,6 @@ public class HomeController {
 			drawer.drawInputText(textData);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
-			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -499,12 +498,11 @@ public class HomeController {
 										drawer.getHorizontalScale(),
 										drawer.getElevationStartValue(), 
 										drawer.getVerticalScale());
+		lastPillar.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addPillar(lastPillar);
 		drawSystem();
-		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
-			drawer.drawInputPillar(pillarData.getId());
-			drawer.drawInputPillarText(pillarData, 0);
-		}
+		drawer.drawInputPillar(lastPillar.getId());
+		drawer.drawInputPillarText(lastPillar, 0);
 	}
 	
 	public void exchangePillars() {
@@ -533,7 +531,6 @@ public class HomeController {
 			drawer.drawInputWireText(wireData, 0);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
-			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -577,7 +574,6 @@ public class HomeController {
 			drawer.drawInputWireText(wireData, shiftY);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
-			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
@@ -619,7 +615,6 @@ public class HomeController {
 			drawer.drawInputWireText(wireData, 0);
 		}
 		for (LineData lineData : archivFileBuilder.getLineData()) {
-			lineData.setId(ArchivFileBuilder.addID());
 			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
 							lineData.getEndX(), lineData.getEndY(), 
 							lineData.getType(),
