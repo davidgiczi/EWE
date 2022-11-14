@@ -69,7 +69,7 @@ public class SetTextWindow {
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setResizable(false);
-			stage.setTitle("Új felirat hozzáadása");
+			stage.setTitle("Felirat hozzáadása");
 			stage.getIcons().add(new Image("/logo/MVM.jpg"));
 			stage.show();
 		} catch (IOException e) {

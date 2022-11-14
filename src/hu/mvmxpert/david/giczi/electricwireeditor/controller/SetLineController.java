@@ -83,10 +83,10 @@ public class SetLineController implements Initializable {
 		double endX;
 		double endY;
 		try {
-			startX = Validate.isValidDoubleValue(startXTextField.getText());
-			startY = Validate.isValidDoubleValue(startYTextField.getText());
-			endX = Validate.isValidDoubleValue(endXTextField.getText());
-			endY = Validate.isValidDoubleValue(endYTextField.getText());
+			startX = Validate.isValidDoubleValue(startXTextField.getText().replace(',', '.'));
+			startY = Validate.isValidDoubleValue(startYTextField.getText().replace(',', '.'));
+			endX = Validate.isValidDoubleValue(endXTextField.getText().replace(',', '.'));
+			endY = Validate.isValidDoubleValue(endYTextField.getText().replace(',', '.'));
 			
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő koordináta bementi érték", "Vonal koordináta érték csak 0 vagy pozitív szám lehet.");
