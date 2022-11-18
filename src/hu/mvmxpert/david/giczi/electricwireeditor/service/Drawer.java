@@ -351,6 +351,10 @@ public class Drawer {
 		textData.setTextValue(text);
 		textData.setAtTop(isAtTop);
 		textData.setSize(18);
+		if( text.startsWith("bal") || text.startsWith("jobb") ) {
+			textData.setDirection(-90);
+			txt.setRotate(-90);
+		}
 		double xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + (HOR_SHIFT - 4) * MILLIMETER;
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
 		txt.setY(startY * MILLIMETER);
