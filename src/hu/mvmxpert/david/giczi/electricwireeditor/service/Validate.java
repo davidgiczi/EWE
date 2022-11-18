@@ -71,4 +71,10 @@ public class Validate {
 		double text_Y = Double.parseDouble(textY);
 		return MIN_Y_VALUE > text_Y || text_Y >  MAX_Y_VALUE;
 	}
+	public static int isValidTextRotateValue(String inputValue) throws NumberFormatException {
+		int rotateValue = Integer.parseInt(inputValue);
+		if( 0 > rotateValue || rotateValue > 359)
+			throw new NumberFormatException();
+		return rotateValue;
+	}
 }

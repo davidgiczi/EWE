@@ -4,8 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
+import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -31,9 +33,17 @@ public class ModifyTextController implements Initializable {
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
+	
+	public ColorPicker getColorPicker() {
+		return colorPicker;
+	}
 
 	@FXML
 	public TextField inputTextField;
+	@FXML
+	public TextField rotateValueTextField;
+	@FXML
+	private ColorPicker colorPicker;
 	@FXML
 	public ComboBox<String> textSizeComboBox;
 	
@@ -43,7 +53,16 @@ public class ModifyTextController implements Initializable {
 			inputTextField.setText(inputText.getText());
 			return;
 		}
-		drawer.modifyText(inputText, inputTextField.getText());
+		int rotateValue;
+		try {
+			rotateValue = Validate.isValidTextRotateValue(rotateValueTextField.getText());
+		} catch (NumberFormatException e) {
+			HomeController.getWarningAlert("Nem megfelelő felirat forgatási érték", 
+					"A felirat forgatási értéke csak egész szám lehet: forgatási érték >= 0 és forgatási érték < 360");
+			return;
+		}
+		drawer.modifyText(inputText, inputTextField.getText(), colorPicker.getValue(),
+				rotateValue, Integer.valueOf(textSizeComboBox.getValue()));
 	}
 	
 	@FXML
@@ -67,20 +86,11 @@ public class ModifyTextController implements Initializable {
 	}
 	
 	@FXML
-	public void rotateInputText() {
-		drawer.rotateText(inputText);
-	}
-	
-	@FXML
 	public void deleteInputText() {
 		if( drawer.deleteText(inputText) )
 		stage.hide();
 	}
 	
-	@FXML
-	public void setSizeInputText() {
-		drawer.setTextSize(inputText, Integer.valueOf(textSizeComboBox.getValue()));
-	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

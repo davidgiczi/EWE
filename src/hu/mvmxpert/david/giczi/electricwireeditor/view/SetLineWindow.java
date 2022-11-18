@@ -36,6 +36,7 @@ public class SetLineWindow {
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setResizable(false);
+			stage.setAlwaysOnTop(true);
 			stage.setTitle("Vonal hozzáadása");
 			stage.getIcons().add(new Image("/logo/MVM.jpg"));
 			stage.show();

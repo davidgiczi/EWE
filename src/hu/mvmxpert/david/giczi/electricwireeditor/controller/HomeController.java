@@ -63,7 +63,6 @@ public class HomeController {
 		homeWindow.setPillarData.setDisable(true);
 		homeWindow.setWireData.setDisable(true);
 		homeWindow.addText.setDisable(false);
-		PROJECT_NAME = null;
 		setTitle(drawer.getRoot());
 		drawer.drawPage();	
 	}
@@ -271,7 +270,13 @@ public class HomeController {
 						Integer.parseInt(data[4]), 
 						Integer.parseInt(data[5]),
 						Boolean.parseBoolean(data[6]),
-						Boolean.parseBoolean(data[7]));			
+						Boolean.parseBoolean(data[7]),
+						Double.parseDouble(data[8]),
+						Double.parseDouble(data[9]),
+						Double.parseDouble(data[10]),
+						Double.parseDouble(data[11])
+						);
+						
 			}
 		}
 	}
@@ -299,7 +304,11 @@ public class HomeController {
 						Integer.parseInt(data[4]), 
 						Integer.parseInt(data[5]),
 						Boolean.parseBoolean(data[6]),
-						Boolean.parseBoolean(data[7]));
+						Boolean.parseBoolean(data[7]),
+						Double.parseDouble(data[8]),
+						Double.parseDouble(data[9]),
+						Double.parseDouble(data[10]),
+						Double.parseDouble(data[11]));
 			}
 		}
 		
@@ -317,7 +326,11 @@ public class HomeController {
 						Integer.parseInt(textData[4]),
 						Integer.parseInt(textData[5]),
 						Boolean.parseBoolean(textData[6]),
-						Boolean.parseBoolean(textData[7]));
+						Boolean.parseBoolean(textData[7]),
+						Double.parseDouble(textData[8]),
+						Double.parseDouble(textData[9]),
+						Double.parseDouble(textData[10]),
+						Double.parseDouble(textData[11]));
 			}
 		}
 }

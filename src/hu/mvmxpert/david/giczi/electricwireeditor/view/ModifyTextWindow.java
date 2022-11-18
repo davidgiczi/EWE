@@ -25,6 +25,14 @@ public class ModifyTextWindow {
 		controller.inputTextField.setText(inputText.getText());
 		controller.textSizeComboBox.setValue(String.valueOf((int)inputText.getFont().getSize()));
 	}
+	
+	public void setRotateValue(double value) {
+		controller.rotateValueTextField.setText(String.valueOf((int) value));
+	}
+
+	public ModifyTextController getController() {
+		return controller;
+	}
 
 	public ModifyTextWindow(Drawer drawer) {
 

@@ -203,18 +203,18 @@ public class Drawer {
 		double startY = START_Y;
 		int startValue = elevationStartValue;
 		for(int i = 0; i <= 10; i++) {
-		setText(-1, String.valueOf(startValue) + "m", - 70, PAGE_Y + startY, 18, 0, false, false);
+		setText(-1, String.valueOf(startValue) + "m", - 70, PAGE_Y + startY, 18, 0, false, false, 0, 0, 0, 1);
 		startY -= 10 * MILLIMETER;
 		startValue += verticalScale;
 		}
-		setText(-1, "Oszlopszám:", - 17 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false);
+		setText(-1, "Oszlopszám:", - 17 * MILLIMETER, PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
 	public void writeDistanceValueForHorizontalAxis() {
-		setText(-1, "0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false);
+		setText(-1, "0", (HOR_SHIFT - 1) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 		setText(-1, String.valueOf(lengthOfHorizontalAxis) + "m", 
 				getHorizontalScaledDownLengthValue(lengthOfHorizontalAxis) * MILLIMETER, 
-				PAGE_Y + START_Y + 50, 18, 0, false, false);
+				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
 	public void drawPillar(String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -270,14 +270,14 @@ public class Drawer {
 		
 		setText(pillarData.getId(), id + ".", 
 				(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false);	
+				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);	
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true, false);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true, true);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
 		if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(pillarData.getId(), df.format(distance).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false);
+		(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
@@ -333,15 +333,15 @@ public class Drawer {
 		}
 		
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true, true);
+				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
 		if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(wireData.getId(), df.format(distance).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 50, 18, 0, false, false);
+				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 		setText(wireData.getId(), text, (getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 65, 18, 0, false, false);
+				PAGE_Y + START_Y + 65, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
 	public void writeText(String text, double startX, double startY, double rotate, int ownerId, boolean isAtTop) {
@@ -351,17 +351,7 @@ public class Drawer {
 		textData.setTextValue(text);
 		textData.setAtTop(isAtTop);
 		textData.setSize(18);
-		double xDistance;
-		if( rotate == -90 ) {
-			txt.setRotationAxis(Rotate.Z_AXIS);
-			txt.setRotate(-90);
-			textData.setDirection(-90);
-			xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + (HOR_SHIFT - 4) * MILLIMETER;
-		}
-		else {
-			textData.setDirection(0);
-			xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X;
-		}
+		double xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + (HOR_SHIFT - 4) * MILLIMETER;
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
 		txt.setY(startY * MILLIMETER);
 		textData.setX(txt.xProperty().get() - X_DISTANCE);
@@ -376,18 +366,18 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	public void setText(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide, boolean isAtTop) {
+	public void setText(int id, String text, double startX, double startY, int size, int rotate, 
+			boolean isOnLeftSide, boolean isAtTop, double red, double green, double blue, double opacity) {
 		Text txt = new Text(text);
+		txt.setFill(new Color(red, green, blue, opacity));
 		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
-		if( rotate == -90 ) {
 		txt.setRotationAxis(Rotate.Z_AXIS);
-		txt.setRotate(-90);
-		}
+		txt.setRotate(rotate);
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(startX));
 		txt.setY(startY);
 		
-		int pillarTextId = getPillarTextId(id, text, startX, startY, size, rotate, isOnLeftSide, isAtTop);
-		int wireTextId = getWireTextId(id, text, startX, startY, size, rotate, isOnLeftSide, isAtTop);
+		int pillarTextId = getPillarTextId(id, text, startX, startY, size, rotate, isOnLeftSide, isAtTop, red, blue, green, opacity);
+		int wireTextId = getWireTextId(id, text, startX, startY, size, rotate, isOnLeftSide, isAtTop, red, blue, green, opacity);
 		
 		if( pillarTextId != -1 ) {
 			txt.setId(String.valueOf(pillarTextId));
@@ -397,6 +387,10 @@ public class Drawer {
 		}
 		else if ( id != - 1){
 		TextData singleText = new TextData(text, startX, startY, size, rotate, "SingleText");
+		singleText.setRed(red);
+		singleText.setGreen(green);
+		singleText.setBlue(blue);
+		singleText.setOpacity(opacity);
 		singleText.setId(ArchivFileBuilder.addID());
 		archivFileBuilder.addText(singleText);
 		txt.setId(String.valueOf(singleText.getId()));
@@ -404,6 +398,10 @@ public class Drawer {
 		else if( id == -1 ) {
 		TextData baseText = new TextData(text, startX, startY, size, rotate, "SingleText");
 		baseText.setId(id);
+		baseText.setRed(red);
+		baseText.setGreen(green);
+		baseText.setBlue(blue);
+		baseText.setOpacity(opacity);
 		archivFileBuilder.addText(baseText);
 		txt.setId("-1");
 		}
@@ -414,7 +412,8 @@ public class Drawer {
 		root.getChildren().add(txt);
 	}
 	
-	private int getPillarTextId(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide, boolean isAtTop) {
+	private int getPillarTextId(int id, String text, double startX, double startY, int size, int rotate, 
+			boolean isOnLeftSide, boolean isAtTop, double red, double green, double blue, double opacity) {
 		PillarData pillar = archivFileBuilder.getPillarData(id);
 		if( pillar == null )
 			return -1;
@@ -422,11 +421,16 @@ public class Drawer {
 		pillarText.setId(ArchivFileBuilder.addID());
 		pillarText.setOnLeftSide(isOnLeftSide);
 		pillarText.setAtTop(isAtTop);
+		pillarText.setRed(red);
+		pillarText.setGreen(green);
+		pillarText.setBlue(blue);
+		pillarText.setOpacity(opacity);
 		pillar.getPillarTextList().add(pillarText);
 		return pillarText.getId();
 	}
 	
-	private int getWireTextId(int id, String text, double startX, double startY, int size, int rotate, boolean isOnLeftSide, boolean isAtTop) {
+	private int getWireTextId(int id, String text, double startX, double startY, int size, int rotate,
+			boolean isOnLeftSide, boolean isAtTop, double red, double green, double blue, double opacity) {
 		WireData wire = archivFileBuilder.getWireData(id);
 		if( wire == null )
 			return -1;
@@ -434,6 +438,10 @@ public class Drawer {
 		wireText.setId(ArchivFileBuilder.addID());
 		wireText.setOnLeftSide(isOnLeftSide);
 		wireText.setAtTop(isAtTop);
+		wireText.setRed(red);
+		wireText.setGreen(green);
+		wireText.setBlue(blue);
+		wireText.setOpacity(opacity);
 		wire.getWireTextList().add(wireText);
 		return wireText.getId();
 	}
@@ -449,32 +457,27 @@ public class Drawer {
 		}
 		return false;
 		}
-	
-	public void rotateText(Text text) {
-		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();
-		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
-		text.setRotationAxis(Rotate.Z_AXIS);
-		if( text.getRotate() == -90) {
-			text.setRotate(0);
-			if( textData != null )
-			text.setRotate(0);
-		}
-		else {
-			text.setRotate(-90);
-			if( textData != null )
-				textData.setDirection(-90);
-		}
-		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));	
-		textData.setX(text.xProperty().get() - X_DISTANCE);
-		textData.setY(text.yProperty().get());	
-	}
-	
-	public void modifyText(Text text, String txt) {
+
+	public void modifyText(Text text, String txt, Color color, int rotate, int size) {
 		TextData textData = archivFileBuilder.getTextData(Integer.valueOf(text.getId()));
 		if( textData != null ) {
+		double xDistance = text.getX() - root.widthProperty().divide(2).subtract(A4_WIDTH / 2).get();	
+		textData.setDirection(-1 * rotate);	
 		textData.setTextValue(txt);
-		}
+		textData.setSize(size);
+		textData.setRed(color.getRed());
+		textData.setGreen(color.getGreen());
+		textData.setBlue(color.getBlue());
+		textData.setX(text.xProperty().get() - X_DISTANCE);
+		textData.setY(text.yProperty().get());
+		text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, size));
+		text.setFill(color);
 		text.setText(txt);
+		text.setRotationAxis(Rotate.Z_AXIS);
+		text.setRotate(textData.getDirection());
+		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(xDistance));
+		text.setY(text.getY());
+		}
 	}
 	
 	public void moveTextLeft(Text text) {
@@ -1063,6 +1066,10 @@ public class Drawer {
 		}
 		modifyTextWindow.getStage().setAlwaysOnTop(true);
 		modifyTextWindow.setInputText(text);
+		modifyTextWindow.setRotateValue(Math.abs(text.getRotate()));
+		TextData textData = archivFileBuilder.getTextData(Integer.parseInt(text.getId()));
+		modifyTextWindow.getController().getColorPicker()
+		.setValue(new Color(textData.getRed(), textData.getGreen(), textData.getBlue(), textData.getOpacity()));
 	}
 
 	public double getHorizontalScaledDownLengthValue(double length) {

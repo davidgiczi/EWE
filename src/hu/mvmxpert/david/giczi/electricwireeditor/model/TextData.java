@@ -11,6 +11,10 @@ public class TextData {
 	private String type;
 	private boolean isOnLeftSide;
 	private boolean isAtTop;
+	private double red;
+	private double blue;
+	private double green;
+	private double opacity = 1d;
 	
 	public TextData() {
 	}
@@ -26,7 +30,8 @@ public class TextData {
 	}
 
 	public String getTextData() {
-		return type + "#" + textValue + "#" + X + "#" + Y + "#" + size + "#" + direction + "#" + isOnLeftSide + "#" + isAtTop;
+		return type + "#" + textValue + "#" + X + "#" + Y + "#" + size + "#" + direction + "#" + isOnLeftSide + "#" + isAtTop + 
+				"#" + red + "#" + green + "#" + blue + "#" + opacity;
 	}
 	
 	public int getId() {
@@ -94,6 +99,38 @@ public class TextData {
 
 	public void setAtTop(boolean isAtTop) {
 		this.isAtTop = isAtTop;
+	}
+
+	public double getRed() {
+		return red;
+	}
+
+	public void setRed(double red) {
+		this.red = red;
+	}
+
+	public double getBlue() {
+		return blue;
+	}
+
+	public void setBlue(double blue) {
+		this.blue = blue;
+	}
+
+	public double getGreen() {
+		return green;
+	}
+
+	public void setGreen(double green) {
+		this.green = green;
+	}
+
+	public double getOpacity() {
+		return opacity;
+	}
+
+	public void setOpacity(double opacity) {
+		this.opacity = opacity;
 	}
 	
 }
