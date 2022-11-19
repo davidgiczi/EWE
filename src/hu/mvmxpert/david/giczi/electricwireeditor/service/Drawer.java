@@ -720,15 +720,13 @@ public class Drawer {
 		Text text = new Text(textData.getTextValue());
 		text.setId(String.valueOf(textData.getId()));
 		text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, textData.getSize()));
-		if( textData.getDirection() == -90 ) {
-			text.setRotationAxis(Rotate.Z_AXIS);
-			text.setRotate(-90);
-			}
-			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-			text.setY(textData.getY());
-			text.setCursor(Cursor.HAND);
-			text.setOnMouseClicked( t -> {
-				Text inputText = (Text) t.getSource();
+		text.setRotationAxis(Rotate.Z_AXIS);
+		text.setRotate(textData.getDirection());
+		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
+		text.setY(textData.getY());
+		text.setCursor(Cursor.HAND);
+		text.setOnMouseClicked( t -> {
+		Text inputText = (Text) t.getSource();
 				showModifyTextWindow(inputText); });
 			root.getChildren().add(text);
 	}

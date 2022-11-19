@@ -105,6 +105,7 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				fileProcess.setFolder();
+				homeController.setTitle(root);
 			}
 		});
 		MenuItem setCoordSystem = new MenuItem("Rajzi rendszer beállítása");
