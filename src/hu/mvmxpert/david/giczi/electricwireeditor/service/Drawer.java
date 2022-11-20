@@ -593,6 +593,7 @@ public class Drawer {
 			Text text = new Text(textData.getTextValue());
 			text.setId(String.valueOf(textData.getId()));
 			text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, textData.getSize()));
+			text.setFill(new Color(textData.getRed(), textData.getGreen(), textData.getBlue(), textData.getOpacity()));
 			if( textData.getDirection() == -90 ) {
 				text.setRotationAxis(Rotate.Z_AXIS);
 				text.setRotate(-90);
@@ -688,6 +689,7 @@ public class Drawer {
 			Text text = new Text(textData.getTextValue());
 			text.setId(String.valueOf(textData.getId()));
 			text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, textData.getSize()));
+			text.setFill(new Color(textData.getRed(), textData.getGreen(), textData.getBlue(), textData.getOpacity()));
 			if( textData.getDirection() == -90 ) {
 				text.setRotationAxis(Rotate.Z_AXIS);
 				text.setRotate(-90);
