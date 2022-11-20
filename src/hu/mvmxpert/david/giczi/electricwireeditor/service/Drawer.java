@@ -722,13 +722,14 @@ public class Drawer {
 		text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, textData.getSize()));
 		text.setRotationAxis(Rotate.Z_AXIS);
 		text.setRotate(textData.getDirection());
+		text.setFill(new Color(textData.getRed(), textData.getGreen(), textData.getBlue(), textData.getOpacity()));
 		text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
 		text.setY(textData.getY());
 		text.setCursor(Cursor.HAND);
 		text.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
 				showModifyTextWindow(inputText); });
-			root.getChildren().add(text);
+		root.getChildren().add(text);
 	}
 	
 	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
