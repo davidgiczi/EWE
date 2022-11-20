@@ -509,6 +509,7 @@ public class HomeController {
 		if( lastPillar == null )
 			return;
 		List<TextData> textList = archivFileBuilder.getTextData();
+		List<LineData> lineList = archivFileBuilder.getLineData();
 		lastPillar.setDistanceOfPillar(0);
 		archivFileBuilder.init();
 		drawer.clearRoot();
@@ -526,9 +527,17 @@ public class HomeController {
 			drawer.drawInputText(textData);
 			}
 		}
+		for (LineData lineData : lineList) {
+			lineData.setId(ArchivFileBuilder.addID());
+			archivFileBuilder.getLineData().add(lineData);
+			drawer.drawInputLine(lineData.getId(), lineData.getStartX(), lineData.getStartY(), 
+					lineData.getEndX(), lineData.getEndY(), lineData.getType(), 
+					new Color(lineData.getRed(), lineData.getGreen(), lineData.getBlue(), lineData.getOpacity()), lineData.getWidth());
+		}
 		drawer.drawInputPillar(lastPillar.getId());
 		drawer.drawInputPillarText(lastPillar, 0);
-	}
+		
+		}
 	
 	public void exchangePillars() {
 		

@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,7 +117,7 @@ public class FileProcess {
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME+ ".ewe");
 		
 		try(BufferedReader reader = new BufferedReader(
-				new FileReader(file))) {
+				new FileReader(file, StandardCharsets.UTF_8))) {
 			
 				String row = reader.readLine();
 				while( row != null ) {
@@ -157,7 +158,7 @@ public class FileProcess {
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME+ ".ewe");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file))) {
+				new FileWriter(file, StandardCharsets.UTF_8))) {
 			
 			writer.write(archivFileBuilder.getSystemData().getDrawingSystemData());
 			writer.newLine();
