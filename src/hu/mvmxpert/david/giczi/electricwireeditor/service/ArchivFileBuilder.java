@@ -420,7 +420,7 @@ public class ArchivFileBuilder {
 				for (TextData text : pillarData.getPillarTextList()) {
 					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
 						rightWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
-								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().length() - 1))
+								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
 								- systemData.getElevationStartValue()));
 					}
 				}	
@@ -431,7 +431,7 @@ public class ArchivFileBuilder {
 				for (TextData text : wireData.getWireTextList()) {
 					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
 						rightWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
-								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().length() - 1))
+								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
 								- systemData.getElevationStartValue()));
 					}
 				}	

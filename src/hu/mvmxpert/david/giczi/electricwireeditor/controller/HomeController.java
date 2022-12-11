@@ -1,8 +1,16 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Robot;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
+import javax.imageio.ImageIO;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
@@ -137,7 +145,7 @@ public class HomeController {
 					
 		if( PROJECT_NAME == null ) {
 			String projectName = null;
-			projectName = homeWindow.setProjectName();
+			projectName = setProjectName();
 			 if( projectName ==  null )
 				 return;
 			 if( !saveExistedProjectFile() ) {
@@ -145,7 +153,7 @@ public class HomeController {
 
 				 if( fileProcess.isProjectFileExist() && 
 						 !getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
-				 	projectName = homeWindow.setProjectName();
+				 	projectName = setProjectName();
 				 }
 				if( projectName != null )
 				 save();
@@ -160,7 +168,7 @@ public class HomeController {
 				 return;
 			 if( fileProcess.isProjectFileExist() && 
 					 !getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
-			 	projectName = homeWindow.setProjectName();
+			 	projectName = setProjectName();
 			 }
 			if( projectName != null )
 			 save();
@@ -171,7 +179,7 @@ public class HomeController {
 			
 			if( fileProcess.isProjectFileExist() && 
 					 !getConfirmationAlert("Létező projekt fájl", HomeController.PROJECT_NAME + ".ewd\nBiztos, hogy felülírod?") ) {
-			 	projectName = homeWindow.setProjectName();
+			 	projectName = setProjectName();
 			 }
 			if( projectName != null )
 				save();
@@ -180,7 +188,7 @@ public class HomeController {
 	private boolean save() {
 		
 		if( fileProcess.saveProject() ) {
-			getInfoAlert("Projekt fájl mentve", "\"" + HomeController.PROJECT_NAME + ".ewd\" projekt fájl mentve az alábbi mappába: \n"
+			getInfoAlert("Projekt fájl mentve", "\"" + HomeController.PROJECT_NAME + ".ewd\" projekt fájl mentve az alábbi mappába:\n"
 					+ FileProcess.FOLDER_PATH + "\\") ;
 			return true;
 		}
@@ -471,7 +479,8 @@ public class HomeController {
 				return;
 			scale = Validate.isValidPositiveIntegerValue(inputValue);
 		} catch (NumberFormatException e) {
-			getWarningAlert("Nem megfelelő nyomvonal méretaránytényező érték", "A nyomvonal méretaránytényezője csak pozitív egész szám érték lehet.");
+			getWarningAlert("Nem megfelelő nyomvonal méretaránytényező érték", 
+					"A nyomvonal méretaránytényezője csak pozitív egész szám érték lehet.");
 			return;
 		}	
 		
@@ -672,7 +681,8 @@ public class HomeController {
 	public void showLeftWire() {
 		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
 		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", "Sodrony kirajzolásához legalább két különböző bal oldali oszlop vagy vezeték pont szükséges.");
+			getWarningAlert("Sodrony nem rajzolható", 
+					"Sodrony kirajzolásához legalább két különböző bal oldali oszlop vagy vezeték pont szükséges.");
 			return;
 		}	
 		drawer.drawLeftWireCurve(wirePoints);
@@ -745,5 +755,47 @@ public class HomeController {
 			}
 			drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-3");
 		}
+	
+	public String setProjectName() {
 		
+		String projectName = setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
+		if(projectName == null){
+			return null;
+		}
+		else if( Validate.isValidProjectName(projectName) ) {
+			HomeController.PROJECT_NAME = projectName;
+		}
+		else {
+			HomeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
+		}
+		setTitle(homeWindow.getRoot());
+		return projectName;
+}
+		
+	public void printScreen() {
+		if( FileProcess.FOLDER_PATH == null )
+			fileProcess.setFolder();
+		if( PROJECT_NAME == null )
+			setProjectName();
+		if( FileProcess.FOLDER_PATH == null || PROJECT_NAME == null )
+			return;
+			
+		try {
+			Robot rob = new Robot();
+			int targetWidth = (int) (137 * Drawer.MILLIMETER * 1.25);
+			int targetHeight = (int) (150 * Drawer.MILLIMETER * 1.25);
+			Rectangle capture = new Rectangle(new Dimension((int) (137 * Drawer.MILLIMETER), (int) (150 * Drawer.MILLIMETER)));
+			capture.setLocation((int) (94 * Drawer.MILLIMETER), (int) (17 * Drawer.MILLIMETER));
+			BufferedImage originalImage = rob.createScreenCapture(capture);
+			java.awt.Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_DEFAULT);
+		    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+			ImageIO.write(outputImage, "png", new File(FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".png"));
+			getInfoAlert("Képernyőkép mentése", "Képernyőkép mentve az alábbi mappába:\n" + 
+			FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".png");
+		} catch (AWTException | IOException e) {
+			getWarningAlert("Képernyőkép mentése", "Képernyőkép mentése sikeretelen.");
+			e.printStackTrace();
+		}
+	}
 }

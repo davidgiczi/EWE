@@ -96,7 +96,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				setProjectName();
+			homeController.setProjectName();
 			}
 		});
 		MenuItem setProjectFolder = new MenuItem("Projekt mappa megadása");
@@ -163,8 +163,14 @@ public class HomeWindow  {
 				homeController.saveProject();
 			}
 		});
-		
-		
+		MenuItem printScreen = new MenuItem("Képernyőkép mentése");
+		printScreen.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.printScreen();
+			}
+		});
 		MenuItem exitProject = new MenuItem("Kilépés");
 		exitProject.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -186,7 +192,7 @@ public class HomeWindow  {
 		createNewProject.getItems().addAll(setProjectName, new SeparatorMenuItem(), setProjectFolder, 
 				new SeparatorMenuItem(), setCoordSystem, new SeparatorMenuItem(), setPillarData, new SeparatorMenuItem(), setWireData);
 		projectProcess.getItems().addAll(createNewProject, new SeparatorMenuItem(), 
-				openProject, new SeparatorMenuItem(), saveProject, new SeparatorMenuItem(), exitProject);
+				openProject, new SeparatorMenuItem()/*, printScreen*/, saveProject, new SeparatorMenuItem(), exitProject);
 		Menu modifyDraw = new Menu("Rajz módosítása");
 		addText = new MenuItem("Felirat hozzáadása");
 		addText.setDisable(true);
@@ -327,23 +333,5 @@ public class HomeWindow  {
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}
-	
-	public String setProjectName() {
-		
-		String projectName = homeController.setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
-		if(projectName == null){
-			return null;
-		}
-		else if( Validate.isValidProjectName(projectName) ) {
-			HomeController.PROJECT_NAME = projectName;
-		}
-		else {
-			HomeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
-		}
-		homeController.setTitle(root);
-		
-		return projectName;
-}
-	
 	
 }
