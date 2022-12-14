@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color:  #ECECEC;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwireeditor.controller.SaveWireCoordsController">
+	
+	
+</AnchorPane>
+

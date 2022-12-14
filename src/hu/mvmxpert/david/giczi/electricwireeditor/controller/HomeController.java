@@ -21,6 +21,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.HomeWindow;
+import hu.mvmxpert.david.giczi.electricwireeditor.view.SaveWireCoordsWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetDrawingSystemDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetLineWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetPillarDataWindow;
@@ -47,6 +48,7 @@ public class HomeController {
 	public SetWireDataWindow setWireDataWindow;
 	public SetTextWindow setTextWindow;
 	public SetLineWindow setLineWindow;
+	public SaveWireCoordsWindow saveWireCoordsWindow;
 	
 	public HomeController() {
 		drawer = new Drawer();
@@ -121,6 +123,17 @@ public class HomeController {
 		}
 		setTextWindow.getStage().setAlwaysOnTop(true);
 		setTextWindow.getInputTextField().requestFocus();
+	}
+	
+	
+	public void showSaveWireCoordsWindow(String title) {
+		if( saveWireCoordsWindow == null) {
+			saveWireCoordsWindow = new SaveWireCoordsWindow(this);
+		}
+		else {
+			saveWireCoordsWindow.getStage().show();
+		}
+		saveWireCoordsWindow.getStage().setTitle(title);
 	}
 	
 	public String setInputText(String title, String text) {
@@ -772,6 +785,13 @@ public class HomeController {
 		return projectName;
 }
 		
+	public void saveWireCoords() {
+		
+		getWarningAlert("Sodrony pontjai nem menthetők", 
+				"Sodrony pontjainak mentéséhez legalább egy vezeték pont szükséges.");
+	}
+	
+	
 	public void printScreen() {
 		if( FileProcess.FOLDER_PATH == null )
 			fileProcess.setFolder();

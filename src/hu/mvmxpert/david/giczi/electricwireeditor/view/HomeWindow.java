@@ -275,7 +275,7 @@ public class HomeWindow  {
 				toBeLastPillarTheBeginner,
 				new SeparatorMenuItem(), 
 				exchangePillars);
-		Menu drawWire = new Menu("Sodrony rajzolása");
+		Menu drawWire = new Menu("Sodrony műveletek");
 		Menu leftWire = new Menu("Bal sodrony");
 		MenuItem visibleLeftWire = new MenuItem("Bal sodrony látható");
 		visibleLeftWire.setOnAction(new EventHandler<ActionEvent>() {
@@ -328,8 +328,28 @@ public class HomeWindow  {
 				homeController.showDifferenceOfCurveOfRightWire();
 			}
 		});
+		Menu saveWireCoords = new Menu("Sodrony pontok mentése");
+		MenuItem localSystem = new MenuItem("Helyi rendszerben -> 2D");
+		localSystem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.saveWireCoords();
+				homeController.showSaveWireCoordsWindow("Sodrony pontok mentése helyi rendszerben -> 2D");
+			}
+		});
+		MenuItem countrySystem = new MenuItem("Országos rendszerben -> 3D");
+		countrySystem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.saveWireCoords();
+				homeController.showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D");
+			}
+		});
 		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
-		drawWire.getItems().addAll(leftWire, rightWire);
+		saveWireCoords.getItems().addAll(localSystem, countrySystem);
+		drawWire.getItems().addAll(leftWire, rightWire, new SeparatorMenuItem(), saveWireCoords);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}
