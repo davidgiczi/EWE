@@ -14,6 +14,13 @@ public class SaveWireCoordsController {
 	public TextField endX;
 	@FXML
 	public TextField endY;
+	private boolean is2DWindow;
+	
+	
+	public void setIs2DWindow(boolean is2dWindow) {
+		is2DWindow = is2dWindow;
+	}
+	
 	
 	
 }

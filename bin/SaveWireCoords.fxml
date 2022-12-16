@@ -90,7 +90,7 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <CheckBox layoutX="140.0" layoutY="270.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Autocad (*.scr)">
+      <CheckBox layoutX="140.0" layoutY="270.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="AutoCad (*.scr)">
       <font>
             <Font name="Arial Bold" size="16.0" />
          </font>

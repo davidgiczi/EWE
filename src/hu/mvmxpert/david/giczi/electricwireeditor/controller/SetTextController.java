@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 
 import javax.management.InvalidAttributeValueException;
 
+import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -45,6 +46,7 @@ public class SetTextController {
 	public void handleSetTextButtonClick() {
 		int ownerId = homeController.archivFileBuilder.getChosenTextOwnerId(chosenText);
 		boolean isAtTop = homeController.archivFileBuilder.isChosenTextAtTop(chosenText);
+		TextData chosenTextData = homeController.archivFileBuilder.getChosenTextData(chosenText);
 		String inputText;
 		try {
 			inputText = Validate.isValidTextValue(inputTextField.getText());
@@ -72,7 +74,7 @@ public class SetTextController {
 		}
 		
 		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
-				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId, isAtTop);
+				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId, chosenTextData, isAtTop);
 		rotate = 0;
 		stage.hide();
 	}

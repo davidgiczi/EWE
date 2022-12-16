@@ -134,29 +134,26 @@ public class HomeController {
 			saveWireCoordsWindow.getStage().show();
 		}
 		saveWireCoordsWindow.getStage().setTitle(title);
+		saveWireCoordsWindow.controller.setIs2DWindow(is2DWindow);
 		if( is2DWindow ) {
 		saveWireCoordsWindow.controller.startX.setEditable(false);
-		saveWireCoordsWindow.controller.startX.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.startX.setText("0");
 		saveWireCoordsWindow.controller.startY.setEditable(false);
-		saveWireCoordsWindow.controller.startY.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.startY.setText("0");
 		saveWireCoordsWindow.controller.endX.setEditable(false);
-		saveWireCoordsWindow.controller.endX.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.endX.setText("0");
 		saveWireCoordsWindow.controller.endY.setEditable(false);
-		saveWireCoordsWindow.controller.endY.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.endY.setText("0");
 		}
 		else {
 		saveWireCoordsWindow.controller.startX.setEditable(true);
-		saveWireCoordsWindow.controller.startX.setStyle("-fx-background-color: white;");
-		saveWireCoordsWindow.controller.startX.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.startX.setText(null);
 		saveWireCoordsWindow.controller.startY.setEditable(true);
-		saveWireCoordsWindow.controller.startY.setStyle("-fx-background-color: white;");
-		saveWireCoordsWindow.controller.startY.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.startY.setText(null);
 		saveWireCoordsWindow.controller.endX.setEditable(true);
-		saveWireCoordsWindow.controller.endX.setStyle("-fx-background-color: white;");
-		saveWireCoordsWindow.controller.endX.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.endX.setText(null);
 		saveWireCoordsWindow.controller.endY.setEditable(true);
-		saveWireCoordsWindow.controller.endY.setStyle("-fx-background-color: white;");
-		saveWireCoordsWindow.controller.endY.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.endY.setText(null);
 		}
 	}
 	

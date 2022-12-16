@@ -344,18 +344,26 @@ public class Drawer {
 				PAGE_Y + START_Y + 65, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
-	public void writeText(String text, double startX, double startY, double rotate, int ownerId, boolean isAtTop) {
+	public void writeText(String text, double startX, double startY, double rotate, int ownerId, TextData ownerTextData, boolean isAtTop) {
 		Text txt = new Text(text);
-		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
 		TextData textData = new TextData();
+		if( ownerTextData != null ) {
+			txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, ownerTextData.getSize())); 
+			txt.setRotate(ownerTextData.getDirection());
+			txt.setFill(new Color(ownerTextData.getRed(), ownerTextData.getGreen(), ownerTextData.getBlue(), ownerTextData.getOpacity()));
+		}
+		else {
+			txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 18));
+		}
 		textData.setTextValue(text);
 		textData.setAtTop(isAtTop);
-		textData.setSize(18);
-		if( text.startsWith("bal") || text.startsWith("jobb") ) {
-			textData.setDirection(-90);
-			txt.setRotate(-90);
-		}
-		double xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + (HOR_SHIFT - 4) * MILLIMETER;
+		textData.setSize((int) txt.getFont().getSize());
+		textData.setDirection((int) txt.getRotate());
+		textData.setRed(ownerTextData.getRed());
+		textData.setGreen(ownerTextData.getGreen());
+		textData.setBlue(ownerTextData.getBlue());
+		textData.setOpacity(ownerTextData.getOpacity());
+		double xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + 7 * MILLIMETER;
 		txt.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(xDistance));
 		txt.setY(startY * MILLIMETER);
 		textData.setX(txt.xProperty().get() - X_DISTANCE);

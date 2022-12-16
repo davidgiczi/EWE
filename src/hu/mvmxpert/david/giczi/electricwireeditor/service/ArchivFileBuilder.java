@@ -293,6 +293,27 @@ public class ArchivFileBuilder {
 		return ownerId;
 	}
 
+	public TextData getChosenTextData(String chosenText) {
+		
+		TextData chosenTextData = null;
+		for ( PillarData pillarData : pillarData ) {
+			for( TextData textData : pillarData.getPillarTextList() ) 
+					if( textData.getTextValue().equals(chosenText))
+							chosenTextData = textData;	
+		}
+		for(WireData wireData : wireData) {
+			for( TextData textData : wireData.getWireTextList() )
+					if( textData.getTextValue().equals(chosenText) )
+						chosenTextData = textData;
+		}
+		
+		for( TextData textData : textData) {
+			if(textData.getTextValue().equals(chosenText))
+				chosenTextData = textData;
+		}	
+		
+		return chosenTextData;
+	}
 	
 	public boolean isChosenTextAtTop(String chosenText) {
 		
