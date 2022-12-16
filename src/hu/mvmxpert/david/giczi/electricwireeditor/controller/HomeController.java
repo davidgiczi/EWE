@@ -126,7 +126,7 @@ public class HomeController {
 	}
 	
 	
-	public void showSaveWireCoordsWindow(String title) {
+	public void showSaveWireCoordsWindow(String title, boolean is2DWindow) {
 		if( saveWireCoordsWindow == null) {
 			saveWireCoordsWindow = new SaveWireCoordsWindow(this);
 		}
@@ -134,6 +134,30 @@ public class HomeController {
 			saveWireCoordsWindow.getStage().show();
 		}
 		saveWireCoordsWindow.getStage().setTitle(title);
+		if( is2DWindow ) {
+		saveWireCoordsWindow.controller.startX.setEditable(false);
+		saveWireCoordsWindow.controller.startX.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.startY.setEditable(false);
+		saveWireCoordsWindow.controller.startY.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.endX.setEditable(false);
+		saveWireCoordsWindow.controller.endX.setStyle("-fx-background-color: lightgray;");
+		saveWireCoordsWindow.controller.endY.setEditable(false);
+		saveWireCoordsWindow.controller.endY.setStyle("-fx-background-color: lightgray;");
+		}
+		else {
+		saveWireCoordsWindow.controller.startX.setEditable(true);
+		saveWireCoordsWindow.controller.startX.setStyle("-fx-background-color: white;");
+		saveWireCoordsWindow.controller.startX.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.startY.setEditable(true);
+		saveWireCoordsWindow.controller.startY.setStyle("-fx-background-color: white;");
+		saveWireCoordsWindow.controller.startY.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.endX.setEditable(true);
+		saveWireCoordsWindow.controller.endX.setStyle("-fx-background-color: white;");
+		saveWireCoordsWindow.controller.endX.setStyle("-fx-border-color: lightgray;");
+		saveWireCoordsWindow.controller.endY.setEditable(true);
+		saveWireCoordsWindow.controller.endY.setStyle("-fx-background-color: white;");
+		saveWireCoordsWindow.controller.endY.setStyle("-fx-border-color: lightgray;");
+		}
 	}
 	
 	public String setInputText(String title, String text) {
@@ -785,10 +809,18 @@ public class HomeController {
 		return projectName;
 }
 		
-	public void saveWireCoords() {
+	public void save2DWireCoords() {
 		
-		getWarningAlert("Sodrony pontjai nem menthetők", 
-				"Sodrony pontjainak mentéséhez legalább egy vezeték pont szükséges.");
+		showSaveWireCoordsWindow("Sodrony pontok mentése helyi rendszerben -> 2D", true);
+//		getWarningAlert("Sodrony pontjai nem menthetők", 
+//				"Sodrony pontjainak mentéséhez legalább egy vezeték pont szükséges.");
+	}
+	
+	public void save3DWireCoords() {
+		
+		showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D", false);
+//		getWarningAlert("Sodrony pontjai nem menthetők", 
+//				"Sodrony pontjainak mentéséhez legalább egy vezeték pont szükséges.");
 	}
 	
 	

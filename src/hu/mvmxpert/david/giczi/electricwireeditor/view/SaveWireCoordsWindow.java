@@ -3,6 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.view;
 import java.io.IOException;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwireeditor.controller.SaveWireCoordsController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,6 +14,7 @@ public class SaveWireCoordsWindow {
 
 	
 	private Stage stage;
+	public SaveWireCoordsController controller;
 	
 	public Stage getStage() {
 		return stage;
@@ -23,6 +25,7 @@ public class SaveWireCoordsWindow {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SaveWireCoords.fxml"));
 			AnchorPane root = loader.load();
+			controller = (SaveWireCoordsController) loader.getController();
 			stage = new Stage();
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
@@ -33,6 +36,5 @@ public class SaveWireCoordsWindow {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

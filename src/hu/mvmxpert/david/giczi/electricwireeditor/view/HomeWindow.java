@@ -334,8 +334,8 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.saveWireCoords();
-				homeController.showSaveWireCoordsWindow("Sodrony pontok mentése helyi rendszerben -> 2D");
+				homeController.save2DWireCoords();
+			
 			}
 		});
 		MenuItem countrySystem = new MenuItem("Országos rendszerben -> 3D");
@@ -343,8 +343,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.saveWireCoords();
-				homeController.showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D");
+				homeController.save3DWireCoords();
 			}
 		});
 		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
