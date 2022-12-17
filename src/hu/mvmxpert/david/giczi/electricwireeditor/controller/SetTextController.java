@@ -12,7 +12,6 @@ public class SetTextController {
 
 	private Stage stage;
 	private HomeController homeController;
-	private double rotate;
 	private String chosenText;
 	
 	public SetTextController() {
@@ -26,10 +25,6 @@ public class SetTextController {
 		this.stage = stage;
 	}
 	
-	public void setRotate(double rotate) {
-		this.rotate = rotate;
-	}
-
 	public void setChosenText(String chosenText) {
 		this.chosenText = chosenText;
 	}
@@ -44,8 +39,6 @@ public class SetTextController {
 	
 	@FXML
 	public void handleSetTextButtonClick() {
-		int ownerId = homeController.archivFileBuilder.getChosenTextOwnerId(chosenText);
-		boolean isAtTop = homeController.archivFileBuilder.isChosenTextAtTop(chosenText);
 		TextData chosenTextData = homeController.archivFileBuilder.getChosenTextData(chosenText);
 		String inputText;
 		try {
@@ -74,8 +67,7 @@ public class SetTextController {
 		}
 		
 		homeController.getDrawer().writeText(inputText, Double.parseDouble(inputTextXField.getText().replace(',', '.')),
-				Double.parseDouble(inputTextYField.getText().replace(',', '.')), rotate, ownerId, chosenTextData, isAtTop);
-		rotate = 0;
+				Double.parseDouble(inputTextYField.getText().replace(',', '.')), chosenTextData);
 		stage.hide();
 	}
 	

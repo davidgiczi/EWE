@@ -271,28 +271,6 @@ public class ArchivFileBuilder {
 		}
 	}
 	
-	public int getChosenTextOwnerId(String chosenText) {
-		
-		int ownerId = -1;
-		for ( PillarData pillarData : pillarData ) {
-			for( TextData textData : pillarData.getPillarTextList() ) 
-					if( textData.getTextValue().equals(chosenText))
-							ownerId = pillarData.getId();	
-		}
-		for(WireData wireData : wireData) {
-			for( TextData textData : wireData.getWireTextList() )
-					if( textData.getTextValue().equals(chosenText) )
-							ownerId = wireData.getId();
-		}
-		
-		for( TextData textData : textData) {
-			if(textData.getTextValue().equals(chosenText))
-					ownerId = textData.getId();
-		}
-		
-		return ownerId;
-	}
-
 	public TextData getChosenTextData(String chosenText) {
 		
 		TextData chosenTextData = null;
@@ -315,23 +293,6 @@ public class ArchivFileBuilder {
 		return chosenTextData;
 	}
 	
-	public boolean isChosenTextAtTop(String chosenText) {
-		
-		boolean isAtTop = false;
-		
-		for ( PillarData pillarData : pillarData ) {
-			for( TextData textData : pillarData.getPillarTextList() )
-					if( textData.getTextValue().equals(chosenText))
-							isAtTop = textData.isAtTop();
-		}
-		for(WireData wireData : wireData) {
-			for( TextData textData : wireData.getWireTextList() )
-					if( textData.getTextValue().equals(chosenText) )
-							isAtTop = textData.isAtTop();
-		}
-		
-		return isAtTop;
-	}
 	
 	public void addChosenTextToOwnerTextList(TextData chosenTextData, int ownerId) {
 		
