@@ -332,6 +332,8 @@ public class Drawer {
 			root.getChildren().add(hood);
 		}
 		
+		setText(wireData.getId(), text, (getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
+				PAGE_Y + START_Y + 65, 18, 0, false, false, 0, 0, 0, 1);
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
@@ -340,8 +342,6 @@ public class Drawer {
 		setText(wireData.getId(), df.format(distance).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
-		setText(wireData.getId(), text, (getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 65, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
 	public void writeText(String text, double startX, double startY, TextData ownerTextData) {
@@ -357,7 +357,6 @@ public class Drawer {
 		textData.setGreen(ownerTextData.getGreen());
 		textData.setBlue(ownerTextData.getBlue());
 		textData.setOpacity(ownerTextData.getOpacity());
-		archivFileBuilder.addChosenTextToOwnerTextList(textData, ownerTextData.getId());
 		xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + 7 * MILLIMETER;;
 		}
 		else {
@@ -372,10 +371,7 @@ public class Drawer {
 		textData.setX(txt.xProperty().get() - X_DISTANCE);
 		textData.setY(txt.yProperty().get());
 		textData.setId(ArchivFileBuilder.addID());
-		if( ownerTextData == null ) {
-			textData.setType("SingleText");
-			archivFileBuilder.addText(textData);
-		}
+		archivFileBuilder.addChosenTextToOwnerTextList(textData, ownerTextData.getId());
 		txt.setCursor(Cursor.HAND);
 		txt.setId(String.valueOf(textData.getId()));
 		txt.setOnMouseClicked( t -> {

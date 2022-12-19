@@ -23,6 +23,7 @@ import javax.swing.filechooser.FileSystemView;
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 
@@ -55,7 +56,7 @@ public class FileProcess {
 		    }
 		};
 		jfc.setCurrentDirectory(FOLDER_PATH == null ? FileSystemView.getFileSystemView().getHomeDirectory() : new File(FOLDER_PATH));
-		jfc.setDialogTitle("Válassz mentési mappát a projektnek");
+		jfc.setDialogTitle("Válassz mentési mappát");
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -155,7 +156,7 @@ public class FileProcess {
 			return false;
 		}
 		
-		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME+ ".ewe");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".ewe");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, StandardCharsets.UTF_8))) {
@@ -191,6 +192,78 @@ public class FileProcess {
 		} 
 		
 		return true;
+	}
+	
+	public void save2DWirePointsInAutoCadFormat(List<SavedWirePoint> points) {
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_2D" + ".scr");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+			
+			writer.write("_MULTIPLE _POINT");
+			writer.newLine();
+			for (SavedWirePoint savedWirePoint : points) {
+				writer.write(savedWirePoint.get2DCoordDataWithoutID());
+				writer.newLine();
+			}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+		} 
+	}
+	
+	public void save3DWirePointsInAutoCadFormat(List<SavedWirePoint> points) {
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_3D" + ".scr");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+			
+			writer.write("_MULTIPLE _POINT");
+			writer.newLine();
+			for (SavedWirePoint savedWirePoint : points) {
+				writer.write(savedWirePoint.get3DCoordDataWithoutID());
+				writer.newLine();
+			}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+		} 
+	}
+	
+	public void save2DWirePointsInTextFormat(List<SavedWirePoint> points) {
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_2D" + ".txt");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+			
+			for (SavedWirePoint savedWirePoint : points) {
+				writer.write(savedWirePoint.get2DCoordDataWithID());
+				writer.newLine();
+			}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+		} 
+	}
+	
+	public void save3DWirePointsInTextFormat(List<SavedWirePoint> points) {
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_3D" + ".txt");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+			
+			for (SavedWirePoint savedWirePoint : points) {
+				writer.write(savedWirePoint.get3DCoordDataWithID());
+				writer.newLine();
+			}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+		} 
 	}
 	
 }

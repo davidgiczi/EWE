@@ -1,6 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.model;
 
-public class WirePoint implements Comparable<WirePoint> {
+public class WirePoint implements Comparable<WirePoint>{
 
 		
 	private double distanceOfWirePoint;
@@ -28,16 +28,15 @@ public class WirePoint implements Comparable<WirePoint> {
 		this.elevationOfWirePoint = elevationOfWirePoint;
 	}
 
-
-	@Override
-	public int compareTo(WirePoint o) {
-		return this.distanceOfWirePoint > o.distanceOfWirePoint ? 1 : this.distanceOfWirePoint < o.distanceOfWirePoint ? -1 : 0;
-	}
-
 	@Override
 	public String toString() {
 		return "WirePoint [distanceOfWirePoint=" + distanceOfWirePoint + ", elevationOfWirePoint="
 				+ elevationOfWirePoint + "]";
+	}
+
+	@Override
+	public int compareTo(WirePoint o) {
+		return this.getDistanceOfWirePoint() > o.getDistanceOfWirePoint() ? 1 : this.getDistanceOfWirePoint() < o.getDistanceOfWirePoint() ? -1 : 0;
 	}
 
 }

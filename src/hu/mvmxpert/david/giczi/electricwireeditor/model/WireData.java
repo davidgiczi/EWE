@@ -3,7 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WireData {
+public class WireData implements Comparable<WireData> {
 
 	private int id;
 	private double groundElevation;
@@ -74,6 +74,11 @@ public class WireData {
 	}
 	public void setHasCap(boolean hasCap) {
 		this.hasCap = hasCap;
+	}
+
+	@Override
+	public int compareTo(WireData o) {
+		return this.getDistanceOfWire() > o.getDistanceOfWire() ? 1 : this.getDistanceOfWire() < o.getDistanceOfWire() ? -1 : 0;
 	}
 
 }

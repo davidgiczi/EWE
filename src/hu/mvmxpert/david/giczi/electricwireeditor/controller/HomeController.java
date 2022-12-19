@@ -42,7 +42,7 @@ public class HomeController {
 	public ArchivFileBuilder archivFileBuilder;
 	public static String PROJECT_NAME;
 	private Drawer drawer;
-	private FileProcess fileProcess;
+	public FileProcess fileProcess;
 	public SetDrawingSystemDataWindow setCoordSystemWindow;
 	public SetPillarDataWindow setPillarDataWindow;
 	public SetWireDataWindow setWireDataWindow;
@@ -809,15 +809,13 @@ public class HomeController {
 	public void save2DWireCoords() {
 		
 		showSaveWireCoordsWindow("Sodrony pontok mentése helyi rendszerben -> 2D", true);
-//		getWarningAlert("Sodrony pontjai nem menthetők", 
-//				"Sodrony pontjainak mentéséhez legalább egy vezeték pont szükséges.");
+		
 	}
 	
 	public void save3DWireCoords() {
 		
 		showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D", false);
-//		getWarningAlert("Sodrony pontjai nem menthetők", 
-//				"Sodrony pontjainak mentéséhez legalább egy vezeték pont szükséges.");
+		
 	}
 	
 	

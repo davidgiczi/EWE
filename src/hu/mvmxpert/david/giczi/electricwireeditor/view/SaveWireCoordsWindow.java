@@ -26,6 +26,7 @@ public class SaveWireCoordsWindow {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SaveWireCoords.fxml"));
 			AnchorPane root = loader.load();
 			controller = (SaveWireCoordsController) loader.getController();
+			controller.setHomeController(homeController);
 			stage = new Stage();
 			Scene scene = new Scene(root);
 			stage.setScene(scene);

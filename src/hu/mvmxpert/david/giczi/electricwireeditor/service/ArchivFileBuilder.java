@@ -9,6 +9,7 @@ import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
@@ -454,5 +455,45 @@ public class ArchivFileBuilder {
 		return rightWireText == 0;
 	}
 	
+	public List<SavedWirePoint> getWirePointsForSaving(String type){
+		
+		List<SavedWirePoint> points = new ArrayList<>();
+		if( pillarData.isEmpty() )
+			return points;
+		Collections.sort(pillarData);
+		SavedWirePoint.START_ELEVATION = pillarData.get(0).getGroundElevation();
+		for (PillarData pillarData : pillarData) {
+		if( 3 > pillarData.getPillarTextList().size() )
+			continue;
+		SavedWirePoint savedPoint = null;
+		if( pillarData.getPillarTextList().get(2).getTextValue().startsWith(type)) {
+			savedPoint = 
+						new SavedWirePoint(pillarData.getPillarTextList().get(0).getTextValue().replace('.', '_') + "oszlop_" + 
+						pillarData.getPillarTextList().get(2).getTextValue().substring(0,
+						pillarData.getPillarTextList().get(2).getTextValue().indexOf('.')).replace(' ', '_'), 
+						pillarData.getDistanceOfPillar(),
+						pillarData.getTopElevetaion());
+		}
+		if( savedPoint != null )
+		points.add(savedPoint);
+	}
+
+		for (WireData wireData : wireData) {
+		if( 3 > wireData.getWireTextList().size() )
+			continue;
+		SavedWirePoint savedPoint = null;
+		if( wireData.getWireTextList().get(2).getTextValue().startsWith(type)) {
+							savedPoint = 
+							new SavedWirePoint(wireData.getWireTextList().get(0).getTextValue().replace(' ', '_') + "_" +
+							wireData.getWireTextList().get(2).getTextValue().substring(0,
+							wireData.getWireTextList().get(2).getTextValue().indexOf('.')).replace(' ', '_'), 
+							wireData.getDistanceOfWire(),
+							wireData.getTopElevetaion());
+		}
+		if( savedPoint != null )
+		points.add(savedPoint);
+	}
+		return points;
+	}
 	
 }

@@ -14,7 +14,7 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <TextField layoutX="190.0" layoutY="31.0">
+      <TextField fx:id="typeOfWirePoint" layoutX="190.0" layoutY="31.0">
       <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></TextField>
@@ -90,7 +90,7 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <CheckBox layoutX="140.0" layoutY="270.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="AutoCad (*.scr)">
+      <CheckBox layoutX="140.0" layoutY="270.0" fx:id="scrCheckBox" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="AutoCad (*.scr)">
       <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
@@ -98,7 +98,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </CheckBox>
-      <CheckBox layoutX="300.0" layoutY="270.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Koordináta-jzk (*.txt)">
+      <CheckBox layoutX="300.0" layoutY="270.0" fx:id="txtCheckBox" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Koordináta-jzk (*.txt)">
       <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
@@ -106,7 +106,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </CheckBox>
-       <Button layoutX="232.0" layoutY="300.0" mnemonicParsing="false" text="Mentés" >
+       <Button layoutX="232.0" layoutY="300.0" onAction="#handleSaveButtonClick" mnemonicParsing="false" text="Mentés" >
        <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

@@ -3,7 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PillarData {
+public class PillarData implements Comparable<PillarData> {
 
 	
 	private int id;
@@ -71,6 +71,11 @@ public class PillarData {
 	}
 	public void setHasCap(boolean hasCap) {
 		this.hasCap = hasCap;
+	}
+
+	@Override
+	public int compareTo(PillarData o) {
+		return this.getDistanceOfPillar() > o.getDistanceOfPillar() ? 1 : this.getDistanceOfPillar() < o.getDistanceOfPillar() ? -1 : 0;
 	}
 	
 	
