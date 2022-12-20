@@ -12,7 +12,7 @@ public class SetTextController {
 
 	private Stage stage;
 	private HomeController homeController;
-	private String chosenText;
+	private int chosenTextID;
 	
 	public SetTextController() {
 	}
@@ -25,8 +25,8 @@ public class SetTextController {
 		this.stage = stage;
 	}
 	
-	public void setChosenText(String chosenText) {
-		this.chosenText = chosenText;
+	public void setChosenTextID(int chosenTextID) {
+		this.chosenTextID = chosenTextID;
 	}
 
 	@FXML
@@ -39,7 +39,7 @@ public class SetTextController {
 	
 	@FXML
 	public void handleSetTextButtonClick() {
-		TextData chosenTextData = homeController.archivFileBuilder.getChosenTextData(chosenText);
+		TextData chosenTextData = homeController.archivFileBuilder.getTextData(chosenTextID);
 		String inputText;
 		try {
 			inputText = Validate.isValidTextValue(inputTextField.getText());

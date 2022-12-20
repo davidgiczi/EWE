@@ -15,6 +15,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import javafx.scene.layout.BorderPane;
 
+
 public class ArchivFileBuilder {
 	
 	public static int id;
@@ -295,24 +296,30 @@ public class ArchivFileBuilder {
 	}
 	
 	
-	public void addChosenTextToOwnerTextList(TextData chosenTextData, int ownerId) {
+	public void addChosenTextToOwnerTextList(TextData textData, int chosenTextDataID) {
 		
-		chosenTextData.setOnLeftSide(false);
-		PillarData pillar = getPillarData(ownerId);
-		if( pillar != null) {
-			chosenTextData.setType("PillarText");
-			pillar.getPillarTextList().add(chosenTextData);
-			return;
+		textData.setOnLeftSide(false);
+		for (PillarData pillar: pillarData) {
+			for (TextData pillarText: pillar.getPillarTextList()) {
+				if( pillarText.getId() == chosenTextDataID ) {
+					textData.setType("PillarText");
+					pillar.getPillarTextList().add(textData);
+					return;
+			}
 		}
-		WireData wire = getWireData(ownerId);
-		if( wire != null ) {
-			chosenTextData.setType("WireText");
-			wire.getWireTextList().add(chosenTextData);
-			return;
+	}
+		for (WireData wire : wireData) {
+			for (TextData wireText : wire.getWireTextList()) {
+				if( wireText.getId() == chosenTextDataID ) {
+					textData.setType("WireText");
+					wire.getWireTextList().add(textData);
+					return;
+			}
 		}
-		chosenTextData.setType("SingleText");
-		chosenTextData.setOnLeftSide(false);
-		textData.add(chosenTextData);
+	}	
+		textData.setType("SingleText");
+		textData.setOnLeftSide(false);
+		this.textData.add(textData);
 	}
 	
 	public double getMinElevationStartValue() {
@@ -463,37 +470,37 @@ public class ArchivFileBuilder {
 		Collections.sort(pillarData);
 		SavedWirePoint.START_ELEVATION = pillarData.get(0).getGroundElevation();
 		for (PillarData pillarData : pillarData) {
-		if( 3 > pillarData.getPillarTextList().size() )
-			continue;
+			for (TextData pillarText : pillarData.getPillarTextList()) {
 		SavedWirePoint savedPoint = null;
-		if( pillarData.getPillarTextList().get(2).getTextValue().startsWith(type)) {
+		if( pillarText.getTextValue().startsWith(type) && pillarText.isAtTop() ) {
 			savedPoint = 
 						new SavedWirePoint(pillarData.getPillarTextList().get(0).getTextValue().replace('.', '_') + "oszlop_" + 
-						pillarData.getPillarTextList().get(2).getTextValue().substring(0,
-						pillarData.getPillarTextList().get(2).getTextValue().indexOf('.')).replace(' ', '_'), 
+						pillarText.getTextValue().substring(0,
+						pillarText.getTextValue().indexOf('.')).replace(' ', '_'), 
 						pillarData.getDistanceOfPillar(),
-						pillarData.getTopElevetaion());
+						Double.parseDouble(pillarText.getTextValue()
+								.substring(pillarText.getTextValue().lastIndexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m"))));
 		}
 		if( savedPoint != null )
 		points.add(savedPoint);
 	}
-
+}
 		for (WireData wireData : wireData) {
-		if( 3 > wireData.getWireTextList().size() )
-			continue;
+			for (TextData wireText: wireData.getWireTextList()) {
 		SavedWirePoint savedPoint = null;
-		if( wireData.getWireTextList().get(2).getTextValue().startsWith(type)) {
+		if( wireText.getTextValue().startsWith(type) && wireText.isAtTop() ) {
 							savedPoint = 
 							new SavedWirePoint(wireData.getWireTextList().get(0).getTextValue().replace(' ', '_') + "_" +
-							wireData.getWireTextList().get(2).getTextValue().substring(0,
-							wireData.getWireTextList().get(2).getTextValue().indexOf('.')).replace(' ', '_'), 
+							wireText.getTextValue().substring(0,
+							wireText.getTextValue().indexOf('.')).replace(' ', '_'), 
 							wireData.getDistanceOfWire(),
-							wireData.getTopElevetaion());
+							Double.parseDouble(wireText.getTextValue()
+									.substring(wireText.getTextValue().lastIndexOf("Bf.") + 4, wireText.getTextValue().indexOf("m"))));
 		}
 		if( savedPoint != null )
 		points.add(savedPoint);
+			}	
 	}
 		return points;
 	}
-	
 }

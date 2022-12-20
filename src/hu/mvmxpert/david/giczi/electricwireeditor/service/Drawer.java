@@ -344,19 +344,19 @@ public class Drawer {
 				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
-	public void writeText(String text, double startX, double startY, TextData ownerTextData) {
+	public void writeText(String text, double startX, double startY, TextData chosenTextData) {
 		Text txt = new Text(text);
 		TextData textData = new TextData();
 		double xDistance; 
-		if( ownerTextData != null ) {
-		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, ownerTextData.getSize())); 
-		txt.setRotate(ownerTextData.getDirection());
-		txt.setFill(new Color(ownerTextData.getRed(), ownerTextData.getGreen(), ownerTextData.getBlue(), ownerTextData.getOpacity()));
-		textData.setAtTop(ownerTextData.isAtTop());
-		textData.setRed(ownerTextData.getRed());
-		textData.setGreen(ownerTextData.getGreen());
-		textData.setBlue(ownerTextData.getBlue());
-		textData.setOpacity(ownerTextData.getOpacity());
+		if( chosenTextData != null ) {
+		txt.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, chosenTextData.getSize())); 
+		txt.setRotate(chosenTextData.getDirection());
+		txt.setFill(new Color(chosenTextData.getRed(), chosenTextData.getGreen(), chosenTextData.getBlue(), chosenTextData.getOpacity()));
+		textData.setAtTop(chosenTextData.isAtTop());
+		textData.setRed(chosenTextData.getRed());
+		textData.setGreen(chosenTextData.getGreen());
+		textData.setBlue(chosenTextData.getBlue());
+		textData.setOpacity(chosenTextData.getOpacity());
 		xDistance = startX * MILLIMETER - (root.widthProperty().get() - A4_WIDTH) / 2 - START_X + 7 * MILLIMETER;;
 		}
 		else {
@@ -371,7 +371,7 @@ public class Drawer {
 		textData.setX(txt.xProperty().get() - X_DISTANCE);
 		textData.setY(txt.yProperty().get());
 		textData.setId(ArchivFileBuilder.addID());
-		archivFileBuilder.addChosenTextToOwnerTextList(textData, ownerTextData.getId());
+		archivFileBuilder.addChosenTextToOwnerTextList(textData, chosenTextData.getId());
 		txt.setCursor(Cursor.HAND);
 		txt.setId(String.valueOf(textData.getId()));
 		txt.setOnMouseClicked( t -> {
@@ -1100,7 +1100,7 @@ public class Drawer {
 		homeController.setTextWindow.getInputTextField().setText(text.getText());
 		if( text.getRotate() == -90 && text.getText().startsWith("bal"))
 		homeController.setTextWindow.getInputTextField().setText("jobb" + text.getText().substring(3));
-		homeController.setTextWindow.getController().setChosenText(text.getText());
+		homeController.setTextWindow.getController().setChosenTextID(Integer.parseInt(text.getId()));
 		DecimalFormat df = new DecimalFormat("0.0");
 		String XPosition = df.format(text.xProperty().get() / MILLIMETER).replace(',', '.');
 		String YPosition = df.format(text.yProperty().get() / MILLIMETER).replace(',', '.');
