@@ -18,8 +18,8 @@ public static double calcY(double distance) {
 
 private static double calcAzimuth() {
 	
-	double deltaX = SavedWirePoint.START_X - SavedWirePoint.END_X;
-	double deltaY = SavedWirePoint.START_Y - SavedWirePoint.END_Y;
+	double deltaX = SavedWirePoint.END_X - SavedWirePoint.START_X;
+	double deltaY = SavedWirePoint.END_Y - SavedWirePoint.START_Y;
 	
 	if( deltaX >= 0 && deltaY > 0 ) {
 		return Math.atan(deltaX / deltaY);
