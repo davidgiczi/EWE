@@ -474,12 +474,12 @@ public class ArchivFileBuilder {
 		SavedWirePoint savedPoint = null;
 		if( pillarText.getTextValue().startsWith(type) && pillarText.isAtTop() ) {
 			savedPoint = 
-						new SavedWirePoint(pillarData.getPillarTextList().get(0).getTextValue().replace('.', '_') + "oszlop_" + 
-						pillarText.getTextValue().substring(0,
-						pillarText.getTextValue().indexOf('.')).replace(' ', '_'), 
+						new SavedWirePoint(	!pillarData.getPillarTextList().get(0).getTextValue().startsWith(type) ?
+						pillarData.getPillarTextList().get(0).getTextValue().replace('.', '_') + "oszlop_" + pillarText.getTextValue().substring(0,
+						pillarText.getTextValue().indexOf('.')).replace(' ', '_') : "Noname", 
 						pillarData.getDistanceOfPillar(),
 						Double.parseDouble(pillarText.getTextValue()
-								.substring(pillarText.getTextValue().lastIndexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m"))));
+								.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m"))));
 		}
 		if( savedPoint != null )
 		points.add(savedPoint);
@@ -489,13 +489,13 @@ public class ArchivFileBuilder {
 			for (TextData wireText: wireData.getWireTextList()) {
 		SavedWirePoint savedPoint = null;
 		if( wireText.getTextValue().startsWith(type) && wireText.isAtTop() ) {
-							savedPoint = 
-							new SavedWirePoint(wireData.getWireTextList().get(0).getTextValue().replace(' ', '_') + "_" +
-							wireText.getTextValue().substring(0,
-							wireText.getTextValue().indexOf('.')).replace(' ', '_'), 
-							wireData.getDistanceOfWire(),
-							Double.parseDouble(wireText.getTextValue()
-									.substring(wireText.getTextValue().lastIndexOf("Bf.") + 4, wireText.getTextValue().indexOf("m"))));
+			savedPoint = 
+						new SavedWirePoint( !wireData.getWireTextList().get(0).getTextValue().startsWith(type) ?
+						wireData.getWireTextList().get(0).getTextValue().replace(' ', '_') + "_" + wireText.getTextValue().substring(0,
+						wireText.getTextValue().indexOf('.')).replace(' ', '_') : "Noname", 
+						wireData.getDistanceOfWire(),
+						Double.parseDouble(wireText.getTextValue()
+								.substring(wireText.getTextValue().indexOf("Bf.") + 4, wireText.getTextValue().indexOf("m"))));
 		}
 		if( savedPoint != null )
 		points.add(savedPoint);

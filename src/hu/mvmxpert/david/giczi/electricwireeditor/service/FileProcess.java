@@ -194,12 +194,12 @@ public class FileProcess {
 		return true;
 	}
 	
-	public void save2DWirePointsInAutoCadFormat(List<SavedWirePoint> points) {
+	public void save2DWirePointsInAutoCadFormat(List<SavedWirePoint> points, String type) {
 		
-		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_2D" + ".scr");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_" + type +  "_sodrony_2D" + ".scr");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8))) {
 			
 			writer.write("_MULTIPLE _POINT");
 			writer.newLine();
@@ -213,12 +213,12 @@ public class FileProcess {
 		} 
 	}
 	
-	public void save3DWirePointsInAutoCadFormat(List<SavedWirePoint> points) {
+	public void save3DWirePointsInAutoCadFormat(List<SavedWirePoint> points, String type) {
 		
-		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_3D" + ".scr");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_" + type + "_sodrony_3D" + ".scr");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8))) {
 			
 			writer.write("_MULTIPLE _POINT");
 			writer.newLine();
@@ -235,10 +235,10 @@ public class FileProcess {
 	public void save2DWirePointsInTextFormat(List<SavedWirePoint> points) {
 		
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_2D" + ".txt");
-		
+	
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, StandardCharsets.UTF_8, true))) {
-			
+
 			for (SavedWirePoint savedWirePoint : points) {
 				writer.write(savedWirePoint.get2DCoordDataWithID());
 				writer.newLine();
@@ -252,7 +252,7 @@ public class FileProcess {
 	public void save3DWirePointsInTextFormat(List<SavedWirePoint> points) {
 		
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_3D" + ".txt");
-		
+	
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, StandardCharsets.UTF_8, true))) {
 			

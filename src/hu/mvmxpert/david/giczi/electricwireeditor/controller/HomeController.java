@@ -137,23 +137,15 @@ public class HomeController {
 		saveWireCoordsWindow.controller.setIs2DWindow(is2DWindow);
 		if( is2DWindow ) {
 		saveWireCoordsWindow.controller.startX.setEditable(false);
-		saveWireCoordsWindow.controller.startX.setText("0");
 		saveWireCoordsWindow.controller.startY.setEditable(false);
-		saveWireCoordsWindow.controller.startY.setText("0");
 		saveWireCoordsWindow.controller.endX.setEditable(false);
-		saveWireCoordsWindow.controller.endX.setText("0");
 		saveWireCoordsWindow.controller.endY.setEditable(false);
-		saveWireCoordsWindow.controller.endY.setText("0");
 		}
 		else {
 		saveWireCoordsWindow.controller.startX.setEditable(true);
-		saveWireCoordsWindow.controller.startX.setText(null);
 		saveWireCoordsWindow.controller.startY.setEditable(true);
-		saveWireCoordsWindow.controller.startY.setText(null);
 		saveWireCoordsWindow.controller.endX.setEditable(true);
-		saveWireCoordsWindow.controller.endX.setText(null);
 		saveWireCoordsWindow.controller.endY.setEditable(true);
-		saveWireCoordsWindow.controller.endY.setText(null);
 		}
 	}
 	

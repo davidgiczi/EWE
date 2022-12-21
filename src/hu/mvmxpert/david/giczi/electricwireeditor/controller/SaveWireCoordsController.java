@@ -4,6 +4,7 @@ import java.util.List;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
+import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -64,21 +65,61 @@ public class SaveWireCoordsController {
 			HomeController.getWarningAlert("Kimeneti fájl típus választása szükséges", 
 					"Add meg a kimeneti fájl típusát (*.scr, *.txt).");
 			return;
-		}	
+		}
+		double beginX;
+		double beginY;
+		double finishX;
+		double finishY;
+		if( !is2DWindow ) {
+			try {
+				beginX = Validate.isValidPositiveDoubleValue(startX.getText().replace(",", "."));
+			} catch (NumberFormatException e) {
+				HomeController.getWarningAlert("Nem megfelelő a kezdőpont Y értéke", "Az Y értéke csak szám és 0 < Y lehet.");
+				return;
+			}
+			try {
+				beginY = Validate.isValidPositiveDoubleValue(startY.getText().replace(",", "."));
+			} catch (NumberFormatException e) {
+				HomeController.getWarningAlert("Nem megfelelő a kezdőpont X értéke", "Az X értéke csak szám és 0 < X lehet.");
+				return;
+			}
+			try {
+				finishX = Validate.isValidPositiveDoubleValue(endX.getText().replace(",", "."));
+			} catch (NumberFormatException e) {
+				HomeController.getWarningAlert("Nem megfelelő a végpont Y értéke", "Az Y értéke csak szám és 0 < Y lehet.");
+				return;
+			}
+			try {
+				finishY = Validate.isValidPositiveDoubleValue(endY.getText().replace(",", "."));
+			} catch (NumberFormatException e) {
+				HomeController.getWarningAlert("Nem megfelelő a végpont X értéke", "Az X értéke csak szám és 0 < X lehet.");
+				return;
+			}
+			
+			SavedWirePoint.START_X = beginX;
+			SavedWirePoint.START_Y = beginY;
+			SavedWirePoint.END_X = finishX;
+			SavedWirePoint.END_Y = finishY;
+			
+			for (SavedWirePoint savedWirePoint : savedWirePoints) {
+				savedWirePoint.calcCoords();
+			}
+			
+		}
 		
 		if( is2DWindow && scrCheckBox.isSelected() && txtCheckBox.isSelected() ) {
 			
-			homeController.fileProcess.save2DWirePointsInAutoCadFormat(savedWirePoints);
+			homeController.fileProcess.save2DWirePointsInAutoCadFormat(savedWirePoints, type);
 			homeController.fileProcess.save2DWirePointsInTextFormat(savedWirePoints);
 			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve",
-			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_2D" + ".scr\n" + 
+			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type + "_sodrony_2D" + ".scr\n" + 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_2D" + ".txt" );
 		}
 		else if( is2DWindow && scrCheckBox.isSelected() ) {
 			
-			homeController.fileProcess.save2DWirePointsInAutoCadFormat(savedWirePoints);
+			homeController.fileProcess.save2DWirePointsInAutoCadFormat(savedWirePoints, type);
 			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
-			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_2D" + ".scr");
+			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type +  "_sodrony_2D" + ".scr");
 			 
 		}
 		else if( is2DWindow && txtCheckBox.isSelected() ){
@@ -86,6 +127,25 @@ public class SaveWireCoordsController {
 			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_2D" + ".txt");
 		}
+		else if( !is2DWindow && scrCheckBox.isSelected() && txtCheckBox.isSelected() ) {
+			homeController.fileProcess.save3DWirePointsInAutoCadFormat(savedWirePoints, type);
+			homeController.fileProcess.save3DWirePointsInTextFormat(savedWirePoints);
+			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve",
+			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type + "_sodrony_3D" + ".scr\n" + 
+			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_3D" + ".txt" );
+		}
+		else if( !is2DWindow && scrCheckBox.isSelected() ) {
+
+			homeController.fileProcess.save3DWirePointsInAutoCadFormat(savedWirePoints, type);
+			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
+			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type +  "_sodrony_3D" + ".scr");
+		}
+		else if( !is2DWindow && txtCheckBox.isSelected()) {
+			homeController.fileProcess.save3DWirePointsInTextFormat(savedWirePoints);
+			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
+			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_3D" + ".txt");
+		}
+		
 	}
 	
 }

@@ -78,10 +78,12 @@ public class HomeWindow  {
 						homeController.setWireDataWindow.getStage().hide();
 					if(homeController.setTextWindow != null ) 
 						homeController.setTextWindow.getStage().hide();
-					if(homeController.getDrawer().modifyTextWindow != null)
+					if(homeController.getDrawer().modifyTextWindow != null )
 						homeController.getDrawer().modifyTextWindow.getStage().hide();
 					if(homeController.setLineWindow != null )
 						homeController.setLineWindow.getStage().hide();
+					if(homeController.saveWireCoordsWindow.getStage() != null )
+						homeController.saveWireCoordsWindow.getStage().hide();
 				}
 			});
 	}
