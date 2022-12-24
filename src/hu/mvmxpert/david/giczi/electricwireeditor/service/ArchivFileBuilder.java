@@ -477,7 +477,8 @@ public class ArchivFileBuilder {
 						new SavedWirePoint(	!pillarData.getPillarTextList().get(0).getTextValue().startsWith(type) ?
 						pillarData.getPillarTextList().get(0).getTextValue().replace('.', '_') + "oszlop_" + pillarText.getTextValue().substring(0,
 						pillarText.getTextValue().indexOf('.')).replace(' ', '_') : "Noname", 
-						getDistance(type) == null ? pillarData.getDistanceOfPillar() : getDistance(type),
+						getDistance(pillarData.getPillarTextList(), type) == null ? pillarData.getDistanceOfPillar()
+								: getDistance(pillarData.getPillarTextList(), type),
 						Double.parseDouble(pillarText.getTextValue()
 								.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m"))));
 		}
@@ -493,7 +494,8 @@ public class ArchivFileBuilder {
 						new SavedWirePoint( !wireData.getWireTextList().get(0).getTextValue().startsWith(type) ?
 						wireData.getWireTextList().get(0).getTextValue().replace(' ', '_') + "_" + wireText.getTextValue().substring(0,
 						wireText.getTextValue().indexOf('.')).replace(' ', '_') : "Noname", 
-						getDistance(type) == null ? wireData.getDistanceOfWire() : getDistance(type),
+						getDistance(wireData.getWireTextList(), type) == null ? wireData.getDistanceOfWire() 
+								: getDistance(wireData.getWireTextList(), type),
 						Double.parseDouble(wireText.getTextValue()
 								.substring(wireText.getTextValue().indexOf("Bf.") + 4, wireText.getTextValue().indexOf("m"))));
 		}
@@ -504,14 +506,15 @@ public class ArchivFileBuilder {
 		return points;
 	}
 	
-	private Double getDistance(String type) {
+	private Double getDistance(List<TextData> textList, String type) {
 		Double distance = null;
-		
-		for (TextData singleText : textData) {
-			if( singleText.getTextData().startsWith(type) ) {
-				String[] values = singleText.getTextData().split("\\s+");
+		for (TextData textData : textList) {
+			String[] values = textData.getTextData().split("\\s+");
+			if( textData.getTextValue().startsWith(type) && values.length == 2) {
+				
 				try {
 					distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
+					
 				} catch (Exception e) {
 					return distance;
 				}

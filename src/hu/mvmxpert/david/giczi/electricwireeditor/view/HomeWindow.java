@@ -330,7 +330,7 @@ public class HomeWindow  {
 				homeController.showDifferenceOfCurveOfRightWire();
 			}
 		});
-		Menu saveWireCoords = new Menu("Sodrony pontok mentése");
+		Menu saveWireCoords = new Menu("Mért sodrony pontok mentése");
 		MenuItem localSystem = new MenuItem("Helyi rendszerben -> 2D");
 		localSystem.setOnAction(new EventHandler<ActionEvent>() {
 
