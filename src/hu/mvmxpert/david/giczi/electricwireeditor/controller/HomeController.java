@@ -161,9 +161,9 @@ public class HomeController {
 	public void setTitle(BorderPane root) {
 		if( PROJECT_NAME == null && FileProcess.FOLDER_PATH == null )
 			((Stage) root.getScene().getWindow()).setTitle(HomeWindow.DEFAULT_STAGE_TITLE);
-		else if( Validate.isValidProjectName(PROJECT_NAME) && FileProcess.FOLDER_PATH == null )
+		else if( Validate.isValidInputText(PROJECT_NAME) && FileProcess.FOLDER_PATH == null )
 			((Stage) root.getScene().getWindow()).setTitle(PROJECT_NAME + ".ewe" + " - " + HomeWindow.DEFAULT_STAGE_TITLE);
-		else if( Validate.isValidProjectName(PROJECT_NAME) && FileProcess.FOLDER_PATH != null )
+		else if( Validate.isValidInputText(PROJECT_NAME) && FileProcess.FOLDER_PATH != null )
 			((Stage) root.getScene().getWindow()).setTitle(FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".ewe");
 	}
 	
@@ -788,7 +788,7 @@ public class HomeController {
 		if(projectName == null){
 			return null;
 		}
-		else if( Validate.isValidProjectName(projectName) ) {
+		else if( Validate.isValidInputText(projectName) ) {
 			HomeController.PROJECT_NAME = projectName;
 		}
 		else {
@@ -837,4 +837,5 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
+	
 }

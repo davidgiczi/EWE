@@ -9,9 +9,9 @@ public class Validate {
 		public static int MIN_X_VALUE = 1;
 		public static int MIN_Y_VALUE = 10;
 		
-	public static boolean isValidProjectName(String projectName) {
+	public static boolean isValidInputText(String inputText) {
 		
-		if( projectName == null || projectName.isBlank() || 3 > projectName.length() ) {
+		if( inputText == null || inputText.isBlank() || 3 > inputText.length() ) {
 			return false;
 		}
 		

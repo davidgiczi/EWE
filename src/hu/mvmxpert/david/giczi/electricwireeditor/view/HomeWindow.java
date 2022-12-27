@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.view;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
+import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import javafx.event.ActionEvent;
@@ -82,7 +83,7 @@ public class HomeWindow  {
 						homeController.getDrawer().modifyTextWindow.getStage().hide();
 					if(homeController.setLineWindow != null )
 						homeController.setLineWindow.getStage().hide();
-					if(homeController.saveWireCoordsWindow.getStage() != null )
+					if(homeController.saveWireCoordsWindow != null )
 						homeController.saveWireCoordsWindow.getStage().hide();
 				}
 			});
@@ -163,6 +164,7 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				homeController.saveProject();
+				homeController.setTitle(root);
 			}
 		});
 		MenuItem printScreen = new MenuItem("Képernyőkép mentése");
@@ -278,6 +280,19 @@ public class HomeWindow  {
 				new SeparatorMenuItem(), 
 				exchangePillars);
 		Menu drawWire = new Menu("Sodrony műveletek");
+		MenuItem setWireData = new MenuItem("Sodrony adatok megadása");
+		setWireData.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				
+				ElectricWireCalculator calculator = 
+						new ElectricWireCalculator(homeController.archivFileBuilder, "ASLH-Z(S)b 48 SMF (30SA 40)", "bal");
+				System.out.println(calculator.getA());
+				System.out.println(calculator.getM());
+			}
+			
+		});
 		Menu leftWire = new Menu("Bal sodrony");
 		MenuItem visibleLeftWire = new MenuItem("Bal sodrony látható");
 		visibleLeftWire.setOnAction(new EventHandler<ActionEvent>() {
@@ -350,7 +365,7 @@ public class HomeWindow  {
 		});
 		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
 		saveWireCoords.getItems().addAll(localSystem, countrySystem);
-		drawWire.getItems().addAll(leftWire, rightWire, new SeparatorMenuItem(), saveWireCoords);
+		drawWire.getItems().addAll(setWireData, new SeparatorMenuItem(), saveWireCoords);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}

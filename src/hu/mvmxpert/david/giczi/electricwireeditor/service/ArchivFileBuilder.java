@@ -88,17 +88,24 @@ public class ArchivFileBuilder {
 		return data;
 	}
 	
+	public PillarData getBeginnerPillar() {
+		
+		if( pillarData == null || pillarData.isEmpty())
+			return null;
+		
+		Collections.sort(pillarData);
+		
+		return pillarData.get(0);
+	}
+	
 	public PillarData getLastPillar() {
 		
-		PillarData data = null;
+		if( pillarData == null || pillarData.isEmpty())
+			return null;
 		
-		for (PillarData pillar : pillarData) {
-			if( pillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis()) {
-				data = pillar;
-			}
-		}
+		Collections.sort(pillarData);
 	
-		return data;
+		return pillarData.get( pillarData.size() - 1 );
 	}
 	
 	public void removePillar(int id, BorderPane root) {
@@ -506,7 +513,7 @@ public class ArchivFileBuilder {
 		return points;
 	}
 	
-	private Double getDistance(List<TextData> textList, String type) {
+	public Double getDistance(List<TextData> textList, String type) {
 		Double distance = null;
 		for (TextData textData : textList) {
 			String[] values = textData.getTextData().split("\\s+");
@@ -522,5 +529,22 @@ public class ArchivFileBuilder {
 		}
 		
 		return distance;
+	}
+	
+	public Double getPillarElevation(PillarData pillar, String type) {
+		Double elevation = null;
+		
+		for (TextData pillarText: pillar.getPillarTextList()) {
+			if( pillarText.getTextValue().startsWith(type) && pillarText.isAtTop() ) {
+				try {
+				elevation = Double.parseDouble(pillarText.getTextValue()
+						.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m")));
+				}catch (Exception e) {
+					elevation = pillar.getDistanceOfPillar();
+				}
+			}
+		}
+		
+		return elevation;
 	}
 }

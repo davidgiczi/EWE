@@ -133,6 +133,28 @@ public class FileProcess {
 		return projectData;
 	}
 	
+	public static List<String> getWireTypeFileData(){
+		
+		List<String> wireTypeData = new ArrayList<>();
+		
+		File file = new File(ClassLoader.getSystemResource("./wiretype/sodronyok.txt").getFile());
+		
+		try(BufferedReader reader = new BufferedReader(
+				new FileReader(file, StandardCharsets.UTF_8))) {
+			
+				String row = reader.readLine();
+				while( row != null ) {
+					wireTypeData.add(row);
+					row = reader.readLine();
+				}
+		}
+			catch (IOException e) {
+			HomeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
+			} 
+		
+		return wireTypeData;
+	}
+	
 	
 	public boolean isProjectFileExist() {
 		
