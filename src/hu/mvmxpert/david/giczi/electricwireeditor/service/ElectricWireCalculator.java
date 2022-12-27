@@ -76,8 +76,11 @@ public class ElectricWireCalculator {
 		if( archivFileBuilder.getPillarData().isEmpty() )
 			return;
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
-		if( Validate.isValidInputText(type) )
-		this.a = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
+		if( Validate.isValidInputText(type) ) {
+			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
+			this.a = distance == null ? lastPillar.getDistanceOfPillar() : distance;
+		}
+		
 	}
 	private void getDifferenceOfElevationsBetweenPillars(String type) {
 		if( archivFileBuilder == null )

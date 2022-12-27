@@ -266,8 +266,7 @@ public class ArchivFileBuilder {
 			if(	pillarText.getTextValue().equals(df.format(pillarData.getDistanceOfPillar()).replace(",", ".") + "m")) {
 				pillarText.setTextValue(df.format((pillarData.getDistanceOfPillar() * distanceRatio)).replace(",", ".") + "m");
 			}
-		}
-		
+		}	
 	}
 	
 	public void changeWireDistanceText(int id, double distanceRatio) {
