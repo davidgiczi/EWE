@@ -267,7 +267,11 @@ public class ArchivFileBuilder {
 			DecimalFormat df = new DecimalFormat("0.00");
 			for (TextData pillarText : pillarData.getPillarTextList()) {
 				String[] values = pillarText.getTextValue().split("\\s+");
-			if( pillarText.getTextValue().startsWith("bal") && values.length == 2 ) {
+			if(values[0].charAt(values[0].length() - 1) == 'm' && values.length == 1) {
+					Double distance = systemData.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar();
+					pillarText.setTextValue(df.format(distance).replace(",", "." ) + "m");
+				}
+			else if( pillarText.getTextValue().startsWith("bal") && values.length == 2 ) {
 				Double leftDistance = systemData.getLengthOfHorizontalAxis() 
 						- getDistance(pillarData.getPillarTextList(), "bal");
 				pillarText.setTextValue("bal " + df.format(leftDistance).replace(",", ".") + "m");
@@ -288,9 +292,12 @@ public class ArchivFileBuilder {
 		WireData wireData = getWireData(id);
 		DecimalFormat df = new DecimalFormat("0.00");
 		for (TextData wireText : wireData.getWireTextList()) {
-	
 			String[] values = wireText.getTextValue().split("\\s+");
-			if( wireText.getTextValue().startsWith("bal") && values.length == 2 ) {	
+			if( values[0].charAt(values[0].length() - 1) == 'm' && values.length == 1) {
+				Double distance = systemData.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire();
+				wireText.setTextValue(df.format(distance).replace(",", "." ) + "m");
+			}
+			else if( wireText.getTextValue().startsWith("bal") && values.length == 2 ) {	
 				Double leftDistance = systemData.getLengthOfHorizontalAxis() 
 						- getDistance(wireData.getWireTextList(), "bal");
 				wireText.setTextValue("bal " + df.format(leftDistance).replace(",", ".") + "m");
@@ -304,7 +311,7 @@ public class ArchivFileBuilder {
 				Double rightDistance = systemData.getLengthOfHorizontalAxis() 
 						- getDistance(wireData.getWireTextList(), "jobb");
 				wireText.setTextValue("jobb " + df.format(rightDistance).replace(",", ".") + "m");
-		}	
+		}
 	}
 }
 	
