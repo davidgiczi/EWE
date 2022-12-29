@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import hu.mvmxpert.david.giczi.electricwireeditor.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
@@ -14,6 +13,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import javafx.scene.layout.BorderPane;
+
 
 
 public class ArchivFileBuilder {
@@ -276,6 +276,20 @@ public class ArchivFileBuilder {
 			if(	wireText.getTextValue().equals(df.format(wireData.getDistanceOfWire()).replace(",", ".") + "m")) {
 				wireText.setTextValue(df.format((wireData.getDistanceOfWire() * distanceRatio)).replace(",", ".") + "m");
 			}
+		}
+	}
+	
+	public void changeBeginnerAndLastPillarDistanceTexts() {
+		PillarData lastPillar = getLastPillar();
+		PillarData beginnerPillar = getBeginnerPillar();
+		for( int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
+		String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
+		if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
+			lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
+			lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) && values.length == 2 ) {
+			beginnerPillar.getPillarTextList().add(lastPillar.getPillarTextList().get(i));
+			lastPillar.getPillarTextList().remove(i);
+	}
 		}
 	}
 	
@@ -546,4 +560,5 @@ public class ArchivFileBuilder {
 		
 		return elevation;
 	}
+	
 }

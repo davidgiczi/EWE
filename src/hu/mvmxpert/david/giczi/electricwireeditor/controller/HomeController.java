@@ -8,6 +8,7 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import javax.imageio.ImageIO;
@@ -248,6 +249,7 @@ public class HomeController {
 	loadWireData(projectData);
 	loadTextData(projectData);
 	loadLineData(projectData);
+	drawer.removeLenghtOfBaseLineText();
 	homeWindow.addLine.setDisable(false);
 	homeWindow.modifyBaseLine.setDisable(false);
 	homeWindow.modifyVerticalScale.setDisable(false);
@@ -475,6 +477,7 @@ public class HomeController {
 										drawer.getElevationStartValue(), 
 										drawer.getVerticalScale());
 		drawSystem();
+		drawer.removeLenghtOfBaseLineText();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData, 0);
@@ -516,11 +519,11 @@ public class HomeController {
 										drawer.getVerticalScale());
 		
 		drawSystem();
+		drawer.removeLenghtOfBaseLineText();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData, 0);
 		}
-		
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			drawer.drawInputWire(wireData.getId());
 			drawer.drawInputWireText(wireData, 0);
@@ -546,6 +549,15 @@ public class HomeController {
 		List<TextData> textList = archivFileBuilder.getTextData();
 		List<LineData> lineList = archivFileBuilder.getLineData();
 		lastPillar.setDistanceOfPillar(0);
+		
+		for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
+			String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
+			if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
+					lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
+						lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) && values.length == 2 ) {
+				lastPillar.getPillarTextList().remove(i);
+			}
+		}
 		archivFileBuilder.init();
 		drawer.clearRoot();
 		archivFileBuilder.setSystemData(drawer.getLengthOfHorizontalAxis(), 
@@ -579,6 +591,8 @@ public class HomeController {
 		if( archivFileBuilder.getPillarData().size() < 2)
 			return;
 		
+		archivFileBuilder.changeBeginnerAndLastPillarDistanceTexts();
+		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			double distanceRatio = (drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar() ) / pillarData.getDistanceOfPillar();
 			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
@@ -591,6 +605,7 @@ public class HomeController {
 		}
 		drawer.clearRoot();
 		drawSystem();
+		drawer.removeLenghtOfBaseLineText();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData, 0);
@@ -613,6 +628,7 @@ public class HomeController {
 	}
 	
 	public void modifyElevationStartValue() {
+		DecimalFormat df = new DecimalFormat("0.0");
 		int elevationStartValue;
 		try {
 			String inputValue = setInputText("A magassági lépték kezdő értékének megadása", 
@@ -626,8 +642,9 @@ public class HomeController {
 		} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
 					"Magassági lépték kezdő értéke egész szám lehet és "
-					+ archivFileBuilder.getMinElevationStartValue()  + " >= kezdő érték"
-					+ " és kezdő érték >= " + (archivFileBuilder.getMaxElevationStartValue() - 10 * drawer.getVerticalScale()));
+					+ df.format(archivFileBuilder.getMinElevationStartValue()).replace(",", ".")  + " >= kezdő érték"
+					+ " és kezdő érték >= " + df.format(archivFileBuilder.getMaxElevationStartValue() 
+							- 10 * drawer.getVerticalScale()).replace(",", "."));
 			return;
 		}
 		double shiftY = (elevationStartValue - drawer.getElevationStartValue()) * Drawer.MILLIMETER;
@@ -660,6 +677,7 @@ public class HomeController {
 	}
 	
 	public void modifyVerticalScale() {
+		DecimalFormat df = new DecimalFormat("0.0");
 		int verticalScale = drawer.getVerticalScale();
 		try {
 			String inputValue = setInputText("A magassági lépték beosztás értékének megadása", 
@@ -673,7 +691,7 @@ public class HomeController {
 				} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
 					"Magassági lépték beosztás értéke egész szám lehet és " + 
-					((archivFileBuilder.getMaxElevationStartValue() - drawer.getElevationStartValue()) / 10) + 
+					df.format((archivFileBuilder.getMaxElevationStartValue() - drawer.getElevationStartValue()) / 10).replace(",", ".") + 
 					"m  =< beosztás érték");
 			return;
 		}

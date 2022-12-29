@@ -371,13 +371,47 @@ public class Drawer {
 		textData.setX(txt.xProperty().get() - X_DISTANCE);
 		textData.setY(txt.yProperty().get());
 		textData.setId(ArchivFileBuilder.addID());
+		if( chosenTextData != null )
 		archivFileBuilder.addChosenTextToOwnerTextList(textData, chosenTextData.getId());
+		else
+		archivFileBuilder.addChosenTextToOwnerTextList(textData, 0);	
 		txt.setCursor(Cursor.HAND);
 		txt.setId(String.valueOf(textData.getId()));
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
 		showModifyTextWindow(inputText); });
 		root.getChildren().add(txt);
+	}
+	
+	private void showModifyTextWindow(Text text) {
+		
+		addChosenTextToSetTextWindow(text);
+		
+		if( modifyTextWindow == null ) {
+			modifyTextWindow = new ModifyTextWindow(this);
+		}
+		else {
+			modifyTextWindow.getStage().show();
+		}
+		modifyTextWindow.getStage().setAlwaysOnTop(true);
+		modifyTextWindow.setInputText(text);
+		modifyTextWindow.setRotateValue(Math.abs(text.getRotate()));
+		TextData textData = archivFileBuilder.getTextData(Integer.parseInt(text.getId()));
+		modifyTextWindow.getController().getColorPicker()
+		.setValue(new Color(textData.getRed(), textData.getGreen(), textData.getBlue(), textData.getOpacity()));
+	}
+	
+	private void addChosenTextToSetTextWindow(Text text) {
+		homeController.showSetTextWindow();
+		homeController.setTextWindow.getInputTextField().setText(text.getText());
+		if( text.getRotate() == -90 && text.getText().startsWith("bal"))
+		homeController.setTextWindow.getInputTextField().setText("jobb" + text.getText().substring(3));
+		homeController.setTextWindow.getController().setChosenTextID(Integer.parseInt(text.getId()));
+		DecimalFormat df = new DecimalFormat("0.0");
+		String XPosition = df.format(text.xProperty().get() / MILLIMETER).replace(',', '.');
+		String YPosition = df.format(text.yProperty().get() / MILLIMETER).replace(',', '.');
+		homeController.setTextWindow.getInputTextXField().setText(XPosition);
+		homeController.setTextWindow.getInputTextYField().setText(YPosition);
 	}
 	
 	public void setText(int id, String text, double startX, double startY, int size, int rotate, 
@@ -609,18 +643,20 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				
-			if( textData.getTextValue().startsWith("bal") && shiftY1 != 0 )
+			
+			String[] values = textData.getTextData().split("\\s+");
+			
+			if( textData.getTextValue().startsWith("bal") && shiftY1 != 0 && values.length > 2)
 				textData.setY(textData.getY() + shiftY1);
-			else if( textData.getTextValue().startsWith("jobb") && shiftY1 != 0)
+			else if( textData.getTextValue().startsWith("jobb") && shiftY1 != 0 && values.length > 2)
 				textData.setY(textData.getY() + shiftY1);
-			else if( textData.getTextValue().startsWith("bal") && textData.isAtTop())
+			else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() && values.length > 2)
 				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-			else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop())
+			else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop() && values.length > 2)
 				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);
-			else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop())
+			else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() && values.length > 2)
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-			else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop())
+			else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop() && values.length > 2)
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);	
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
@@ -705,17 +741,18 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				if( textData.getTextValue().startsWith("bal") && shiftY != 0 )
+				String[] values = textData.getTextData().split("\\s+");
+				if( textData.getTextValue().startsWith("bal") && shiftY != 0 && values.length > 2 )
 				textData.setY(textData.getY() + shiftY);
-				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0 )
+				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0 && values.length > 2 )
 				textData.setY(textData.getY() + shiftY);
-				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop())
+				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() && values.length > 2 )
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-				else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop())
+				else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop() && values.length > 2 )
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
-				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop())
+				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() && values.length > 2)
 						textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-				else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop())
+				else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop() && values.length > 2)
 						textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
 				
 				text.setY(textData.getY());
@@ -1069,24 +1106,6 @@ public class Drawer {
 		  return String.format("#%08X", (r + g + b + a));
 		}
 	
-	private void showModifyTextWindow(Text text) {
-		
-		addChosenTextToSetTextWindow(text);
-		
-		if( modifyTextWindow == null ) {
-			modifyTextWindow = new ModifyTextWindow(this);
-		}
-		else {
-			modifyTextWindow.getStage().show();
-		}
-		modifyTextWindow.getStage().setAlwaysOnTop(true);
-		modifyTextWindow.setInputText(text);
-		modifyTextWindow.setRotateValue(Math.abs(text.getRotate()));
-		TextData textData = archivFileBuilder.getTextData(Integer.parseInt(text.getId()));
-		modifyTextWindow.getController().getColorPicker()
-		.setValue(new Color(textData.getRed(), textData.getGreen(), textData.getBlue(), textData.getOpacity()));
-	}
-
 	public double getHorizontalScaledDownLengthValue(double length) {
 		return horizontalScale == 1000 ? length : 1000.0  * length / horizontalScale;
 	}
@@ -1095,17 +1114,25 @@ public class Drawer {
 		return verticalScale == 10 ? height : 10.0 * height / verticalScale;
 	}
 	
-	private void addChosenTextToSetTextWindow(Text text) {
-		homeController.showSetTextWindow();
-		homeController.setTextWindow.getInputTextField().setText(text.getText());
-		if( text.getRotate() == -90 && text.getText().startsWith("bal"))
-		homeController.setTextWindow.getInputTextField().setText("jobb" + text.getText().substring(3));
-		homeController.setTextWindow.getController().setChosenTextID(Integer.parseInt(text.getId()));
-		DecimalFormat df = new DecimalFormat("0.0");
-		String XPosition = df.format(text.xProperty().get() / MILLIMETER).replace(',', '.');
-		String YPosition = df.format(text.yProperty().get() / MILLIMETER).replace(',', '.');
-		homeController.setTextWindow.getInputTextXField().setText(XPosition);
-		homeController.setTextWindow.getInputTextYField().setText(YPosition);
+	public void removeLenghtOfBaseLineText() {
+		
+		PillarData lastPillar =  archivFileBuilder.getLastPillar();
+		String distanceOfBaseLineText = archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m";
+		for (TextData pillarText : lastPillar.getPillarTextList()) {
+			String[] values = pillarText.getTextData().split("\\s+");
+			if( lastPillar.getDistanceOfPillar() == archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() && 
+					(pillarText.getTextValue().startsWith("bal") ||
+					pillarText.getTextValue().startsWith("közép") ||
+					  pillarText.getTextValue().startsWith("jobb")) && values.length == 2) {
+						for (int i = root.getChildren().size() - 1; i >= 0; i--) {
+							if( root.getChildren().get(i) instanceof Text && 
+									distanceOfBaseLineText.equals(((Text) root.getChildren().get(i)).getText())) {
+								root.getChildren().remove(root.getChildren().get(i));
+					}
+				} 
+			}
+		} 
+		
 	}
-	
-}
+		}	
+
