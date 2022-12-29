@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
+import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 
 public class ElectricWireCalculator {
 
@@ -77,7 +78,7 @@ public class ElectricWireCalculator {
 			return;
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( Validate.isValidInputText(type) ) {
-			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
+			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), WireType.getWireType(type));
 			this.a = distance == null ? lastPillar.getDistanceOfPillar() : distance;
 		}
 		
@@ -90,8 +91,8 @@ public class ElectricWireCalculator {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( beginnerPillar != null && lastPillar != null && Validate.isValidInputText(type) ) {
-			double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, type);
-			double lastPillarElevation = archivFileBuilder.getPillarElevation(lastPillar, type);
+			double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, WireType.getWireType(type));
+			double lastPillarElevation = archivFileBuilder.getPillarElevation(lastPillar, WireType.getWireType(type));
 			this.m = lastPillarElevation - beginnerPillarElevation;
 		}
 			

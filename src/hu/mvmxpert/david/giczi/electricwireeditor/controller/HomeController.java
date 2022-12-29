@@ -29,6 +29,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.view.SetLineWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetPillarDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetTextWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetWireDataWindow;
+import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -553,9 +554,9 @@ public class HomeController {
 		
 		for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
 			String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
-			if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
-					lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
-						lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) && values.length == 2 ) {
+			if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) ||
+					lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) ||
+						lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString())) && values.length == 2 ) {
 				lastPillar.getPillarTextList().remove(i);
 			}
 		}
