@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.imageio.ImageIO;
@@ -587,20 +588,22 @@ public class HomeController {
 		}
 	
 	public void exchangePillars() {
-		
-		if( archivFileBuilder.getPillarData().size() < 2)
+		Collections.sort(archivFileBuilder.getPillarData());
+		if(archivFileBuilder.getPillarData().size() < 2 || archivFileBuilder.getPillarData().get(0).getDistanceOfPillar() != 0 ||
+				archivFileBuilder.getPillarData().get(archivFileBuilder.getPillarData().size() - 1).getDistanceOfPillar() !=
+				archivFileBuilder.getSystemData().getLengthOfHorizontalAxis()) {
+			getWarningAlert("Az oszlopok cseréje nem hajtható végre", 
+					"A művelethez két oszlop szükséges és a kezdőoszlop távolsága 0 méter, a záróoszlop távolsága " 
+			+ archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + " méter legyen.");
 			return;
-		
+		}
 		archivFileBuilder.changeBeginnerAndLastPillarDistanceTexts();
-		
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
-			double distanceRatio = (drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar() ) / pillarData.getDistanceOfPillar();
-			archivFileBuilder.changePillarDistanceText(pillarData.getId(), distanceRatio);
+			archivFileBuilder.changePillarDistanceText(pillarData.getId());
 			pillarData.setDistanceOfPillar(drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar());
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
-			double distanceRatio = (drawer.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire() ) / wireData.getDistanceOfWire();
-			archivFileBuilder.changeWireDistanceText(wireData.getId(), distanceRatio);
+			archivFileBuilder.changeWireDistanceText(wireData.getId());
 			wireData.setDistanceOfWire(drawer.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire());
 		}
 		drawer.clearRoot();
