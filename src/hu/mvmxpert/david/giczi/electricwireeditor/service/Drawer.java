@@ -1117,6 +1117,8 @@ public class Drawer {
 	public void removeLenghtOfBaseLineText() {
 		
 		PillarData lastPillar =  archivFileBuilder.getLastPillar();
+		if( lastPillar == null )
+			return;
 		String distanceOfBaseLineText = archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m";
 		for (TextData pillarText : lastPillar.getPillarTextList()) {
 			String[] values = pillarText.getTextData().split("\\s+");
