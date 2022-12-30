@@ -589,22 +589,25 @@ public class HomeController {
 		}
 	
 	public void exchangePillars() {
-		Collections.sort(archivFileBuilder.getPillarData());
-		if(archivFileBuilder.getPillarData().size() < 2 || archivFileBuilder.getPillarData().get(0).getDistanceOfPillar() != 0 ||
-				archivFileBuilder.getPillarData().get(archivFileBuilder.getPillarData().size() - 1).getDistanceOfPillar() !=
-				archivFileBuilder.getSystemData().getLengthOfHorizontalAxis()) {
+		if(archivFileBuilder.getPillarData().size() < 2 ) {
 			getWarningAlert("Az oszlopok cseréje nem hajtható végre", 
-					"A művelethez két oszlop szükséges és a kezdőoszlop távolsága 0 méter, a záróoszlop távolsága " 
-			+ archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + " méter legyen.");
+					"A művelethez legalább két oszlop szükséges.");
 			return;
 		}
-		archivFileBuilder.changeBeginnerAndLastPillarDistanceTexts();
+		Collections.sort(archivFileBuilder.getPillarData());
+		PillarData lastPillar = archivFileBuilder.getPillarData().get(archivFileBuilder.getPillarData().size() - 1);
+		if(lastPillar.getDistanceOfPillar() > archivFileBuilder.getSystemData().getLengthOfHorizontalAxis()) {
+			getWarningAlert("Az oszlopok cseréje nem hajtható végre", 
+					"A záróoszlop távolsága legyen a legnagyobb, illetve: záróoszlop távolság =< " 
+			+ archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m.");
+			return;
+		}
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
-			archivFileBuilder.changePillarDistanceText(pillarData.getId());
+			archivFileBuilder.changePillarDistanceText(pillarData, lastPillar);
 			pillarData.setDistanceOfPillar(drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar());
 		}
 		for (WireData wireData : archivFileBuilder.getWireData()) {
-			archivFileBuilder.changeWireDistanceText(wireData.getId());
+			archivFileBuilder.changeWireDistanceText(wireData, lastPillar);
 			wireData.setDistanceOfWire(drawer.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire());
 		}
 		drawer.clearRoot();
