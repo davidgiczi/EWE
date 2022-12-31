@@ -644,7 +644,7 @@ public class Drawer {
 				}
 			text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
 			
-			String[] values = textData.getTextData().split("\\s+");
+			String[] values = textData.getTextValue().split("\\s+");
 			
 			if( textData.getTextValue().startsWith("bal") && shiftY1 != 0 && values.length > 2)
 				textData.setY(textData.getY() + shiftY1);
@@ -741,7 +741,7 @@ public class Drawer {
 				text.setRotate(-90);
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
-				String[] values = textData.getTextData().split("\\s+");
+				String[] values = textData.getTextValue().split("\\s+");
 				if( textData.getTextValue().startsWith("bal") && shiftY != 0 && values.length > 2 )
 				textData.setY(textData.getY() + shiftY);
 				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0 && values.length > 2 )

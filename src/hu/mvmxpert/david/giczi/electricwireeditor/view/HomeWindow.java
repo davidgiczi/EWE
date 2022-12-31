@@ -30,7 +30,7 @@ public class HomeWindow  {
 	public Menu modifyBaseLine;
 	public Menu modifyVerticalScale;
 	public MenuItem toBeLastPillarTheBeginner;
-	public MenuItem exchangePillars;
+	public MenuItem backwardsOrder;
 	public MenuItem saveProject;
 	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
 	
@@ -263,22 +263,21 @@ public class HomeWindow  {
 			}
 		});
 		toBeLastPillarTheBeginner.setDisable(true);
-		exchangePillars = new MenuItem("Az oszlopok felcserélése");
-		exchangePillars.setOnAction(new EventHandler<ActionEvent>() {
+		backwardsOrder = new MenuItem("Fordított sorrend");
+		backwardsOrder.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.exchangePillars();
+				homeController.backwardsOrder();
 			}
 		});
-		exchangePillars.setDisable(true);
+		backwardsOrder.setDisable(true);
 		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
 				addLine, new SeparatorMenuItem(), 
 				modifyBaseLine, new SeparatorMenuItem(),
-				modifyVerticalScale,  new SeparatorMenuItem(),
-				toBeLastPillarTheBeginner,
-				new SeparatorMenuItem(), 
-				exchangePillars);
+				modifyVerticalScale,  new SeparatorMenuItem(), 
+				backwardsOrder, new SeparatorMenuItem(),
+				toBeLastPillarTheBeginner);
 		Menu drawWire = new Menu("Sodrony műveletek");
 		MenuItem setWireData = new MenuItem("Sodrony adatok megadása");
 		setWireData.setOnAction(new EventHandler<ActionEvent>() {

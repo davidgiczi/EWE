@@ -96,7 +96,7 @@ public class SetPillarDataController {
 		}
 		
 		homeController.homeWindow.toBeLastPillarTheBeginner.setDisable(false);
-		homeController.homeWindow.exchangePillars.setDisable(false);
+		homeController.homeWindow.backwardsOrder.setDisable(false);
 	}
 	
 }

@@ -256,7 +256,7 @@ public class HomeController {
 	homeWindow.modifyBaseLine.setDisable(false);
 	homeWindow.modifyVerticalScale.setDisable(false);
 	homeWindow.toBeLastPillarTheBeginner.setDisable(false);
-	homeWindow.exchangePillars.setDisable(false);
+	homeWindow.backwardsOrder.setDisable(false);
 	}
 	return  !projectData.isEmpty(); 
 }
@@ -588,28 +588,36 @@ public class HomeController {
 		
 		}
 	
-	public void exchangePillars() {
+	public void backwardsOrder() {
 		if(archivFileBuilder.getPillarData().size() < 2 ) {
-			getWarningAlert("Az oszlopok cseréje nem hajtható végre", 
+			getWarningAlert("A sorrend nem módosítható", 
 					"A művelethez legalább két oszlop szükséges.");
 			return;
 		}
 		Collections.sort(archivFileBuilder.getPillarData());
 		PillarData lastPillar = archivFileBuilder.getPillarData().get(archivFileBuilder.getPillarData().size() - 1);
 		if(lastPillar.getDistanceOfPillar() > archivFileBuilder.getSystemData().getLengthOfHorizontalAxis()) {
-			getWarningAlert("Az oszlopok cseréje nem hajtható végre", 
-					"A záróoszlop távolsága legyen a legnagyobb, illetve: záróoszlop távolság =< " 
+			getWarningAlert("A sorrend nem módosítható", 
+					"A záróoszlop távolsága: záróoszlop távolság =< " 
 			+ archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m.");
 			return;
 		}
-		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
-			archivFileBuilder.changePillarDistanceText(pillarData, lastPillar);
-			pillarData.setDistanceOfPillar(drawer.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar());
+		if( !archivFileBuilder.getWireData().isEmpty() ) {
+			Collections.sort(archivFileBuilder.getWireData());
+			if( archivFileBuilder.getWireData().get(archivFileBuilder.getWireData().size() - 1).getDistanceOfWire() >
+			archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() ) {
+				getWarningAlert("A sorrend nem módosítható", 
+						"A vezeték távolsága legyen: vezeték távolság =< " 
+				+ archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m.");
+			return;
+			}
 		}
-		for (WireData wireData : archivFileBuilder.getWireData()) {
-			archivFileBuilder.changeWireDistanceText(wireData, lastPillar);
-			wireData.setDistanceOfWire(drawer.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire());
+		
+		for (PillarData pillar: archivFileBuilder.getPillarData()) {
+			archivFileBuilder.reorderPillar(pillar, lastPillar);
 		}
+		
+
 		drawer.clearRoot();
 		drawSystem();
 		drawer.removeLenghtOfBaseLineText();

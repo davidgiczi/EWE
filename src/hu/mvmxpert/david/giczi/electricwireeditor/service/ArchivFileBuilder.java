@@ -260,110 +260,72 @@ public class ArchivFileBuilder {
 		return line;
 	}
 	
-	public void changePillarDistanceText(PillarData pillarData, PillarData lastPillarData) {
+	public void reorderPillar(PillarData actualPillar, PillarData lastPillar) {
 		
-			DecimalFormat df = new DecimalFormat("0.00");
-
-			for (TextData pillarText : pillarData.getPillarTextList()) {
+		List<Double> pillarDistances = getPillarDistances(actualPillar);
+		List<Double> mainLineDistances = getHorizontalDistances(lastPillar);
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		if( actualPillar.getDistanceOfPillar() == 0 && mainLineDistances.size() == 1 ) {
+			actualPillar.setDistanceOfPillar(mainLineDistances.get(0));
+		}
+		else if( actualPillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() && mainLineDistances.size() == 1 ) {
+			actualPillar.setDistanceOfPillar(0);
+		}
+		else if( actualPillar.getDistanceOfPillar() > 0 && pillarDistances.size() == 1 && mainLineDistances.size() == 1 ) {
+		
+			for (TextData pillarText : actualPillar.getPillarTextList()) {
 				String[] values = pillarText.getTextValue().split("\\s+");
-				
-			if(values[0].charAt(values[0].length() - 1) == 'm' && values.length == 1) {
-				Double distance = systemData.getLengthOfHorizontalAxis() - pillarData.getDistanceOfPillar();
-				pillarText.setTextValue(df.format(distance).replace(",", "." ) + "m");
+				if( values.length == 1 && values[0].charAt( values[0].length() - 1) == 'm' )
+					pillarText.setTextValue(df.format(mainLineDistances.get(0) - pillarDistances.get(0)).replace(",", ".") + "m");
 			}
-			else if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
-				Double leftDistance;
-				if( lastPillarData.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis()) {
-					leftDistance = getDistance(lastPillarData.getPillarTextList(), WireType.bal) == null ? 
-							systemData.getLengthOfHorizontalAxis() - getDistance(pillarData.getPillarTextList(), WireType.bal) :
-								getDistance(lastPillarData.getPillarTextList(), WireType.bal) - 
-								getDistance(pillarData.getPillarTextList(), WireType.bal);
-				}
-				else {
-					leftDistance = systemData.getLengthOfHorizontalAxis() - getDistance(pillarData.getPillarTextList(), WireType.bal);
-				}
-				pillarText.setTextValue(WireType.bal.toString() + " " + df.format(leftDistance).replace(",", ".") + "m");
-			}
-			else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
-				Double middleDistance;
-				if( lastPillarData.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis()) {
-					middleDistance = getDistance(lastPillarData.getPillarTextList(), WireType.közép) == null ? 
-							systemData.getLengthOfHorizontalAxis() - getDistance(pillarData.getPillarTextList(), WireType.közép) :
-								getDistance(lastPillarData.getPillarTextList(), WireType.közép) - 
-								getDistance(pillarData.getPillarTextList(), WireType.közép);
-				}
-				else {
-					middleDistance = systemData.getLengthOfHorizontalAxis() - getDistance(pillarData.getPillarTextList(), WireType.közép);
-				}
-						
-				pillarText.setTextValue(WireType.közép.toString() + " " + df.format(middleDistance).replace(",", ".") + "m");
-			}
-			else if(pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
-				Double rightDistance ;
-				if( lastPillarData.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis()) {
-					rightDistance = getDistance(lastPillarData.getPillarTextList(), WireType.jobb) == null ? 
-							systemData.getLengthOfHorizontalAxis() - getDistance(pillarData.getPillarTextList(), WireType.jobb) :
-								getDistance(lastPillarData.getPillarTextList(), WireType.jobb) - 
-								getDistance(pillarData.getPillarTextList(), WireType.jobb);
-				}
-				else {
-					rightDistance = systemData.getLengthOfHorizontalAxis() - getDistance(pillarData.getPillarTextList(), WireType.jobb);
-				}
-				pillarText.setTextValue(WireType.jobb.toString() + " " + df.format(rightDistance).replace(",", ".") + "m");
-			}
-		}	
+			actualPillar.setDistanceOfPillar( mainLineDistances.get(0) - pillarDistances.get(0) );
+		}
+		
+		
 	}
 	
-	public void changeWireDistanceText(WireData wireData, PillarData lastPillarData) {
+	private List<Double> getPillarDistances(PillarData pillar){
+		List<Double> distances = new ArrayList<>();
 		
-		DecimalFormat df = new DecimalFormat("0.00");
-		for (TextData wireText : wireData.getWireTextList()) {
-			String[] values = wireText.getTextValue().split("\\s+");
-			if( values[0].charAt(values[0].length() - 1) == 'm' && values.length == 1) {
-				Double distance = systemData.getLengthOfHorizontalAxis() - wireData.getDistanceOfWire();
-				wireText.setTextValue(df.format(distance).replace(",", "." ) + "m");
-			}
-			else if( wireText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
-				Double leftDistance;
-				if( lastPillarData.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() ) {
-					leftDistance = getDistance(lastPillarData.getPillarTextList(), WireType.bal) == null ? 
-							systemData.getLengthOfHorizontalAxis() - getDistance(wireData.getWireTextList(), WireType.bal) :
-								getDistance(lastPillarData.getPillarTextList(), WireType.bal) - 
-								getDistance(wireData.getWireTextList(), WireType.bal);
-				}
-				else {
-					leftDistance = systemData.getLengthOfHorizontalAxis() - getDistance(wireData.getWireTextList(), WireType.bal);
-				}
-				wireText.setTextValue("bal " + df.format(leftDistance).replace(",", ".") + "m");
-			}
-			else if( wireText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
-				Double middleDistance;
-				if( lastPillarData.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() ) {
-					middleDistance = getDistance(lastPillarData.getPillarTextList(), WireType.közép) == null ? 
-							systemData.getLengthOfHorizontalAxis() - getDistance(wireData.getWireTextList(), WireType.közép) :
-								getDistance(lastPillarData.getPillarTextList(), WireType.közép) - 
-								getDistance(wireData.getWireTextList(), WireType.közép);
-				}
-				else {
-					middleDistance = systemData.getLengthOfHorizontalAxis() - getDistance(wireData.getWireTextList(), WireType.közép);
-				}
-				wireText.setTextValue("közép " + df.format(middleDistance).replace(",", ".") + "m");
-			}
-			else if(wireText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
-				Double rightDistance;
-				if( lastPillarData.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() ) {
-					rightDistance = getDistance(lastPillarData.getPillarTextList(), WireType.jobb) == null ? 
-							systemData.getLengthOfHorizontalAxis() - getDistance(wireData.getWireTextList(), WireType.jobb) :
-								getDistance(lastPillarData.getPillarTextList(), WireType.jobb) - 
-								getDistance(wireData.getWireTextList(), WireType.jobb);
-				}
-				else {
-					rightDistance = systemData.getLengthOfHorizontalAxis() - getDistance(wireData.getWireTextList(), WireType.jobb);
-				}
-				wireText.setTextValue("jobb " + df.format(rightDistance).replace(",", ".") + "m");
-		}
+		if( getDistance(pillar.getPillarTextList(), WireType.bal) != null )
+			distances.add(getDistance(pillar.getPillarTextList(), WireType.bal));
+		if( getDistance(pillar.getPillarTextList(), WireType.közép) != null )
+			distances.add(getDistance(pillar.getPillarTextList(), WireType.közép));
+		if( getDistance(pillar.getPillarTextList(), WireType.jobb) != null )
+			distances.add(getDistance(pillar.getPillarTextList(), WireType.jobb));
+		if( distances.isEmpty())
+			distances.add(pillar.getDistanceOfPillar());
+		
+		return distances;
 	}
-}
+	
+	
+	public void reorderWire(WireData wire) {
+		
+	}
+	
+	private List<Double> getHorizontalDistances(PillarData lastPillar){
+		List<Double> distances = new ArrayList<>();
+	
+		if( lastPillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() ) {
+			
+		if( getDistance(lastPillar.getPillarTextList(), WireType.bal) != null )
+			distances.add(getDistance(lastPillar.getPillarTextList(), WireType.bal));
+		if( getDistance(lastPillar.getPillarTextList(), WireType.közép) != null )
+			distances.add(getDistance(lastPillar.getPillarTextList(), WireType.közép));
+		if( getDistance(lastPillar.getPillarTextList(), WireType.jobb) != null )
+			distances.add(getDistance(lastPillar.getPillarTextList(), WireType.jobb));
+		if( distances.isEmpty())
+			distances.add(systemData.getLengthOfHorizontalAxis());
+		}
+		else {
+			distances.add(systemData.getLengthOfHorizontalAxis());
+		}
+		
+		return distances;
+	}
+	
 	
 	public TextData getChosenTextData(String chosenText) {
 		
