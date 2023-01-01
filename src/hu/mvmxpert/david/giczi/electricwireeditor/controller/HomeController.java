@@ -605,19 +605,20 @@ public class HomeController {
 		if( !archivFileBuilder.getWireData().isEmpty() ) {
 			Collections.sort(archivFileBuilder.getWireData());
 			if( archivFileBuilder.getWireData().get(archivFileBuilder.getWireData().size() - 1).getDistanceOfWire() >
-			archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() ) {
+			lastPillar.getDistanceOfPillar() ) {
 				getWarningAlert("A sorrend nem módosítható", 
 						"A vezeték távolsága legyen: vezeték távolság =< " 
-				+ archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m.");
+				+ lastPillar.getDistanceOfPillar() + "m.");
 			return;
 			}
 		}
-		
+		Collections.sort(archivFileBuilder.getWireData());
 		for (PillarData pillar: archivFileBuilder.getPillarData()) {
 			archivFileBuilder.reorderPillar(pillar, lastPillar);
 		}
-		
-
+		for(WireData wire : archivFileBuilder.getWireData()) {
+			archivFileBuilder.reorderWire(wire, lastPillar);
+		}
 		drawer.clearRoot();
 		drawSystem();
 		drawer.removeLenghtOfBaseLineText();

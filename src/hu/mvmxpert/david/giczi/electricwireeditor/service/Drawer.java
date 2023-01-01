@@ -12,6 +12,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.ModifyTextWindow;
+import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
@@ -628,12 +629,17 @@ public class Drawer {
 	public void drawInputPillarText(PillarData pillarData, double shiftY1) {
 		
 		for (TextData textData : pillarData.getPillarTextList()) {
-			if( textData.getDirection() == -90 && textData.isOnLeftSide())
+			if( textData.getDirection() == -90 && textData.isOnLeftSide() && !textData.getTextValue().startsWith(WireType.közép.toString()))
 			textData.setX((getHorizontalScaledDownLengthValue(pillarData.getDistanceOfPillar()) - HOR_SHIFT) * MILLIMETER);
-			else if( textData.getDirection() == -90 && !textData.isOnLeftSide())
+			else if( textData.getDirection() == -90 && !textData.isOnLeftSide() && !textData.getTextValue().startsWith(WireType.közép.toString()))
 			textData.setX((getHorizontalScaledDownLengthValue(pillarData.getDistanceOfPillar()) - VER_SHIFT) * MILLIMETER);
+			else if( textData.getDirection() == -90 && textData.isOnLeftSide() && textData.getTextValue().startsWith(WireType.közép.toString()))
+			textData.setX((getHorizontalScaledDownLengthValue(pillarData.getDistanceOfPillar()) - 10) * MILLIMETER);
+			else if( textData.getDirection() == -90 && !textData.isOnLeftSide() && textData.getTextValue().startsWith(WireType.közép.toString()))
+			textData.setX((getHorizontalScaledDownLengthValue(pillarData.getDistanceOfPillar()) - 10) * MILLIMETER);
 			else
 			textData.setX((getHorizontalScaledDownLengthValue(pillarData.getDistanceOfPillar()) + HOR_SHIFT - VER_SHIFT) * MILLIMETER);
+			
 			Text text = new Text(textData.getTextValue());
 			text.setId(String.valueOf(textData.getId()));
 			text.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, textData.getSize()));
@@ -646,19 +652,25 @@ public class Drawer {
 			
 			String[] values = textData.getTextValue().split("\\s+");
 			
-			if( textData.getTextValue().startsWith("bal") && shiftY1 != 0 && values.length > 2)
+			if( textData.getTextValue().startsWith(WireType.bal.toString()) && shiftY1 != 0 && values.length > 2)
 				textData.setY(textData.getY() + shiftY1);
-			else if( textData.getTextValue().startsWith("jobb") && shiftY1 != 0 && values.length > 2)
+			else if( textData.getTextValue().startsWith(WireType.közép.toString()) && shiftY1 != 0 && values.length > 2)
 				textData.setY(textData.getY() + shiftY1);
-			else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() && values.length > 2)
+			else if( textData.getTextValue().startsWith(WireType.jobb.toString()) && shiftY1 != 0 && values.length > 2)
+				textData.setY(textData.getY() + shiftY1);
+			else if( textData.getTextValue().startsWith(WireType.bal.toString()) && textData.isAtTop() && values.length > 2)
 				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-			else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop() && values.length > 2)
+			else if( textData.getTextValue().startsWith(WireType.bal.toString()) && !textData.isAtTop() && values.length > 2)
 				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);
-			else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() && values.length > 2)
+			else if( textData.getTextValue().startsWith(WireType.jobb.toString()) && textData.isAtTop() && values.length > 2)
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-			else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop() && values.length > 2)
-					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);	
-				text.setY(textData.getY());
+			else if( textData.getTextValue().startsWith(WireType.jobb.toString()) && !textData.isAtTop() && values.length > 2)
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);
+			else if( textData.getTextValue().startsWith(WireType.közép.toString()) && textData.isAtTop() && values.length > 2)
+				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
+			else if( textData.getTextValue().startsWith(WireType.közép.toString()) && !textData.isAtTop() && values.length > 2)
+				textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(pillarData.getGroundElevation() - elevationStartValue) * MILLIMETER);	
+			text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();
 					showModifyTextWindow(inputText); });
@@ -726,10 +738,14 @@ public class Drawer {
 	public void drawInputWireText(WireData wireData, double shiftY) {
 		
 		for (TextData textData : wireData.getWireTextList()) {
-			if( textData.getDirection() == -90 && textData.isOnLeftSide())
+			if( textData.getDirection() == -90 && textData.isOnLeftSide() && !textData.getTextValue().startsWith(WireType.közép.toString()))
 			textData.setX((getHorizontalScaledDownLengthValue(wireData.getDistanceOfWire()) - HOR_SHIFT) * MILLIMETER);
-			else if( textData.getDirection() == -90 && !textData.isOnLeftSide())
+			else if( textData.getDirection() == -90 && !textData.isOnLeftSide() && !textData.getTextValue().startsWith(WireType.közép.toString()))
 			textData.setX((getHorizontalScaledDownLengthValue(wireData.getDistanceOfWire()) - VER_SHIFT) * MILLIMETER);
+			else if( textData.getDirection() == -90 && textData.isOnLeftSide() && textData.getTextValue().startsWith(WireType.közép.toString()))
+			textData.setX((getHorizontalScaledDownLengthValue(wireData.getDistanceOfWire()) - 10) * MILLIMETER);
+			else if( textData.getDirection() == -90 && !textData.isOnLeftSide() && textData.getTextValue().startsWith(WireType.közép.toString()))
+			textData.setX((getHorizontalScaledDownLengthValue(wireData.getDistanceOfWire()) - 10) * MILLIMETER);
 			else
 			textData.setX((getHorizontalScaledDownLengthValue(wireData.getDistanceOfWire()) + HOR_SHIFT - VER_SHIFT) * MILLIMETER);
 			Text text = new Text(textData.getTextValue());
@@ -742,19 +758,24 @@ public class Drawer {
 				}
 				text.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(textData.getX()));
 				String[] values = textData.getTextValue().split("\\s+");
-				if( textData.getTextValue().startsWith("bal") && shiftY != 0 && values.length > 2 )
+				if( textData.getTextValue().startsWith(WireType.bal.toString()) && shiftY != 0 && values.length > 2 )
 				textData.setY(textData.getY() + shiftY);
-				else if( textData.getTextValue().startsWith("jobb") && shiftY != 0 && values.length > 2 )
+				else if( textData.getTextValue().startsWith(WireType.közép.toString()) && shiftY != 0 && values.length > 2 )
+					textData.setY(textData.getY() + shiftY);
+				else if( textData.getTextValue().startsWith(WireType.jobb.toString()) && shiftY != 0 && values.length > 2 )
 				textData.setY(textData.getY() + shiftY);
-				else if( textData.getTextValue().startsWith("bal") && textData.isAtTop() && values.length > 2 )
+				else if( textData.getTextValue().startsWith(WireType.bal.toString()) && textData.isAtTop() && values.length > 2 )
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-				else if( textData.getTextValue().startsWith("bal") && !textData.isAtTop() && values.length > 2 )
+				else if( textData.getTextValue().startsWith(WireType.bal.toString()) && !textData.isAtTop() && values.length > 2 )
 					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
-				else if( textData.getTextValue().startsWith("jobb") && textData.isAtTop() && values.length > 2)
+				else if( textData.getTextValue().startsWith(WireType.jobb.toString()) && textData.isAtTop() && values.length > 2)
 						textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
-				else if( textData.getTextValue().startsWith("jobb") && !textData.isAtTop() && values.length > 2)
+				else if( textData.getTextValue().startsWith(WireType.jobb.toString()) && !textData.isAtTop() && values.length > 2)
 						textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
-				
+				else if( textData.getTextValue().startsWith(WireType.közép.toString()) && textData.isAtTop() && values.length > 2)
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getTopElevetaion() - elevationStartValue) * MILLIMETER);
+				else if( textData.getTextValue().startsWith(WireType.közép.toString()) && !textData.isAtTop() && values.length > 2)
+					textData.setY(START_Y + PAGE_Y - getVerticalScaledDownHeightValue(wireData.getGroundElevation() - elevationStartValue) * MILLIMETER);
 				text.setY(textData.getY());
 				text.setOnMouseClicked( t -> {
 					Text inputText = (Text) t.getSource();

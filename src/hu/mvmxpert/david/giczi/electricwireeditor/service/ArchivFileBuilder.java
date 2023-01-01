@@ -281,7 +281,69 @@ public class ArchivFileBuilder {
 			}
 			actualPillar.setDistanceOfPillar( mainLineDistances.get(0) - pillarDistances.get(0) );
 		}
-		
+		else if( actualPillar.getDistanceOfPillar() == 0 && mainLineDistances.size() == 3) {
+			for (TextData pillarText : lastPillar.getPillarTextList()) {
+				String[] values = pillarText.getTextValue().split("\\s+");
+				if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					actualPillar.getPillarTextList().add(pillarText);
+				}
+				else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					actualPillar.getPillarTextList().add(pillarText);
+				}	
+				else if( pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					actualPillar.getPillarTextList().add(pillarText);
+				}	
+			}
+			actualPillar.setDistanceOfPillar(systemData.getLengthOfHorizontalAxis());
+		}
+		else if( actualPillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() && mainLineDistances.size() == 3) {
+			for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
+				String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
+				if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					lastPillar.getPillarTextList().remove(i);
+				}
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					lastPillar.getPillarTextList().remove(i);
+				}	
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					lastPillar.getPillarTextList().remove(i);
+				}	
+			}
+			actualPillar.setDistanceOfPillar(0);
+		}
+		else if( actualPillar.getDistanceOfPillar() > 0 && pillarDistances.size() == 3 && mainLineDistances.size() == 1 ) {
+			
+			for (int i = actualPillar.getPillarTextList().size() - 1; i >= 0; i--) {
+				String[] values = actualPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
+				if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					actualPillar.getPillarTextList().get(i)
+					.setTextValue(df.format(mainLineDistances.get(0) - actualPillar.getDistanceOfPillar()).replace(",", ".") + "m");
+				}
+				else if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					actualPillar.getPillarTextList().remove(i);
+				}	
+				else if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					actualPillar.getPillarTextList().remove(i);
+				}	
+			}
+			actualPillar.setDistanceOfPillar( mainLineDistances.get(0) - actualPillar.getDistanceOfPillar() );
+		}
+		else if( actualPillar.getDistanceOfPillar() > 0 && pillarDistances.size() == 3 && mainLineDistances.size() == 3 ) {
+			
+			for (TextData pillarText : actualPillar.getPillarTextList()) {
+				String[] values = pillarText.getTextValue().split("\\s+");
+				if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					pillarText.setTextValue("bal " + df.format(mainLineDistances.get(0) - pillarDistances.get(0)).replace(",", ".") + "m");
+				}
+				else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					pillarText.setTextValue("közép " + df.format(mainLineDistances.get(1) - pillarDistances.get(1)).replace(",", ".") + "m");
+				}	
+				else if( pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					pillarText.setTextValue("jobb " + df.format(mainLineDistances.get(2) - pillarDistances.get(2)).replace(",", ".") + "m");
+				}	
+			}
+			actualPillar.setDistanceOfPillar(systemData.getLengthOfHorizontalAxis() - actualPillar.getDistanceOfPillar());
+		}
 		
 	}
 	
@@ -300,9 +362,104 @@ public class ArchivFileBuilder {
 		return distances;
 	}
 	
-	
-	public void reorderWire(WireData wire) {
+	private List<Double> getWireDistances(WireData wire){
+		List<Double> distances = new ArrayList<>();
 		
+		if( getDistance(wire.getWireTextList(), WireType.bal) != null )
+			distances.add(getDistance(wire.getWireTextList(), WireType.bal));
+		if( getDistance(wire.getWireTextList(), WireType.közép) != null )
+			distances.add(getDistance(wire.getWireTextList(), WireType.közép));
+		if( getDistance(wire.getWireTextList(), WireType.jobb) != null )
+			distances.add(getDistance(wire.getWireTextList(), WireType.jobb));
+		if( distances.isEmpty())
+			distances.add(wire.getDistanceOfWire());
+		
+		return distances;
+	}
+	
+	public void reorderWire(WireData actualWire, PillarData lastPillar) {
+		List<Double> wireDistances = getWireDistances(actualWire);
+		List<Double> mainLineDistances = getHorizontalDistances(lastPillar);
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		if( actualWire.getDistanceOfWire() == 0 && mainLineDistances.size() == 1 ) {
+			actualWire.setDistanceOfWire(mainLineDistances.get(0));
+		}
+		else if( actualWire.getDistanceOfWire() == systemData.getLengthOfHorizontalAxis() && mainLineDistances.size() == 1 ) {
+			actualWire.setDistanceOfWire(0);
+		}
+		else if( actualWire.getDistanceOfWire() > 0 && wireDistances.size() == 1 && mainLineDistances.size() == 1 ) {
+		
+			for (TextData wireText : actualWire.getWireTextList()) {
+				String[] values = wireText.getTextValue().split("\\s+");
+				if( values.length == 1 && values[0].charAt( values[0].length() - 1) == 'm' )
+					wireText.setTextValue(df.format(mainLineDistances.get(0) - wireDistances.get(0)).replace(",", ".") + "m");
+			}
+			actualWire.setDistanceOfWire( mainLineDistances.get(0) - wireDistances.get(0) );
+		}
+		else if( actualWire.getDistanceOfWire() == 0 && mainLineDistances.size() == 3) {
+			for (TextData pillarText : lastPillar.getPillarTextList()) {
+				String[] values = pillarText.getTextValue().split("\\s+");
+				if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					actualWire.getWireTextList().add(pillarText);
+				}
+				else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					actualWire.getWireTextList().add(pillarText);
+				}	
+				else if( pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					actualWire.getWireTextList().add(pillarText);
+				}	
+			}
+			actualWire.setDistanceOfWire(systemData.getLengthOfHorizontalAxis());
+		}
+		else if( actualWire.getDistanceOfWire() == systemData.getLengthOfHorizontalAxis() && mainLineDistances.size() == 3) {
+			for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
+				String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
+				if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					lastPillar.getPillarTextList().remove(i);
+				}
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					lastPillar.getPillarTextList().remove(i);
+				}	
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					lastPillar.getPillarTextList().remove(i);
+				}	
+			}
+			actualWire.setDistanceOfWire(0);
+		}
+		else if( actualWire.getDistanceOfWire() > 0 && wireDistances.size() == 3 && mainLineDistances.size() == 1 ) {
+			
+			for (int i = actualWire.getWireTextList().size() - 1; i >= 0; i--) {
+				String[] values = actualWire.getWireTextList().get(i).getTextValue().split("\\s+");
+				if( actualWire.getWireTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					actualWire.getWireTextList().get(i)
+					.setTextValue(df.format(mainLineDistances.get(0) - actualWire.getDistanceOfWire()).replace(",", ".") + "m");
+				}
+				else if( actualWire.getWireTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					actualWire.getWireTextList().remove(i);
+				}	
+				else if( actualWire.getWireTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					actualWire.getWireTextList().remove(i);
+				}	
+			}
+			actualWire.setDistanceOfWire( mainLineDistances.get(0) - actualWire.getDistanceOfWire() );
+		}
+		else if( actualWire.getDistanceOfWire() > 0 && wireDistances.size() == 3 && mainLineDistances.size() == 3 ) {
+			
+			for (TextData wireText : actualWire.getWireTextList()) {
+				String[] values = wireText.getTextValue().split("\\s+");
+				if( wireText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+					wireText.setTextValue("bal " + df.format(mainLineDistances.get(0) - wireDistances.get(0)).replace(",", ".") + "m");
+				}
+				else if( wireText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+					wireText.setTextValue("közép " + df.format(mainLineDistances.get(1) - wireDistances.get(1)).replace(",", ".") + "m");
+				}	
+				else if( wireText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+					wireText.setTextValue("jobb " + df.format(mainLineDistances.get(2) - wireDistances.get(2)).replace(",", ".") + "m");
+				}	
+			}
+			actualWire.setDistanceOfWire(systemData.getLengthOfHorizontalAxis() - actualWire.getDistanceOfWire());
+		}
 	}
 	
 	private List<Double> getHorizontalDistances(PillarData lastPillar){
