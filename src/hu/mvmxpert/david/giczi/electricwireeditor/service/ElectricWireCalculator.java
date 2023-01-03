@@ -8,21 +8,32 @@ import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 
 public class ElectricWireCalculator {
 
-	public static final double G = 9.81;
+	public static final double g = 9.81;
 	private ArchivFileBuilder archivFileBuilder;
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	private double temperature = 17.0;
 	public double szigma_b = 10.0;
+	public double oszlopkoz_hossza;
+	public double magassag_kulonbseg;
+	public double felfuggesztesi_koz;
+	public double kozepes_ferdeseg;
+	public double mertekado_oszlopkoz;
+	public double kritikus_oszlopkoz;
 	public double potteher;
 	public double upszilon;
 	public double upszilon_z;
 	public double szigma_hz;
-	public double oszlopkoz_hossza;
-	public double magassag_kulonbseg;
-	public double felfuggesztesi_koz;
-	
-	
+	public double szigma_k;
+	public double szigma_kz;
+	public double G;
+	public double G_z;
+	public double T;
+	public double b;
+	public double d;
+	public double A;
+	public double B;
+	public double delta;
 	
 	
 	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
@@ -36,6 +47,8 @@ public class ElectricWireCalculator {
 		getPotteher();
 		getUpszilonZ();
 		getSzigmaHz();
+		getKozepesFerdeseg();
+		getSzigmaKz();
 	}
 	
 	
@@ -93,14 +106,22 @@ public class ElectricWireCalculator {
 	}
 	
 	private void getUpszilonZ() {
-		this.upszilon_z = (G * this.wireData.getSuly_kgPerMeter() + this.potteher) / this.wireData.getKeresztMetszet();
+		this.upszilon_z = (g * this.wireData.getSuly_kgPerMeter() + this.potteher) / this.wireData.getKeresztMetszet();
 	}
 	
 	private void getSzigmaHz() {
 		this.szigma_hz = (this.oszlopkoz_hossza / this.felfuggesztesi_koz) * (this.szigma_b  - 
 				(this.upszilon_z * (Math.abs(magassag_kulonbseg) / 2 + 
 				/*b'z*/		(Math.pow(this.oszlopkoz_hossza, 2) * this.upszilon_z) / (8 * this.szigma_b))));
-				
-		
 	}
+	
+	private void getKozepesFerdeseg() {
+		this.kozepes_ferdeseg = (Math.pow(felfuggesztesi_koz, 3) / Math.pow(oszlopkoz_hossza, 2)) / 
+				(Math.pow(felfuggesztesi_koz, 2) / oszlopkoz_hossza) ;
+	}
+	
+	public void getSzigmaKz() {
+		this.szigma_kz = this.szigma_hz * this.kozepes_ferdeseg;
+	}
+	
 }

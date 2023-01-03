@@ -293,6 +293,8 @@ public class HomeWindow  {
 				System.out.println(calculator.potteher);
 				System.out.println(calculator.upszilon_z);
 				System.out.println(calculator.szigma_hz);
+				System.out.println(calculator.kozepes_ferdeseg);
+				System.out.println(calculator.szigma_kz);
 			}
 			
 		});
