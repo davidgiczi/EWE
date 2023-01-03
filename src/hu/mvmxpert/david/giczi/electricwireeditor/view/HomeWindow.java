@@ -286,9 +286,13 @@ public class HomeWindow  {
 			public void handle(ActionEvent arg0) {
 				
 				ElectricWireCalculator calculator = 
-						new ElectricWireCalculator(homeController.archivFileBuilder, "ASLH-Z(S)b 48 SMF (30SA 40)", "bal");
-				System.out.println(calculator.getA());
-				System.out.println(calculator.getM());
+						new ElectricWireCalculator(homeController.archivFileBuilder, "250/40 ACSR", "bal");
+				System.out.println(calculator.oszlopkoz_hossza);
+				System.out.println(calculator.magassag_kulonbseg);
+				System.out.println(calculator.felfuggesztesi_koz);
+				System.out.println(calculator.potteher);
+				System.out.println(calculator.upszilon_z);
+				System.out.println(calculator.szigma_hz);
 			}
 			
 		});
