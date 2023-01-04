@@ -295,6 +295,16 @@ public class HomeWindow  {
 				System.out.println(calculator.szigma_hz);
 				System.out.println(calculator.kozepes_ferdeseg);
 				System.out.println(calculator.szigma_kz);
+				System.out.println(calculator.mertekado_oszlopkoz);
+				System.out.println(calculator.G);
+				System.out.println(calculator.kritikus_oszlopkoz);
+				System.out.println(calculator.G_z);
+				System.out.println(calculator.d);
+				System.out.println(calculator.T);
+				System.out.println(calculator.b);
+				System.out.println(calculator.A);
+				System.out.println(calculator.B);
+				System.out.println(calculator.delta);
 			}
 			
 		});

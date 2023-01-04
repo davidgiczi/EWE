@@ -12,7 +12,8 @@ public class ElectricWireCalculator {
 	private ArchivFileBuilder archivFileBuilder;
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
-	private double temperature = 17.0;
+	private double t = 17.0;
+	private double t0;
 	public double szigma_b = 10.0;
 	public double oszlopkoz_hossza;
 	public double magassag_kulonbseg;
@@ -43,12 +44,24 @@ public class ElectricWireCalculator {
 		this.wireData = wireTypes.stream().filter( w -> wireTypeName.equals(w.getType())).findFirst().get();
 		getHorizontalDistanceOfPillar(wireType);
 		getDifferenceOfElevationsBetweenPillars(wireType);
-		getSlopeDistanceBetweenPillars();
+		getFelfuggesztesiKoz();
 		getPotteher();
+		getUpszilon();
 		getUpszilonZ();
 		getSzigmaHz();
 		getKozepesFerdeseg();
 		getSzigmaKz();
+		getMertekadoOszlopkoz();
+		getG();
+		getKritikusOszlopkoz();
+		get_t0();
+		get_G_z();
+		get_d();
+		get_T();
+		get_b();
+		getA();
+		getB();
+		getDelta();
 	}
 	
 	
@@ -97,7 +110,7 @@ public class ElectricWireCalculator {
 		}	
 	}
 	
-	private void getSlopeDistanceBetweenPillars() {
+	private void getFelfuggesztesiKoz() {
 	this.felfuggesztesi_koz = Math.sqrt(Math.pow(oszlopkoz_hossza, 2) + Math.pow(magassag_kulonbseg, 2));
 	}
 	
@@ -105,12 +118,16 @@ public class ElectricWireCalculator {
 		this.potteher = 3.25 + 0.25 * this.wireData.getAtmero();
 	}
 	
+	private void getUpszilon() {
+		this.upszilon = g * this.wireData.getSuly_kgPerMeter() / this.wireData.getKeresztMetszet();
+	}
+	
 	private void getUpszilonZ() {
 		this.upszilon_z = (g * this.wireData.getSuly_kgPerMeter() + this.potteher) / this.wireData.getKeresztMetszet();
 	}
 	
 	private void getSzigmaHz() {
-		this.szigma_hz = (this.oszlopkoz_hossza / this.felfuggesztesi_koz) * (this.szigma_b  - 
+		this.szigma_hz = (this.oszlopkoz_hossza / this.felfuggesztesi_koz) * (this.szigma_b  -
 				(this.upszilon_z * (Math.abs(magassag_kulonbseg) / 2 + 
 				/*b'z*/		(Math.pow(this.oszlopkoz_hossza, 2) * this.upszilon_z) / (8 * this.szigma_b))));
 	}
@@ -120,8 +137,70 @@ public class ElectricWireCalculator {
 				(Math.pow(felfuggesztesi_koz, 2) / oszlopkoz_hossza) ;
 	}
 	
-	public void getSzigmaKz() {
+	private void getSzigmaKz() {
 		this.szigma_kz = this.szigma_hz * this.kozepes_ferdeseg;
 	}
 	
+	private void getMertekadoOszlopkoz() {
+		this.mertekado_oszlopkoz = 0.6 * this.szigma_b / this.upszilon_z;
+	}
+	
+	private void getG() {
+		this.G = Math.pow(this.oszlopkoz_hossza, 2) * Math.pow(this.upszilon, 2) / 24.0;
+	}
+	
+	private void get_G_z() {
+		this.G_z = this.t0 == -20.0 ? this.G : Math.pow(this.oszlopkoz_hossza, 2) * Math.pow(this.upszilon_z, 2) / 24;
+	}
+	
+	private void getKritikusOszlopkoz() {
+		this.kritikus_oszlopkoz = this.G > 0 ? 
+				this.szigma_kz * Math.sqrt(360 * this.wireData.getHofokTenyezo() / ((Math.pow(this.upszilon_z, 2) - Math.pow(this.upszilon, 2)))) :
+				this.szigma_kz * Math.sqrt(1560 * this.wireData.getHofokTenyezo() / ((Math.pow(this.upszilon, 2) - Math.pow(this.upszilon_z, 2))));
+	}
+	
+	private void get_t0() {
+		if(this.wireData.getHofokTenyezo() > 0) {
+			if(this.oszlopkoz_hossza > this.kritikus_oszlopkoz )
+				this.t0 = -5.0;
+			else
+				this.t0 = -20.0;
+		}
+		
+		else {
+			if(this.oszlopkoz_hossza > this.kritikus_oszlopkoz )
+				this.t0 = -5.0;
+			else
+				this.t0 = 60.0;
+		}
+	}
+	
+	private void get_d() {
+		this.d = - this.G * this.wireData.getRugalmassagiModulusz();
+	}
+	
+	private void get_T() {
+		this.T = (this.t - this.t0) * this.wireData.getHofokTenyezo();
+	}
+	
+	private void get_b() {
+		this.b = (this.T - this.szigma_kz / this.wireData.getRugalmassagiModulusz() + this.G_z / Math.pow(this.szigma_kz, 2)) 
+				* this.wireData.getRugalmassagiModulusz();
+	}
+	
+	private void getA() {
+		this.A = -9.0 * Math.pow(this.b, 2) / 27.0;
+	}
+	
+	private void getB() {
+		this.B = (2 * Math.pow(this.b, 3) + 27.0 * this.d) / 27.0;
+	}
+	
+	private void getDelta() {
+		this.delta = Math.pow(this.B / 2, 2) + Math.pow(this.A / 3, 3);
+	}
+	
+	private void getSzigma_k() {
+		
+	}
 }
