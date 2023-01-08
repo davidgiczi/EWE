@@ -305,6 +305,12 @@ public class HomeWindow  {
 				System.out.println(calculator.A);
 				System.out.println(calculator.B);
 				System.out.println(calculator.delta);
+				System.out.println(calculator.szigma_k);
+				System.out.println(calculator.p);
+				System.out.println(calculator.at);
+				System.out.println(calculator.ar);
+				System.out.println(calculator.XA);
+				System.out.println(calculator.XB);
 			}
 			
 		});

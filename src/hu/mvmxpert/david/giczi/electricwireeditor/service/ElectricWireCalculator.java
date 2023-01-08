@@ -3,6 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 import java.util.ArrayList;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
 import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 
@@ -35,7 +36,11 @@ public class ElectricWireCalculator {
 	public double A;
 	public double B;
 	public double delta;
-	
+	public double p;
+	public double at;
+	public double ar;
+	public double XA;
+	public double XB;
 	
 	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
 		this.archivFileBuilder = archivFileBuilder;
@@ -55,13 +60,20 @@ public class ElectricWireCalculator {
 		getG();
 		getKritikusOszlopkoz();
 		get_t0();
-		get_G_z();
+		getG_z();
 		get_d();
-		get_T();
+		getT();
 		get_b();
 		getA();
 		getB();
 		getDelta();
+		getSzigma_k();
+		get_p();
+		get_at();
+		get_ar();
+		getXA();
+		getXB();
+		calcWirePoints();
 	}
 	
 	
@@ -149,7 +161,7 @@ public class ElectricWireCalculator {
 		this.G = Math.pow(this.oszlopkoz_hossza, 2) * Math.pow(this.upszilon, 2) / 24.0;
 	}
 	
-	private void get_G_z() {
+	private void getG_z() {
 		this.G_z = this.t0 == -20.0 ? this.G : Math.pow(this.oszlopkoz_hossza, 2) * Math.pow(this.upszilon_z, 2) / 24;
 	}
 	
@@ -179,7 +191,7 @@ public class ElectricWireCalculator {
 		this.d = - this.G * this.wireData.getRugalmassagiModulusz();
 	}
 	
-	private void get_T() {
+	private void getT() {
 		this.T = (this.t - this.t0) * this.wireData.getHofokTenyezo();
 	}
 	
@@ -202,5 +214,44 @@ public class ElectricWireCalculator {
 	
 	private void getSzigma_k() {
 		
+		this.szigma_k = this.delta >= 0 ?  - this.b / 3 + 
+				Math.pow(- this.B / 2 + Math.sqrt(this.delta), 1/3) + 
+				Math.pow(- this.B / 2 - Math.sqrt(this.delta), 1/3)
+		:
+		 - this.b / 3 - 2 * Math.sqrt(- this.A / 3) * 
+				Math.cos(2 * Math.PI / 3 + Math.acos((this.B / 2) / 
+						Math.sqrt(Math.pow(- this.A / 3, 3))) / 3);
 	}
+	
+	private void get_p() {
+		this.p = this.szigma_k / this.kozepes_ferdeseg / this.upszilon;
+	}
+	
+	private void get_at(){
+		double x = this.magassag_kulonbseg / (2 * this.p * Math.sinh(this.oszlopkoz_hossza / ( 2 * this.p )));
+		this.at = this.oszlopkoz_hossza + 2 * this.p * Math.log(x + Math.sqrt(Math.pow(x, 2) + 1));
+		}
+	
+	private void get_ar() {
+		double x = this.magassag_kulonbseg / (2 * this.p * Math.sinh(this.oszlopkoz_hossza / ( 2 * this.p )));
+		this.ar = this.oszlopkoz_hossza - 2 * this.p * Math.log(x + Math.sqrt(Math.pow(x, 2) + 1));
+	}
+	
+	private void getXA() {
+		this.XA = - this.ar / 2;
+	}
+	
+	private void getXB() {
+		this.XB = this.at / 2;
+	}
+	
+	private List<WirePoint> calcWirePoints(){
+		List<WirePoint> wirePoints = new ArrayList<>();
+		double step = this.oszlopkoz_hossza / 50;
+		for(double i = 0; i < this.oszlopkoz_hossza; i += step) {
+			WirePoint wirePoint = new WirePoint(i, i);
+		}
+		return wirePoints;
+	}
+
 }
