@@ -10,12 +10,13 @@ import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 public class ElectricWireCalculator {
 
 	public static final double g = 9.81;
+	public List<WirePoint> wirePoints;
 	private ArchivFileBuilder archivFileBuilder;
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	private double t = 17.0;
 	private double t0;
-	public double szigma_b = 10.0;
+	public double szigma_b = 6.0;
 	public double oszlopkoz_hossza;
 	public double magassag_kulonbseg;
 	public double felfuggesztesi_koz;
@@ -246,10 +247,13 @@ public class ElectricWireCalculator {
 	}
 	
 	private List<WirePoint> calcWirePoints(){
-		List<WirePoint> wirePoints = new ArrayList<>();
+		 wirePoints = new ArrayList<>();
 		double step = this.oszlopkoz_hossza / 50;
-		for(double i = 0; i < this.oszlopkoz_hossza; i += step) {
-			WirePoint wirePoint = new WirePoint(i, i);
+		for(int i = 0; i <= 50; i++) {
+			WirePoint wirePoint = 
+					new WirePoint((int) ((i * step) * 1000.0) / 1000.0 , 
+		(int) ((10 * this.p * Math.cosh((this.XA + i * step) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 1000.0) / 1000.0);
+			wirePoints.add(wirePoint);
 		}
 		return wirePoints;
 	}

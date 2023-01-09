@@ -311,6 +311,9 @@ public class HomeWindow  {
 				System.out.println(calculator.ar);
 				System.out.println(calculator.XA);
 				System.out.println(calculator.XB);
+				
+				//calculator.wirePoints.forEach( p -> System.out.println(p));
+				
 			}
 			
 		});
