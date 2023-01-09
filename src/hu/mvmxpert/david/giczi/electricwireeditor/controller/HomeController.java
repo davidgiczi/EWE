@@ -20,6 +20,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
+import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.HomeWindow;
@@ -52,6 +53,7 @@ public class HomeController {
 	public SetTextWindow setTextWindow;
 	public SetLineWindow setLineWindow;
 	public SaveWireCoordsWindow saveWireCoordsWindow;
+	
 	
 	public HomeController() {
 		drawer = new Drawer();
@@ -737,6 +739,16 @@ public class HomeController {
 							lineData.getWidth());
 		}
 	}
+	
+	
+	public void showCalculatedWire(String wireTypeName, String wireType) {
+		
+		ElectricWireCalculator calculator = 
+				new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
+		
+		
+	}
+	
 	
 	public void showLeftWire() {
 		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();

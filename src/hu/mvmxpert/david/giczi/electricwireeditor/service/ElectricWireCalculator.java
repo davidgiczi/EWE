@@ -14,9 +14,10 @@ public class ElectricWireCalculator {
 	private ArchivFileBuilder archivFileBuilder;
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
-	private double t = 17.0;
-	private double t0;
-	public double szigma_b = 6.0;
+	public String wireType;
+	public double t = 25.0;
+	public double t0;
+	public double szigma_b = 25.0;
 	public double oszlopkoz_hossza;
 	public double magassag_kulonbseg;
 	public double felfuggesztesi_koz;
@@ -45,6 +46,7 @@ public class ElectricWireCalculator {
 	
 	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
 		this.archivFileBuilder = archivFileBuilder;
+		this.wireType = wireType;
 		parseWireTypeData();
 		if( Validate.isValidInputText(wireTypeName) )
 		this.wireData = wireTypes.stream().filter( w -> wireTypeName.equals(w.getType())).findFirst().get();
@@ -248,11 +250,10 @@ public class ElectricWireCalculator {
 	
 	private List<WirePoint> calcWirePoints(){
 		 wirePoints = new ArrayList<>();
-		double step = this.oszlopkoz_hossza / 50;
-		for(int i = 0; i <= 50; i++) {
+		for(int i = 0; i < this.oszlopkoz_hossza; i++) {
 			WirePoint wirePoint = 
-					new WirePoint((int) ((i * step) * 1000.0) / 1000.0 , 
-		(int) ((10 * this.p * Math.cosh((this.XA + i * step) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 1000.0) / 1000.0);
+					new WirePoint(i , 
+		(int) ((10 * this.p * Math.cosh((this.XA + i) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0);
 			wirePoints.add(wirePoint);
 		}
 		return wirePoints;

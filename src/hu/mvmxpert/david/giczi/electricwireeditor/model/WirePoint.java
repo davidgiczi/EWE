@@ -27,6 +27,10 @@ public class WirePoint implements Comparable<WirePoint>{
 	public void setElevationOfWirePoint(double elevationOfWirePoint) {
 		this.elevationOfWirePoint = elevationOfWirePoint;
 	}
+	
+	public String getWirePoint() {
+		return this.distanceOfWirePoint + " " + this.elevationOfWirePoint + " 0"; 
+	}
 
 	@Override
 	public String toString() {

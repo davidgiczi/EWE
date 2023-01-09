@@ -26,6 +26,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 
 public class FileProcess {
 	
@@ -288,4 +289,21 @@ public class FileProcess {
 		} 
 	}
 	
+	public void saveCalulatedWirePointsInTextFormat(List<WirePoint> wirePoints, String type) {
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_" + type  + "_sodrony_pontok.txt");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file, StandardCharsets.UTF_8))) {
+			
+			for (int i = 1; i <= wirePoints.size(); i++) {
+				writer.write(i + " " + wirePoints.get(i - 1).getWirePoint());
+				writer.newLine();
+			}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+		} 
+	}
+		
 }

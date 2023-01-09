@@ -2,9 +2,9 @@ package hu.mvmxpert.david.giczi.electricwireeditor.view;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
-import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
+import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -285,35 +285,8 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-				ElectricWireCalculator calculator = 
-						new ElectricWireCalculator(homeController.archivFileBuilder, "250/40 ACSR", "bal");
-				System.out.println(calculator.oszlopkoz_hossza);
-				System.out.println(calculator.magassag_kulonbseg);
-				System.out.println(calculator.felfuggesztesi_koz);
-				System.out.println(calculator.potteher);
-				System.out.println(calculator.upszilon_z);
-				System.out.println(calculator.szigma_hz);
-				System.out.println(calculator.kozepes_ferdeseg);
-				System.out.println(calculator.szigma_kz);
-				System.out.println(calculator.mertekado_oszlopkoz);
-				System.out.println(calculator.G);
-				System.out.println(calculator.kritikus_oszlopkoz);
-				System.out.println(calculator.G_z);
-				System.out.println(calculator.d);
-				System.out.println(calculator.T);
-				System.out.println(calculator.b);
-				System.out.println(calculator.A);
-				System.out.println(calculator.B);
-				System.out.println(calculator.delta);
-				System.out.println(calculator.szigma_k);
-				System.out.println(calculator.p);
-				System.out.println(calculator.at);
-				System.out.println(calculator.ar);
-				System.out.println(calculator.XA);
-				System.out.println(calculator.XB);
-				
-				//calculator.wirePoints.forEach( p -> System.out.println(p));
-				
+			homeController.showCalculatedWire("350/50 ACSR", WireType.bal.toString());
+			
 			}
 			
 		});
