@@ -802,6 +802,32 @@ public class Drawer {
 		root.getChildren().add(text);
 	}
 	
+	public void drawCalculatedWire(List<WirePoint> wirePoints, String wireType) {
+		
+		double scale = horizontalScale / 1000d;
+		
+		for (int i = 0; i < wirePoints.size(); i += scale) {
+			Circle dot = new Circle();
+			switch (wireType) {
+			case "közép":
+				dot.setStroke(Color.RED);
+				break;
+			case "jobb":
+				dot.setStroke(Color.ORANGE);
+				break;
+			default:
+				dot.setStroke(Color.MAGENTA);
+			}
+			
+			dot.setRadius(1);
+			dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
+					.add(getHorizontalScaledDownLengthValue(wirePoints.get(i).getDistanceOfWirePoint()) * MILLIMETER));
+			dot.setCenterY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(archivFileBuilder.getBeginnerPillar().getTopElevetaion() - 
+					archivFileBuilder.getSystemData().getElevationStartValue() + wirePoints.get(i).getElevationOfWirePoint()) * MILLIMETER);
+			root.getChildren().add(dot);
+		}
+	}
+	
 	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
 				
 		if( pointsOfWire.size() == 2) {

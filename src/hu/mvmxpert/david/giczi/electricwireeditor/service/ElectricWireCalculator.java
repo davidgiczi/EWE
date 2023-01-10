@@ -15,21 +15,23 @@ public class ElectricWireCalculator {
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	public String wireType;
-	public double t = 25.0;
+	public double t = 80;
 	public double t0;
-	public double szigma_b = 25.0;
+	public double szigma_b = 182;
+	public double szigma_hz;
+	public double szigma_k;
+	public double szigma_kz;
 	public double oszlopkoz_hossza;
 	public double magassag_kulonbseg;
 	public double felfuggesztesi_koz;
 	public double kozepes_ferdeseg;
 	public double mertekado_oszlopkoz;
 	public double kritikus_oszlopkoz;
+	public double sodrony_hossza;
+	public double belogas;
 	public double potteher;
 	public double upszilon;
 	public double upszilon_z;
-	public double szigma_hz;
-	public double szigma_k;
-	public double szigma_kz;
 	public double G;
 	public double G_z;
 	public double T;
@@ -77,6 +79,8 @@ public class ElectricWireCalculator {
 		getXA();
 		getXB();
 		calcWirePoints();
+		getBelogas();
+		getSodronyHossza();
 	}
 	
 	
@@ -248,15 +252,31 @@ public class ElectricWireCalculator {
 		this.XB = this.at / 2;
 	}
 	
-	private List<WirePoint> calcWirePoints(){
+	private void calcWirePoints(){
 		 wirePoints = new ArrayList<>();
 		for(int i = 0; i < this.oszlopkoz_hossza; i++) {
 			WirePoint wirePoint = 
-					new WirePoint(i , 
+					new WirePoint(i, 
 		(int) ((10 * this.p * Math.cosh((this.XA + i) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0);
 			wirePoints.add(wirePoint);
 		}
-		return wirePoints;
+	}
+	
+	private void getBelogas() {
+		this.belogas = (this.oszlopkoz_hossza * this.oszlopkoz_hossza * this.kozepes_ferdeseg * this.upszilon * this.kozepes_ferdeseg) / 
+				(8 * this.szigma_k) +  (Math.pow(this.oszlopkoz_hossza, 3) * this.oszlopkoz_hossza * 
+		this.kozepes_ferdeseg * Math.pow(this.kozepes_ferdeseg, 3) * Math.pow(this.upszilon, 3)) /
+				(384 * Math.pow(this.szigma_k, 3));
+	}
+	
+	private void getSodronyHossza() {
+		this.sodrony_hossza = (this.oszlopkoz_hossza + (Math.pow(this.belogas, 2) / this.oszlopkoz_hossza) * 8 / 3 + 
+				(Math.pow(this.belogas, 4) / Math.pow(this.oszlopkoz_hossza, 3) * 32 / 15)) * this.kozepes_ferdeseg;
+	}
+	
+	public double getElevationOfWire(double distance) {
+		return archivFileBuilder.getBeginnerPillar().getTopElevetaion() - archivFileBuilder.getBeginnerPillar().getGroundElevation() +
+				(int) ((10 * this.p * Math.cosh((this.XA + distance) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0;
 	}
 
 }

@@ -53,6 +53,7 @@ public class HomeController {
 	public SetTextWindow setTextWindow;
 	public SetLineWindow setLineWindow;
 	public SaveWireCoordsWindow saveWireCoordsWindow;
+	public ElectricWireCalculator calculator;
 	
 	
 	public HomeController() {
@@ -743,10 +744,9 @@ public class HomeController {
 	
 	public void showCalculatedWire(String wireTypeName, String wireType) {
 		
-		ElectricWireCalculator calculator = 
-				new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
-		
-		
+		 calculator = new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
+		 fileProcess.saveCalulatedWirePointsInTextFormat(calculator.wirePoints, wireType);
+		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}
 	
 	
