@@ -823,7 +823,7 @@ public class Drawer {
 			dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
 					.add(getHorizontalScaledDownLengthValue(wirePoints.get(i).getDistanceOfWirePoint()) * MILLIMETER));
 			dot.setCenterY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(archivFileBuilder.getBeginnerPillar().getTopElevetaion() - 
-					archivFileBuilder.getSystemData().getElevationStartValue() + wirePoints.get(i).getElevationOfWirePoint()) * MILLIMETER);
+					archivFileBuilder.getSystemData().getElevationStartValue() - Math.abs(wirePoints.get(i).getElevationOfWirePoint())) * MILLIMETER);
 			root.getChildren().add(dot);
 		}
 	}

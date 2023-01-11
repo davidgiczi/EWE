@@ -285,7 +285,7 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-			homeController.showCalculatedWire("AA/St 59/25 OPGW", WireType.bal.toString());
+			homeController.showCalculatedWire("350/50 ACSR", WireType.bal.toString());
 			
 			}
 		

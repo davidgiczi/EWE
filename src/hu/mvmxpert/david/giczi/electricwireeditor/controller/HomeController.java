@@ -743,9 +743,7 @@ public class HomeController {
 	
 	
 	public void showCalculatedWire(String wireTypeName, String wireType) {
-		
 		 calculator = new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
-		 fileProcess.saveCalulatedWirePointsInTextFormat(calculator.wirePoints, wireType);
 		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}
 	

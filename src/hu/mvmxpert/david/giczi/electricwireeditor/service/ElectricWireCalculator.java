@@ -1,10 +1,15 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
+import hu.mvmxpert.david.giczi.electricwireeditor.view.SetWireDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 
 public class ElectricWireCalculator {
@@ -15,9 +20,9 @@ public class ElectricWireCalculator {
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	public String wireType;
-	public double t = 80;
+	public double t = 28;
 	public double t0;
-	public double szigma_b = 182;
+	public double szigma_b = 80;
 	public double szigma_hz;
 	public double szigma_k;
 	public double szigma_kz;
@@ -274,9 +279,41 @@ public class ElectricWireCalculator {
 				(Math.pow(this.belogas, 4) / Math.pow(this.oszlopkoz_hossza, 3) * 32 / 15)) * this.kozepes_ferdeseg;
 	}
 	
-	public double getElevationOfWire(double distance) {
-		return archivFileBuilder.getBeginnerPillar().getTopElevetaion() - archivFileBuilder.getBeginnerPillar().getGroundElevation() +
-				(int) ((10 * this.p * Math.cosh((this.XA + distance) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0;
+	public List<WireDifference> getElevationDifferenceOfWires(List<WireData> wires, String type) {
+		List<WireDifference> differrences = new ArrayList<>();
+		Collections.sort(wires);
+		for (WireData wire: wires) {
+			for(TextData wireText : wire.getWireTextList()) {
+				String[] values = wireText.getTextData().split("\\s+");
+				double distance = -1;
+				double elevation = -1;
+				if( values.length == 2 && type.equals(values[0])) {
+					
+					try {
+						distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
+						
+					} catch (Exception e) {
+					}
+				}
+				else if(values.length == 4 && type.equals(values[0])) {
+					
+					try {
+						elevation = Double.parseDouble(values[3].substring(0, values[3].indexOf("m")));
+						
+					} catch (Exception e) {
+					}
+				}
+				
+				if( distance != -1 && elevation != -1) {
+					differrences.add(new WireDifference(wire.getWireTextList().get(0) + "_" + type, 
+							archivFileBuilder.getBeginnerPillar().getTopElevetaion() -
+							Math.abs((int) ((10 * this.p * Math.cosh((this.XA + distance) / this.p) + 
+									this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0) - elevation));
+				}			
+			}
+		}
+
+		return differrences;
 	}
 
 }
