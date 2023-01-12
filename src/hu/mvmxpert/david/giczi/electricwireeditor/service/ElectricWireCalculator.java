@@ -309,7 +309,13 @@ public class ElectricWireCalculator {
 							archivFileBuilder.getBeginnerPillar().getTopElevetaion() -
 							Math.abs((int) ((10 * this.p * Math.cosh((this.XA + distance) / this.p) + 
 									this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0) - elevation));
-				}			
+				}
+				else if(distance == -1 && elevation == -1) {
+					differrences.add(new WireDifference(wire.getWireTextList().get(0) + "_" + type, 
+							archivFileBuilder.getBeginnerPillar().getTopElevetaion() -
+							Math.abs((int) ((10 * this.p * Math.cosh((this.XA + wire.getDistanceOfWire()) / this.p) + 
+									this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0) - wire.getTopElevetaion()));
+				}
 			}
 		}
 
