@@ -9,7 +9,6 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
-import hu.mvmxpert.david.giczi.electricwireeditor.view.SetWireDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 
 public class ElectricWireCalculator {
@@ -20,7 +19,7 @@ public class ElectricWireCalculator {
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	public String wireType;
-	public double t = 28;
+	public double t = 20;
 	public double t0;
 	public double szigma_b = 80;
 	public double szigma_hz;
@@ -226,9 +225,9 @@ public class ElectricWireCalculator {
 	
 	private void getSzigma_k() {
 		
-		this.szigma_k = this.delta >= 0 ?  - this.b / 3 + 
-				Math.pow(- this.B / 2 + Math.sqrt(this.delta), 1/3) + 
-				Math.pow(- this.B / 2 - Math.sqrt(this.delta), 1/3)
+		this.szigma_k = this.delta > 0 ? (- this.b / 3) +
+				Math.pow(((- this.B / 2) + Math.sqrt(this.delta)), 1/3.0) + 
+				Math.pow(((- this.B / 2) - Math.sqrt(this.delta)), 1/3.0)
 		:
 		 - this.b / 3 - 2 * Math.sqrt(- this.A / 3) * 
 				Math.cos(2 * Math.PI / 3 + Math.acos((this.B / 2) / 
@@ -258,13 +257,14 @@ public class ElectricWireCalculator {
 	}
 	
 	private void calcWirePoints(){
+		
 		 wirePoints = new ArrayList<>();
-		for(int i = 0; i < this.oszlopkoz_hossza; i++) {
+		for(double i = 0; i < this.oszlopkoz_hossza; i++) {
 			WirePoint wirePoint = 
-					new WirePoint(i, 
-		(int) ((10 * this.p * Math.cosh((this.XA + i) / this.p) + this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0);
+					new WirePoint((int) (i * 1000.0) / 1000.0, 
+							(int)((10 * this.p * Math.cosh((this.XA + i) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0);
 			wirePoints.add(wirePoint);
-		}
+		}	
 	}
 	
 	private void getBelogas() {
@@ -283,11 +283,20 @@ public class ElectricWireCalculator {
 		List<WireDifference> differrences = new ArrayList<>();
 		Collections.sort(wires);
 		for (WireData wire: wires) {
+			double distance = -1;
+			double elevation = -1;
 			for(TextData wireText : wire.getWireTextList()) {
-				String[] values = wireText.getTextData().split("\\s+");
-				double distance = -1;
-				double elevation = -1;
-				if( values.length == 2 && type.equals(values[0])) {
+				String[] values = wireText.getTextValue().split("\\s+");
+				
+				if( values.length == 1) {
+					try {
+						distance = Double.parseDouble(values[0].substring(0, values[0].indexOf("m")));
+						
+					} catch (Exception e) {
+					}
+					
+				}
+				else if(values.length == 2 && type.equals(values[0])) {
 					
 					try {
 						distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
@@ -295,30 +304,29 @@ public class ElectricWireCalculator {
 					} catch (Exception e) {
 					}
 				}
-				else if(values.length == 4 && type.equals(values[0])) {
+				else if(values.length == 4 && type.equals(values[0]) && wireText.isAtTop()) {
 					
 					try {
 						elevation = Double.parseDouble(values[3].substring(0, values[3].indexOf("m")));
 						
 					} catch (Exception e) {
 					}
-				}
-				
-				if( distance != -1 && elevation != -1) {
-					differrences.add(new WireDifference(wire.getWireTextList().get(0) + "_" + type, 
-							archivFileBuilder.getBeginnerPillar().getTopElevetaion() -
-							Math.abs((int) ((10 * this.p * Math.cosh((this.XA + distance) / this.p) + 
-									this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0) - elevation));
-				}
-				else if(distance == -1 && elevation == -1) {
-					differrences.add(new WireDifference(wire.getWireTextList().get(0) + "_" + type, 
-							archivFileBuilder.getBeginnerPillar().getTopElevetaion() -
-							Math.abs((int) ((10 * this.p * Math.cosh((this.XA + wire.getDistanceOfWire()) / this.p) + 
-									this.p * Math.cosh(this.XA / this.p) * -10) * 100.0) / 1000.0) - wire.getTopElevetaion()));
-				}
 			}
+	}
+		if( distance != -1 && elevation != -1) {
+				differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue() + "_" + type, 
+				(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
+				(int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
+									 - elevation) * 100.0) / 100.0));
+			}
+		else if(distance == -1 && elevation == -1) {
+		differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue() + "_" + type, 
+		(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
+		(int)((10 * this.p * Math.cosh((this.XA + wire.getDistanceOfWire()) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
+							- wire.getTopElevetaion()) * 100.0) / 100.0));
 		}
-
+				
+	}
 		return differrences;
 	}
 

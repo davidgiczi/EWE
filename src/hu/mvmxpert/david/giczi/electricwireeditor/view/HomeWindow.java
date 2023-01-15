@@ -288,7 +288,7 @@ public class HomeWindow  {
 			homeController.showCalculatedWire("350/50 ACSR", WireType.bal.toString());
 			
 			}
-		
+	
 		});
 		Menu leftWire = new Menu("Bal sodrony");
 		MenuItem visibleLeftWire = new MenuItem("Bal sodrony látható");
