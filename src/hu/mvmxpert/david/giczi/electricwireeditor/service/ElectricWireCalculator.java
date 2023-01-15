@@ -9,7 +9,6 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
-import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 
 public class ElectricWireCalculator {
 
@@ -114,7 +113,7 @@ public class ElectricWireCalculator {
 			return;
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( Validate.isValidInputText(type) ) {
-			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), WireType.getWireType(type));
+			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
 			this.oszlopkoz_hossza = distance == null ? lastPillar.getDistanceOfPillar() : distance;
 		}
 		
@@ -127,8 +126,8 @@ public class ElectricWireCalculator {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( beginnerPillar != null && lastPillar != null && Validate.isValidInputText(type) ) {
-			double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, WireType.getWireType(type));
-			double lastPillarElevation = archivFileBuilder.getPillarElevation(lastPillar, WireType.getWireType(type));
+			double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, type);
+			double lastPillarElevation = archivFileBuilder.getPillarElevation(lastPillar, type);
 			this.magassag_kulonbseg = lastPillarElevation - beginnerPillarElevation;
 		}	
 	}
@@ -314,13 +313,13 @@ public class ElectricWireCalculator {
 			}
 	}
 		if( distance != -1 && elevation != -1) {
-				differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue() + "_" + type, 
+				differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue(), 
 				(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
 				(int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
 									 - elevation) * 100.0) / 100.0));
 			}
 		else if(distance == -1 && elevation == -1) {
-		differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue() + "_" + type, 
+		differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue(), 
 		(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
 		(int)((10 * this.p * Math.cosh((this.XA + wire.getDistanceOfWire()) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
 							- wire.getTopElevetaion()) * 100.0) / 100.0));
@@ -330,4 +329,11 @@ public class ElectricWireCalculator {
 		return differrences;
 	}
 
+	public double getWireElevationValueByDistance(double distanceOfWire) {
+	
+		return (int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
+				(int)((10 * this.p * Math.cosh((this.XA + distanceOfWire) / this.p) + 
+						-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0) * 100.0) / 100.0;
+	}
+	
 }

@@ -12,7 +12,6 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
-import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 import javafx.scene.layout.BorderPane;
 
 
@@ -284,13 +283,13 @@ public class ArchivFileBuilder {
 		else if( actualPillar.getDistanceOfPillar() == 0 && mainLineDistances.size() == 3) {
 			for (TextData pillarText : lastPillar.getPillarTextList()) {
 				String[] values = pillarText.getTextValue().split("\\s+");
-				if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( pillarText.getTextValue().startsWith("bal") && values.length == 2 ) {
 					actualPillar.getPillarTextList().add(pillarText);
 				}
-				else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( pillarText.getTextValue().startsWith("közép") && values.length == 2 ) {
 					actualPillar.getPillarTextList().add(pillarText);
 				}	
-				else if( pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( pillarText.getTextValue().startsWith("jobb") && values.length == 2 ) {
 					actualPillar.getPillarTextList().add(pillarText);
 				}	
 			}
@@ -299,13 +298,13 @@ public class ArchivFileBuilder {
 		else if( actualPillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() && mainLineDistances.size() == 3) {
 			for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
 				String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
-				if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") && values.length == 2 ) {
 					lastPillar.getPillarTextList().remove(i);
 				}
-				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") && values.length == 2 ) {
 					lastPillar.getPillarTextList().remove(i);
 				}	
-				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb") && values.length == 2 ) {
 					lastPillar.getPillarTextList().remove(i);
 				}	
 			}
@@ -315,14 +314,14 @@ public class ArchivFileBuilder {
 			
 			for (int i = actualPillar.getPillarTextList().size() - 1; i >= 0; i--) {
 				String[] values = actualPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
-				if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") && values.length == 2 ) {
 					actualPillar.getPillarTextList().get(i)
 					.setTextValue(df.format(mainLineDistances.get(0) - actualPillar.getDistanceOfPillar()).replace(",", ".") + "m");
 				}
-				else if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") && values.length == 2 ) {
 					actualPillar.getPillarTextList().remove(i);
 				}	
-				else if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( actualPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb") && values.length == 2 ) {
 					actualPillar.getPillarTextList().remove(i);
 				}	
 			}
@@ -332,13 +331,13 @@ public class ArchivFileBuilder {
 			
 			for (TextData pillarText : actualPillar.getPillarTextList()) {
 				String[] values = pillarText.getTextValue().split("\\s+");
-				if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( pillarText.getTextValue().startsWith("bal") && values.length == 2 ) {
 					pillarText.setTextValue("bal " + df.format(mainLineDistances.get(0) - pillarDistances.get(0)).replace(",", ".") + "m");
 				}
-				else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( pillarText.getTextValue().startsWith("közép") && values.length == 2 ) {
 					pillarText.setTextValue("közép " + df.format(mainLineDistances.get(1) - pillarDistances.get(1)).replace(",", ".") + "m");
 				}	
-				else if( pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( pillarText.getTextValue().startsWith("jobb") && values.length == 2 ) {
 					pillarText.setTextValue("jobb " + df.format(mainLineDistances.get(2) - pillarDistances.get(2)).replace(",", ".") + "m");
 				}	
 			}
@@ -350,12 +349,12 @@ public class ArchivFileBuilder {
 	private List<Double> getPillarDistances(PillarData pillar){
 		List<Double> distances = new ArrayList<>();
 		
-		if( getDistance(pillar.getPillarTextList(), WireType.bal) != null )
-			distances.add(getDistance(pillar.getPillarTextList(), WireType.bal));
-		if( getDistance(pillar.getPillarTextList(), WireType.közép) != null )
-			distances.add(getDistance(pillar.getPillarTextList(), WireType.közép));
-		if( getDistance(pillar.getPillarTextList(), WireType.jobb) != null )
-			distances.add(getDistance(pillar.getPillarTextList(), WireType.jobb));
+		if( getDistance(pillar.getPillarTextList(), "bal") != null )
+			distances.add(getDistance(pillar.getPillarTextList(), "bal"));
+		if( getDistance(pillar.getPillarTextList(), "közép") != null )
+			distances.add(getDistance(pillar.getPillarTextList(), "közép"));
+		if( getDistance(pillar.getPillarTextList(), "jobb") != null )
+			distances.add(getDistance(pillar.getPillarTextList(), "jobb"));
 		if( distances.isEmpty())
 			distances.add(pillar.getDistanceOfPillar());
 		
@@ -365,12 +364,12 @@ public class ArchivFileBuilder {
 	private List<Double> getWireDistances(WireData wire){
 		List<Double> distances = new ArrayList<>();
 		
-		if( getDistance(wire.getWireTextList(), WireType.bal) != null )
-			distances.add(getDistance(wire.getWireTextList(), WireType.bal));
-		if( getDistance(wire.getWireTextList(), WireType.közép) != null )
-			distances.add(getDistance(wire.getWireTextList(), WireType.közép));
-		if( getDistance(wire.getWireTextList(), WireType.jobb) != null )
-			distances.add(getDistance(wire.getWireTextList(), WireType.jobb));
+		if( getDistance(wire.getWireTextList(), "bal") != null )
+			distances.add(getDistance(wire.getWireTextList(), "bal"));
+		if( getDistance(wire.getWireTextList(), "közép") != null )
+			distances.add(getDistance(wire.getWireTextList(), "közép"));
+		if( getDistance(wire.getWireTextList(), "jobb") != null )
+			distances.add(getDistance(wire.getWireTextList(), "jobb"));
 		if( distances.isEmpty())
 			distances.add(wire.getDistanceOfWire());
 		
@@ -400,13 +399,13 @@ public class ArchivFileBuilder {
 		else if( actualWire.getDistanceOfWire() == 0 && mainLineDistances.size() == 3) {
 			for (TextData pillarText : lastPillar.getPillarTextList()) {
 				String[] values = pillarText.getTextValue().split("\\s+");
-				if( pillarText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( pillarText.getTextValue().startsWith("bal") && values.length == 2 ) {
 					actualWire.getWireTextList().add(pillarText);
 				}
-				else if( pillarText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( pillarText.getTextValue().startsWith("közép") && values.length == 2 ) {
 					actualWire.getWireTextList().add(pillarText);
 				}	
-				else if( pillarText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( pillarText.getTextValue().startsWith("jobb") && values.length == 2 ) {
 					actualWire.getWireTextList().add(pillarText);
 				}	
 			}
@@ -415,13 +414,13 @@ public class ArchivFileBuilder {
 		else if( actualWire.getDistanceOfWire() == systemData.getLengthOfHorizontalAxis() && mainLineDistances.size() == 3) {
 			for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
 				String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
-				if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") && values.length == 2 ) {
 					lastPillar.getPillarTextList().remove(i);
 				}
-				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") && values.length == 2 ) {
 					lastPillar.getPillarTextList().remove(i);
 				}	
-				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb") && values.length == 2 ) {
 					lastPillar.getPillarTextList().remove(i);
 				}	
 			}
@@ -431,14 +430,14 @@ public class ArchivFileBuilder {
 			
 			for (int i = actualWire.getWireTextList().size() - 1; i >= 0; i--) {
 				String[] values = actualWire.getWireTextList().get(i).getTextValue().split("\\s+");
-				if( actualWire.getWireTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( actualWire.getWireTextList().get(i).getTextValue().startsWith("bal") && values.length == 2 ) {
 					actualWire.getWireTextList().get(i)
 					.setTextValue(df.format(mainLineDistances.get(0) - actualWire.getDistanceOfWire()).replace(",", ".") + "m");
 				}
-				else if( actualWire.getWireTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( actualWire.getWireTextList().get(i).getTextValue().startsWith("közép") && values.length == 2 ) {
 					actualWire.getWireTextList().remove(i);
 				}	
-				else if( actualWire.getWireTextList().get(i).getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( actualWire.getWireTextList().get(i).getTextValue().startsWith("jobb") && values.length == 2 ) {
 					actualWire.getWireTextList().remove(i);
 				}	
 			}
@@ -448,13 +447,13 @@ public class ArchivFileBuilder {
 			
 			for (TextData wireText : actualWire.getWireTextList()) {
 				String[] values = wireText.getTextValue().split("\\s+");
-				if( wireText.getTextValue().startsWith(WireType.bal.toString()) && values.length == 2 ) {
+				if( wireText.getTextValue().startsWith("bal") && values.length == 2 ) {
 					wireText.setTextValue("bal " + df.format(mainLineDistances.get(0) - wireDistances.get(0)).replace(",", ".") + "m");
 				}
-				else if( wireText.getTextValue().startsWith(WireType.közép.toString()) && values.length == 2 ) {
+				else if( wireText.getTextValue().startsWith("közép") && values.length == 2 ) {
 					wireText.setTextValue("közép " + df.format(mainLineDistances.get(1) - wireDistances.get(1)).replace(",", ".") + "m");
 				}	
-				else if( wireText.getTextValue().startsWith(WireType.jobb.toString()) && values.length == 2 ) {
+				else if( wireText.getTextValue().startsWith("jobb") && values.length == 2 ) {
 					wireText.setTextValue("jobb " + df.format(mainLineDistances.get(2) - wireDistances.get(2)).replace(",", ".") + "m");
 				}	
 			}
@@ -467,12 +466,12 @@ public class ArchivFileBuilder {
 	
 		if( lastPillar.getDistanceOfPillar() == systemData.getLengthOfHorizontalAxis() ) {
 			
-		if( getDistance(lastPillar.getPillarTextList(), WireType.bal) != null )
-			distances.add(getDistance(lastPillar.getPillarTextList(), WireType.bal));
-		if( getDistance(lastPillar.getPillarTextList(), WireType.közép) != null )
-			distances.add(getDistance(lastPillar.getPillarTextList(), WireType.közép));
-		if( getDistance(lastPillar.getPillarTextList(), WireType.jobb) != null )
-			distances.add(getDistance(lastPillar.getPillarTextList(), WireType.jobb));
+		if( getDistance(lastPillar.getPillarTextList(), "bal") != null )
+			distances.add(getDistance(lastPillar.getPillarTextList(), "bal"));
+		if( getDistance(lastPillar.getPillarTextList(), "közép") != null )
+			distances.add(getDistance(lastPillar.getPillarTextList(), "közép"));
+		if( getDistance(lastPillar.getPillarTextList(), "jobb") != null )
+			distances.add(getDistance(lastPillar.getPillarTextList(), "jobb"));
 		if( distances.isEmpty())
 			distances.add(systemData.getLengthOfHorizontalAxis());
 		}
@@ -598,7 +597,7 @@ public class ArchivFileBuilder {
 	private boolean isRightPillar(PillarData pillar) {
 		int leftPillarText = 0;
 		for (TextData text : pillar.getPillarTextList()) {
-			if(text.getTextValue().startsWith(WireType.bal.toString()))
+			if(text.getTextValue().startsWith("bal"))
 				leftPillarText++;
 		}
 		return leftPillarText == 0;
@@ -608,7 +607,7 @@ public class ArchivFileBuilder {
 	private boolean isRightWire(WireData wire) {
 		int leftWireText = 0;
 		for (TextData text : wire.getWireTextList()) {
-			if(text.getTextValue().startsWith(WireType.bal.toString()))
+			if(text.getTextValue().startsWith("bal"))
 				leftWireText++;
 		}
 		return leftWireText == 0;
@@ -619,7 +618,7 @@ public class ArchivFileBuilder {
 		for (PillarData pillarData : pillarData) {
 			if( !isLeftPillar(pillarData)) {
 				for (TextData text : pillarData.getPillarTextList()) {
-					if( text.getTextValue().startsWith(WireType.jobb.toString()) && text.isAtTop()) {
+					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
 						rightWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
 								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
 								- systemData.getElevationStartValue()));
@@ -630,7 +629,7 @@ public class ArchivFileBuilder {
 		for (WireData wireData : wireData) {
 			if( !isLeftWire(wireData)) {
 				for (TextData text : wireData.getWireTextList()) {
-					if( text.getTextValue().startsWith(WireType.jobb.toString()) && text.isAtTop()) {
+					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
 						rightWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
 								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
 								- systemData.getElevationStartValue()));
@@ -657,7 +656,7 @@ public class ArchivFileBuilder {
 	private boolean isLeftPillar(PillarData pillar) {
 		int rightPillarText = 0;
 		for (TextData text : pillar.getPillarTextList()) {
-			if(text.getTextValue().startsWith(WireType.jobb.toString()))
+			if(text.getTextValue().startsWith("jobb"))
 				rightPillarText++;
 		}
 		return rightPillarText == 0;
@@ -667,13 +666,13 @@ public class ArchivFileBuilder {
 	private boolean isLeftWire(WireData wire) {
 		int rightWireText = 0;
 		for (TextData text : wire.getWireTextList()) {
-			if(text.getTextValue().startsWith(WireType.jobb.toString()))
+			if(text.getTextValue().startsWith("jobb"))
 				rightWireText++;
 		}
 		return rightWireText == 0;
 	}
 	
-	public List<SavedWirePoint> getWirePointsForSaving(WireType type){
+	public List<SavedWirePoint> getWirePointsForSaving(String type){
 		
 		List<SavedWirePoint> points = new ArrayList<>();
 		if( pillarData.isEmpty() )
@@ -683,9 +682,9 @@ public class ArchivFileBuilder {
 		for (PillarData pillarData : pillarData) {
 			for (TextData pillarText : pillarData.getPillarTextList()) {
 		SavedWirePoint savedPoint = null;
-		if( pillarText.getTextValue().startsWith(type.toString()) && pillarText.isAtTop() ) {
+		if( pillarText.getTextValue().startsWith(type) && pillarText.isAtTop() ) {
 			savedPoint = 
-						new SavedWirePoint(	!pillarData.getPillarTextList().get(0).getTextValue().startsWith(type.toString()) ?
+						new SavedWirePoint(	!pillarData.getPillarTextList().get(0).getTextValue().startsWith(type) ?
 						pillarData.getPillarTextList().get(0).getTextValue().replace('.', '_') + "oszlop_" + pillarText.getTextValue().substring(0,
 						pillarText.getTextValue().indexOf('.')).replace(' ', '_') : "Noname", 
 						getDistance(pillarData.getPillarTextList(), type) == null ? pillarData.getDistanceOfPillar()
@@ -700,9 +699,9 @@ public class ArchivFileBuilder {
 		for (WireData wireData : wireData) {
 			for (TextData wireText: wireData.getWireTextList()) {
 		SavedWirePoint savedPoint = null;
-		if( wireText.getTextValue().startsWith(type.toString()) && wireText.isAtTop() ) {
+		if( wireText.getTextValue().startsWith(type) && wireText.isAtTop() ) {
 			savedPoint = 
-						new SavedWirePoint( !wireData.getWireTextList().get(0).getTextValue().startsWith(type.toString()) ?
+						new SavedWirePoint( !wireData.getWireTextList().get(0).getTextValue().startsWith(type) ?
 						wireData.getWireTextList().get(0).getTextValue().replace(' ', '_') + "_" + wireText.getTextValue().substring(0,
 						wireText.getTextValue().indexOf('.')).replace(' ', '_') : "Noname", 
 						getDistance(wireData.getWireTextList(), type) == null ? wireData.getDistanceOfWire() 
@@ -717,11 +716,11 @@ public class ArchivFileBuilder {
 		return points;
 	}
 	
-	public Double getDistance(List<TextData> textList, WireType type) {
+	public Double getDistance(List<TextData> textList, String type) {
 		Double distance = null;
 		for (TextData textData : textList) {
 			String[] values = textData.getTextData().split("\\s+");
-			if( textData.getTextValue().startsWith(type.toString()) && values.length == 2) {
+			if( textData.getTextValue().startsWith(type) && values.length == 2) {
 				
 				try {
 					distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
@@ -735,11 +734,11 @@ public class ArchivFileBuilder {
 		return distance;
 	}
 	
-	public Double getPillarElevation(PillarData pillar, WireType type) {
+	public Double getPillarElevation(PillarData pillar, String type) {
 		Double elevation = null;
 		
 		for (TextData pillarText: pillar.getPillarTextList()) {
-			if( pillarText.getTextValue().startsWith(type.toString()) && pillarText.isAtTop() ) {
+			if( pillarText.getTextValue().startsWith(type) && pillarText.isAtTop() ) {
 				try {
 				elevation = Double.parseDouble(pillarText.getTextValue()
 						.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m")));

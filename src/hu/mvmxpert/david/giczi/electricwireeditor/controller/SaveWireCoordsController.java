@@ -5,7 +5,6 @@ import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
-import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -55,7 +54,7 @@ public class SaveWireCoordsController {
 					"Sodrony megnevezése legalább egy látható karakter érték lehet.");
 			return;
 		}
-		List<SavedWirePoint> savedWirePoints = homeController.archivFileBuilder.getWirePointsForSaving(WireType.getWireType(type));
+		List<SavedWirePoint> savedWirePoints = homeController.archivFileBuilder.getWirePointsForSaving(type);
 		
 		if( savedWirePoints.isEmpty() ) {
 		HomeController.getWarningAlert("Sodrony pontjai nem menthetők", 

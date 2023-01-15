@@ -4,7 +4,6 @@ import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
-import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -85,6 +84,10 @@ public class HomeWindow  {
 						homeController.setLineWindow.getStage().hide();
 					if(homeController.saveWireCoordsWindow != null )
 						homeController.saveWireCoordsWindow.getStage().hide();
+					if(homeController.setCalculatedWireDataWindow != null )
+						homeController.setCalculatedWireDataWindow.getStage().hide();
+					if(homeController.showCalculatedWireDataWindow != null )
+						homeController.showCalculatedWireDataWindow.getStage().hide();
 				}
 			});
 	}
@@ -285,7 +288,7 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-			homeController.showCalculatedWire("350/50 ACSR", WireType.bal.toString());
+			homeController.showShowCalculatedWireDataWindow();
 			
 			}
 	

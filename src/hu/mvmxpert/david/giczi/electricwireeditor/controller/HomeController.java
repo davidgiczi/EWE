@@ -25,12 +25,13 @@ import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SaveWireCoordsWindow;
+import hu.mvmxpert.david.giczi.electricwireeditor.view.SetCalculatedWireDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetDrawingSystemDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetLineWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetPillarDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetTextWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetWireDataWindow;
-import hu.mvmxpert.david.giczi.electricwireeditor.wiretype.WireType;
+import hu.mvmxpert.david.giczi.electricwireeditor.view.ShowCalculatedWireDataWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -53,6 +54,8 @@ public class HomeController {
 	public SetTextWindow setTextWindow;
 	public SetLineWindow setLineWindow;
 	public SaveWireCoordsWindow saveWireCoordsWindow;
+	public SetCalculatedWireDataWindow setCalculatedWireDataWindow;
+	public ShowCalculatedWireDataWindow showCalculatedWireDataWindow; 
 	public ElectricWireCalculator calculator;
 	
 	
@@ -152,6 +155,26 @@ public class HomeController {
 		saveWireCoordsWindow.controller.startY.setEditable(true);
 		saveWireCoordsWindow.controller.endX.setEditable(true);
 		saveWireCoordsWindow.controller.endY.setEditable(true);
+		}
+	}
+	
+	public void showSetCalculatedWireDataWindow() {
+		
+		if( setCalculatedWireDataWindow == null) {
+			setCalculatedWireDataWindow = new SetCalculatedWireDataWindow(this);
+		}
+		else {
+			setCalculatedWireDataWindow.getStage().show();
+		}
+	}
+	
+	public void showShowCalculatedWireDataWindow() {
+		
+		if( showCalculatedWireDataWindow == null) {
+			showCalculatedWireDataWindow = new ShowCalculatedWireDataWindow(drawer);
+		}
+		else {
+			showCalculatedWireDataWindow.getStage().show();
 		}
 	}
 	
@@ -557,9 +580,9 @@ public class HomeController {
 		
 		for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
 			String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
-			if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.bal.toString()) ||
-					lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.közép.toString()) ||
-						lastPillar.getPillarTextList().get(i).getTextValue().startsWith(WireType.jobb.toString())) && values.length == 2 ) {
+			if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
+					lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
+						lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) && values.length == 2 ) {
 				lastPillar.getPillarTextList().remove(i);
 			}
 		}
@@ -744,9 +767,9 @@ public class HomeController {
 	
 	public void showCalculatedWire(String wireTypeName, String wireType) {
 		 calculator = new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
+		 fileProcess.saveCalulatedWirePointsInTextFormat(calculator.wirePoints, wireType);
 		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}
-	
 	
 	public void showLeftWire() {
 		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();

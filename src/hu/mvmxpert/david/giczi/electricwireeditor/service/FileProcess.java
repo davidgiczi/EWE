@@ -296,8 +296,8 @@ public class FileProcess {
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, StandardCharsets.UTF_8))) {
 			
-			for (int i = 1; i <= wirePoints.size(); i++) {
-				writer.write(i + " " + wirePoints.get(i - 1).getWirePoint());
+			for (int i = 0; i < wirePoints.size(); i++) {
+				writer.write((i + 1) + " " + wirePoints.get(i).getWirePoint());
 				writer.newLine();
 			}
 			
