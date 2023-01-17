@@ -1,6 +1,7 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
@@ -18,7 +19,7 @@ public class ElectricWireCalculator {
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	public String wireType;
-	public double t = 20;
+	public double t = 0;
 	public double t0;
 	public double szigma_b = 80;
 	public double szigma_hz;
@@ -328,12 +329,30 @@ public class ElectricWireCalculator {
 	}
 		return differrences;
 	}
-
-	public double getWireElevationValueByDistance(double distanceOfWire) {
 	
-		return (int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
-				(int)((10 * this.p * Math.cosh((this.XA + distanceOfWire) / this.p) + 
-						-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0) * 100.0) / 100.0;
+	public List<Double> getTheHighestHangingWireValue(double baseDistance){
+		
+		double distanceOfMaxHanging = 0.0;
+		double maxHanging = 0.0;
+		
+		for(double distance = 0d; distance <= baseDistance; distance += 0.1) {
+			
+			double hanging = (int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + 
+					-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0;
+			
+			if( 0 > hanging && maxHanging < Math.abs(hanging) ) {
+				distanceOfMaxHanging = distance;
+				maxHanging = Math.abs(hanging);
+			}
+		}
+		
+		return Arrays.asList(distanceOfMaxHanging, maxHanging);
+	}
+
+	public double getWireHangingValueByDistance(double distanceOfWire) {
+	
+		return (int)((10 * this.p * Math.cosh((this.XA + distanceOfWire) / this.p) + 
+						-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0;
 	}
 	
 }

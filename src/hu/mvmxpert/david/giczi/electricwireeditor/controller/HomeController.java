@@ -31,7 +31,6 @@ import hu.mvmxpert.david.giczi.electricwireeditor.view.SetLineWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetPillarDataWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetTextWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SetWireDataWindow;
-import hu.mvmxpert.david.giczi.electricwireeditor.view.ShowCalculatedWireDataWindow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -55,7 +54,6 @@ public class HomeController {
 	public SetLineWindow setLineWindow;
 	public SaveWireCoordsWindow saveWireCoordsWindow;
 	public SetCalculatedWireDataWindow setCalculatedWireDataWindow;
-	public ShowCalculatedWireDataWindow showCalculatedWireDataWindow; 
 	public ElectricWireCalculator calculator;
 	
 	
@@ -165,16 +163,6 @@ public class HomeController {
 		}
 		else {
 			setCalculatedWireDataWindow.getStage().show();
-		}
-	}
-	
-	public void showShowCalculatedWireDataWindow() {
-		
-		if( showCalculatedWireDataWindow == null) {
-			showCalculatedWireDataWindow = new ShowCalculatedWireDataWindow(drawer);
-		}
-		else {
-			showCalculatedWireDataWindow.getStage().show();
 		}
 	}
 	
@@ -767,7 +755,7 @@ public class HomeController {
 	
 	public void showCalculatedWire(String wireTypeName, String wireType) {
 		 calculator = new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
-		 fileProcess.saveCalulatedWirePointsInTextFormat(calculator.wirePoints, wireType);
+		 //fileProcess.saveCalulatedWirePointsInTextFormat(calculator.wirePoints, wireType);
 		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}
 	
@@ -856,14 +844,35 @@ public class HomeController {
 			return null;
 		}
 		else if( Validate.isValidInputText(projectName) ) {
-			HomeController.PROJECT_NAME = projectName;
+			PROJECT_NAME = projectName;
 		}
 		else {
-			HomeController.getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
+			getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
 		}
 		setTitle(homeWindow.getRoot());
 		return projectName;
 }
+	
+	public void getHangingValueByDistance() {
+		String distance = setInputText("Belógás számítása", "Add meg a számítandó belógás távolságát méterben:");
+		if(distance == null){
+			return;
+		}
+		double validDistance;
+		try {
+			validDistance = Validate.isValidDoubleValue(distance);
+			
+			if(0 > validDistance || archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() < validDistance)
+				throw new NumberFormatException();
+			
+		} catch (NumberFormatException e) {
+			getWarningAlert("Nem megfelelő távolság érték", "A belógáshoz tartozó távolság csak szám lehet, és\n" +
+					"távolság >= 0  és " + archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m >= távolság");
+			return;
+		}
+		getInfoAlert(validDistance  + " méter távolsághoz tartozó belógás", 
+				"A belógás értéke: " + calculator.getWireHangingValueByDistance(validDistance) + " méter");
+	}
 		
 	public void save2DWireCoords() {
 		

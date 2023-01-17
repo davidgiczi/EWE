@@ -1,8 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color:  #ECECEC;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwireeditor.controller.SetCalculatedWireDataController">
-	
+<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color:  #ECECEC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mvmxpert.david.giczi.electricwireeditor.controller.SetCalculatedWireDataController">
+   <children>
+      <Label layoutX="57.0" layoutY="20.0" style="-fx-text-fill: #708090;" text="A számítani kívánt sodrony megnevezése pl.: bal, jobb, stb.">
+      <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>      
+      <TextField layoutX="150.0" layoutY="53.0" prefHeight="31.0" prefWidth="245.0">
+      <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </TextField>
+      <Label layoutX="138.0" layoutY="94.0" style="-fx-text-fill: #708090;" text="A számítani kívánt sodrony típusa:"> <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>     
+      <ComboBox fx:id="wireTypes" layoutX="125.0" layoutY="121.0" prefHeight="31.0" prefWidth="285.0" promptText="Sodrony típusok">
+      <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ComboBox>
+      <Label layoutX="131.0" layoutY="182.0" style="-fx-text-fill: #708090;" text="σ érétke F:"><font>
+       <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField layoutX="266.0" layoutY="177.0" prefHeight="31.0" prefWidth="79.0" style="-fx-text-fill: #708090;">
+       <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </TextField>
+      <Label layoutX="381.0" layoutY="182.0" style="-fx-text-fill: #708090;" text="N/mm2">
+      <font>
+       <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="382.0" layoutY="231.0" style="-fx-text-fill: #708090;" text="C°">
+      <font>
+       <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField layoutX="266.0" layoutY="226.0" prefHeight="31.0" prefWidth="79.0" style="-fx-text-fill: #708090;">
+       <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </TextField>
+      <Label layoutX="133.0" layoutY="231.0" style="-fx-text-fill: #708090;" text="Hőmérséklet:"><font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <CheckBox layoutX="114.0" layoutY="291.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Számított sodrony megjelenítése">
+      <font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+          <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <CheckBox layoutX="114.0" layoutY="328.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Részeredmények megjelenítése">
+      <font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+          <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <CheckBox layoutX="114.0" layoutY="364.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Mért-számított sodrony különbségek megjelenítése ">
+      <font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+          <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <Label layoutX="109.0" layoutY="399.0" style="-fx-text-fill: #708090;" text="Számított sodrony pontok fájlba mentése:">
+      <font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+       <CheckBox layoutX="54.0" layoutY="433.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="183.0" style="-fx-text-fill: #708090;" text="AutoCad (*.scr)">
+      <font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+          <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <CheckBox layoutX="283.0" layoutY="433.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="254.0" style="-fx-text-fill: #708090;" text="Koordináta-jegyzék (*.txt)">
+      <font>
+      <Font name="Arial Bold" size="16.0" />
+         </font>
+          <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <Button layoutX="233.0" layoutY="465.0" mnemonicParsing="false" text="Számítás">
+       <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
 </AnchorPane>
-
