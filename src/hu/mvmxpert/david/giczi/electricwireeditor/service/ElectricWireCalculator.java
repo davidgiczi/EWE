@@ -19,9 +19,9 @@ public class ElectricWireCalculator {
 	private List<WireTypeData> wireTypes;
 	private WireTypeData wireData;
 	public String wireType;
-	public double t = 0;
+	private double t;
+	private double szigma_b;
 	public double t0;
-	public double szigma_b = 80;
 	public double szigma_hz;
 	public double szigma_k;
 	public double szigma_kz;
@@ -56,6 +56,11 @@ public class ElectricWireCalculator {
 		parseWireTypeData();
 		if( Validate.isValidInputText(wireTypeName) )
 		this.wireData = wireTypes.stream().filter( w -> wireTypeName.equals(w.getType())).findFirst().get();
+	}
+	
+	public void calcWire(double szigma_b, double t) {
+		this.szigma_b = szigma_b;
+		this.t = t;
 		getHorizontalDistanceOfPillar(wireType);
 		getDifferenceOfElevationsBetweenPillars(wireType);
 		getFelfuggesztesiKoz();
@@ -87,6 +92,13 @@ public class ElectricWireCalculator {
 		getSodronyHossza();
 	}
 	
+	
+	public double getSzigma_b() {
+		return szigma_b;
+	}
+	public double getTemperature() {
+		return t;
+	}
 	
 	private void parseWireTypeData() {
 		this.wireTypes = new ArrayList<>();
@@ -332,7 +344,7 @@ public class ElectricWireCalculator {
 	
 	public List<Double> getTheHighestHangingWireValue(double baseDistance){
 		
-		double distanceOfMaxHanging = 0.0;
+		double hangingDistance = 0.0;
 		double maxHanging = 0.0;
 		
 		for(double distance = 0d; distance <= baseDistance; distance += 0.1) {
@@ -340,13 +352,13 @@ public class ElectricWireCalculator {
 			double hanging = (int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + 
 					-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0;
 			
-			if( 0 > hanging && maxHanging < Math.abs(hanging) ) {
-				distanceOfMaxHanging = distance;
+			if( 0 > hanging &&  Math.abs(hanging) >= maxHanging) {
+				hangingDistance = (int) (distance * 100.0) / 100.0;
 				maxHanging = Math.abs(hanging);
 			}
 		}
 		
-		return Arrays.asList(distanceOfMaxHanging, maxHanging);
+		return Arrays.asList(hangingDistance, - maxHanging);
 	}
 
 	public double getWireHangingValueByDistance(double distanceOfWire) {

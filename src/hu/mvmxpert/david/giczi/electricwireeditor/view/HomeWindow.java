@@ -1,6 +1,9 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.view;
 
+
+
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
+import hu.mvmxpert.david.giczi.electricwireeditor.controller.SetCalculatedWireDataController;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
@@ -8,6 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -31,6 +37,10 @@ public class HomeWindow  {
 	public MenuItem toBeLastPillarTheBeginner;
 	public MenuItem backwardsOrder;
 	public MenuItem saveProject;
+	public MenuItem setCalculatedWireData;
+	public MenuItem calcHanging;
+	public MenuItem calcTheHighestHanging;
+	public Menu saveWireCoords;
 	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
 	
 	public BorderPane getRoot() {
@@ -173,7 +183,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.printScreen();
+				//homeController.printScreen();
 			}
 		});
 		MenuItem exitProject = new MenuItem("Kilépés");
@@ -280,8 +290,10 @@ public class HomeWindow  {
 				backwardsOrder, new SeparatorMenuItem(),
 				toBeLastPillarTheBeginner);
 		Menu drawWire = new Menu("Sodrony műveletek");
-		MenuItem setWireData = new MenuItem("Sodrony adatok megadása");
-		MenuItem calcHanging = new MenuItem("Belógás számítása");
+		setCalculatedWireData = new MenuItem("Sodrony adatok megadása");
+		//setCalculatedWireData.setDisable(true);
+		calcHanging = new MenuItem("Belógás számítása");
+		//calcHanging.setDisable(true);
 		calcHanging.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -290,12 +302,20 @@ public class HomeWindow  {
 				
 			}
 		});
-		MenuItem deleteWireData = new MenuItem("Sodrony adatok törlése");
-		setWireData.setOnAction(new EventHandler<ActionEvent>() {
+		calcTheHighestHanging = new MenuItem("Legnagyobb belógás számítása");
+		//calcTheHighestHanging.setDisable(true);
+		calcTheHighestHanging.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-			homeController.showCalculatedWire("350/50 ACSR","bal");
+				homeController.getTheHighestHangingValue();
+			}
+		});
+		
+		setCalculatedWireData.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
 			homeController.showSetCalculatedWireDataWindow();
 			}
 	
@@ -306,7 +326,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.showLeftWire();
+				//homeController.showLeftWire();
 			}
 		});
 		MenuItem invisibleLeftWire = new MenuItem("Sodrony és különbségek törlése");
@@ -314,7 +334,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.deleteLeftWire();
+				//homeController.deleteLeftWire();
 			}
 		});
 		MenuItem showDeltaDifferenceOfLeftWire = new MenuItem("Különbségek kiírása");
@@ -322,7 +342,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.showDifferenceOfCurveOfLeftWire();
+				//homeController.showDifferenceOfCurveOfLeftWire();
 				
 			}
 		});
@@ -333,7 +353,7 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.showRightWire();
+				//homeController.showRightWire();
 			}
 		});
 		MenuItem invisibleRightWire = new MenuItem("Sodrony és különbségek törlése");
@@ -341,7 +361,7 @@ public class HomeWindow  {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.deleteRightWire();
+				//homeController.deleteRightWire();
 			}
 		});
 		MenuItem showDeltaDifferenceOfRightWire = new MenuItem("Különbségek kiírása");
@@ -349,10 +369,11 @@ public class HomeWindow  {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.showDifferenceOfCurveOfRightWire();
+				//homeController.showDifferenceOfCurveOfRightWire();
 			}
 		});
-		Menu saveWireCoords = new Menu("Mért sodrony pontok mentése");
+		saveWireCoords = new Menu("Mért sodrony pontok mentése");
+		//saveWireCoords.setDisable(true);
 		MenuItem localSystem = new MenuItem("Helyi rendszerben -> 2D");
 		localSystem.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -370,9 +391,16 @@ public class HomeWindow  {
 				homeController.save3DWireCoords();
 			}
 		});
+		
+		ComboBox<String> comboBox = new ComboBox<>();
+		comboBox.getItems().setAll("bal", "közép", "jobb");
+		Label label = new Label("sodrony adatok törlése", comboBox);
+		CustomMenuItem menuItem = new CustomMenuItem(label);
+		
 		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
 		saveWireCoords.getItems().addAll(localSystem, countrySystem);
-		drawWire.getItems().addAll(setWireData, calcHanging, deleteWireData, new SeparatorMenuItem(), saveWireCoords);
+		drawWire.getItems().addAll(setCalculatedWireData, calcHanging, calcTheHighestHanging, new SeparatorMenuItem(), 
+				menuItem, new SeparatorMenuItem(), saveWireCoords);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}

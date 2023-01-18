@@ -25,6 +25,7 @@ public class SetCalculatedWireDataWindow {
 			AnchorPane root = loader.load();
 			SetCalculatedWireDataController controller = (SetCalculatedWireDataController) loader.getController();
 			controller.setHomeController(homeController);
+			controller.showWireCheckBox.setSelected(true);
 			stage = new Stage();
 			Scene scene = new Scene(root);
 			stage.setScene(scene);

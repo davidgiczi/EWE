@@ -1,23 +1,14 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 
-import java.awt.AWTException;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Robot;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import javax.imageio.ImageIO;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
-import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
@@ -449,7 +440,7 @@ public class HomeController {
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle(title);
 		alert.setHeaderText(text);
-		alert.show();
+		alert.showAndWait();
 	}
 	
 	public static void getWarningAlert(String title, String text) {
@@ -458,7 +449,7 @@ public class HomeController {
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle(title);
 		alert.setHeaderText(text);
-		alert.show();
+		alert.showAndWait();
 	}
 	
 	public static boolean getConfirmationAlert(String title, String text) {
@@ -753,89 +744,89 @@ public class HomeController {
 	}
 	
 	
-	public void showCalculatedWire(String wireTypeName, String wireType) {
+	public void showCalculatedWire(String wireTypeName, String wireType, double szigmaValue, double temperatureValue) {
 		 calculator = new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
-		 //fileProcess.saveCalulatedWirePointsInTextFormat(calculator.wirePoints, wireType);
+		 calculator.calcWire(szigmaValue, temperatureValue);
 		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}
 	
-	public void showLeftWire() {
-		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
-		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", 
-					"Sodrony kirajzolásához legalább két különböző bal oldali oszlop vagy vezeték pont szükséges.");
-			return;
-		}	
-		drawer.drawLeftWireCurve(wirePoints);
-	}
-	
-	public void deleteLeftWire() {
-		drawer.deleteLeftWire();
-	}
-	
-	public void showDifferenceOfCurveOfLeftWire() {
-		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
-		if(wirePoints.size() < 4) {
-			getWarningAlert("Mért sodrony eltérések nem számíthatók ", 
-					"A sodrony eltéréseinek számításához legalább négy különböző bal oldali oszlop vagy vezeték pont szükséges.");
-			return;
-		}
-		int minimumPlace = 0;
-		try {
-			String inputValue = setInputText("Minimum magasságú sodrony pont helyének megadása", 
-					"A mért helyeket balról-jobbra értelmezve 1-től " + 
-			(wirePoints.size() - 2) +"-ig való számozás alapján add meg a minimum pont helyét:");
-			if( inputValue == null )
-				return;
-				minimumPlace = Validate.isValidPositiveIntegerValue(inputValue);
-			if( minimumPlace < 1 || wirePoints.size() - 2 < minimumPlace )
-				throw new NumberFormatException();
-				} catch (NumberFormatException e) {
-			getWarningAlert("Hibás minimum magasságú helyre való hivatkozás", "A minimum magasságú hely sorszáma 1-től " 
-				+ (wirePoints.size() - 2) + "-ig lehet.");
-			return;
-		}
-		drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-2");
-	}
-	
-	public void showRightWire() { 
-		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
-		if(wirePoints.size() < 2) {
-			getWarningAlert("Sodrony nem rajzolható", 
-					"Sodrony kirajzolásához legalább két különböző jobb oldali oszlop vagy vezeték pont szükséges.");
-			return;
-		}
-		drawer.drawRightWireCurve(wirePoints);
-	}
-	
-	public void deleteRightWire() {
-		drawer.deleteRightWire();
-	}
-	
-	public void showDifferenceOfCurveOfRightWire() {
-		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
-		if(wirePoints.size() < 4) {
-			getWarningAlert("Mért sodrony eltérések nem számíthatók ", 
-					"A sodrony eltéréseinek számításához legalább négy különböző jobb oldali oszlop vagy vezeték pont szükséges.");
-			return;
-		}
-			int minimumPlace = 0;
-			try {
-				String inputValue = setInputText("Minimum magasságú sodrony pont helyének megadása", 
-						"A mért helyeket balról-jobbra értelmezve 1-től " + 
-				(wirePoints.size() - 2) +"-ig való számozás alapján add meg a minimum pont helyét:");
-				if( inputValue == null )
-					return;
-					minimumPlace = Validate.isValidPositiveIntegerValue(inputValue);
-				if( minimumPlace < 1 || wirePoints.size() - 2 < minimumPlace )
-					throw new NumberFormatException();
-					} catch (NumberFormatException e) {
-				getWarningAlert("Hibás minimum magasságú helyre való hivatkozás", "A minimum magasságú hely sorszáma 1-től " 
-					+ (wirePoints.size() - 2) + "-ig lehet.");
-				return;
-			}
-			drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-3");
-		}
+//	public void showLeftWire() {
+//		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
+//		if(wirePoints.size() < 2) {
+//			getWarningAlert("Sodrony nem rajzolható", 
+//					"Sodrony kirajzolásához legalább két különböző bal oldali oszlop vagy vezeték pont szükséges.");
+//			return;
+//		}	
+//		drawer.drawLeftWireCurve(wirePoints);
+//	}
+//	
+//	public void deleteLeftWire() {
+//		drawer.deleteLeftWire();
+//	}
+//	
+//	public void showDifferenceOfCurveOfLeftWire() {
+//		List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
+//		if(wirePoints.size() < 4) {
+//			getWarningAlert("Mért sodrony eltérések nem számíthatók ", 
+//					"A sodrony eltéréseinek számításához legalább négy különböző bal oldali oszlop vagy vezeték pont szükséges.");
+//			return;
+//		}
+//		int minimumPlace = 0;
+//		try {
+//			String inputValue = setInputText("Minimum magasságú sodrony pont helyének megadása", 
+//					"A mért helyeket balról-jobbra értelmezve 1-től " + 
+//			(wirePoints.size() - 2) +"-ig való számozás alapján add meg a minimum pont helyét:");
+//			if( inputValue == null )
+//				return;
+//				minimumPlace = Validate.isValidPositiveIntegerValue(inputValue);
+//			if( minimumPlace < 1 || wirePoints.size() - 2 < minimumPlace )
+//				throw new NumberFormatException();
+//				} catch (NumberFormatException e) {
+//			getWarningAlert("Hibás minimum magasságú helyre való hivatkozás", "A minimum magasságú hely sorszáma 1-től " 
+//				+ (wirePoints.size() - 2) + "-ig lehet.");
+//			return;
+//		}
+//		drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-2");
+//	}
+//	
+//	public void showRightWire() { 
+//		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
+//		if(wirePoints.size() < 2) {
+//			getWarningAlert("Sodrony nem rajzolható", 
+//					"Sodrony kirajzolásához legalább két különböző jobb oldali oszlop vagy vezeték pont szükséges.");
+//			return;
+//		}
+//		drawer.drawRightWireCurve(wirePoints);
+//	}
+//	
+//	public void deleteRightWire() {
+//		drawer.deleteRightWire();
+//	}
+//	
+//	public void showDifferenceOfCurveOfRightWire() {
+//		List<WirePoint> wirePoints = archivFileBuilder.getRightWirePoints();
+//		if(wirePoints.size() < 4) {
+//			getWarningAlert("Mért sodrony eltérések nem számíthatók ", 
+//					"A sodrony eltéréseinek számításához legalább négy különböző jobb oldali oszlop vagy vezeték pont szükséges.");
+//			return;
+//		}
+//			int minimumPlace = 0;
+//			try {
+//				String inputValue = setInputText("Minimum magasságú sodrony pont helyének megadása", 
+//						"A mért helyeket balról-jobbra értelmezve 1-től " + 
+//				(wirePoints.size() - 2) +"-ig való számozás alapján add meg a minimum pont helyét:");
+//				if( inputValue == null )
+//					return;
+//					minimumPlace = Validate.isValidPositiveIntegerValue(inputValue);
+//				if( minimumPlace < 1 || wirePoints.size() - 2 < minimumPlace )
+//					throw new NumberFormatException();
+//					} catch (NumberFormatException e) {
+//				getWarningAlert("Hibás minimum magasságú helyre való hivatkozás", "A minimum magasságú hely sorszáma 1-től " 
+//					+ (wirePoints.size() - 2) + "-ig lehet.");
+//				return;
+//			}
+//			drawer.writeDifferenceOfWireCurve(wirePoints, minimumPlace, "-3");
+//		}
 	
 	public String setProjectName() {
 		
@@ -870,8 +861,22 @@ public class HomeController {
 					"távolság >= 0  és " + archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m >= távolság");
 			return;
 		}
+		double hangingValue = calculator.getWireHangingValueByDistance(validDistance);
+		drawer.drawHangingArrow(validDistance, hangingValue, calculator.wireType);
 		getInfoAlert(validDistance  + " méter távolsághoz tartozó belógás", 
-				"A belógás értéke: " + calculator.getWireHangingValueByDistance(validDistance) + " méter");
+				"A belógás értéke: " + hangingValue  + " méter");
+		drawer.deleteHangingArrow();
+	}
+	
+	public void getTheHighestHangingValue() {
+		PillarData lastPillar = archivFileBuilder.getLastPillar();
+		Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
+		List<Double> hangingData = 
+			calculator.getTheHighestHangingWireValue(distance == null ? archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() : distance);
+		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), calculator.wireType);
+		getInfoAlert("A legnagyobb belógás távolsága: " + (int) (hangingData.get(0) * 1000.0) / 1000.0 + " méter", 
+				"A legnagyobb belógás értéke: " + hangingData.get(1)  + " méter");
+		drawer.deleteHangingArrow();
 	}
 		
 	public void save2DWireCoords() {
@@ -887,31 +892,31 @@ public class HomeController {
 	}
 	
 	
-	public void printScreen() {
-		if( FileProcess.FOLDER_PATH == null )
-			fileProcess.setFolder();
-		if( PROJECT_NAME == null )
-			setProjectName();
-		if( FileProcess.FOLDER_PATH == null || PROJECT_NAME == null )
-			return;
-			
-		try {
-			Robot rob = new Robot();
-			int targetWidth = (int) (137 * Drawer.MILLIMETER * 1.25);
-			int targetHeight = (int) (150 * Drawer.MILLIMETER * 1.25);
-			Rectangle capture = new Rectangle(new Dimension((int) (137 * Drawer.MILLIMETER), (int) (150 * Drawer.MILLIMETER)));
-			capture.setLocation((int) (94 * Drawer.MILLIMETER), (int) (17 * Drawer.MILLIMETER));
-			BufferedImage originalImage = rob.createScreenCapture(capture);
-			java.awt.Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_DEFAULT);
-		    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-		    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-			ImageIO.write(outputImage, "png", new File(FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".png"));
-			getInfoAlert("Képernyőkép mentése", "Képernyőkép mentve az alábbi mappába:\n" + 
-			FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".png");
-		} catch (AWTException | IOException e) {
-			getWarningAlert("Képernyőkép mentése", "Képernyőkép mentése sikeretelen.");
-			e.printStackTrace();
-		}
-	}
+//	public void printScreen() {
+//		if( FileProcess.FOLDER_PATH == null )
+//			fileProcess.setFolder();
+//		if( PROJECT_NAME == null )
+//			setProjectName();
+//		if( FileProcess.FOLDER_PATH == null || PROJECT_NAME == null )
+//			return;
+//			
+//		try {
+//			Robot rob = new Robot();
+//			int targetWidth = (int) (137 * Drawer.MILLIMETER * 1.25);
+//			int targetHeight = (int) (150 * Drawer.MILLIMETER * 1.25);
+//			Rectangle capture = new Rectangle(new Dimension((int) (137 * Drawer.MILLIMETER), (int) (150 * Drawer.MILLIMETER)));
+//			capture.setLocation((int) (94 * Drawer.MILLIMETER), (int) (17 * Drawer.MILLIMETER));
+//			BufferedImage originalImage = rob.createScreenCapture(capture);
+//			java.awt.Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_DEFAULT);
+//		    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+//		    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+//			ImageIO.write(outputImage, "png", new File(FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".png"));
+//			getInfoAlert("Képernyőkép mentése", "Képernyőkép mentve az alábbi mappába:\n" + 
+//			FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".png");
+//		} catch (AWTException | IOException e) {
+//			getWarningAlert("Képernyőkép mentése", "Képernyőkép mentése sikeretelen.");
+//			e.printStackTrace();
+//		}
+//	}
 	
 }

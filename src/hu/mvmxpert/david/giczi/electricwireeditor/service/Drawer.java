@@ -1182,5 +1182,73 @@ public class Drawer {
 		} 
 		
 	}
+	
+	public void drawHangingArrow(double distance, double hangingValue, String wireType) {
+		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
+		double beginnerElevation = archivFileBuilder.getPillarElevation(beginnerPillar, wireType);
+		Line line = new Line();
+		line.setStroke(Color.RED);
+		line.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		line.setStartY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
+						hangingValue) * MILLIMETER - HOR_SHIFT * MILLIMETER);
+		line.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		line.setEndY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue()
+						+ hangingValue) * MILLIMETER);
+		line.setId("arrow");
+		Line leftArrow = new Line();
+		leftArrow.setStroke(Color.RED);
+		leftArrow.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		leftArrow.setStartY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
+						hangingValue) * MILLIMETER);
+		leftArrow.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+				.add((HOR_SHIFT - 2) * MILLIMETER));
+		leftArrow.setEndY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
+						hangingValue) * MILLIMETER - 2 * MILLIMETER);
+		leftArrow.setId("arrow");
+		Line rightArrow = new Line();
+		rightArrow.setStroke(Color.RED);
+		rightArrow.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		rightArrow.setStartY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
+						hangingValue) * MILLIMETER);
+		rightArrow.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+				.add((HOR_SHIFT + 2) * MILLIMETER));
+		rightArrow.setEndY(PAGE_Y + START_Y - 
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
+						hangingValue) * MILLIMETER - 2 * MILLIMETER);
+		rightArrow.setId("arrow");
+		root.getChildren().addAll(line, leftArrow, rightArrow);
+	}
+	
+	public void deleteHangingArrow() {
+		
+		for (int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if( "arrow".equals(root.getChildren().get(i).getId()))
+				root.getChildren().remove(i);
+		}
+		
+	}
+	
+	
 		}	
 
