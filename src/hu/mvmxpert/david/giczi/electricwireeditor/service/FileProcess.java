@@ -138,7 +138,7 @@ public class FileProcess {
 		
 		List<String> wireTypeData = new ArrayList<>();
 		
-		File file = new File(ClassLoader.getSystemResource("./wiretype/sodronyok.txt").getFile());
+		File file = new File("./wiretype/sodronyok.txt");
 		
 		try(BufferedReader reader = new BufferedReader(
 				new FileReader(file, StandardCharsets.UTF_8))) {
