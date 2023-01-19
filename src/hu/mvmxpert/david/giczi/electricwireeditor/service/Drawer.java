@@ -3,8 +3,6 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import javax.naming.directory.InvalidAttributesException;
-
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
@@ -28,6 +26,7 @@ import javafx.scene.transform.Rotate;
 public class Drawer {
 	
 	private BorderPane root;
+	private int wireID;
 	public static final double MILLIMETER = 1000 / 224.0;
 	public static final double A4_WIDTH =  211 * MILLIMETER;
 	public static final double START_X = 45 * MILLIMETER;
@@ -804,7 +803,9 @@ public class Drawer {
 	public void drawCalculatedWire(List<WirePoint> wirePoints, String wireType) {
 		
 		double scale = horizontalScale / 1000d;
-		
+		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
+		double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, wireType);
+		String id = getWireID(wireType);
 		for (int i = 0; i < wirePoints.size(); i += scale) {
 			Circle dot = new Circle();
 			switch (wireType) {
@@ -817,186 +818,205 @@ public class Drawer {
 			default:
 				dot.setStroke(Color.MAGENTA);
 			}
-			
+			dot.setId(id);
 			dot.setRadius(1);
+			dot.setCursor(Cursor.HAND);
+			dot.setOnMouseClicked( d -> {
+			Circle spot = (Circle) d.getSource();
+			deleteCalculatedWire(spot.getId());
+			});
 			dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
 					.add(getHorizontalScaledDownLengthValue(wirePoints.get(i).getDistanceOfWirePoint()) * MILLIMETER));
-			dot.setCenterY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(archivFileBuilder.getBeginnerPillar().getTopElevetaion() - 
+			dot.setCenterY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(beginnerPillarElevation - 
 					archivFileBuilder.getSystemData().getElevationStartValue() + wirePoints.get(i).getElevationOfWirePoint()) * MILLIMETER);
 			root.getChildren().add(dot);
 		}
 	}
 	
-	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
-				
-		if( pointsOfWire.size() == 2) {
-			drawWireByTwoPoints(pointsOfWire, "-2");
-		}
-		else {
-			drawWire(pointsOfWire, "-2");
-		}
+	private String getWireID(String wireType) {
+		return wireType + (++wireID);
 	}
 	
-	public void deleteLeftWire() {
-		
+	private void deleteCalculatedWire(String wireID) {
+		if( HomeController.getConfirmationAlert("Sodrony törlése", "Biztos, hogy törlöd a kiválasztott sodronyt?") ) {
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
-			if( "-2".equals(root.getChildren().get(i).getId()) ) {
+			if(wireID.equals(root.getChildren().get(i).getId())) {
 				root.getChildren().remove(i);
 			}
 		}
 	}
+}
 	
-	private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
-		Line wire = new Line();
-		if( "-2".equals(id) )
-		wire.setStroke(Color.MAGENTA);
-		else
-		wire.setStroke(Color.GREEN);	
-		wire.setStrokeWidth(1.5);
-		wire.getStrokeDashArray().addAll(1d, 4d);
-		wire.setId(id);
-		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-				.add(START_X).add(HOR_SHIFT * MILLIMETER)
-				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(0).getDistanceOfWirePoint()) * MILLIMETER));
-		wire.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(0).getElevationOfWirePoint()) * MILLIMETER);
-		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-				.add(START_X).add(HOR_SHIFT * MILLIMETER)
-				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(1).getDistanceOfWirePoint())* MILLIMETER));
-		wire.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(1).getElevationOfWirePoint()) * MILLIMETER);
-		root.getChildren().add(wire);
-	}
-	
-	private void drawWire(List<WirePoint> pointsOfWire, String id) { 
-			try {
-				double verticalShift =  PAGE_Y + START_Y;
-				double scale = horizontalScale / 1000d;
-				for(int i = 0; i < pointsOfWire.size() - 1; i++) {
-					
-				HalfParabola parabola = new HalfParabola(pointsOfWire.get(i), pointsOfWire.get(i + 1));
-				
-				if( pointsOfWire.get(i).getElevationOfWirePoint() - pointsOfWire.get(i + 1).getElevationOfWirePoint() > 0) {
-					for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
-					Circle dot = new Circle();
-					dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i + 1).getDistanceOfWirePoint()) * MILLIMETER)
-					.subtract(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
-					dot.setCenterY(verticalShift - 
-					getVerticalScaledDownHeightValue(pointsOfWire.get(i + 1).getElevationOfWirePoint()) * MILLIMETER -
-					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
-					dot.setRadius(1);
-					dot.setId(id);
-					if( "-2".equals(id) )
-					dot.setStroke(Color.MAGENTA);
-					else
-					dot.setStroke(Color.GREEN);
-					root.getChildren().add(dot);
-					
-					}
-				}
-				else {	
-					parabola = new HalfParabola(pointsOfWire.get(i + 1), pointsOfWire.get(i));
-					for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
-						Circle dot = new Circle();
-						dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
-					dot.setCenterY(verticalShift - 
-					getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) * MILLIMETER -
-					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
-					dot.setRadius(1);
-					dot.setId(id);
-					if( "-2".equals(id) )
-					dot.setStroke(Color.MAGENTA);
-					else
-					dot.setStroke(Color.GREEN);	
-					root.getChildren().add(dot);
-					}
-				}
-			}
-		} 
-			catch (InvalidAttributesException e) {
-				HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
-			}
-	}
-	
-	public void drawRightWireCurve(List<WirePoint> pointsOfWire) {
-		
-		if( pointsOfWire.size() == 2) {
-			drawWireByTwoPoints(pointsOfWire, "-3");
-		}
-		else {
-			drawWire(pointsOfWire, "-3");
-		}
-	}
-	
-	 public void deleteRightWire() {
-			
-			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
-				if( "-3".equals(root.getChildren().get(i).getId()) ) {
-					root.getChildren().remove(i);
-				}
-			}
-		} 
-	 
-	 
-	 public void writeDifferenceOfWireCurve(List<WirePoint> pointsOfWire, int minimumPlace, String id)  {
-		 try {
-			HalfParabola leftCurve = new HalfParabola(pointsOfWire.get(0), pointsOfWire.get(minimumPlace));
-			HalfParabola rightCurve = new HalfParabola(pointsOfWire.get(pointsOfWire.size() - 1), pointsOfWire.get(minimumPlace));
-			DecimalFormat df = new DecimalFormat("+0.00;-0.00");
-			int vShift = "-2".equals(id) ? 12 : 5;
-			for(int i = 1; i < pointsOfWire.size() - 1; i++) {
-				if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() < 
-						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
-			Text diffText =  new Text(df.format(leftCurve
-				.getElevationOfHalfParabolaPoint(
-				pointsOfWire.get(i).getDistanceOfWirePoint() 
-				- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint())
-				- pointsOfWire.get(i).getElevationOfWirePoint()
-				+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
-				diffText.setId(id);
-				if( "-2".equals(id))
-					diffText.setStroke(Color.MAGENTA);
-				else
-				diffText.setStroke(Color.GREEN);
-				diffText.setRotationAxis(Rotate.Z_AXIS);
-				diffText.setRotate(-90);
-				diffText.xProperty()
-				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
-				diffText.setY(PAGE_Y + START_Y 
-						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
-				root.getChildren().add(diffText);
-				}
-				else if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() >= 
-						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
-				Text diffText = new Text(df.format(rightCurve
-					.getElevationOfHalfParabolaPoint(
-					pointsOfWire.get(i).getDistanceOfWirePoint() 
-					- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint()) 
-					- pointsOfWire.get(i).getElevationOfWirePoint()
-					+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
-				diffText.setId(id);
-				if( "-2".equals(id))
-				diffText.setStroke(Color.MAGENTA);
-				else
-				diffText.setStroke(Color.GREEN);
-				diffText.setRotationAxis(Rotate.Z_AXIS);
-				diffText.setRotate(-90);
-				diffText.xProperty()
-				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-						.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
-				diffText.setY(PAGE_Y + START_Y 
-						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
-				root.getChildren().add(diffText);
-				}
-				
-			}
-			
-		} catch (InvalidAttributesException e) {
-			HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
-		}
-	 }
+//	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
+//				
+//		if( pointsOfWire.size() == 2) {
+//			drawWireByTwoPoints(pointsOfWire, "-2");
+//		}
+//		else {
+//			drawWire(pointsOfWire, "-2");
+//		}
+//	}
+//	
+//	public void deleteLeftWire() {
+//		
+//		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+//			if( "-2".equals(root.getChildren().get(i).getId()) ) {
+//				root.getChildren().remove(i);
+//			}
+//		}
+//	}
+//	
+//	private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
+//		Line wire = new Line();
+//		if( "-2".equals(id) )
+//		wire.setStroke(Color.MAGENTA);
+//		else
+//		wire.setStroke(Color.GREEN);	
+//		wire.setStrokeWidth(1.5);
+//		wire.getStrokeDashArray().addAll(1d, 4d);
+//		wire.setId(id);
+//		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//				.add(START_X).add(HOR_SHIFT * MILLIMETER)
+//				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(0).getDistanceOfWirePoint()) * MILLIMETER));
+//		wire.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(0).getElevationOfWirePoint()) * MILLIMETER);
+//		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//				.add(START_X).add(HOR_SHIFT * MILLIMETER)
+//				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(1).getDistanceOfWirePoint())* MILLIMETER));
+//		wire.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(1).getElevationOfWirePoint()) * MILLIMETER);
+//		root.getChildren().add(wire);
+//	}
+//	
+//	private void drawWire(List<WirePoint> pointsOfWire, String id) { 
+//			try {
+//				double verticalShift =  PAGE_Y + START_Y;
+//				double scale = horizontalScale / 1000d;
+//				for(int i = 0; i < pointsOfWire.size() - 1; i++) {
+//					
+//				HalfParabola parabola = new HalfParabola(pointsOfWire.get(i), pointsOfWire.get(i + 1));
+//				
+//				if( pointsOfWire.get(i).getElevationOfWirePoint() - pointsOfWire.get(i + 1).getElevationOfWirePoint() > 0) {
+//					for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
+//					Circle dot = new Circle();
+//					dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
+//					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i + 1).getDistanceOfWirePoint()) * MILLIMETER)
+//					.subtract(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
+//					dot.setCenterY(verticalShift - 
+//					getVerticalScaledDownHeightValue(pointsOfWire.get(i + 1).getElevationOfWirePoint()) * MILLIMETER -
+//					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
+//					dot.setRadius(1);
+//					dot.setId(id);
+//					if( "-2".equals(id) )
+//					dot.setStroke(Color.MAGENTA);
+//					else
+//					dot.setStroke(Color.GREEN);
+//					root.getChildren().add(dot);
+//					
+//					}
+//				}
+//				else {	
+//					parabola = new HalfParabola(pointsOfWire.get(i + 1), pointsOfWire.get(i));
+//					for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
+//						Circle dot = new Circle();
+//						dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
+//					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) * MILLIMETER)
+//					.add(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
+//					dot.setCenterY(verticalShift - 
+//					getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) * MILLIMETER -
+//					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
+//					dot.setRadius(1);
+//					dot.setId(id);
+//					if( "-2".equals(id) )
+//					dot.setStroke(Color.MAGENTA);
+//					else
+//					dot.setStroke(Color.GREEN);	
+//					root.getChildren().add(dot);
+//					}
+//				}
+//			}
+//		} 
+//			catch (InvalidAttributesException e) {
+//				HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+//			}
+//	}
+//	
+//	public void drawRightWireCurve(List<WirePoint> pointsOfWire) {
+//		
+//		if( pointsOfWire.size() == 2) {
+//			drawWireByTwoPoints(pointsOfWire, "-3");
+//		}
+//		else {
+//			drawWire(pointsOfWire, "-3");
+//		}
+//	}
+//	
+//	 public void deleteRightWire() {
+//			
+//			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+//				if( "-3".equals(root.getChildren().get(i).getId()) ) {
+//					root.getChildren().remove(i);
+//				}
+//			}
+//		} 
+//	 
+//	 
+//	 public void writeDifferenceOfWireCurve(List<WirePoint> pointsOfWire, int minimumPlace, String id)  {
+//		 try {
+//			HalfParabola leftCurve = new HalfParabola(pointsOfWire.get(0), pointsOfWire.get(minimumPlace));
+//			HalfParabola rightCurve = new HalfParabola(pointsOfWire.get(pointsOfWire.size() - 1), pointsOfWire.get(minimumPlace));
+//			DecimalFormat df = new DecimalFormat("+0.00;-0.00");
+//			int vShift = "-2".equals(id) ? 12 : 5;
+//			for(int i = 1; i < pointsOfWire.size() - 1; i++) {
+//				if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() < 
+//						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
+//			Text diffText =  new Text(df.format(leftCurve
+//				.getElevationOfHalfParabolaPoint(
+//				pointsOfWire.get(i).getDistanceOfWirePoint() 
+//				- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint())
+//				- pointsOfWire.get(i).getElevationOfWirePoint()
+//				+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
+//				diffText.setId(id);
+//				if( "-2".equals(id))
+//					diffText.setStroke(Color.MAGENTA);
+//				else
+//				diffText.setStroke(Color.GREEN);
+//				diffText.setRotationAxis(Rotate.Z_AXIS);
+//				diffText.setRotate(-90);
+//				diffText.xProperty()
+//				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//					.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
+//				diffText.setY(PAGE_Y + START_Y 
+//						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
+//				root.getChildren().add(diffText);
+//				}
+//				else if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() >= 
+//						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
+//				Text diffText = new Text(df.format(rightCurve
+//					.getElevationOfHalfParabolaPoint(
+//					pointsOfWire.get(i).getDistanceOfWirePoint() 
+//					- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint()) 
+//					- pointsOfWire.get(i).getElevationOfWirePoint()
+//					+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
+//				diffText.setId(id);
+//				if( "-2".equals(id))
+//				diffText.setStroke(Color.MAGENTA);
+//				else
+//				diffText.setStroke(Color.GREEN);
+//				diffText.setRotationAxis(Rotate.Z_AXIS);
+//				diffText.setRotate(-90);
+//				diffText.xProperty()
+//				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//						.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
+//				diffText.setY(PAGE_Y + START_Y 
+//						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
+//				root.getChildren().add(diffText);
+//				}
+//				
+//			}
+//			
+//		} catch (InvalidAttributesException e) {
+//			HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+//		}
+//	 }
 	
 	private void deleteLine(Line line) {
 	if( HomeController.getConfirmationAlert("Vonal törlése", "Biztos, hogy törlöd a kiválasztott vonalat?") ) {

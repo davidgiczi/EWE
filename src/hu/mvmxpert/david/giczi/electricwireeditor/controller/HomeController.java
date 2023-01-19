@@ -70,7 +70,6 @@ public class HomeController {
 		drawer.clearRoot();
 		homeWindow.setPillarData.setDisable(true);
 		homeWindow.setWireData.setDisable(true);
-		homeWindow.addText.setDisable(false);
 		setTitle(drawer.getRoot());
 		drawer.drawPage();	
 	}
@@ -257,11 +256,6 @@ public class HomeController {
 	loadTextData(projectData);
 	loadLineData(projectData);
 	drawer.removeLenghtOfBaseLineText();
-	homeWindow.addLine.setDisable(false);
-	homeWindow.modifyBaseLine.setDisable(false);
-	homeWindow.modifyVerticalScale.setDisable(false);
-	homeWindow.toBeLastPillarTheBeginner.setDisable(false);
-	homeWindow.backwardsOrder.setDisable(false);
 	}
 	return  !projectData.isEmpty(); 
 }
@@ -409,7 +403,6 @@ public class HomeController {
 		drawer.clearRoot();
 		homeWindow.setPillarData.setDisable(false);
 		homeWindow.setWireData.setDisable(false);
-		homeWindow.addText.setDisable(false);
 		homeWindow.saveProject.setDisable(false);
 		drawer.drawPage();
 		if( drawer.getLengthOfHorizontalAxis() != 0 &&
@@ -468,6 +461,10 @@ public class HomeController {
 	}
 	
 	public void modifyLengthOfBaseLine() {
+		if( archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
+			getWarningAlert("Nyomvonal hossza nem módosítható", "Rajzi rendszer megadása szükséges.");
+			return;
+		}
 		Double length;
 		try {
 			String inputValue = setInputText("A nyomvonal hosszának módosítása", "Add meg a nyomvonal hosszát méterben:");
@@ -507,6 +504,10 @@ public class HomeController {
 	}
 
 	public void modifyScaleOfBaseLine() {
+		if( archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
+			getWarningAlert("Nyomvonal méretaránya nem módosítható", "Rajzi rendszer megadása szükséges.");
+			return;
+		}
 		int scale;
 		try {
 			String inputValue = setInputText("A nyomvonal méretarányának módosítása", 
@@ -549,7 +550,10 @@ public class HomeController {
 	}
 	
 	public void toBeTheLastPillarTheBeginner() {
-		
+		if( archivFileBuilder.getPillarData().isEmpty() ) {
+			getWarningAlert("Hiányzó oszlop adatok", "Rajzi rendszer és oszlop adatok megadása szükséges.");
+			return;
+		}
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( lastPillar == null )
 			return;
@@ -594,6 +598,10 @@ public class HomeController {
 		}
 	
 	public void backwardsOrder() {
+		if( archivFileBuilder.getPillarData() == null || 2 > archivFileBuilder.getPillarData().size() ) {
+			getWarningAlert("Hiányzó oszlop adatok", "Legalább két oszlop adatainak megadása szükséges.");
+			return;
+		}
 		if(archivFileBuilder.getPillarData().size() < 2 ) {
 			getWarningAlert("A sorrend nem módosítható", 
 					"A művelethez legalább két oszlop szükséges.");
@@ -649,6 +657,10 @@ public class HomeController {
 	}
 	
 	public void modifyElevationStartValue() {
+		if( archivFileBuilder.getSystemData().getVerticalScale() == 0) {
+			getWarningAlert("Magassági lépték kezdő értéke nem módosítható", "Rajzi rendszer és magassági lépték megadása szükséges.");
+			return;
+		}
 		DecimalFormat df = new DecimalFormat("0.0");
 		int elevationStartValue;
 		try {
@@ -698,6 +710,10 @@ public class HomeController {
 	}
 	
 	public void modifyVerticalScale() {
+		if( archivFileBuilder.getSystemData().getVerticalScale() == 0) {
+			getWarningAlert("Magassági lépték beosztás értéke nem módosítható", "Rajzi rendszer és magassági lépték megadása szükséges.");
+			return;
+		}
 		DecimalFormat df = new DecimalFormat("0.0");
 		int verticalScale = drawer.getVerticalScale();
 		try {
@@ -845,6 +861,10 @@ public class HomeController {
 }
 	
 	public void getHangingValueByDistance() {
+		if( calculator == null ) {
+			getWarningAlert("Belógás értéke nem számítható", "Sodrony adatok megadása szükséges.");
+			return;
+		}
 		String distance = setInputText("Belógás számítása", "Add meg a számítandó belógás távolságát méterben:");
 		if(distance == null){
 			return;
@@ -869,6 +889,10 @@ public class HomeController {
 	}
 	
 	public void getTheHighestHangingValue() {
+		if( calculator == null ) {
+			getWarningAlert("Belógás értéke nem számítható", "Sodrony adatok megadása szükséges.");
+			return;
+		}
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
 		List<Double> hangingData = 
@@ -879,16 +903,22 @@ public class HomeController {
 		drawer.deleteHangingArrow();
 	}
 		
-	public void save2DWireCoords() {
+	public void save2DWireCoords() {	
 		
+		if(  archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
+			getWarningAlert("Mért sodrony koordináták nem menthetők", "Rajzi rendszer és sodrony adatok megadása szükséges.");
+		return;	
+		}
 		showSaveWireCoordsWindow("Sodrony pontok mentése helyi rendszerben -> 2D", true);
 		
 	}
 	
 	public void save3DWireCoords() {
-		
+		if(  archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
+			getWarningAlert("Mért sodrony koordináták nem menthetők", "Rajzi rendszer és sodrony adatok megadása szükséges.");
+		return;	
+		}
 		showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D", false);
-		
 	}
 	
 	

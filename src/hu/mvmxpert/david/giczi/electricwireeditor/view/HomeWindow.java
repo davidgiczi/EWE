@@ -3,7 +3,6 @@ package hu.mvmxpert.david.giczi.electricwireeditor.view;
 
 
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
-import hu.mvmxpert.david.giczi.electricwireeditor.controller.SetCalculatedWireDataController;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
@@ -30,18 +29,9 @@ public class HomeWindow  {
 	private FileProcess fileProcess;
 	public MenuItem setPillarData;
 	public MenuItem setWireData;
-	public MenuItem addText;
-	public MenuItem addLine;
-	public Menu modifyBaseLine;
-	public Menu modifyVerticalScale;
-	public MenuItem toBeLastPillarTheBeginner;
-	public MenuItem backwardsOrder;
 	public MenuItem saveProject;
-	public MenuItem setCalculatedWireData;
-	public MenuItem calcHanging;
-	public MenuItem calcTheHighestHanging;
-	public Menu saveWireCoords;
 	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
+	public ComboBox<String> wireTypeComboBox;
 	
 	public BorderPane getRoot() {
 		return root;
@@ -209,8 +199,7 @@ public class HomeWindow  {
 		projectProcess.getItems().addAll(createNewProject, new SeparatorMenuItem(), 
 				openProject, new SeparatorMenuItem()/*, printScreen*/, saveProject, new SeparatorMenuItem(), exitProject);
 		Menu modifyDraw = new Menu("Rajz módosítása");
-		addText = new MenuItem("Felirat hozzáadása");
-		addText.setDisable(true);
+		MenuItem addText = new MenuItem("Felirat hozzáadása");
 		addText.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -218,17 +207,19 @@ public class HomeWindow  {
 				homeController.showSetTextWindow();
 			}
 		});
-		addLine = new MenuItem("Vonal hozzáadása");
-		addLine.setDisable(true);
+		MenuItem addLine = new MenuItem("Vonal hozzáadása");
 		addLine.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				if(homeController.archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
+					HomeController.getWarningAlert("Vonal nem helyezhető el", "Rajzi rendszer megadása szükséges.");
+					return;
+				}
 			homeController.showSetLineDataWindow();
 			}
 		});
-		modifyBaseLine = new Menu("Nyomvonal módosítása");
-		modifyBaseLine.setDisable(true);
+		Menu modifyBaseLine = new Menu("Nyomvonal módosítása");
 		MenuItem modifyLengthOfBaseLine = new MenuItem("A nyomvonal hosszának módosítása");
 		modifyLengthOfBaseLine.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -246,7 +237,7 @@ public class HomeWindow  {
 			}
 		});
 		modifyBaseLine.getItems().addAll(modifyLengthOfBaseLine, modifyHorizontalScale);
-		modifyVerticalScale = new Menu("Magassági lépték módosítása");
+		Menu modifyVerticalScale = new Menu("Magassági lépték módosítása");
 		MenuItem modifyElevationStartValue = new MenuItem("Magassági lépték kezdő magasságának módosítása");
 		modifyElevationStartValue.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -264,8 +255,7 @@ public class HomeWindow  {
 			}
 		});
 		modifyVerticalScale.getItems().addAll(modifyElevationStartValue, modifyElevationMeasurment);
-		modifyVerticalScale.setDisable(true);
-		toBeLastPillarTheBeginner = new MenuItem("Az utolsó oszlop legyen a kezdő oszlop");
+		MenuItem toBeLastPillarTheBeginner = new MenuItem("Az utolsó oszlop legyen a kezdő oszlop");
 		toBeLastPillarTheBeginner.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -273,8 +263,7 @@ public class HomeWindow  {
 				homeController.toBeTheLastPillarTheBeginner();
 			}
 		});
-		toBeLastPillarTheBeginner.setDisable(true);
-		backwardsOrder = new MenuItem("Fordított sorrend");
+		MenuItem backwardsOrder = new MenuItem("Fordított sorrend");
 		backwardsOrder.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -282,7 +271,6 @@ public class HomeWindow  {
 				homeController.backwardsOrder();
 			}
 		});
-		backwardsOrder.setDisable(true);
 		modifyDraw.getItems().addAll(addText,  new SeparatorMenuItem(), 
 				addLine, new SeparatorMenuItem(), 
 				modifyBaseLine, new SeparatorMenuItem(),
@@ -290,10 +278,8 @@ public class HomeWindow  {
 				backwardsOrder, new SeparatorMenuItem(),
 				toBeLastPillarTheBeginner);
 		Menu drawWire = new Menu("Sodrony műveletek");
-		setCalculatedWireData = new MenuItem("Sodrony adatok megadása");
-		//setCalculatedWireData.setDisable(true);
-		calcHanging = new MenuItem("Belógás számítása");
-		//calcHanging.setDisable(true);
+		MenuItem setCalculatedWireData = new MenuItem("Sodrony adatok megadása");
+		MenuItem calcHanging = new MenuItem("Belógás számítása");
 		calcHanging.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -302,8 +288,7 @@ public class HomeWindow  {
 				
 			}
 		});
-		calcTheHighestHanging = new MenuItem("Legnagyobb belógás számítása");
-		//calcTheHighestHanging.setDisable(true);
+		MenuItem calcTheHighestHanging = new MenuItem("Legnagyobb belógás számítása");
 		calcTheHighestHanging.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -372,8 +357,7 @@ public class HomeWindow  {
 				//homeController.showDifferenceOfCurveOfRightWire();
 			}
 		});
-		saveWireCoords = new Menu("Mért sodrony pontok mentése");
-		//saveWireCoords.setDisable(true);
+		Menu saveWireCoords = new Menu("Mért sodrony pontok mentése");
 		MenuItem localSystem = new MenuItem("Helyi rendszerben -> 2D");
 		localSystem.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -392,15 +376,13 @@ public class HomeWindow  {
 			}
 		});
 		
-		ComboBox<String> comboBox = new ComboBox<>();
-		comboBox.getItems().setAll("bal", "közép", "jobb");
-		Label label = new Label("sodrony adatok törlése", comboBox);
-		CustomMenuItem menuItem = new CustomMenuItem(label);
-		
+		wireTypeComboBox = new ComboBox<>();
+		Label label = new Label("sodrony adatok törlése", wireTypeComboBox);
+		CustomMenuItem deleteWireData = new CustomMenuItem(label);
 		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
 		saveWireCoords.getItems().addAll(localSystem, countrySystem);
 		drawWire.getItems().addAll(setCalculatedWireData, calcHanging, calcTheHighestHanging, new SeparatorMenuItem(), 
-				menuItem, new SeparatorMenuItem(), saveWireCoords);
+				deleteWireData, new SeparatorMenuItem(), saveWireCoords);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}

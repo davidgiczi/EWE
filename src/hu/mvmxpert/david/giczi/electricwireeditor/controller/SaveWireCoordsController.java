@@ -38,6 +38,10 @@ public class SaveWireCoordsController {
 	public void setHomeController(HomeController homeController) {
 		this.homeController = homeController;
 	}
+	
+	public TextField getTypeOfWirePoint() {
+		return typeOfWirePoint;
+	}
 
 	@FXML
 	public void handleSaveButtonClick() {

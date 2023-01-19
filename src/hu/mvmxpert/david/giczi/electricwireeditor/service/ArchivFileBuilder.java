@@ -725,7 +725,6 @@ public class ArchivFileBuilder {
 					distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
 					
 				} catch (Exception e) {
-					return distance;
 				}
 			}
 		}
@@ -742,7 +741,7 @@ public class ArchivFileBuilder {
 				elevation = Double.parseDouble(pillarText.getTextValue()
 						.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m")));
 				}catch (Exception e) {
-					elevation = pillar.getDistanceOfPillar();
+					elevation = pillar.getTopElevetaion();
 				}
 			}
 		}

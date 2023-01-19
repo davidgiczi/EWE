@@ -297,7 +297,25 @@ public class FileProcess {
 				new FileWriter(file, StandardCharsets.UTF_8))) {
 			
 			for (int i = 0; i < wirePoints.size(); i++) {
-				writer.write((i + 1) + " " + wirePoints.get(i).getWirePoint());
+				writer.write((i + 1) + " " + wirePoints.get(i).getWirePointDataForTxtFormat());
+				writer.newLine();
+			}
+			
+		} catch (IOException e) {
+			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+		} 
+	}
+	
+	public void saveCalulatedWirePointsInAutoCadFormat(List<WirePoint> wirePoints, String type) {
+		
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_" + type  + "_sodrony_pontok.scr");
+		
+		try(BufferedWriter writer = new BufferedWriter(
+				new FileWriter(file, StandardCharsets.UTF_8))) {
+			writer.write("_MULTIPLE _POINT");
+			writer.newLine();
+			for (int i = 0; i < wirePoints.size(); i++) {
+				writer.write(wirePoints.get(i).getWirePointDataForAutoCadFormat());
 				writer.newLine();
 			}
 			

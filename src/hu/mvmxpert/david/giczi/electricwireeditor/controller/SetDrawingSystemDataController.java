@@ -85,9 +85,6 @@ public class SetDrawingSystemDataController {
 		homeController.homeWindow.setPillarData.setDisable(false);
 		homeController.homeWindow.setWireData.setDisable(false);
 		homeController.homeWindow.saveProject.setDisable(false);
-		homeController.homeWindow.modifyBaseLine.setDisable(false);
-		homeController.homeWindow.modifyVerticalScale.setDisable(false);
-		homeController.homeWindow.addLine.setDisable(false);
 		stage.hide();
 	}
 

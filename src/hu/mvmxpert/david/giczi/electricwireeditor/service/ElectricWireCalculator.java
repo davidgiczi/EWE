@@ -54,7 +54,6 @@ public class ElectricWireCalculator {
 		this.archivFileBuilder = archivFileBuilder;
 		this.wireType = wireType;
 		parseWireTypeData();
-		if( Validate.isValidInputText(wireTypeName) )
 		this.wireData = wireTypes.stream().filter( w -> wireTypeName.equals(w.getType())).findFirst().get();
 	}
 	
@@ -102,8 +101,6 @@ public class ElectricWireCalculator {
 	
 	private void parseWireTypeData() {
 		this.wireTypes = new ArrayList<>();
-		if( FileProcess.getWireTypeFileData().isEmpty() )
-			return;
 		for (int i = 2; i < FileProcess.getWireTypeFileData().size(); i++) {
 			String[] wireData = FileProcess.getWireTypeFileData().get(i).split(";");
 			WireTypeData wireTypeData = new WireTypeData();
@@ -120,25 +117,16 @@ public class ElectricWireCalculator {
 	}
 	
 	private void getHorizontalDistanceOfPillar(String type) {
-		if( archivFileBuilder == null )
-			return;
-		if( archivFileBuilder.getPillarData().isEmpty() )
-			return;
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( Validate.isValidInputText(type) ) {
 			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
 			this.oszlopkoz_hossza = distance == null ? lastPillar.getDistanceOfPillar() : distance;
 		}
-		
 	}
 	private void getDifferenceOfElevationsBetweenPillars(String type) {
-		if( archivFileBuilder == null )
-			return;
-		if( archivFileBuilder.getPillarData().isEmpty() )
-			return;
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
-		if( beginnerPillar != null && lastPillar != null && Validate.isValidInputText(type) ) {
+		if( beginnerPillar != null && lastPillar != null ) {
 			double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, type);
 			double lastPillarElevation = archivFileBuilder.getPillarElevation(lastPillar, type);
 			this.magassag_kulonbseg = lastPillarElevation - beginnerPillarElevation;

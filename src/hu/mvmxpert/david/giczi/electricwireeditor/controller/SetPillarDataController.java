@@ -95,8 +95,6 @@ public class SetPillarDataController {
 			homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, false);
 		}
 		
-		homeController.homeWindow.toBeLastPillarTheBeginner.setDisable(false);
-		homeController.homeWindow.backwardsOrder.setDisable(false);
 	}
 	
 }

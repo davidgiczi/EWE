@@ -28,8 +28,12 @@ public class WirePoint implements Comparable<WirePoint>{
 		this.elevationOfWirePoint = elevationOfWirePoint;
 	}
 	
-	public String getWirePoint() {
+	public String getWirePointDataForTxtFormat() {
 		return this.distanceOfWirePoint + " " + this.elevationOfWirePoint + " 0"; 
+	}
+	
+	public String getWirePointDataForAutoCadFormat() {
+		return this.distanceOfWirePoint + "," + this.elevationOfWirePoint; 
 	}
 
 	@Override
