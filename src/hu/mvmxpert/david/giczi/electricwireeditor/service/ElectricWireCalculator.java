@@ -12,7 +12,8 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
 
 public class ElectricWireCalculator {
-
+	
+	public static int wireID;
 	public static final double g = 9.81;
 	public List<WirePoint> wirePoints;
 	private ArchivFileBuilder archivFileBuilder;
@@ -50,6 +51,20 @@ public class ElectricWireCalculator {
 	public double XA;
 	public double XB;
 	
+	
+	public String getWireIDAsString(String wireType) {
+		if( wireID == 10 )
+			wireID = 1;
+		else
+		wireID += 1;
+		return wireType + wireID;
+	}
+	
+	public int getWireID() {
+		return wireID;
+	}
+
+
 	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
 		this.archivFileBuilder = archivFileBuilder;
 		this.wireType = wireType;

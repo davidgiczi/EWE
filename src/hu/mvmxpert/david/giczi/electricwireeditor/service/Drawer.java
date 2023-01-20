@@ -26,7 +26,6 @@ import javafx.scene.transform.Rotate;
 public class Drawer {
 	
 	private BorderPane root;
-	private int wireID;
 	public static final double MILLIMETER = 1000 / 224.0;
 	public static final double A4_WIDTH =  211 * MILLIMETER;
 	public static final double START_X = 45 * MILLIMETER;
@@ -805,20 +804,11 @@ public class Drawer {
 		double scale = horizontalScale / 1000d;
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, wireType);
-		String id = getWireID(wireType);
+		String id = homeController.calculator.getWireIDAsString(wireType);
 		for (int i = 0; i < wirePoints.size(); i += scale) {
 			Circle dot = new Circle();
-			switch (wireType) {
-			case "közép":
-				dot.setStroke(Color.RED);
-				break;
-			case "jobb":
-				dot.setStroke(Color.ORANGE);
-				break;
-			default:
-				dot.setStroke(Color.MAGENTA);
-			}
 			dot.setId(id);
+			setWireColor(dot);
 			dot.setRadius(1);
 			dot.setCursor(Cursor.HAND);
 			dot.setOnMouseClicked( d -> {
@@ -831,13 +821,48 @@ public class Drawer {
 					archivFileBuilder.getSystemData().getElevationStartValue() + wirePoints.get(i).getElevationOfWirePoint()) * MILLIMETER);
 			root.getChildren().add(dot);
 		}
+		
 	}
 	
-	private String getWireID(String wireType) {
-		return wireType + (++wireID);
-	}
-	
+	private void setWireColor(Circle dot) {
+		
+		switch (ElectricWireCalculator.wireID) {
+		case 2:
+			dot.setStroke(Color.GOLD);
+			break;
+		case 3:
+			dot.setStroke(Color.CRIMSON);
+			break;
+		case 4:
+			dot.setStroke(Color.AQUA);
+			break;
+		case 5:
+			dot.setStroke(Color.CORNFLOWERBLUE);
+			break;
+		case 6:
+			dot.setStroke(Color.DEEPPINK);
+			break;
+		case 7:
+			dot.setStroke(Color.MEDIUMPURPLE);
+			break;
+		case 8:
+			dot.setStroke(Color.TOMATO);
+			break;
+		case 9:
+			dot.setStroke(Color.LIGHTCORAL);
+			break;
+		case 10:
+			dot.setStroke(Color.SPRINGGREEN);
+			break;
+		default:
+			dot.setStroke(Color.MAGENTA);
+		}
+}
+
 	private void deleteCalculatedWire(String wireID) {
+		if(homeController.calculator != null && 
+				wireID.equals(homeController.calculator.wireType + homeController.calculator.getWireID())) 
+			homeController.calculator = null;
 		if( HomeController.getConfirmationAlert("Sodrony törlése", "Biztos, hogy törlöd a kiválasztott sodronyt?") ) {
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
 			if(wireID.equals(root.getChildren().get(i).getId())) {
@@ -846,6 +871,7 @@ public class Drawer {
 		}
 	}
 }
+
 	
 //	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
 //				
@@ -1269,6 +1295,35 @@ public class Drawer {
 		
 	}
 	
+	public void showPreResultsData(String wireType) {
+		deletePreResultsData();
+		Rectangle wireTypeCell = new Rectangle();
+		wireTypeCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add((VER_SHIFT - 2) * MILLIMETER));
+		wireTypeCell.setY(PAGE_Y);
+		wireTypeCell.setWidth(60 * MILLIMETER);
+		wireTypeCell.setHeight(10 * MILLIMETER);
+		wireTypeCell.setFill(Color.WHITE);
+		wireTypeCell.setId("preResult");
+		Text name = new Text("Sodrony típusa:");
+		name.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		name.setY(50);
+		name.setId("preResult");
+		Text wireTypeName = new Text(wireType);
+		wireTypeName.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireTypeName.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(MILLIMETER * (55 - wireType.length()) / 2 ));
+		wireTypeName.setY(50);
+		wireTypeName.setId("preResult");
+		root.getChildren().addAll(name, wireTypeCell, wireTypeName);
+	}
 	
-		}	
+	public void deletePreResultsData() {
+		
+		for (int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if( "preResult".equals(root.getChildren().get(i).getId()))
+				root.getChildren().remove(i);
+		}
+		
+	}
+
+	}	
 

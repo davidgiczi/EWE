@@ -79,7 +79,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	double temperatureValue;
 	
 	try {
-		temperatureValue = Double.parseDouble(tempTextField.getText());
+		temperatureValue = Double.parseDouble(tempTextField.getText().replace(",", "."));
 	} catch (NumberFormatException e) {
 		HomeController.getWarningAlert("Hibás hőmérséklet érték", "A hőmérséklet értéke csak szám lehet.");
 		return;
@@ -89,7 +89,10 @@ public class SetCalculatedWireDataController implements Initializable {
 	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText(), szigmaValue, temperatureValue);
 	}
 	if( showPreResultsCheckBox.isSelected() ) {
-		
+		homeController.showPreResultsData(wireTypesComboBox.getValue());
+	}
+	else {
+		homeController.getDrawer().deletePreResultsData();
 	}
 	if( showWireDiffsCheckBox.isSelected() ) {
 		

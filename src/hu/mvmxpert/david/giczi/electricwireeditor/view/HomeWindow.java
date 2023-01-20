@@ -88,6 +88,7 @@ public class HomeWindow  {
 						homeController.setCalculatedWireDataWindow.getStage().hide();
 				}
 			});
+
 	}
 	
 	private void createMenu() {

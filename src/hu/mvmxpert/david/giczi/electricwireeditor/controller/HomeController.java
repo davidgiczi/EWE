@@ -890,7 +890,7 @@ public class HomeController {
 	
 	public void getTheHighestHangingValue() {
 		if( calculator == null ) {
-			getWarningAlert("Belógás értéke nem számítható", "Sodrony adatok megadása szükséges.");
+			getWarningAlert("Legnagyobb belógás értéke nem számítható", "Sodrony adatok megadása szükséges.");
 			return;
 		}
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
@@ -921,6 +921,9 @@ public class HomeController {
 		showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D", false);
 	}
 	
+	public void showPreResultsData(String wireType) {
+		drawer.showPreResultsData(wireType);
+	}
 	
 //	public void printScreen() {
 //		if( FileProcess.FOLDER_PATH == null )
