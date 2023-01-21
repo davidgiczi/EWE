@@ -108,8 +108,6 @@ public class SetCalculatedWireDataController implements Initializable {
 		homeController.saveWireCoordsWindow.controller.getTypeOfWirePoint().setText(wireTypeTextField.getText());
 		homeController.saveWireCoordsWindow.getStage().hide();
 	}
-	if( !homeController.homeWindow.wireTypeComboBox.getItems().contains(wireTypeTextField.getText()) )
-	homeController.homeWindow.wireTypeComboBox.getItems().add(wireTypeTextField.getText());
 	homeController.setCalculatedWireDataWindow.getStage().hide();
 	}
 	

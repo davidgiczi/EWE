@@ -10,9 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -31,7 +28,6 @@ public class HomeWindow  {
 	public MenuItem setWireData;
 	public MenuItem saveProject;
 	public static String DEFAULT_STAGE_TITLE = "Elektromos távvezeték szabad magasságának dokumentálása";
-	public ComboBox<String> wireTypeComboBox;
 	
 	public BorderPane getRoot() {
 		return root;
@@ -377,13 +373,9 @@ public class HomeWindow  {
 			}
 		});
 		
-		wireTypeComboBox = new ComboBox<>();
-		Label label = new Label("sodrony adatok törlése", wireTypeComboBox);
-		CustomMenuItem deleteWireData = new CustomMenuItem(label);
 		rightWire.getItems().addAll(visibleRightWire, showDeltaDifferenceOfRightWire, new SeparatorMenuItem(), invisibleRightWire);
 		saveWireCoords.getItems().addAll(localSystem, countrySystem);
-		drawWire.getItems().addAll(setCalculatedWireData, calcHanging, calcTheHighestHanging, new SeparatorMenuItem(), 
-				deleteWireData, new SeparatorMenuItem(), saveWireCoords);
+		drawWire.getItems().addAll(setCalculatedWireData, calcHanging, calcTheHighestHanging, new SeparatorMenuItem(), saveWireCoords);
 		menuBar.getMenus().addAll(projectProcess, modifyDraw, drawWire);
 		root.setTop(menuBar);
 	}

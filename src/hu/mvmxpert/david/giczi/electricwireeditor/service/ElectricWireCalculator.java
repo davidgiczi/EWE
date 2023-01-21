@@ -10,15 +10,17 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
+import javafx.scene.paint.Color;
 
 public class ElectricWireCalculator {
 	
 	public static int wireID;
+	public Color wireColor;
 	public static final double g = 9.81;
 	public List<WirePoint> wirePoints;
 	private ArchivFileBuilder archivFileBuilder;
 	private List<WireTypeData> wireTypes;
-	private WireTypeData wireData;
+	public WireTypeData wireData;
 	public String wireType;
 	private double t;
 	private double szigma_b;
@@ -63,7 +65,10 @@ public class ElectricWireCalculator {
 	public int getWireID() {
 		return wireID;
 	}
-
+	
+	public void setWireColor(Color wireColor) {
+		this.wireColor = wireColor;
+	}
 
 	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
 		this.archivFileBuilder = archivFileBuilder;

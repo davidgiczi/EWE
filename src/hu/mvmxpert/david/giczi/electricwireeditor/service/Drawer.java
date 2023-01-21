@@ -813,7 +813,7 @@ public class Drawer {
 			dot.setCursor(Cursor.HAND);
 			dot.setOnMouseClicked( d -> {
 			Circle spot = (Circle) d.getSource();
-			deleteCalculatedWire(spot.getId());
+			deleteCalculatedWireAndData(spot.getId());
 			});
 			dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
 					.add(getHorizontalScaledDownLengthValue(wirePoints.get(i).getDistanceOfWirePoint()) * MILLIMETER));
@@ -829,47 +829,72 @@ public class Drawer {
 		switch (ElectricWireCalculator.wireID) {
 		case 2:
 			dot.setStroke(Color.GOLD);
+			homeController.calculator.setWireColor(Color.GOLD);
 			break;
 		case 3:
 			dot.setStroke(Color.CRIMSON);
+			homeController.calculator.setWireColor(Color.CRIMSON);
 			break;
 		case 4:
 			dot.setStroke(Color.AQUA);
+			homeController.calculator.setWireColor(Color.AQUA);
 			break;
 		case 5:
 			dot.setStroke(Color.CORNFLOWERBLUE);
+			homeController.calculator.setWireColor(Color.CORNFLOWERBLUE);
 			break;
 		case 6:
-			dot.setStroke(Color.DEEPPINK);
+			dot.setStroke(Color.PINK);
+			homeController.calculator.setWireColor(Color.DEEPPINK);
 			break;
 		case 7:
 			dot.setStroke(Color.MEDIUMPURPLE);
+			homeController.calculator.setWireColor(Color.MEDIUMPURPLE);
 			break;
 		case 8:
-			dot.setStroke(Color.TOMATO);
+			dot.setStroke(Color.DARKGREEN);
+			homeController.calculator.setWireColor(Color.TOMATO);
 			break;
 		case 9:
-			dot.setStroke(Color.LIGHTCORAL);
+			dot.setStroke(Color.DARKGRAY);
+			homeController.calculator.setWireColor(Color.LIGHTCORAL);
 			break;
 		case 10:
 			dot.setStroke(Color.SPRINGGREEN);
+			homeController.calculator.setWireColor(Color.SPRINGGREEN);
 			break;
 		default:
 			dot.setStroke(Color.MAGENTA);
+			homeController.calculator.setWireColor(Color.MAGENTA);
 		}
 }
 
-	private void deleteCalculatedWire(String wireID) {
-		if(homeController.calculator != null && 
-				wireID.equals(homeController.calculator.wireType + homeController.calculator.getWireID())) 
-			homeController.calculator = null;
-		if( HomeController.getConfirmationAlert("Sodrony törlése", "Biztos, hogy törlöd a kiválasztott sodronyt?") ) {
+	private void deleteCalculatedWireAndData(String wireID) {
+	
+	
+	if(homeController.calculator != null && 
+				wireID.equals(homeController.calculator.wireType + homeController.calculator.getWireID())) {
+		
+		if(HomeController.getConfirmationAlert("Sodrony törlése",
+				"Biztos, hogy törlöd az aktuális sodronyt?\nA kijelzett adatok is törlésre kerülnek.")){
+		
+		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if(wireID.equals(root.getChildren().get(i).getId())) {
+				root.getChildren().remove(i);
+			}
+		}
+		deletePreResultsData();
+		homeController.calculator = null;
+		}
+}
+	else if( HomeController.getConfirmationAlert("Sodrony törlése", "Biztos, hogy törlöd a kiválasztott sodronyt?") ) {
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
 			if(wireID.equals(root.getChildren().get(i).getId())) {
 				root.getChildren().remove(i);
 			}
 		}
 	}
+		
 }
 
 	
@@ -1296,24 +1321,62 @@ public class Drawer {
 	}
 	
 	public void showPreResultsData(String wireType) {
+		DecimalFormat df = new DecimalFormat("0.00");
 		deletePreResultsData();
 		Rectangle wireTypeCell = new Rectangle();
 		wireTypeCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add((VER_SHIFT - 2) * MILLIMETER));
-		wireTypeCell.setY(PAGE_Y);
+		wireTypeCell.setY(35);
 		wireTypeCell.setWidth(60 * MILLIMETER);
-		wireTypeCell.setHeight(10 * MILLIMETER);
+		wireTypeCell.setHeight(750);
 		wireTypeCell.setFill(Color.WHITE);
 		wireTypeCell.setId("preResult");
+		
+		Text position = new Text("Sodrony helye:");
+		position.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		position.setY(50);
+		position.setId("preResult");
+		Text wirePosition = new Text(homeController.calculator.wireType);
+		wirePosition.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wirePosition.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wirePosition.getText().length()) / 2 ));
+		wirePosition.setY(50);
+		wirePosition.setId("preResult");
+		
 		Text name = new Text("Sodrony típusa:");
 		name.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		name.setY(50);
+		name.setY(70);
 		name.setId("preResult");
 		Text wireTypeName = new Text(wireType);
 		wireTypeName.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireTypeName.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(MILLIMETER * (55 - wireType.length()) / 2 ));
-		wireTypeName.setY(50);
+		wireTypeName.setY(70);
 		wireTypeName.setId("preResult");
-		root.getChildren().addAll(name, wireTypeCell, wireTypeName);
+		
+		Text color = new Text("Sodrony színe:");
+		color.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		color.setY(90);
+		color.setId("preResult");
+		Rectangle wireColorCell = new Rectangle();
+		wireColorCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(30 * MILLIMETER));
+		wireColorCell.setY(80);
+		wireColorCell.setWidth(20);
+		wireColorCell.setHeight(20);
+		wireColorCell.setFill(homeController.calculator.wireColor);
+		wireColorCell.setId("preResult");
+		
+		Text length = new Text("Sodrony hossza:");
+		length.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		length.setY(110);
+		length.setId("preResult");
+		Text wireLength = new Text(df.format(homeController.calculator.sodrony_hossza).replace(",", ".") + "m");
+		wireLength.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireLength.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireLength.getText().length()) / 2 ));
+		wireLength.setY(110);
+		wireLength.setId("preResult");
+		
+		root.getChildren().addAll(wireTypeCell, position, wirePosition, name, 
+				wireTypeName, color, wireColorCell, length, wireLength);
 	}
 	
 	public void deletePreResultsData() {
