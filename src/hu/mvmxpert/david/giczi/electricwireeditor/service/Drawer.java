@@ -1659,7 +1659,7 @@ public class Drawer {
 				new Text(df.format(homeController.calculator.upszilon).replace(",", ".") + " (N/(m x mm2))");
 		wire_upszilon.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - upszilon.getText().length()) / 2 ));
+				.add(MILLIMETER * (63 - wire_upszilon.getText().length()) / 2 ));
 		wire_upszilon.setY(610);
 		wire_upszilon.setId("preResult");
 		
@@ -1671,7 +1671,7 @@ public class Drawer {
 				new Text(df.format(homeController.calculator.upszilon_z).replace(",", ".") + " (N/(m x mm2))");
 		wire_upszilon_z.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - upszilon_z.getText().length()) / 2 ));
+				.add(MILLIMETER * (63 - wire_upszilon_z.getText().length()) / 2 ));
 		wire_upszilon_z.setY(630);
 		wire_upszilon_z.setId("preResult");
 		
