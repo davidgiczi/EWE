@@ -22,8 +22,8 @@ public class ElectricWireCalculator {
 	private List<WireTypeData> wireTypes;
 	public WireTypeData wireData;
 	public String wireType;
-	private double t;
-	private double szigma_b;
+	public double t;
+	public double szigma_b;
 	public double t0;
 	public double szigma_hz;
 	public double szigma_k;
@@ -288,15 +288,15 @@ public class ElectricWireCalculator {
 	}
 	
 	private void getBelogas() {
-		this.belogas = (this.oszlopkoz_hossza * this.oszlopkoz_hossza * this.kozepes_ferdeseg * this.upszilon * this.kozepes_ferdeseg) / 
+		this.belogas =  (this.oszlopkoz_hossza * this.oszlopkoz_hossza * this.kozepes_ferdeseg * this.upszilon * this.kozepes_ferdeseg) / 
 				(8 * this.szigma_k) +  (Math.pow(this.oszlopkoz_hossza, 3) * this.oszlopkoz_hossza * 
 		this.kozepes_ferdeseg * Math.pow(this.kozepes_ferdeseg, 3) * Math.pow(this.upszilon, 3)) /
 				(384 * Math.pow(this.szigma_k, 3));
 	}
 	
 	private void getSodronyHossza() {
-		this.sodrony_hossza = (this.oszlopkoz_hossza + (Math.pow(this.belogas, 2) / this.oszlopkoz_hossza) * 8 / 3 + 
-				(Math.pow(this.belogas, 4) / Math.pow(this.oszlopkoz_hossza, 3) * 32 / 15)) * this.kozepes_ferdeseg;
+		this.sodrony_hossza = (this.oszlopkoz_hossza + (Math.pow(this.belogas, 2) / this.oszlopkoz_hossza) * 8.0 / 3.0 + 
+				(Math.pow(this.belogas, 4) / Math.pow(this.oszlopkoz_hossza, 3) * 32.0 / 15.0)) * this.kozepes_ferdeseg;
 	}
 	
 	public List<WireDifference> getElevationDifferenceOfWires(List<WireData> wires, String type) {

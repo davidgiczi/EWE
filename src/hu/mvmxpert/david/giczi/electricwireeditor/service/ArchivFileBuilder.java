@@ -14,7 +14,6 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import javafx.scene.layout.BorderPane;
 
 
-
 public class ArchivFileBuilder {
 	
 	public static int id;
@@ -112,10 +111,11 @@ public class ArchivFileBuilder {
 		PillarData pillar = getPillarData(id);
 		if( pillar == null )
 			return;
-		
+			
 		for(TextData pillarText : pillar.getPillarTextList()) {
 		
 			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				
 				if(root.getChildren().get(i).getId() != null && 
 						(Integer.valueOf(root.getChildren().get(i).getId()) == pillarText.getId() ||
 						Integer.valueOf(root.getChildren().get(i).getId()) == id)) {

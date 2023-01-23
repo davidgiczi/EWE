@@ -42,7 +42,7 @@
        <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="382.0" layoutY="231.0" style="-fx-text-fill: #708090;" text="C°">
+      <Label layoutX="382.0" layoutY="231.0" style="-fx-text-fill: #708090;" text="°C">
       <font>
        <Font name="Arial Bold" size="16.0" />
          </font>
