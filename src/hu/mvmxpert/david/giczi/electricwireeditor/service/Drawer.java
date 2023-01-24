@@ -2,15 +2,18 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.ModifyTextWindow;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -844,20 +847,20 @@ public class Drawer {
 			homeController.calculator.setWireColor(Color.CORNFLOWERBLUE);
 			break;
 		case 6:
-			dot.setStroke(Color.PINK);
-			homeController.calculator.setWireColor(Color.PINK);
+			dot.setStroke(Color.DARKGREEN);
+			homeController.calculator.setWireColor(Color.DARKGREEN);
 			break;
 		case 7:
 			dot.setStroke(Color.MEDIUMPURPLE);
 			homeController.calculator.setWireColor(Color.MEDIUMPURPLE);
 			break;
 		case 8:
-			dot.setStroke(Color.DARKGREEN);
-			homeController.calculator.setWireColor(Color.DARKGREEN);
+			dot.setStroke(Color.RED);
+			homeController.calculator.setWireColor(Color.RED);
 			break;
 		case 9:
-			dot.setStroke(Color.DARKGRAY);
-			homeController.calculator.setWireColor(Color.DARKGREY);
+			dot.setStroke(Color.BLUE);
+			homeController.calculator.setWireColor(Color.BLUE);
 			break;
 		case 10:
 			dot.setStroke(Color.SPRINGGREEN);
@@ -873,7 +876,7 @@ public class Drawer {
 	
 	
 	if(homeController.calculator != null && 
-				wireID.equals(homeController.calculator.wireType + homeController.calculator.getWireID())) {
+				wireID.equals(homeController.calculator.wireType + ElectricWireCalculator.wireID)) {
 		
 		if(HomeController.getConfirmationAlert("Sodrony törlése",
 				"Biztos, hogy törlöd az aktuális sodronyt?\nA kijelzett adatok is törlésre kerülnek.")){
@@ -1322,16 +1325,16 @@ public class Drawer {
 		
 	}
 	
-	public void showPreResultsData(String wireType) {
+	public void showPreResultsData() {
 		
 		deletePreResultsData();
-		Rectangle wireTypeCell = new Rectangle();
-		wireTypeCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add((VER_SHIFT - 2) * MILLIMETER));
-		wireTypeCell.setY(35);
-		wireTypeCell.setWidth(60 * MILLIMETER);
-		wireTypeCell.heightProperty().bind(root.heightProperty().subtract(40));
-		wireTypeCell.setFill(Color.WHITE);
-		wireTypeCell.setId("preResult");
+		Rectangle backgroundCell = new Rectangle();
+		backgroundCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add((VER_SHIFT - 2) * MILLIMETER));
+		backgroundCell.setY(35);
+		backgroundCell.setWidth(60 * MILLIMETER);
+		backgroundCell.heightProperty().bind(root.heightProperty().subtract(40));
+		backgroundCell.setFill(Color.WHITE);
+		backgroundCell.setId("preResult");
 		
 		DecimalFormat df = new DecimalFormat("0.00");
 		Text position = new Text("Sodrony helye:");
@@ -1349,9 +1352,10 @@ public class Drawer {
 		name.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
 		name.setY(70);
 		name.setId("preResult");
-		Text wireTypeName = new Text(wireType);
+		Text wireTypeName = new Text(homeController.calculator.wireTypeName);
 		wireTypeName.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireTypeName.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(MILLIMETER * (63 - wireType.length()) / 2 ));
+		wireTypeName.xProperty().
+		bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(MILLIMETER * (63 - wireTypeName.getText().length()) / 2 ));
 		wireTypeName.setY(70);
 		wireTypeName.setId("preResult");
 		
@@ -1814,7 +1818,7 @@ public class Drawer {
 		wire_xB.setY(850);
 		wire_xB.setId("preResult");
 		
-		root.getChildren().addAll(wireTypeCell, position, wirePosition, name, 
+		root.getChildren().addAll(backgroundCell, position, wirePosition, name, 
 				wireTypeName, color, wireColorCell, length, wireLength, temperature,
 				wireTemperature, keresztmetszet, wireKeresztmetszet, diameter, wireDiameter,
 				weight1, wireWeight1, weight2, wireWeight2, potteher, wirePotteher,
@@ -1845,5 +1849,114 @@ public class Drawer {
 		}
 	}
 
+	public void showDifferencesOfWires() {
+		
+		if( !isBackgroundCellExisted() ) {
+		Rectangle backgroundCell = new Rectangle();
+		backgroundCell.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).subtract(63 * MILLIMETER));
+		backgroundCell.setY(35);
+		backgroundCell.setWidth(60 * MILLIMETER);
+		backgroundCell.heightProperty().bind(root.heightProperty().subtract(40));
+		backgroundCell.setFill(Color.WHITE);
+		backgroundCell.setId("backgroundCell");
+		root.getChildren().add(backgroundCell);
 	}	
+		deleteWireDifferences();
+		
+		if( homeController.calculator != null && homeController.calculator.wireType.equals("bal")) {
+			showLeftWireDifferences();
+		}
+		else if( homeController.calculator != null && homeController.calculator.wireType.equals("közép")) {
+			showMediumWireDifferences();
+		}
+		else if( homeController.calculator != null && homeController.calculator.wireType.equals("jobb")) {
+			showRightWireDifferences();
+		}
+	}
+	
+	private void showLeftWireDifferences() {
+		Text leftWire = new Text("Bal sodrony eltérései:");
+		leftWire.setFill(homeController.calculator.wireColor);
+		leftWire.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+		leftWire.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.subtract(60 * MILLIMETER));
+		leftWire.setY(50);
+		leftWire.setId("leftDiffs");
+		root.getChildren().add(leftWire);
+		Collections.sort(homeController.archivFileBuilder.getWireData());
+		List<WireDifference> leftWireDiffs = 
+				homeController.calculator.getElevationDifferenceOfWires(homeController.archivFileBuilder.getWireData(),
+						homeController.calculator.wireType);
+		int rowValue = 90;
+		for (WireDifference leftWireDiff : leftWireDiffs) {
+			Text diffID = new Text(leftWireDiff.getId() + ":");
+			diffID.setFont(Font.font("ariel", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
+			diffID.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.subtract(60 * MILLIMETER));
+			diffID.setY(rowValue);
+			Text diffValue = new Text(leftWireDiff.getDifference() + "m");
+			diffValue.setFont(Font.font("ariel", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
+			diffValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.subtract(35 * MILLIMETER));
+			diffValue.setY(rowValue);
+			rowValue += 20;
+			root.getChildren().addAll(diffID, diffValue);
+		}
+	}
+	
+	private void showRightWireDifferences() {
+		Text rightWire = new Text("Jobb sodrony eltérései:");
+		rightWire.setFill(homeController.calculator.wireColor);
+		rightWire.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+		rightWire.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.subtract(60 * MILLIMETER));
+		rightWire.setY(270);
+		rightWire.setId("rightDiffs");
+		root.getChildren().addAll(rightWire);
+	}
+	
+	private void  showMediumWireDifferences() {
+		Text mediumWire = new Text("Középső sodrony eltérései:");
+		mediumWire.setFill(homeController.calculator.wireColor);
+		mediumWire.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+		mediumWire.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.subtract(60 * MILLIMETER));
+		mediumWire.setY(490);
+		mediumWire.setId("mediumDiffs");
+		root.getChildren().addAll(mediumWire);
+	}
+	
+	private boolean isBackgroundCellExisted() {
+		for (Node node : root.getChildren()) {
+			if("backgroundCell".equals(node.getId()))
+				return true;
+		}
+		return false;
+	}
+	
+	public void deleteWireDifferences() {
+		
+		String id = null;
+		
+		switch (homeController.calculator.wireType) {
+		case "bal":
+			id = "leftDiffs";
+			break;
+		case "közép":
+			id = "mediumDiffs";
+			break;
+		case "jobb":
+			id = "rightDiffs";
+		}
+		
+		for (int i = root.getChildren().size() - 1; i >= 0; i--) {
+			if( id.equals(root.getChildren().get(i).getId()) ) {
+				root.getChildren().remove(i);
+			}
+		}
+	
+	}
+	
+	
+}	
 

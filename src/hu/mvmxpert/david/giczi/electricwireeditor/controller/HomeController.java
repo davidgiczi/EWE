@@ -921,8 +921,12 @@ public class HomeController {
 		showSaveWireCoordsWindow("Sodrony pontok mentése országos rendszerben -> 3D", false);
 	}
 	
-	public void showPreResultsData(String wireType) {
-		drawer.showPreResultsData(wireType);
+	public void showPreResultsData() {
+		drawer.showPreResultsData();
+	}
+	
+	public void showDifferencesOfWires() {
+		drawer.showDifferencesOfWires();
 	}
 	
 //	public void printScreen() {

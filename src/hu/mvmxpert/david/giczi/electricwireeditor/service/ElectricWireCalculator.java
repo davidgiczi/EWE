@@ -16,6 +16,7 @@ public class ElectricWireCalculator {
 	
 	public static int wireID;
 	public Color wireColor;
+	public String wireTypeName;
 	public static final double g = 9.81;
 	public List<WirePoint> wirePoints;
 	private ArchivFileBuilder archivFileBuilder;
@@ -62,16 +63,13 @@ public class ElectricWireCalculator {
 		return wireType + wireID;
 	}
 	
-	public int getWireID() {
-		return wireID;
-	}
-	
 	public void setWireColor(Color wireColor) {
 		this.wireColor = wireColor;
 	}
 
 	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
 		this.archivFileBuilder = archivFileBuilder;
+		this.wireTypeName = wireTypeName;
 		this.wireType = wireType;
 		parseWireTypeData();
 		this.wireData = wireTypes.stream().filter( w -> wireTypeName.equals(w.getType())).findFirst().get();

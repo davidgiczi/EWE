@@ -89,14 +89,15 @@ public class SetCalculatedWireDataController implements Initializable {
 	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText(), szigmaValue, temperatureValue);
 	}
 	if( showPreResultsCheckBox.isSelected() ) {
-		homeController.showPreResultsData(wireTypesComboBox.getValue());
+		homeController.showPreResultsData();
 	}
 	else {
 		homeController.getDrawer().deletePreResultsData();
 	}
 	if( showWireDiffsCheckBox.isSelected() ) {
-		
+		homeController.showDifferencesOfWires();
 	}
+	
 	if( saveForAutoCadCheckBox.isSelected() ) {
 		homeController.fileProcess.saveCalulatedWirePointsInAutoCadFormat(homeController.calculator.wirePoints, wireTypeTextField.getText());
 	}
