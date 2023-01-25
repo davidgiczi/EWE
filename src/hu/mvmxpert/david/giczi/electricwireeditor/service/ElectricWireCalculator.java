@@ -60,7 +60,7 @@ public class ElectricWireCalculator {
 			wireID = 1;
 		else
 		wireID += 1;
-		return wireType + wireID;
+		return wireType + "_" + wireID;
 	}
 	
 	public void setWireColor(Color wireColor) {
