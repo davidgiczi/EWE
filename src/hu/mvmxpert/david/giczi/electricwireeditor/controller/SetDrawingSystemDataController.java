@@ -27,7 +27,7 @@ public class SetDrawingSystemDataController {
 	@FXML
 	public TextField elevationScaleValue;
 	@FXML
-	public TextField lengthOfPillars;
+	public TextField lengthOfHorizontalAxis;
 	@FXML
 	public TextField horizontalScaleValue;
 	
@@ -54,7 +54,7 @@ public class SetDrawingSystemDataController {
 			return;
 		}
 		try {
-			length = Validate.isValidPositiveDoubleValue(lengthOfPillars.getText());
+			length = Validate.isValidPositiveDoubleValue(lengthOfHorizontalAxis.getText());
 		} catch (NumberFormatException e) {
 			HomeController.getWarningAlert("Nem megfelelő az oszlopok távolság értéke", 
 					"Az oszlopok távolság értéke csak pozitív szám lehet.");

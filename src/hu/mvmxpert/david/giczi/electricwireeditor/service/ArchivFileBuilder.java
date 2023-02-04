@@ -443,7 +443,7 @@ public class ArchivFileBuilder {
 			actualWire.setDistanceOfWire( mainLineDistances.get(0) - actualWire.getDistanceOfWire() );
 		}
 		else if( actualWire.getDistanceOfWire() > 0 && wireDistances.size() == 3 && mainLineDistances.size() == 3 ) {
-			
+
 			for (TextData wireText : actualWire.getWireTextList()) {
 				String[] values = wireText.getTextValue().split("\\s+");
 				if( wireText.getTextValue().startsWith("bal") && values.length == 2 ) {

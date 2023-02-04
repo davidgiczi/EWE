@@ -255,21 +255,20 @@ public class HomeController {
 	loadWireData(projectData);
 	loadTextData(projectData);
 	loadLineData(projectData);
-	drawer.removeLenghtOfBaseLineText();
 	}
 	return  !projectData.isEmpty(); 
 }
 	
 	public void showInputDrawingSystemDataOnCoordSystemDataWindow() {
-		
+		DecimalFormat df = new DecimalFormat("0");
 		showSetCoordSystemWindow();
-		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(drawer.getElevationStartValue()));
+		setCoordSystemWindow.getController().startElevationValue.setText(df.format(drawer.getElevationStartValue()));
 		if( drawer.getVerticalScale() != 0)
-		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(drawer.getVerticalScale()));
+		setCoordSystemWindow.getController().elevationScaleValue.setText(df.format(drawer.getVerticalScale()));
 		if( drawer.getLengthOfHorizontalAxis() != 0d)
-		setCoordSystemWindow.getController().lengthOfPillars.setText(String.valueOf(drawer.getLengthOfHorizontalAxis()));
+		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setText(df.format(drawer.getLengthOfHorizontalAxis()));
 		if( drawer.getHorizontalScale() != 0)
-		setCoordSystemWindow.getController().horizontalScaleValue.setText(String.valueOf(drawer.getHorizontalScale()));
+		setCoordSystemWindow.getController().horizontalScaleValue.setText(df.format(drawer.getHorizontalScale()));
 	}
 	
 	private void loadDrawingSystemData(List<String> projectData) {
@@ -409,7 +408,7 @@ public class HomeController {
 				drawer.getHorizontalScale() != 0 &&
 				drawer.getVerticalScale()!= 0) {
 		drawer.drawHorizontalAxis();
-		drawer.writeDistanceValueForHorizontalAxis();
+		//drawer.writeDistanceValueForHorizontalAxis();
 		drawer.drawVerticalAxis();
 		drawer.writeElevationValueForVerticalAxis();
 		}
@@ -481,7 +480,7 @@ public class HomeController {
 										drawer.getElevationStartValue(), 
 										drawer.getVerticalScale());
 		drawSystem();
-		drawer.removeLenghtOfBaseLineText();
+		showInputDrawingSystemDataOnCoordSystemDataWindow();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData, 0);
@@ -527,7 +526,7 @@ public class HomeController {
 										drawer.getVerticalScale());
 		
 		drawSystem();
-		drawer.removeLenghtOfBaseLineText();
+		showInputDrawingSystemDataOnCoordSystemDataWindow();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData, 0);
@@ -626,15 +625,14 @@ public class HomeController {
 			}
 		}
 		Collections.sort(archivFileBuilder.getWireData());
-		for (PillarData pillar: archivFileBuilder.getPillarData()) {
-			archivFileBuilder.reorderPillar(pillar, lastPillar);
-		}
 		for(WireData wire : archivFileBuilder.getWireData()) {
 			archivFileBuilder.reorderWire(wire, lastPillar);
 		}
+		for (PillarData pillar: archivFileBuilder.getPillarData()) {
+			archivFileBuilder.reorderPillar(pillar, lastPillar);
+		}
 		drawer.clearRoot();
 		drawSystem();
-		drawer.removeLenghtOfBaseLineText();
 		for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			drawer.drawInputPillar(pillarData.getId());
 			drawer.drawInputPillarText(pillarData, 0);
