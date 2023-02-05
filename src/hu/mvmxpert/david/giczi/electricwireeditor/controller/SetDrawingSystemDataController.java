@@ -79,7 +79,6 @@ public class SetDrawingSystemDataController {
 		homeController.getDrawer().setLengthOfHorizontalAxis(length);
 		homeController.getDrawer().setHorizontalScale(horizontalScale);
 		homeController.getDrawer().drawHorizontalAxis();
-		homeController.getDrawer().writeDistanceValueForHorizontalAxis();
 		homeController.getDrawer().drawVerticalAxis();
 		homeController.getDrawer().writeElevationValueForVerticalAxis();
 		homeController.homeWindow.setPillarData.setDisable(false);

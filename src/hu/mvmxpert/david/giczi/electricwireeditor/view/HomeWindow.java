@@ -115,6 +115,8 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 	
+				homeController.showInputDrawingSystemDataOnCoordSystemDataWindow();
+				
 				if( !homeController.archivFileBuilder.getPillarData().isEmpty() || 
 						!homeController.archivFileBuilder.getWireData().isEmpty() ||
 						!homeController.archivFileBuilder.getTextData().isEmpty() ) {
@@ -123,6 +125,8 @@ public class HomeWindow  {
 						"Mented a korábbi projekt adatait?")) {
 					homeController.saveProject();
 				}
+				else
+					return;
 		}		
 				homeController.init();
 			}

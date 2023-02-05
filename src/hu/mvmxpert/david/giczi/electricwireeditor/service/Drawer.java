@@ -43,7 +43,7 @@ public class Drawer {
 	private int elevationStartValue;
 	public ModifyTextWindow modifyTextWindow;
 	private HomeController homeController;
-	private DecimalFormat df = new DecimalFormat("0.00");
+	private DecimalFormat df = new DecimalFormat("0.000");
 	private ArchivFileBuilder archivFileBuilder;
 	
 	
@@ -275,7 +275,6 @@ public class Drawer {
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
-		//if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(pillarData.getId(), df.format(distance).replace(",", ".") + "m", 
 		(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
@@ -338,7 +337,6 @@ public class Drawer {
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
-		//if( distance != 0 && distance != lengthOfHorizontalAxis )
 		setText(wireData.getId(), df.format(distance).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
