@@ -126,7 +126,7 @@ public class HomeWindow  {
 					homeController.saveProject();
 				}
 				else
-					return;
+					homeController.init();
 		}		
 				homeController.init();
 			}
