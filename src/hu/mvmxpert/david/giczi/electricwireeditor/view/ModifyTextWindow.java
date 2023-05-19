@@ -52,7 +52,6 @@ public class ModifyTextWindow {
 			stage.getIcons().add(new Image("/logo/MVM.jpg"));
 			stage.show();
 			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -720,8 +720,9 @@ public class HomeController {
 			if( inputValue == null )
 				return;
 			verticalScale = Validate.isValidPositiveIntegerValue(inputValue);
-			if( archivFileBuilder.getMinElevationStartValue() > drawer.getElevationStartValue() + 10 * verticalScale ||
-				drawer.getElevationStartValue() + 10 * verticalScale < archivFileBuilder.getMaxElevationStartValue())
+			if( archivFileBuilder.getMinElevationStartValue() != 0 && archivFileBuilder.getMaxElevationStartValue() != 0 && 
+					(archivFileBuilder.getMinElevationStartValue() > drawer.getElevationStartValue() + 10 * verticalScale ||
+				drawer.getElevationStartValue() + 10 * verticalScale < archivFileBuilder.getMaxElevationStartValue()))
 				throw new NumberFormatException();
 				} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
