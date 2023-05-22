@@ -125,8 +125,6 @@ public class HomeWindow  {
 						"Mented a korábbi projekt adatait?")) {
 					homeController.saveProject();
 				}
-				else
-					homeController.init();
 		}		
 				homeController.init();
 			}
