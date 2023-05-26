@@ -717,12 +717,21 @@ public class ArchivFileBuilder {
 	
 	public Double getDistance(List<TextData> textList, String type) {
 		Double distance = null;
+		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
-			String[] values = textData.getTextData().split("\\s+");
-			if( textData.getTextValue().startsWith(type) && values.length == 2) {
+			String[] textValues = textData.getTextData().split("\\s+");
+			if( textData.getTextValue().startsWith(type) && textValues.length == 2 && typeValues.length == 1) {
 				
 				try {
-					distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
+					distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")));
+					
+				} catch (Exception e) {
+				}
+			}
+			else if( textData.getTextValue().startsWith(type) && textValues.length == 3 && typeValues.length == 2) {
+				
+				try {
+					distance = Double.parseDouble(textValues[2].substring(0, textValues[2].indexOf("m")));
 					
 				} catch (Exception e) {
 				}
@@ -734,14 +743,15 @@ public class ArchivFileBuilder {
 	
 	public Double getPillarElevation(PillarData pillar, String type) {
 		Double elevation = null;
-		
+		String[] typeValues = type.split("\\s+");
 		for (TextData pillarText: pillar.getPillarTextList()) {
-			if( pillarText.getTextValue().startsWith(type) && pillarText.isAtTop() ) {
+			String[] textValues = pillarText.getTextData().split("\\s+");
+			if( (pillarText.getTextValue().startsWith(type) && textValues.length == 4 && typeValues.length == 1 && pillarText.isAtTop()) ||
+					(pillarText.getTextValue().startsWith(type) && textValues.length == 5 && typeValues.length == 2 && pillarText.isAtTop())) {
 				try {
 				elevation = Double.parseDouble(pillarText.getTextValue()
 						.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m")));
 				}catch (Exception e) {
-					elevation = pillar.getTopElevetaion();
 				}
 			}
 		}

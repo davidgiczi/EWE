@@ -170,8 +170,10 @@ public class HomeController {
 			((Stage) root.getScene().getWindow()).setTitle(HomeWindow.DEFAULT_STAGE_TITLE);
 		else if( Validate.isValidInputText(PROJECT_NAME) && FileProcess.FOLDER_PATH == null )
 			((Stage) root.getScene().getWindow()).setTitle(PROJECT_NAME + ".ewe" + " - " + HomeWindow.DEFAULT_STAGE_TITLE);
-		else if( Validate.isValidInputText(PROJECT_NAME) && FileProcess.FOLDER_PATH != null )
+		else if(Validate.isValidInputText(PROJECT_NAME) && FileProcess.FOLDER_PATH != null )
 			((Stage) root.getScene().getWindow()).setTitle(FileProcess.FOLDER_PATH + "\\" + PROJECT_NAME + ".ewe");
+		else if( FileProcess.FOLDER_PATH != null && PROJECT_NAME == null)
+			((Stage) root.getScene().getWindow()).setTitle(FileProcess.FOLDER_PATH);
 	}
 	
 	public void saveProject() {

@@ -300,36 +300,45 @@ public class ElectricWireCalculator {
 	public List<WireDifference> getElevationDifferenceOfWires(List<WireData> wires, String type) {
 		List<WireDifference> differrences = new ArrayList<>();
 		Collections.sort(wires);
+		String[] typeValues = type.split("\\s+");
 		for (WireData wire: wires) {
 			double distance = -1;
 			double elevation = -1;
 			for(TextData wireText : wire.getWireTextList()) {
-				String[] values = wireText.getTextValue().split("\\s+");
+				String[] textValues = wireText.getTextValue().split("\\s+");
 				
-				if( values.length == 1) {
+				if( textValues.length == 1) {
 					try {
-						distance = Double.parseDouble(values[0].substring(0, values[0].indexOf("m")));
+						distance = Double.parseDouble(textValues[0].substring(0, textValues[0].indexOf("m")));
 						
 					} catch (Exception e) {
 					}
 					
 				}
-				else if(values.length == 2 && type.equals(values[0])) {
+				else if(textValues.length == 2 && typeValues.length == 1 && wireText.getTextValue().startsWith(type)) {
 					
 					try {
-						distance = Double.parseDouble(values[1].substring(0, values[1].indexOf("m")));
+						distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")));
 						
 					} catch (Exception e) {
 					}
 				}
-				else if(values.length == 4 && type.equals(values[0]) && wireText.isAtTop()) {
+				else if(textValues.length == 3 && typeValues.length == 2 && wireText.getTextValue().startsWith(type)) {
 					
 					try {
-						elevation = Double.parseDouble(values[3].substring(0, values[3].indexOf("m")));
+						distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")));
 						
 					} catch (Exception e) {
 					}
-			}
+				}
+				else if( (wireText.getTextValue().startsWith(type) && textValues.length == 4 && typeValues.length == 1 && wireText.isAtTop()) ||
+						(wireText.getTextValue().startsWith(type) && textValues.length == 5 && typeValues.length == 2 && wireText.isAtTop())) {
+					try {
+					elevation = Double.parseDouble(wireText.getTextValue()
+							.substring(wireText.getTextValue().indexOf("Bf.") + 4, wireText.getTextValue().indexOf("m")));
+					}catch (Exception e) {
+					}
+				}
 	}
 		if( distance != -1 && elevation != -1) {
 				differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue(), 
