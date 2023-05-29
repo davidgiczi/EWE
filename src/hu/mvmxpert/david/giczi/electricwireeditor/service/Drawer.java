@@ -1483,7 +1483,7 @@ public class Drawer {
 		wireMagassagKulonbseg.setId("preResult");
 		
 		df.applyPattern("0.00");
-		Text hanging = new Text("Max. belógás:");
+		Text hanging = new Text("Belógás fél távon:");
 		hanging.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
 		hanging.setY(370);
 		hanging.setId("preResult");
