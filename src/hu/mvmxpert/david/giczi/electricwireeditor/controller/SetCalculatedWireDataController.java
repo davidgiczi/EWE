@@ -3,6 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SaveWireCoordsWindow;
@@ -17,7 +18,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	private HomeController homeController;
 	
 	@FXML
-	private TextField wireTypeTextField;
+	public TextField wireTypeTextField;
 	@FXML
 	private ComboBox<String> wireTypesComboBox;
 	@FXML
@@ -57,9 +58,11 @@ public class SetCalculatedWireDataController implements Initializable {
 		return;
 	}
 	Double beginnerPillarElevation = 
-			homeController.archivFileBuilder.getPillarElevation(homeController.archivFileBuilder.getBeginnerPillar(), wireTypeTextField.getText());
+			homeController.archivFileBuilder
+			.getElevation(homeController.archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireTypeTextField.getText());
 	Double lastPillarElevation = 
-			homeController.archivFileBuilder.getPillarElevation(homeController.archivFileBuilder.getLastPillar(), wireTypeTextField.getText());
+			homeController.archivFileBuilder
+			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText());
 		
 	if(wireTypeTextField.getText().isBlank() || beginnerPillarElevation == null || lastPillarElevation == null) {
 			HomeController.getWarningAlert("Hiányzó vagy nem létező sodrony megnevezés", "Létező sodrony megnevezés megadása szükséges.");
@@ -123,5 +126,5 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	}
 	
-
+	
 }

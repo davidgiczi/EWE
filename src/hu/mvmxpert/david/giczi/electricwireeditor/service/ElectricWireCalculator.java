@@ -2,11 +2,8 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
-import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
-import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireTypeData;
@@ -145,8 +142,8 @@ public class ElectricWireCalculator {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( beginnerPillar != null && lastPillar != null ) {
-			double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, type);
-			double lastPillarElevation = archivFileBuilder.getPillarElevation(lastPillar, type);
+			double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), type);
+			double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), type);
 			this.magassag_kulonbseg = lastPillarElevation - beginnerPillarElevation;
 		}	
 	}
@@ -297,64 +294,16 @@ public class ElectricWireCalculator {
 				(Math.pow(this.belogas, 4) / Math.pow(this.oszlopkoz_hossza, 3) * 32.0 / 15.0)) * this.kozepes_ferdeseg;
 	}
 	
-	public List<WireDifference> getElevationDifferenceOfWires(List<WireData> wires, String type) {
-		List<WireDifference> differrences = new ArrayList<>();
-		Collections.sort(wires);
-		String[] typeValues = type.split("\\s+");
-		for (WireData wire: wires) {
-			double distance = -1;
-			double elevation = -1;
-			for(TextData wireText : wire.getWireTextList()) {
-				String[] textValues = wireText.getTextValue().split("\\s+");
-				
-				if( textValues.length == 1) {
-					try {
-						distance = Double.parseDouble(textValues[0].substring(0, textValues[0].indexOf("m")));
-						
-					} catch (Exception e) {
-					}
-					
-				}
-				else if(textValues.length == 2 && typeValues.length == 1 && wireText.getTextValue().startsWith(type)) {
-					
-					try {
-						distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")));
-						
-					} catch (Exception e) {
-					}
-				}
-				else if(textValues.length == 3 && typeValues.length == 2 && wireText.getTextValue().startsWith(type)) {
-					
-					try {
-						distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")));
-						
-					} catch (Exception e) {
-					}
-				}
-				else if( (wireText.getTextValue().startsWith(type) && textValues.length == 4 && typeValues.length == 1 && wireText.isAtTop()) ||
-						(wireText.getTextValue().startsWith(type) && textValues.length == 5 && typeValues.length == 2 && wireText.isAtTop())) {
-					try {
-					elevation = Double.parseDouble(wireText.getTextValue()
-							.substring(wireText.getTextValue().indexOf("Bf.") + 4, wireText.getTextValue().indexOf("m")));
-					}catch (Exception e) {
-					}
-				}
-	}
-		if( distance != -1 && elevation != -1) {
-				differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue(), 
+	public WireDifference getElevationDifference(Double distance, Double elevation) {
+		
+		WireDifference difference = new WireDifference();
+		
+		difference.setDifference(
 				(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
 				(int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
-									 - elevation) * 100.0) / 100.0));
-			}
-		else if(distance == -1 && elevation == -1) {
-		differrences.add(new WireDifference(wire.getWireTextList().get(0).getTextValue(), 
-		(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
-		(int)((10 * this.p * Math.cosh((this.XA + wire.getDistanceOfWire()) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
-							- wire.getTopElevetaion()) * 100.0) / 100.0));
-		}
-				
-	}
-		return differrences;
+									 - elevation) * 100.0) / 100.0);
+
+		return difference;
 	}
 	
 	public List<Double> getTheHighestHangingWireValue(double baseDistance){

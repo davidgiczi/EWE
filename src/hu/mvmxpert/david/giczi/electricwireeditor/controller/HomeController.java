@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
@@ -767,8 +769,6 @@ public class HomeController {
 		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}
 	
-
-	
 	public String setProjectName() {
 		
 		String projectName = setInputText("Projekt nevének megadása", "Add meg a projekt nevét:");
@@ -852,6 +852,27 @@ public class HomeController {
 	
 	public void showDifferencesOfWires() {
 		drawer.showDifferencesOfWires();
+	}
+	
+	public List<WireDifference> getElevationDifferenceOfWires(){
+		 
+		List<WireDifference> differences = new ArrayList<>();
+		
+		for (WireData wireData : archivFileBuilder.getWireData()) {
+			
+			Double distance = archivFileBuilder.getDistance(wireData.getWireTextList(), 
+					setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
+			Double elevation = archivFileBuilder.getElevation(wireData.getWireTextList(), 
+					setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
+			
+			if( distance != null && elevation != null ) {
+			WireDifference difference =	calculator.getElevationDifference(distance, elevation);
+			difference.setId(wireData.getWireTextList().get(0).getTextValue());
+			differences.add(difference);
+			}
+		}
+		
+		return differences;
 	}
 	
 //	public void showLeftWire() {

@@ -719,21 +719,26 @@ public class ArchivFileBuilder {
 		Double distance = null;
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
-			String[] textValues = textData.getTextData().split("\\s+");
-			if( textData.getTextValue().startsWith(type) && textValues.length == 2 && typeValues.length == 1) {
-				
+			String[] textValues = textData.getTextValue().split("\\s+");
+			if( typeValues.length == 2 && textValues.length == 3 && textData.getTextValue().startsWith(type) ) {
 				try {
-					distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")));
+					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")) );
+				} catch (NumberFormatException e) {
 					
-				} catch (Exception e) {
 				}
 			}
-			else if( textData.getTextValue().startsWith(type) && textValues.length == 3 && typeValues.length == 2) {
+			else if( typeValues.length == 1 && textValues.length == 2 && textData.getTextValue().startsWith(type) ) {
+				try {
+					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")) );
+				} catch (NumberFormatException e) {
+					
+				}
+			}
+			else if( textValues.length == 1 &&  textData.getTextValue().indexOf("m") != -1 ){
 				
 				try {
-					distance = Double.parseDouble(textValues[2].substring(0, textValues[2].indexOf("m")));
-					
-				} catch (Exception e) {
+					distance = Double.parseDouble( textData.getTextValue().substring(0, textData.getTextValue().indexOf("m")) );
+				} catch (NumberFormatException e) {
 				}
 			}
 		}
@@ -741,22 +746,59 @@ public class ArchivFileBuilder {
 		return distance;
 	}
 	
-	public Double getPillarElevation(PillarData pillar, String type) {
+	public Double getElevation(List<TextData> textList, String type) {
 		Double elevation = null;
 		String[] typeValues = type.split("\\s+");
-		for (TextData pillarText: pillar.getPillarTextList()) {
-			String[] textValues = pillarText.getTextData().split("\\s+");
-			if( (pillarText.getTextValue().startsWith(type) && textValues.length == 4 && typeValues.length == 1 && pillarText.isAtTop()) ||
-					(pillarText.getTextValue().startsWith(type) && textValues.length == 5 && typeValues.length == 2 && pillarText.isAtTop())) {
+		for (TextData textData : textList) {
+		String[] textValues = textData.getTextValue().split("\\s+");
+		
+		if( typeValues.length == 2 && textValues.length >= 5 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+							
 				try {
-				elevation = Double.parseDouble(pillarText.getTextValue()
-						.substring(pillarText.getTextValue().indexOf("Bf.") + 4, pillarText.getTextValue().indexOf("m")));
-				}catch (Exception e) {
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
+	
+				} catch (NumberFormatException e) {
 				}
-			}
 		}
+		else if( typeValues.length == 1 && textValues.length == 4 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				try {
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
+				} catch (NumberFormatException e) {
+				
+				}
+			
+		}
+		else if( typeValues.length == 2 && textValues.length >= 5 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+		
+				try {
+					
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
+				
+				} catch (NumberFormatException e) {
+				
+				}
+		}
+		else if( typeValues.length == 1 && textValues.length == 4 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+				try {
+					
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
+				
+				} catch (NumberFormatException e) {
+				
+				}
+		}
+	}
 		
 		return elevation;
 	}
 	
 }
+

@@ -5,6 +5,10 @@ public class WireDifference {
 	private String id;
 	private double difference;
 	
+	public WireDifference() {
+		
+	}
+	
 	public WireDifference(String id, double difference) {
 		
 		this.id = id;
@@ -17,6 +21,14 @@ public class WireDifference {
 
 	public double getDifference() {
 		return difference;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setDifference(double difference) {
+		this.difference = difference;
 	}
 
 	@Override

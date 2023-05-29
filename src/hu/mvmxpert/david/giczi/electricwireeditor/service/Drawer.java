@@ -803,7 +803,7 @@ public class Drawer {
 		
 		double scale = horizontalScale / 1000d;
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
-		double beginnerPillarElevation = archivFileBuilder.getPillarElevation(beginnerPillar, wireType);
+		double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType);
 		String id = homeController.calculator.getWireIDAsString(wireType);
 		for (int i = 0; i < wirePoints.size(); i += scale) {
 			Circle dot = new Circle();
@@ -872,7 +872,7 @@ public class Drawer {
 }
 
 	private void deleteCalculatedWireAndActualData(String wireID) {
-	
+		
 	if(homeController.calculator != null && 
 				wireID.equals(homeController.calculator.wireType + "_" + ElectricWireCalculator.wireID)) {
 		
@@ -1238,7 +1238,7 @@ public class Drawer {
 	
 	public void drawHangingArrow(double distance, double hangingValue, String wireType) {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
-		double beginnerElevation = archivFileBuilder.getPillarElevation(beginnerPillar, wireType);
+		double beginnerElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType);
 		Line line = new Line();
 		line.setStroke(Color.RED);
 		line.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
@@ -1840,21 +1840,20 @@ public class Drawer {
 	}	
 		deleteWireDifferences(homeController.calculator.wireType + "_" + ElectricWireCalculator.wireID);
 		
-		if( homeController.calculator != null && homeController.calculator.wireType.equals("bal")) {
+		if( homeController.calculator != null && homeController.calculator.wireType.startsWith("bal")) {
 			showLeftWireDifferences();
 		}
-		else if( homeController.calculator != null && homeController.calculator.wireType.equals("közép")) {
+		else if( homeController.calculator != null && homeController.calculator.wireType.startsWith("közép")) {
 			showMediumWireDifferences();
 		}
-		else if( homeController.calculator != null && homeController.calculator.wireType.equals("jobb")) {
+		else if( homeController.calculator != null && homeController.calculator.wireType.startsWith("jobb")) {
 			showRightWireDifferences();
 		}
 	}
 	
 	private void showLeftWireDifferences() {
 		List<WireDifference> leftWireDiffs = 
-				homeController.calculator.getElevationDifferenceOfWires(homeController.archivFileBuilder.getWireData(),
-						homeController.calculator.wireType);
+				homeController.getElevationDifferenceOfWires();
 		if( leftWireDiffs.isEmpty() ) {
 			HomeController.getWarningAlert("Bal sodrony eltérései nem számíthatók.", 
 					"Bal sodronyra vonatkozó mérési adatok nem találhatók.");
@@ -1889,8 +1888,7 @@ public class Drawer {
 	
 	private void showRightWireDifferences() {
 		List<WireDifference> rightWireDiffs = 
-				homeController.calculator.getElevationDifferenceOfWires(homeController.archivFileBuilder.getWireData(),
-						homeController.calculator.wireType);
+				homeController.getElevationDifferenceOfWires();
 		if( rightWireDiffs.isEmpty() ) {
 			HomeController.getWarningAlert("Jobb sodrony eltérései nem számíthatók.", 
 					"Jobb sodronyra vonatkozó mérési adatok nem találhatók.");
@@ -1926,8 +1924,7 @@ public class Drawer {
 	
 	private void  showMediumWireDifferences() {
 		List<WireDifference> mediumWireDiffs = 
-				homeController.calculator.getElevationDifferenceOfWires(homeController.archivFileBuilder.getWireData(),
-						homeController.calculator.wireType);
+				homeController.getElevationDifferenceOfWires();
 		if( mediumWireDiffs.isEmpty() ) {
 			HomeController.getWarningAlert("Középső sodrony eltérései nem számíthatók.", 
 					"Középső sodronyra vonatkozó mérési adatok nem találhatók.");
@@ -1969,16 +1966,15 @@ public class Drawer {
 	}
 	
 	private void deleteWireDifferences(String wireID) {
+		
 		String[] idComponents = wireID.split("_");
 		String id = "leftDiffs";
 		
-		switch (idComponents[0]) {
-		case "közép":
+		if( idComponents[0].startsWith("közép") )
 			id = "mediumDiffs";
-			break;
-		case "jobb":
+		else if( idComponents[0].startsWith("jobb") )
 			id = "rightDiffs";
-		}
+		
 		for (int i = root.getChildren().size() - 1; i >= 0; i--) {
 			if( root.getChildren().get(i).getId() != null && 
 					( root.getChildren().get(i).getId().startsWith(id) || 

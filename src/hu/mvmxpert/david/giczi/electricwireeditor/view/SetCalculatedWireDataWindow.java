@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 public class SetCalculatedWireDataWindow {
 
 	private Stage stage;
+	public SetCalculatedWireDataController controller;
 	
 	public Stage getStage() {
 		return stage;
@@ -23,7 +24,7 @@ public class SetCalculatedWireDataWindow {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetCalculatedWireData.fxml"));
 			AnchorPane root = loader.load();
-			SetCalculatedWireDataController controller = (SetCalculatedWireDataController) loader.getController();
+			controller = (SetCalculatedWireDataController) loader.getController();
 			controller.setHomeController(homeController);
 			controller.showWireCheckBox.setSelected(true);
 			stage = new Stage();
