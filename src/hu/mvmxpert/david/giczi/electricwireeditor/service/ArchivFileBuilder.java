@@ -562,114 +562,7 @@ public class ArchivFileBuilder {
 		
 		return maxValue;
 	}
-//	
-//	public List<WirePoint> getLeftWirePoints(){
-//		List<WirePoint> leftWirePoints = new ArrayList<>();
-//		
-//		for (PillarData pillarData : pillarData) {
-//			if( !isRightPillar(pillarData) )
-//			leftWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
-//					pillarData.getTopElevetaion() - systemData.getElevationStartValue()));
-//		}
-//		for (WireData wireData : wireData) {
-//			if( !isRightWire(wireData) )
-//			leftWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
-//					wireData.getTopElevetaion() - systemData.getElevationStartValue()));
-//		}
-//		Collections.sort(leftWirePoints);
-//		
-//		for(int i = leftWirePoints.size() - 1; i > 0; i--) {
-//			
-//			if( leftWirePoints.get(i).getDistanceOfWirePoint() == leftWirePoints.get(i - 1).getDistanceOfWirePoint()) {
-//				if(leftWirePoints.get(i).getElevationOfWirePoint() < leftWirePoints.get(i - 1).getElevationOfWirePoint()) {
-//					leftWirePoints.remove(i);
-//				}
-//				else {
-//					leftWirePoints.remove(--i);
-//				}
-//			}
-//			
-//		}		
-//		return leftWirePoints;
-//	}
-//	
-//	private boolean isRightPillar(PillarData pillar) {
-//		int leftPillarText = 0;
-//		for (TextData text : pillar.getPillarTextList()) {
-//			if(text.getTextValue().startsWith("bal"))
-//				leftPillarText++;
-//		}
-//		return leftPillarText == 0;
-//	}
-//	
-//	
-//	private boolean isRightWire(WireData wire) {
-//		int leftWireText = 0;
-//		for (TextData text : wire.getWireTextList()) {
-//			if(text.getTextValue().startsWith("bal"))
-//				leftWireText++;
-//		}
-//		return leftWireText == 0;
-//	}
-//	
-//	public List<WirePoint> getRightWirePoints(){
-//		List<WirePoint> rightWirePoints = new ArrayList<>();
-//		for (PillarData pillarData : pillarData) {
-//			if( !isLeftPillar(pillarData)) {
-//				for (TextData text : pillarData.getPillarTextList()) {
-//					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
-//						rightWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
-//								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
-//								- systemData.getElevationStartValue()));
-//					}
-//				}	
-//			}
-//		}
-//		for (WireData wireData : wireData) {
-//			if( !isLeftWire(wireData)) {
-//				for (TextData text : wireData.getWireTextList()) {
-//					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
-//						rightWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
-//								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
-//								- systemData.getElevationStartValue()));
-//					}
-//				}	
-//			}
-//		}
-//		Collections.sort(rightWirePoints);
-//		for(int i = rightWirePoints.size() - 1; i > 0; i--) {
-//			
-//			if( rightWirePoints.get(i).getDistanceOfWirePoint() == rightWirePoints.get(i - 1).getDistanceOfWirePoint()) {
-//				if(rightWirePoints.get(i).getElevationOfWirePoint() < rightWirePoints.get(i - 1).getElevationOfWirePoint()) {
-//					rightWirePoints.remove(i);
-//				}
-//				else {
-//					rightWirePoints.remove(--i);
-//				}
-//			}
-//		}
-//		
-//		return rightWirePoints;
-//	}
-//	
-//	private boolean isLeftPillar(PillarData pillar) {
-//		int rightPillarText = 0;
-//		for (TextData text : pillar.getPillarTextList()) {
-//			if(text.getTextValue().startsWith("jobb"))
-//				rightPillarText++;
-//		}
-//		return rightPillarText == 0;
-//	}
-//	
-//	
-//	private boolean isLeftWire(WireData wire) {
-//		int rightWireText = 0;
-//		for (TextData text : wire.getWireTextList()) {
-//			if(text.getTextValue().startsWith("jobb"))
-//				rightWireText++;
-//		}
-//		return rightWireText == 0;
-//	}
+
 	
 	public List<SavedWirePoint> getWirePointsForSaving(String type){
 		
@@ -800,5 +693,113 @@ public class ArchivFileBuilder {
 		return elevation;
 	}
 	
+//	
+//	public List<WirePoint> getLeftWirePoints(){
+//		List<WirePoint> leftWirePoints = new ArrayList<>();
+//		
+//		for (PillarData pillarData : pillarData) {
+//			if( !isRightPillar(pillarData) )
+//			leftWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
+//					pillarData.getTopElevetaion() - systemData.getElevationStartValue()));
+//		}
+//		for (WireData wireData : wireData) {
+//			if( !isRightWire(wireData) )
+//			leftWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
+//					wireData.getTopElevetaion() - systemData.getElevationStartValue()));
+//		}
+//		Collections.sort(leftWirePoints);
+//		
+//		for(int i = leftWirePoints.size() - 1; i > 0; i--) {
+//			
+//			if( leftWirePoints.get(i).getDistanceOfWirePoint() == leftWirePoints.get(i - 1).getDistanceOfWirePoint()) {
+//				if(leftWirePoints.get(i).getElevationOfWirePoint() < leftWirePoints.get(i - 1).getElevationOfWirePoint()) {
+//					leftWirePoints.remove(i);
+//				}
+//				else {
+//					leftWirePoints.remove(--i);
+//				}
+//			}
+//			
+//		}		
+//		return leftWirePoints;
+//	}
+//	
+//	private boolean isRightPillar(PillarData pillar) {
+//		int leftPillarText = 0;
+//		for (TextData text : pillar.getPillarTextList()) {
+//			if(text.getTextValue().startsWith("bal"))
+//				leftPillarText++;
+//		}
+//		return leftPillarText == 0;
+//	}
+//	
+//	
+//	private boolean isRightWire(WireData wire) {
+//		int leftWireText = 0;
+//		for (TextData text : wire.getWireTextList()) {
+//			if(text.getTextValue().startsWith("bal"))
+//				leftWireText++;
+//		}
+//		return leftWireText == 0;
+//	}
+//	
+//	public List<WirePoint> getRightWirePoints(){
+//		List<WirePoint> rightWirePoints = new ArrayList<>();
+//		for (PillarData pillarData : pillarData) {
+//			if( !isLeftPillar(pillarData)) {
+//				for (TextData text : pillarData.getPillarTextList()) {
+//					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
+//						rightWirePoints.add(new WirePoint(pillarData.getDistanceOfPillar(), 
+//								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
+//								- systemData.getElevationStartValue()));
+//					}
+//				}	
+//			}
+//		}
+//		for (WireData wireData : wireData) {
+//			if( !isLeftWire(wireData)) {
+//				for (TextData text : wireData.getWireTextList()) {
+//					if( text.getTextValue().startsWith("jobb") && text.isAtTop()) {
+//						rightWirePoints.add(new WirePoint(wireData.getDistanceOfWire(), 
+//								Double.parseDouble(text.getTextValue().substring(14, text.getTextValue().indexOf('m')))
+//								- systemData.getElevationStartValue()));
+//					}
+//				}	
+//			}
+//		}
+//		Collections.sort(rightWirePoints);
+//		for(int i = rightWirePoints.size() - 1; i > 0; i--) {
+//			
+//			if( rightWirePoints.get(i).getDistanceOfWirePoint() == rightWirePoints.get(i - 1).getDistanceOfWirePoint()) {
+//				if(rightWirePoints.get(i).getElevationOfWirePoint() < rightWirePoints.get(i - 1).getElevationOfWirePoint()) {
+//					rightWirePoints.remove(i);
+//				}
+//				else {
+//					rightWirePoints.remove(--i);
+//				}
+//			}
+//		}
+//		
+//		return rightWirePoints;
+//	}
+//	
+//	private boolean isLeftPillar(PillarData pillar) {
+//		int rightPillarText = 0;
+//		for (TextData text : pillar.getPillarTextList()) {
+//			if(text.getTextValue().startsWith("jobb"))
+//				rightPillarText++;
+//		}
+//		return rightPillarText == 0;
+//	}
+//	
+//	
+//	private boolean isLeftWire(WireData wire) {
+//		int rightWireText = 0;
+//		for (TextData text : wire.getWireTextList()) {
+//			if(text.getTextValue().startsWith("jobb"))
+//				rightWireText++;
+//		}
+//		return rightWireText == 0;
+//	}
 }
 

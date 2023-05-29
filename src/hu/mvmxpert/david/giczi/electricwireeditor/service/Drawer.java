@@ -1482,192 +1482,192 @@ public class Drawer {
 		wireMagassagKulonbseg.setY(350);
 		wireMagassagKulonbseg.setId("preResult");
 		
-		Text felfuggesztesiKoz = new Text("Felfüggesztési köz:");
-		felfuggesztesiKoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		felfuggesztesiKoz.setY(370);
-		felfuggesztesiKoz.setId("preResult");
-		Text wireFelfuggesztesiKoz = 
-				new Text(df.format(homeController.calculator.felfuggesztesi_koz).replace(",", ".") + " (m)");
-		wireFelfuggesztesiKoz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireFelfuggesztesiKoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wireFelfuggesztesiKoz.getText().length()) / 2 ));
-		wireFelfuggesztesiKoz.setY(370);
-		wireFelfuggesztesiKoz.setId("preResult");
-		
-		Text mertekadoOszlopkoz = new Text("Mértékadó oszl.köz:");
-		mertekadoOszlopkoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		mertekadoOszlopkoz.setY(390);
-		mertekadoOszlopkoz.setId("preResult");
-		Text mertekadoOszlopkozHossza = 
-				new Text(df.format(homeController.calculator.mertekado_oszlopkoz).replace(",", ".") + " (m)");
-		mertekadoOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		mertekadoOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - mertekadoOszlopkozHossza.getText().length()) / 2 ));
-		mertekadoOszlopkozHossza.setY(390);
-		mertekadoOszlopkozHossza.setId("preResult");
-		
-		Text kritikusOszlopkoz = new Text("Kritikus oszlopköz:");
-		kritikusOszlopkoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		kritikusOszlopkoz.setY(410);
-		kritikusOszlopkoz.setId("preResult");
-		Text kritikusOszlopkozHossza = 
-				new Text(df.format(homeController.calculator.kritikus_oszlopkoz).replace(",", ".") + " (m)");
-		kritikusOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		kritikusOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - kritikusOszlopkozHossza.getText().length()) / 2 ));
-		kritikusOszlopkozHossza.setY(410);
-		kritikusOszlopkozHossza.setId("preResult");
-		
-		df.applyPattern("0.00000000");
-		Text kozepesFerdeseg = new Text("Közepes ferdeség:");
-		kozepesFerdeseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		kozepesFerdeseg.setY(430);
-		kozepesFerdeseg.setId("preResult");
-		Text wireKozepesFerdeseg = 
-				new Text(df.format(homeController.calculator.kozepes_ferdeseg).replace(",", "."));
-		wireKozepesFerdeseg.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireKozepesFerdeseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wireKozepesFerdeseg.getText().length()) / 2 ));
-		wireKozepesFerdeseg.setY(430);
-		wireKozepesFerdeseg.setId("preResult");
-		
 		df.applyPattern("0.00");
-		Text szigma_b = new Text("σB:");
-		szigma_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_b.setY(450);
-		szigma_b.setId("preResult");
-		Text wireSzigma_b = 
-				new Text(df.format(homeController.calculator.szigma_b).replace(",", ".") + " (N/mm2)");
-		wireSzigma_b.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireSzigma_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wireSzigma_b.getText().length()) / 2 ));
-		wireSzigma_b.setY(450);
-		wireSzigma_b.setId("preResult");
-		
-		Text szigma_hz = new Text("σHz:");
-		szigma_hz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_hz.setY(470);
-		szigma_hz.setId("preResult");
-		Text wireSzigma_hz = 
-				new Text(df.format(homeController.calculator.szigma_hz).replace(",", ".") + " (N/mm2)");
-		wireSzigma_hz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireSzigma_hz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wireSzigma_hz.getText().length()) / 2 ));
-		wireSzigma_hz.setY(470);
-		wireSzigma_hz.setId("preResult");
-		
-		Text szigma_kz = new Text("σkz:");
-		szigma_kz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_kz.setY(490);
-		szigma_kz.setId("preResult");
-		Text wireSzigma_kz = 
-				new Text(df.format(homeController.calculator.szigma_kz).replace(",", ".") + " (N/mm2)");
-		wireSzigma_kz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireSzigma_kz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wireSzigma_kz.getText().length()) / 2 ));
-		wireSzigma_kz.setY(490);
-		wireSzigma_kz.setId("preResult");
-		
-		Text szigma_k = new Text("σk:");
-		szigma_k.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_k.setY(510);
-		szigma_k.setId("preResult");
-		Text wireSzigma_k = 
-				new Text(df.format(homeController.calculator.szigma_k).replace(",", ".") + " (N/mm2)");
-		wireSzigma_k.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wireSzigma_k.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wireSzigma_k.getText().length()) / 2 ));
-		wireSzigma_k.setY(510);
-		wireSzigma_k.setId("preResult");
-		
-		df.applyPattern("0");
-		Text t0 = new Text("t0:");
-		t0.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		t0.setY(530);
-		t0.setId("preResult");
-		Text wire_t0 = 
-				new Text(df.format(homeController.calculator.t0).replace(",", ".") + " (°C)");
-		wire_t0.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wire_t0.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wire_t0.getText().length()) / 2 ));
-		wire_t0.setY(530);
-		wire_t0.setId("preResult");
-		
-		df.applyPattern("0.000");
-		Text G = new Text("G:");
-		G.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		G.setY(550);
-		G.setId("preResult");
-		Text wire_G = 
-				new Text(df.format(homeController.calculator.G).replace(",", "."));
-		wire_G.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wire_G.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wire_G.getText().length()) / 2 ));
-		wire_G.setY(550);
-		wire_G.setId("preResult");
-		
-		Text Gz = new Text("Gz:");
-		Gz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		Gz.setY(570);
-		Gz.setId("preResult");
-		Text wire_Gz = 
-				new Text(df.format(homeController.calculator.G_z).replace(",", "."));
-		wire_Gz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wire_Gz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wire_Gz.getText().length()) / 2 ));
-		wire_Gz.setY(570);
-		wire_Gz.setId("preResult");
-		
-		df.applyPattern("0.00");
-		Text d = new Text("d:");
-		d.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		d.setY(590);
-		d.setId("preResult");
-		Text wire_d = 
-				new Text(df.format(homeController.calculator.d).replace(",", "."));
-		wire_d.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wire_d.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wire_d.getText().length()) / 2 ));
-		wire_d.setY(590);
-		wire_d.setId("preResult");
-		
-		df.applyPattern("0.0000");
-		Text upszilon = new Text("Ƴ:");
-		upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		upszilon.setY(610);
-		upszilon.setId("preResult");
-		Text wire_upszilon = 
-				new Text(df.format(homeController.calculator.upszilon).replace(",", ".") + " (N/(m x mm2))");
-		wire_upszilon.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wire_upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wire_upszilon.getText().length()) / 2 ));
-		wire_upszilon.setY(610);
-		wire_upszilon.setId("preResult");
-		
-		Text upszilon_z = new Text("Ƴz:");
-		upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		upszilon_z.setY(630);
-		upszilon_z.setId("preResult");
-		Text wire_upszilon_z = 
-				new Text(df.format(homeController.calculator.upszilon_z).replace(",", ".") + " (N/(m x mm2))");
-		wire_upszilon_z.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		wire_upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
-				.add(MILLIMETER * (63 - wire_upszilon_z.getText().length()) / 2 ));
-		wire_upszilon_z.setY(630);
-		wire_upszilon_z.setId("preResult");
-		
-		df.applyPattern("0.00");
-		Text hanging = new Text("Belógás:");
+		Text hanging = new Text("Max. belógás:");
 		hanging.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		hanging.setY(650);
+		hanging.setY(370);
 		hanging.setId("preResult");
 		Text wire_hanging = 
 				new Text(df.format(homeController.calculator.belogas).replace(",", ".") + " (m)");
 		wire_hanging.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_hanging.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_hanging.getText().length()) / 2 ));
-		wire_hanging.setY(650);
+		wire_hanging.setY(370);
 		wire_hanging.setId("preResult");
+		
+		Text felfuggesztesiKoz = new Text("Felfüggesztési köz:");
+		felfuggesztesiKoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		felfuggesztesiKoz.setY(390);
+		felfuggesztesiKoz.setId("preResult");
+		Text wireFelfuggesztesiKoz = 
+				new Text(df.format(homeController.calculator.felfuggesztesi_koz).replace(",", ".") + " (m)");
+		wireFelfuggesztesiKoz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireFelfuggesztesiKoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireFelfuggesztesiKoz.getText().length()) / 2 ));
+		wireFelfuggesztesiKoz.setY(390);
+		wireFelfuggesztesiKoz.setId("preResult");
+		
+		Text mertekadoOszlopkoz = new Text("Mértékadó oszl.köz:");
+		mertekadoOszlopkoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		mertekadoOszlopkoz.setY(410);
+		mertekadoOszlopkoz.setId("preResult");
+		Text mertekadoOszlopkozHossza = 
+				new Text(df.format(homeController.calculator.mertekado_oszlopkoz).replace(",", ".") + " (m)");
+		mertekadoOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		mertekadoOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - mertekadoOszlopkozHossza.getText().length()) / 2 ));
+		mertekadoOszlopkozHossza.setY(410);
+		mertekadoOszlopkozHossza.setId("preResult");
+		
+		Text kritikusOszlopkoz = new Text("Kritikus oszlopköz:");
+		kritikusOszlopkoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		kritikusOszlopkoz.setY(430);
+		kritikusOszlopkoz.setId("preResult");
+		Text kritikusOszlopkozHossza = 
+				new Text(df.format(homeController.calculator.kritikus_oszlopkoz).replace(",", ".") + " (m)");
+		kritikusOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		kritikusOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - kritikusOszlopkozHossza.getText().length()) / 2 ));
+		kritikusOszlopkozHossza.setY(430);
+		kritikusOszlopkozHossza.setId("preResult");
+		
+		df.applyPattern("0.00000000");
+		Text kozepesFerdeseg = new Text("Közepes ferdeség:");
+		kozepesFerdeseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		kozepesFerdeseg.setY(450);
+		kozepesFerdeseg.setId("preResult");
+		Text wireKozepesFerdeseg = 
+				new Text(df.format(homeController.calculator.kozepes_ferdeseg).replace(",", "."));
+		wireKozepesFerdeseg.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireKozepesFerdeseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireKozepesFerdeseg.getText().length()) / 2 ));
+		wireKozepesFerdeseg.setY(450);
+		wireKozepesFerdeseg.setId("preResult");
+		
+		df.applyPattern("0.00");
+		Text szigma_b = new Text("σB:");
+		szigma_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		szigma_b.setY(470);
+		szigma_b.setId("preResult");
+		Text wireSzigma_b = 
+				new Text(df.format(homeController.calculator.szigma_b).replace(",", ".") + " (N/mm2)");
+		wireSzigma_b.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireSzigma_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireSzigma_b.getText().length()) / 2 ));
+		wireSzigma_b.setY(470);
+		wireSzigma_b.setId("preResult");
+		
+		Text szigma_hz = new Text("σHz:");
+		szigma_hz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		szigma_hz.setY(490);
+		szigma_hz.setId("preResult");
+		Text wireSzigma_hz = 
+				new Text(df.format(homeController.calculator.szigma_hz).replace(",", ".") + " (N/mm2)");
+		wireSzigma_hz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireSzigma_hz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireSzigma_hz.getText().length()) / 2 ));
+		wireSzigma_hz.setY(490);
+		wireSzigma_hz.setId("preResult");
+		
+		Text szigma_kz = new Text("σkz:");
+		szigma_kz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		szigma_kz.setY(510);
+		szigma_kz.setId("preResult");
+		Text wireSzigma_kz = 
+				new Text(df.format(homeController.calculator.szigma_kz).replace(",", ".") + " (N/mm2)");
+		wireSzigma_kz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireSzigma_kz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireSzigma_kz.getText().length()) / 2 ));
+		wireSzigma_kz.setY(510);
+		wireSzigma_kz.setId("preResult");
+		
+		Text szigma_k = new Text("σk:");
+		szigma_k.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		szigma_k.setY(530);
+		szigma_k.setId("preResult");
+		Text wireSzigma_k = 
+				new Text(df.format(homeController.calculator.szigma_k).replace(",", ".") + " (N/mm2)");
+		wireSzigma_k.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wireSzigma_k.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wireSzigma_k.getText().length()) / 2 ));
+		wireSzigma_k.setY(530);
+		wireSzigma_k.setId("preResult");
+		
+		df.applyPattern("0");
+		Text t0 = new Text("t0:");
+		t0.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		t0.setY(550);
+		t0.setId("preResult");
+		Text wire_t0 = 
+				new Text(df.format(homeController.calculator.t0).replace(",", ".") + " (°C)");
+		wire_t0.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wire_t0.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wire_t0.getText().length()) / 2 ));
+		wire_t0.setY(550);
+		wire_t0.setId("preResult");
+		
+		df.applyPattern("0.000");
+		Text G = new Text("G:");
+		G.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		G.setY(570);
+		G.setId("preResult");
+		Text wire_G = 
+				new Text(df.format(homeController.calculator.G).replace(",", "."));
+		wire_G.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wire_G.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wire_G.getText().length()) / 2 ));
+		wire_G.setY(570);
+		wire_G.setId("preResult");
+		
+		Text Gz = new Text("Gz:");
+		Gz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		Gz.setY(590);
+		Gz.setId("preResult");
+		Text wire_Gz = 
+				new Text(df.format(homeController.calculator.G_z).replace(",", "."));
+		wire_Gz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wire_Gz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wire_Gz.getText().length()) / 2 ));
+		wire_Gz.setY(590);
+		wire_Gz.setId("preResult");
+		
+		df.applyPattern("0.00");
+		Text d = new Text("d:");
+		d.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		d.setY(610);
+		d.setId("preResult");
+		Text wire_d = 
+				new Text(df.format(homeController.calculator.d).replace(",", "."));
+		wire_d.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wire_d.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wire_d.getText().length()) / 2 ));
+		wire_d.setY(610);
+		wire_d.setId("preResult");
+		
+		df.applyPattern("0.0000");
+		Text upszilon = new Text("Ƴ:");
+		upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		upszilon.setY(630);
+		upszilon.setId("preResult");
+		Text wire_upszilon = 
+				new Text(df.format(homeController.calculator.upszilon).replace(",", ".") + " (N/(m x mm2))");
+		wire_upszilon.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wire_upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wire_upszilon.getText().length()) / 2 ));
+		wire_upszilon.setY(630);
+		wire_upszilon.setId("preResult");
+		
+		Text upszilon_z = new Text("Ƴz:");
+		upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
+		upszilon_z.setY(650);
+		upszilon_z.setId("preResult");
+		Text wire_upszilon_z = 
+				new Text(df.format(homeController.calculator.upszilon_z).replace(",", ".") + " (N/(m x mm2))");
+		wire_upszilon_z.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		wire_upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
+				.add(MILLIMETER * (63 - wire_upszilon_z.getText().length()) / 2 ));
+		wire_upszilon_z.setY(650);
+		wire_upszilon_z.setId("preResult");
 		
 		df.applyPattern("0.000000");
 		Text T = new Text("T:");
