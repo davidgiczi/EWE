@@ -6,7 +6,7 @@ public class WireTypeData {
 	
 	private String type;
 	private double keresztMetszet;
-	private double atmero;
+	public double atmero;
 	private double suly_kgPerMeter;
 	private double suly_NPerMeter;
 	private double potTeher;

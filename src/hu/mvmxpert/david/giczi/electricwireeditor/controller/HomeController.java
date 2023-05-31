@@ -807,7 +807,7 @@ public class HomeController {
 			return;
 		}
 		double hangingValue = calculator.getWireHangingValueByDistance(validDistance);
-		drawer.drawHangingArrow(validDistance, hangingValue, calculator.wireType);
+		//drawer.drawHangingArrow(validDistance, hangingValue, calculator.wireType);
 		getInfoAlert(validDistance  + " méter távolsághoz tartozó belógás", 
 				"A belógás értéke: " + hangingValue  + " méter");
 		drawer.deleteHangingArrow();
@@ -822,7 +822,7 @@ public class HomeController {
 		Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
 		List<Double> hangingData = 
 			calculator.getTheHighestHangingWireValue(distance == null ? archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() : distance);
-		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), calculator.wireType);
+		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), hangingData.get(2), calculator.wireType);
 		getInfoAlert("A legnagyobb belógás távolsága: " + (int) (hangingData.get(0) * 1000.0) / 1000.0 + " méter", 
 				"A legnagyobb belógás értéke: " + hangingData.get(1)  + " méter");
 		drawer.deleteHangingArrow();
