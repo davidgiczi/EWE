@@ -4,7 +4,7 @@ public class WireDifference {
 	
 	private String id;
 	private double difference;
-	
+	private double differenceLimit;
 	public WireDifference() {
 		
 	}
@@ -31,10 +31,20 @@ public class WireDifference {
 		this.difference = difference;
 	}
 
+	public double getDifferenceLimit() {
+		return differenceLimit;
+	}
+
+	public void setDifferenceLimit(double differenceLimit) {
+		this.differenceLimit = differenceLimit;
+	}
+
 	@Override
 	public String toString() {
-		return "WireDifference [id=" + id + ", difference=" + difference + "]";
+		return "WireDifference [id=" + id + ", difference=" + difference + ", differenceLimit=" + differenceLimit + "]";
 	}
+
+	
 	
 
 }

@@ -1258,7 +1258,7 @@ public class Drawer {
 		betweenPillarsLine.setEndY(PAGE_Y + START_Y - 
 				getVerticalScaledDownHeightValue(lastPillarElevation 
 						- archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
-		betweenPillarsLine.setId("arrow");
+		betweenPillarsLine.setId("line");
 		Line line = new Line();
 		line.setStroke(Color.RED);
 		line.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
@@ -1267,14 +1267,14 @@ public class Drawer {
 				.add(HOR_SHIFT * MILLIMETER));
 		line.setStartY(PAGE_Y + START_Y - 
 				getVerticalScaledDownHeightValue(beginnerElevation 
-						- archivFileBuilder.getSystemData().getElevationStartValue() - deltaPillarElevation) * MILLIMETER);
+						- archivFileBuilder.getSystemData().getElevationStartValue() + deltaPillarElevation) * MILLIMETER);
 		line.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
 				.add(HOR_SHIFT * MILLIMETER));
 		line.setEndY(PAGE_Y + START_Y 
 				- getVerticalScaledDownHeightValue(beginnerElevation 
-						- archivFileBuilder.getSystemData().getElevationStartValue() + hangingValue - deltaPillarElevation) * MILLIMETER);
+						- archivFileBuilder.getSystemData().getElevationStartValue() - hangingValue + deltaPillarElevation) * MILLIMETER);
 		line.setId("arrow");
 		Line leftArrow = new Line();
 		leftArrow.setStroke(Color.RED);
@@ -1283,15 +1283,15 @@ public class Drawer {
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
 				.add(HOR_SHIFT * MILLIMETER));
 		leftArrow.setStartY(PAGE_Y + START_Y - 
-				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
-						hangingValue - deltaPillarElevation) * MILLIMETER);
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() -
+						hangingValue + deltaPillarElevation) * MILLIMETER);
 		leftArrow.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
 				.add((HOR_SHIFT - 2) * MILLIMETER));
 		leftArrow.setEndY(PAGE_Y + START_Y - 
-				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
-						hangingValue - deltaPillarElevation) * MILLIMETER - 2 * MILLIMETER);
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() -
+						hangingValue + deltaPillarElevation) * MILLIMETER - 2 * MILLIMETER);
 		leftArrow.setId("arrow");
 		Line rightArrow = new Line();
 		rightArrow.setStroke(Color.RED);
@@ -1300,15 +1300,15 @@ public class Drawer {
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
 				.add(HOR_SHIFT * MILLIMETER));
 		rightArrow.setStartY(PAGE_Y + START_Y - 
-				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
-						hangingValue - deltaPillarElevation) * MILLIMETER);
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() -
+						hangingValue + deltaPillarElevation) * MILLIMETER);
 		rightArrow.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
 				.add((HOR_SHIFT + 2) * MILLIMETER));
 		rightArrow.setEndY(PAGE_Y + START_Y - 
-				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() +
-						hangingValue - deltaPillarElevation) * MILLIMETER - 2 * MILLIMETER);
+				getVerticalScaledDownHeightValue(beginnerElevation - archivFileBuilder.getSystemData().getElevationStartValue() -
+						hangingValue + deltaPillarElevation) * MILLIMETER - 2 * MILLIMETER);
 		rightArrow.setId("arrow");
 		root.getChildren().addAll(betweenPillarsLine, line, leftArrow, rightArrow);
 	}
@@ -1316,7 +1316,7 @@ public class Drawer {
 	public void deleteHangingArrow() {
 		
 		for (int i = root.getChildren().size() - 1; i >= 0; i--) {
-			if( "arrow".equals(root.getChildren().get(i).getId()))
+			if( "arrow".equals(root.getChildren().get(i).getId()) || "line".equals(root.getChildren().get(i).getId()))
 				root.getChildren().remove(i);
 		}
 		
@@ -1901,8 +1901,18 @@ public class Drawer {
 					.subtract(20 * MILLIMETER));
 			diffValue.setY(rowValue);
 			diffValue.setId("leftDiffs_" + ElectricWireCalculator.wireID);
+			Text limitValue = new Text("|" + leftWireDiff.getDifferenceLimit() + "cm|");
+			limitValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+			if( 0 > leftWireDiff.getDifference() && Math.abs(leftWireDiff.getDifference() * 100.0) < leftWireDiff.getDifferenceLimit())
+				limitValue.setFill(Color.GREEN);
+			else
+				limitValue.setFill(Color.RED);
+			limitValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(MILLIMETER));
+			limitValue.setY(rowValue);
+			limitValue.setId("leftDiffs_" + ElectricWireCalculator.wireID);
 			rowValue += 20;
-			root.getChildren().addAll(diffID, diffValue);
+			root.getChildren().addAll(diffID, diffValue, limitValue);
 		}
 	}
 	
@@ -1936,8 +1946,18 @@ public class Drawer {
 					.subtract(20 * MILLIMETER));
 			diffValue.setY(rowValue);
 			diffValue.setId("rightDiffs_" + ElectricWireCalculator.wireID);
+			Text limitValue = new Text("|" + rightWireDiff.getDifferenceLimit() + "cm|");
+			limitValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+			if( 0 > rightWireDiff.getDifference() && Math.abs(rightWireDiff.getDifference() * 100.0) < rightWireDiff.getDifferenceLimit())
+				limitValue.setFill(Color.GREEN);
+			else
+				limitValue.setFill(Color.RED);
+			limitValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(MILLIMETER));
+			limitValue.setY(rowValue);
+			limitValue.setId("rightDiffs_" + ElectricWireCalculator.wireID);
 			rowValue += 20;
-			root.getChildren().addAll(diffID, diffValue);
+			root.getChildren().addAll(diffID, diffValue, limitValue);
 		}
 		
 	}
@@ -1972,8 +1992,18 @@ public class Drawer {
 					.subtract(20 * MILLIMETER));
 			diffValue.setY(rowValue);
 			diffValue.setId("mediumDiffs_" + ElectricWireCalculator.wireID);
+			Text limitValue = new Text("|" + mediumWireDiff.getDifferenceLimit() + "cm|");
+			limitValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+			if( 0 > mediumWireDiff.getDifference() && Math.abs(mediumWireDiff.getDifference() * 100.0) < mediumWireDiff.getDifferenceLimit())
+				limitValue.setFill(Color.GREEN);
+			else
+				limitValue.setFill(Color.RED);
+			limitValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+					.add(MILLIMETER));
+			limitValue.setY(rowValue);
+			limitValue.setId("mediumDiffs_" + ElectricWireCalculator.wireID);
 			rowValue += 20;
-			root.getChildren().addAll(diffID, diffValue);
+			root.getChildren().addAll(diffID, diffValue, limitValue);
 		}
 	}
 	

@@ -1,6 +1,5 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
-import java.awt.image.WritableRenderedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -319,19 +318,15 @@ public class ElectricWireCalculator {
 					-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0;
 			
 			double pillarElevationDifference = (int) (1000.0 * magassag_kulonbseg * distance / baseDistance) / 1000.0;
-		
-			hanging =  magassag_kulonbseg > 0 ? hanging + pillarElevationDifference : hanging - pillarElevationDifference;
-			 
-			if( 0 > hanging &&  Math.abs(hanging) >= maxHanging) {
-				hangingDistance = (int) (distance * 100.0) / 100.0;
-				maxHanging = Math.abs(hanging);
+			
+			if( 0 > hanging && Math.abs(hanging) + pillarElevationDifference >= maxHanging ) {
+				hangingDistance = distance;
+				maxHanging = Math.abs(hanging) + pillarElevationDifference;
 				pillarElevationDifferenceForMaxHanging = pillarElevationDifference;
 			}
 		}
 		
-		System.out.println(pillarElevationDifferenceForMaxHanging);
-		
-		return Arrays.asList(hangingDistance, - maxHanging, - pillarElevationDifferenceForMaxHanging);
+		return Arrays.asList(hangingDistance, maxHanging, pillarElevationDifferenceForMaxHanging);
 	}
 
 	public double getWireHangingValueByDistance(double distanceOfWire) {

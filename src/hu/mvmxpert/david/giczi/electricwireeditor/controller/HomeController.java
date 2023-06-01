@@ -807,9 +807,11 @@ public class HomeController {
 			return;
 		}
 		double hangingValue = calculator.getWireHangingValueByDistance(validDistance);
-		//drawer.drawHangingArrow(validDistance, hangingValue, calculator.wireType);
+		double pillarElevationDifference = (int) (1000.0 * calculator.magassag_kulonbseg * validDistance / calculator.oszlopkoz_hossza) / 1000.0;
+		hangingValue = 0 > hangingValue ? Math.abs(hangingValue) + pillarElevationDifference : pillarElevationDifference - hangingValue;
+		drawer.drawHangingArrow(validDistance, hangingValue, pillarElevationDifference, calculator.wireType);
 		getInfoAlert(validDistance  + " méter távolsághoz tartozó belógás", 
-				"A belógás értéke: " + hangingValue  + " méter");
+				"A belógás értéke: " + (int)  (hangingValue * 1000.0) / 1000.0  + " méter");
 		drawer.deleteHangingArrow();
 	}
 	
@@ -823,8 +825,8 @@ public class HomeController {
 		List<Double> hangingData = 
 			calculator.getTheHighestHangingWireValue(distance == null ? archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() : distance);
 		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), hangingData.get(2), calculator.wireType);
-		getInfoAlert("A legnagyobb belógás távolsága: " + (int) (hangingData.get(0) * 1000.0) / 1000.0 + " méter", 
-				"A legnagyobb belógás értéke: " + hangingData.get(1)  + " méter");
+		getInfoAlert("A legnagyobb belógás távolsága: " + (int) (hangingData.get(0) * 100.0) / 100.0 + " méter", 
+				"A legnagyobb belógás értéke: " + (int) (hangingData.get(1) * 1000.0) / 1000.0  + " méter");
 		drawer.deleteHangingArrow();
 	}
 		
@@ -868,6 +870,7 @@ public class HomeController {
 			if( distance != null && elevation != null ) {
 			WireDifference difference =	calculator.getElevationDifference(distance, elevation);
 			difference.setId(wireData.getWireTextList().get(0).getTextValue());
+			difference.setDifferenceLimit((int) (8 * calculator.wireData.getAtmero()) / 10.0);
 			differences.add(difference);
 			}
 		}
