@@ -1889,6 +1889,13 @@ public class Drawer {
 		leftWire.setY(50);
 		leftWire.setId("leftDiffs_" + ElectricWireCalculator.wireID);
 		root.getChildren().add(leftWire);
+		Text szigmaValue = new Text("F= " + homeController.calculator.szigma_b + " N/mm2");
+		szigmaValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+		szigmaValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(MILLIMETER));
+		szigmaValue.setY(50);
+		szigmaValue.setId("leftDiffs_" + ElectricWireCalculator.wireID);
+		root.getChildren().add(szigmaValue);
 		int rowValue = 90;
 		for (WireDifference leftWireDiff : leftWireDiffs) {
 			Text diffID = new Text(leftWireDiff.getId());
@@ -1934,6 +1941,13 @@ public class Drawer {
 		rightWire.setY(290);
 		rightWire.setId("rightDiffs_" + ElectricWireCalculator.wireID);
 		root.getChildren().add(rightWire);
+		Text szigmaValue = new Text("F= " + homeController.calculator.szigma_b + " N/mm2");
+		szigmaValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+		szigmaValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(MILLIMETER));
+		szigmaValue.setY(290);
+		szigmaValue.setId("rightDiffs_" + ElectricWireCalculator.wireID);
+		root.getChildren().add(szigmaValue);
 		int rowValue = 330;
 		for (WireDifference rightWireDiff : rightWireDiffs) {
 			Text diffID = new Text(rightWireDiff.getId());
@@ -1979,7 +1993,14 @@ public class Drawer {
 				.subtract(60 * MILLIMETER));
 		mediumWire.setY(530);
 		mediumWire.setId("mediumDiffs_" + ElectricWireCalculator.wireID);
-		root.getChildren().addAll(mediumWire);
+		root.getChildren().add(mediumWire);
+		Text szigmaValue = new Text("F= " + homeController.calculator.szigma_b + " N/mm2");
+		szigmaValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
+		szigmaValue.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(MILLIMETER));
+		szigmaValue.setY(530);
+		szigmaValue.setId("mediumDiffs_" + ElectricWireCalculator.wireID);
+		root.getChildren().add(szigmaValue);
 		int rowValue = 570;
 		for (WireDifference mediumWireDiff : mediumWireDiffs) {
 			Text diffID = new Text(mediumWireDiff.getId());
