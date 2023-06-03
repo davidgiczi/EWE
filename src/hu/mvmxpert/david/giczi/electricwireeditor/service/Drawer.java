@@ -1240,7 +1240,9 @@ public class Drawer {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		double beginnerElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType);
-		double lastPillarDistance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType);
+		double lastPillarDistance = 
+				archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType) == null ? 
+						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType);
 		double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), wireType);
 		Line betweenPillarsLine = new Line();
 		betweenPillarsLine.setStroke(Color.RED);

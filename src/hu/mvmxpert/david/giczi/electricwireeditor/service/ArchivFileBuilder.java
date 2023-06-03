@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import hu.mvmxpert.david.giczi.electricwireeditor.model.DistanceValue;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
@@ -260,52 +262,172 @@ public class ArchivFileBuilder {
 	
 	public void reorderPillar(PillarData actualPillar, PillarData lastPillar) {
 		
-		List<Double> pillarDistances = getPillarDistances(actualPillar);
-		List<Double> mainLineDistances = getPillarDistances(lastPillar);
-		DecimalFormat df = new DecimalFormat("0.00");
+		List<DistanceValue> actualPillarDistanceValues = getPillarDistanceValues(actualPillar);
+		List<DistanceValue> lastPillarDistanceValues = getPillarDistanceValues(lastPillar);
+		DecimalFormat df = new DecimalFormat("0.000");
+		double translateValue = systemData.getLengthOfHorizontalAxis() - actualPillar.getDistanceOfPillar();
 		
-		
-		
+		for(TextData actualPillarText : actualPillar.getPillarTextList()) {
+			actualPillarText.setX( actualPillarText.getX() - translateValue * Drawer.MILLIMETER);
+			for (DistanceValue actualDistanceValue : actualPillarDistanceValues) {
+				if( actualDistanceValue.isEqual(actualPillarText.getTextValue()) ){
+					for (DistanceValue lastDistanceValue : lastPillarDistanceValues) {
+					if( actualDistanceValue.preTag.isEmpty() && lastDistanceValue.preTag.isEmpty() ) {
+						actualPillarText
+						.setTextValue( df.format(lastDistanceValue.distanceValue - 
+								actualDistanceValue.distanceValue).replace(",", ".") + "m");
+					}
+					else if( actualDistanceValue.preTag.equals(lastDistanceValue.preTag) ) {
+							actualPillarText
+							.setTextValue(actualDistanceValue.preTag + " " + 
+							df.format(lastDistanceValue.distanceValue - 
+									actualDistanceValue.distanceValue).replace(",", ".") + "m");
+						}
+					}
+				}
+			}
+		}
+				actualPillar.setDistanceOfPillar(translateValue);
 	}
+
 	
-	private List<Double> getPillarDistances(PillarData pillar){
-		List<Double> distances = new ArrayList<>();
+	private List<DistanceValue> getPillarDistanceValues(PillarData pillar){
+		List<DistanceValue> distanceValues = new ArrayList<>();
 		
 		if( getDistance(pillar.getPillarTextList(), "bal") != null )
-			distances.add(getDistance(pillar.getPillarTextList(), "bal"));
+			distanceValues.add(new DistanceValue("bal", getDistance(pillar.getPillarTextList(), "bal")));  
 		if( getDistance(pillar.getPillarTextList(), "közép") != null )
-			distances.add(getDistance(pillar.getPillarTextList(), "közép"));
+			distanceValues.add(new DistanceValue("közép", getDistance(pillar.getPillarTextList(), "közép")));  
 		if( getDistance(pillar.getPillarTextList(), "jobb") != null )
-			distances.add(getDistance(pillar.getPillarTextList(), "jobb"));
-		if( distances.isEmpty())
-			distances.add(pillar.getDistanceOfPillar());
-		
-		return distances;
+			distanceValues.add(new DistanceValue("jobb", getDistance(pillar.getPillarTextList(), "jobb")));  
+		if( distanceValues.isEmpty())
+			distanceValues.add(new DistanceValue("", pillar.getDistanceOfPillar()));
+
+		return distanceValues;
 	}
 	
-	private List<Double> getWireDistances(WireData wire){
-		List<Double> distances = new ArrayList<>();
+	private List<DistanceValue> getWireDistanceValues(WireData wire){
+		List<DistanceValue> distances = new ArrayList<>();
 		
 		if( getDistance(wire.getWireTextList(), "bal") != null )
-			distances.add(getDistance(wire.getWireTextList(), "bal"));
+			distances.add(new DistanceValue("bal", getDistance(wire.getWireTextList(), "bal")));
 		if( getDistance(wire.getWireTextList(), "közép") != null )
-			distances.add(getDistance(wire.getWireTextList(), "közép"));
+			distances.add(new DistanceValue("közép", getDistance(wire.getWireTextList(), "közép")));
 		if( getDistance(wire.getWireTextList(), "jobb") != null )
-			distances.add(getDistance(wire.getWireTextList(), "jobb"));
+			distances.add(new DistanceValue("jobb", getDistance(wire.getWireTextList(), "jobb")));
 		if( distances.isEmpty())
-			distances.add(wire.getDistanceOfWire());
+			distances.add(new DistanceValue("", wire.getDistanceOfWire()));
 		
 		return distances;
 	}
 	
 	public void reorderWire(WireData actualWire, PillarData lastPillar) {
-		List<Double> wireDistances = getWireDistances(actualWire);
-		List<Double> mainLineDistances = getPillarDistances(lastPillar);
-		DecimalFormat df = new DecimalFormat("0.00");
+		List<DistanceValue> actualWireDistanceValues = getWireDistanceValues(actualWire);
+		List<DistanceValue> lastPillarDistanceValues = getPillarDistanceValues(lastPillar);
+		DecimalFormat df = new DecimalFormat("0.000");
+		double translateValue = systemData.getLengthOfHorizontalAxis() - actualWire.getDistanceOfWire();
 		
+		for(TextData actualWireText : actualWire.getWireTextList()) {
+			actualWireText.setX( actualWireText.getX() - translateValue * Drawer.MILLIMETER);
+			for (DistanceValue actualDistanceValue : actualWireDistanceValues) {
+				if( actualDistanceValue.isEqual(actualWireText.getTextValue()) ){
+					for (DistanceValue lastDistanceValue : lastPillarDistanceValues) {
+						if( actualDistanceValue.preTag.isEmpty() && lastDistanceValue.preTag.isEmpty() ) {
+							actualWireText
+							.setTextValue( df.format(lastDistanceValue.distanceValue - 
+									actualDistanceValue.distanceValue).replace(",", ".") + "m");
+						}
+						else if( actualDistanceValue.preTag.equals(lastDistanceValue.preTag) ) {
+							actualWireText
+							.setTextValue(actualDistanceValue.preTag + " " + 
+							df.format(lastDistanceValue.distanceValue - 
+									actualDistanceValue.distanceValue).replace(",", ".") + "m");
+						}
+					}
+				}
+			}
+		}
+				actualWire.setDistanceOfWire(translateValue);
+	}
+	
+	public Double getDistance(List<TextData> textList, String type) {
+		Double distance = null;
+		String[] typeValues = type.split("\\s+");
+		for (TextData textData : textList) {
+			String[] textValues = textData.getTextValue().split("\\s+");
+			if( typeValues.length == 2 && textValues.length == 3 && textData.getTextValue().startsWith(type) ) {
+				try {
+					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")) );
+				} catch (NumberFormatException e) {
+					
+				}
+			}
+			else if( typeValues.length == 1 && textValues.length == 2 && textData.getTextValue().startsWith(type) ) {
+				try {
+					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")) );
+				} catch (NumberFormatException e) {
+					
+				}
+			} 
+		}
 		
+		return distance;
+	}
+	
+	public Double getElevation(List<TextData> textList, String type) {
+		Double elevation = null;
+		String[] typeValues = type.split("\\s+");
+		for (TextData textData : textList) {
+		String[] textValues = textData.getTextValue().split("\\s+");
+		
+		if( typeValues.length == 2 && textValues.length >= 5 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+							
+				try {
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
+	
+				} catch (NumberFormatException e) {
+				}
+		}
+		else if( typeValues.length == 1 && textValues.length == 4 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				try {
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
+				} catch (NumberFormatException e) {
+				
+				}
+			
+		}
+		else if( typeValues.length == 2 && textValues.length >= 5 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+		
+				try {
+					
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
+				
+				} catch (NumberFormatException e) {
+				
+				}
+		}
+		else if( typeValues.length == 1 && textValues.length == 4 && 
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+				try {
+					
+					elevation = Double.parseDouble(textData.getTextValue()
+							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
+				
+				} catch (NumberFormatException e) {
+				
+				}
+		}
 	}
 		
+		return elevation;
+	}
+	
 	public TextData getChosenTextData(String chosenText) {
 		
 		TextData chosenTextData = null;
@@ -430,91 +552,6 @@ public class ArchivFileBuilder {
 			}	
 	}
 		return points;
-	}
-	
-	public Double getDistance(List<TextData> textList, String type) {
-		Double distance = null;
-		String[] typeValues = type.split("\\s+");
-		for (TextData textData : textList) {
-			String[] textValues = textData.getTextValue().split("\\s+");
-			if( typeValues.length == 2 && textValues.length == 3 && textData.getTextValue().startsWith(type) ) {
-				try {
-					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")) );
-				} catch (NumberFormatException e) {
-					
-				}
-			}
-			else if( typeValues.length == 1 && textValues.length == 2 && textData.getTextValue().startsWith(type) ) {
-				try {
-					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")) );
-				} catch (NumberFormatException e) {
-					
-				}
-			}
-			else if( textValues.length == 1 && textData.getTextValue().indexOf("m") != -1 ){
-				
-				try {
-					distance = Double.parseDouble( textData.getTextValue().substring(0, textData.getTextValue().indexOf("m")) );
-				} catch (NumberFormatException e) {
-				}
-			}
-		}
-		
-		return distance;
-	}
-	
-	public Double getElevation(List<TextData> textList, String type) {
-		Double elevation = null;
-		String[] typeValues = type.split("\\s+");
-		for (TextData textData : textList) {
-		String[] textValues = textData.getTextValue().split("\\s+");
-		
-		if( typeValues.length == 2 && textValues.length >= 5 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
-							
-				try {
-					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
-	
-				} catch (NumberFormatException e) {
-				}
-		}
-		else if( typeValues.length == 1 && textValues.length == 4 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
-				try {
-					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
-				} catch (NumberFormatException e) {
-				
-				}
-			
-		}
-		else if( typeValues.length == 2 && textValues.length >= 5 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
-		
-				try {
-					
-					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
-				
-				} catch (NumberFormatException e) {
-				
-				}
-		}
-		else if( typeValues.length == 1 && textValues.length == 4 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
-				try {
-					
-					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
-				
-				} catch (NumberFormatException e) {
-				
-				}
-		}
-	}
-		
-		return elevation;
 	}
 	
 //	

@@ -134,7 +134,9 @@ public class ElectricWireCalculator {
 	private void getHorizontalDistanceOfPillar(String type) {
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( Validate.isValidInputText(type) ) {
-			Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
+			Double distance = 
+					archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type) == null ? 
+							lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), type);
 			this.oszlopkoz_hossza = distance == null ? lastPillar.getDistanceOfPillar() : distance;
 		}
 	}

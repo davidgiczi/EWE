@@ -563,13 +563,22 @@ public class HomeController {
 		List<TextData> textList = archivFileBuilder.getTextData();
 		List<LineData> lineList = archivFileBuilder.getLineData();
 		lastPillar.setDistanceOfPillar(0);
-		
-		for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i--) {
+		boolean addZero = true;
+		for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i-- ) {
 			String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
-			if( (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
-					lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
-						lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) && values.length == 2 ) {
-				lastPillar.getPillarTextList().remove(i);
+			if( values.length == 1 && lastPillar.getPillarTextList().get(i).getTextValue().indexOf("m") != -1 ) {
+				lastPillar.getPillarTextList().get(i).setTextValue("0");
+			}
+			else if( values.length == 2 && (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
+											lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
+											lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) ) {
+				if( addZero ) {
+					lastPillar.getPillarTextList().get(i).setTextValue("0");
+					addZero = false;
+				}
+				else {
+					lastPillar.getPillarTextList().remove(i);
+				}	
 			}
 		}
 		archivFileBuilder.init();
@@ -821,7 +830,9 @@ public class HomeController {
 			return;
 		}
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
-		Double distance = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
+		Double distance = 
+				archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType) == null ? 
+						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
 		List<Double> hangingData = 
 			calculator.getTheHighestHangingWireValue(distance == null ? archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() : distance);
 		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), hangingData.get(2), calculator.wireType);
@@ -863,7 +874,9 @@ public class HomeController {
 		for (WireData wireData : archivFileBuilder.getWireData()) {
 			
 			Double distance = archivFileBuilder.getDistance(wireData.getWireTextList(), 
-					setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
+					setCalculatedWireDataWindow.controller.wireTypeTextField.getText()) == null ?
+							wireData.getDistanceOfWire() : archivFileBuilder.getDistance(wireData.getWireTextList(), 
+									setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
 			Double elevation = archivFileBuilder.getElevation(wireData.getWireTextList(), 
 					setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
 			
