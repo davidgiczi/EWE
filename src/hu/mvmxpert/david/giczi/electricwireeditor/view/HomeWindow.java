@@ -24,6 +24,7 @@ public class HomeWindow  {
 	private HomeController homeController;
 	private BorderPane root;
 	private FileProcess fileProcess;
+	public Stage primaryStage;
 	public MenuItem setPillarData;
 	public MenuItem setWireData;
 	public MenuItem saveProject;
@@ -32,7 +33,7 @@ public class HomeWindow  {
 	public BorderPane getRoot() {
 		return root;
 	}
-	
+
 	public void setRoot(BorderPane root) {
 		this.root = root;
 	}
@@ -43,7 +44,7 @@ public class HomeWindow  {
 
 	public HomeWindow(HomeController homeController) {
 			this.homeController = homeController;
-			Stage primaryStage = new Stage();
+			primaryStage = new Stage();
 		 	root = new BorderPane();
 		 	root.widthProperty().addListener((obs, oldVal, newVal) -> {
 		 		Validate.MAX_X_VALUE = (int) (root.getWidth() / Drawer.MILLIMETER);
@@ -54,13 +55,13 @@ public class HomeWindow  {
 		 	});
 			createMenu();
 			homeController.getDrawer().setRoot(root);
-			Scene scene = new Scene(root);
+			Scene primaryScene = new Scene(root);
 			primaryStage.setMinWidth(1000);
 			primaryStage.setMinHeight(750);
 			primaryStage.setMaximized(true);
 			primaryStage.setTitle(DEFAULT_STAGE_TITLE);
 			primaryStage.getIcons().add(new Image("/logo/MVM.jpg"));
-			primaryStage.setScene(scene);
+			primaryStage.setScene(primaryScene);
 			primaryStage.show();
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
@@ -121,7 +122,7 @@ public class HomeWindow  {
 						!homeController.archivFileBuilder.getWireData().isEmpty() ||
 						!homeController.archivFileBuilder.getTextData().isEmpty() ) {
 				
-				if(HomeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
+				if(homeController.getConfirmationAlert("Korábbi projekt adatainak mentése szükséges", 
 						"Mented a korábbi projekt adatait?")) {
 					homeController.saveProject();
 				}
@@ -185,7 +186,7 @@ public class HomeWindow  {
 					!homeController.archivFileBuilder.getWireData().isEmpty() ||
 					!homeController.archivFileBuilder.getTextData().isEmpty() ) {
 				
-				if(HomeController.getConfirmationAlert("A projekt adatainak mentése szükséges", 
+				if(homeController.getConfirmationAlert("A projekt adatainak mentése szükséges", 
 						"Mented a projekt adatait?")) {
 					homeController.saveProject();
 				}
@@ -212,7 +213,7 @@ public class HomeWindow  {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if(homeController.archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
-					HomeController.getWarningAlert("Vonal nem helyezhető el", "Rajzi rendszer megadása szükséges.");
+					homeController.getWarningAlert("Vonal nem helyezhető el", "Rajzi rendszer megadása szükséges.");
 					return;
 				}
 			homeController.showSetLineDataWindow();

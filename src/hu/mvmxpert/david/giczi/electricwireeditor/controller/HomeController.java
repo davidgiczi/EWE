@@ -52,9 +52,10 @@ public class HomeController {
 	
 	public HomeController() {
 		drawer = new Drawer();
-		homeWindow = new HomeWindow(this);
 		drawer.setHomeController(this);
+		homeWindow = new HomeWindow(this);
 		fileProcess = new FileProcess();
+		FileProcess.setHomeController(this);
 		homeWindow.setFileProcess(fileProcess);
 		archivFileBuilder = new ArchivFileBuilder();
 		archivFileBuilder.init();
@@ -150,6 +151,11 @@ public class HomeController {
 	
 	public void showSetCalculatedWireDataWindow() {
 		
+		if( archivFileBuilder.getPillarData() == null || 2 > archivFileBuilder.getPillarData().size() ) {
+			getWarningAlert("Hiányzó oszlop adatok", "Legalább két oszlop adatainak megadása szükséges.");
+			return;
+		}
+		
 		if( setCalculatedWireDataWindow == null) {
 			setCalculatedWireDataWindow = new SetCalculatedWireDataWindow(this);
 		}
@@ -161,6 +167,7 @@ public class HomeController {
 	public String setInputText(String title, String text) {
 		TextInputDialog input = new TextInputDialog();
 		Stage stage = (Stage) input.getDialogPane().getScene().getWindow();
+		stage.initOwner(homeWindow.primaryStage);
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		input.setTitle(title);
 		input.setHeaderText(text);
@@ -421,6 +428,7 @@ public class HomeController {
 	public void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.initOwner(homeWindow.primaryStage);
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
 		alert.setTitle("Kilépés a programból");
 		alert.setHeaderText("Biztos, hogy kilépsz a programból?");
@@ -430,28 +438,31 @@ public class HomeController {
 		}
 	}
 	
-	public static void getInfoAlert(String title, String text) {
+	public void getInfoAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
+		alert.initOwner(homeWindow.primaryStage);
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		alert.showAndWait();
 	}
 	
-	public static void getWarningAlert(String title, String text) {
+	public void getWarningAlert(String title, String text) {
 		Alert alert = new Alert(AlertType.WARNING);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
+		alert.initOwner(homeWindow.primaryStage);
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		alert.showAndWait();
 	}
 	
-	public static boolean getConfirmationAlert(String title, String text) {
+	public boolean getConfirmationAlert(String title, String text) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/logo/MVM.jpg"));
+		alert.initOwner(homeWindow.primaryStage);
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		Optional<ButtonType> option = alert.showAndWait();

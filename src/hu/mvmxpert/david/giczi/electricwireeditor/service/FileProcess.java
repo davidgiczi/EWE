@@ -1,7 +1,5 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
-import java.awt.Component;
-import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,12 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileSystemView;
-
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
@@ -27,85 +19,45 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.SavedWirePoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 public class FileProcess {
 	
 	public static String FOLDER_PATH;
 	private ArchivFileBuilder archivFileBuilder;
+	private static HomeController homeController;
 	
 	public void setArchivFileBuilder(ArchivFileBuilder archivFileBuilder) {
 		this.archivFileBuilder = archivFileBuilder;
 	}
+	
+	
+	public static void setHomeController(HomeController homeController) {
+		FileProcess.homeController = homeController;
+	}
 
 	public void setFolder() {
-		JFileChooser jfc = new JFileChooser(){
-		    
-			private static final long serialVersionUID = 1L;
-
-			@Override
-		    protected JDialog createDialog( Component parent ) throws HeadlessException {
-		        JDialog dialog = super.createDialog( parent );
-		        dialog.setAlwaysOnTop(true);
-		        try {
-					byte[] imageSource = this.getClass()
-							.getResourceAsStream("/logo/MVM.jpg").readAllBytes();
-					dialog.setIconImage( new ImageIcon(imageSource).getImage() );
-				} catch (IOException e) {
-					e.printStackTrace();
-				} 
-		        return dialog;
-		    }
-		};
-		jfc.setCurrentDirectory(FOLDER_PATH == null ? FileSystemView.getFileSystemView().getHomeDirectory() : new File(FOLDER_PATH));
-		jfc.setDialogTitle("Válassz mentési mappát");
-		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnValue = jfc.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setInitialDirectory(FOLDER_PATH == null ? new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
+		directoryChooser.setTitle("Válassz mentési mappát");
+		File selectedFile =	directoryChooser.showDialog(homeController.homeWindow.primaryStage);
+		if ( selectedFile != null ) {
 			FOLDER_PATH = selectedFile.getAbsolutePath();
-		}
+		}	
 	}
 	
 	public List<String> openProject() {
-		JFileChooser jfc = new JFileChooser(){
-		    
-			private static final long serialVersionUID = 1L;
-
-			@Override
-		    protected JDialog createDialog( Component parent ) throws HeadlessException {
-		        JDialog dialog = super.createDialog( parent );
-		        dialog.setAlwaysOnTop(true);
-		        try {
-					byte[] imageSource = this.getClass()
-							.getResourceAsStream("/logo/MVM.jpg").readAllBytes();
-					dialog.setIconImage( new ImageIcon(imageSource).getImage() );
-				} catch (IOException e) {
-					e.printStackTrace();
-				} 
-		        return dialog;
-		    }
-		};
-		jfc.setCurrentDirectory(FOLDER_PATH == null ? FileSystemView.getFileSystemView().getHomeDirectory() : new File(FOLDER_PATH));
-		jfc.setDialogTitle("Válassz projekt fájlt");
-		jfc.setFileFilter(new FileFilter() {
-			@Override
-			public String getDescription() {
-				return "*.ewe fájlok";
-			}
-			
-			@Override
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(".ewe");
-			}
-		});
-		
-		int returnValue = jfc.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
+		FileChooser projectFileChooser = new FileChooser();
+		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ? new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
+		projectFileChooser.setTitle("Válassz projekt fájlt");
+		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Projekt fájlok (*.ewe)", "*.ewe");
+		projectFileChooser.getExtensionFilters().add(projectFileFilter);
+		File selectedFile = projectFileChooser.showOpenDialog(homeController.homeWindow.primaryStage);
+		if ( selectedFile != null ) {
 			FOLDER_PATH = selectedFile.getParent();
 			HomeController.PROJECT_NAME = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
 		}
-		
 		return getProjectFileData();
 	}
 	
@@ -128,7 +80,7 @@ public class FileProcess {
 				}
 		}
 			catch (IOException e) {
-			HomeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
+			homeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
 			} 
 		
 		return projectData;
@@ -150,7 +102,7 @@ public class FileProcess {
 				}
 		}
 			catch (IOException e) {
-			HomeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
+			homeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
 			} 
 		
 		return wireTypeData;
@@ -210,7 +162,7 @@ public class FileProcess {
 		}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 			return false;
 		} 
 		
@@ -232,7 +184,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 		} 
 	}
 	
@@ -251,7 +203,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 		} 
 	}
 	
@@ -268,7 +220,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 		} 
 	}
 	
@@ -285,7 +237,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 		} 
 	}
 	
@@ -302,7 +254,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 		} 
 	}
 	
@@ -320,7 +272,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
+			homeController.getWarningAlert("Fájl mentése sikertelen", "\"" + file.getName() + "\" projekt fájl mentése sikertelen.");
 		} 
 	}
 		

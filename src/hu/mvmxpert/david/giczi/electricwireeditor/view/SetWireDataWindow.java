@@ -27,6 +27,7 @@ public class SetWireDataWindow {
 			controller.setHomeController(homeController);
 			stage = new Stage();
 			Scene scene = new Scene(root);
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.setTitle("Távvezeték adatok megadása");

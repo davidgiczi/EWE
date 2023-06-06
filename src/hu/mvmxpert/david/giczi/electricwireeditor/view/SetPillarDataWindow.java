@@ -28,6 +28,7 @@ public class SetPillarDataWindow {
 			controller.pillarDistance.setText("0");
 			stage = new Stage();
 			Scene scene = new Scene(root);
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.setTitle("Távvezeték oszlop adatok megadása");

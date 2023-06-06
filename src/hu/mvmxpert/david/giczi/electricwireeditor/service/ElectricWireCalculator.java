@@ -3,6 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireDifference;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WirePoint;

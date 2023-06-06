@@ -42,28 +42,28 @@ public class SetDrawingSystemDataController {
 		try {
 			startElevation = Validate.isValidIntegerValue(startElevationValue.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
+			homeController.getWarningAlert("Nem megfelelő magassági lépték kezdő érték", 
 					"A magassági lépték kezdő magasság értéke csak egész szám lehet.");
 			return;
 		}
 		try {
 			verticalScale = Validate.isValidPositiveIntegerValue(elevationScaleValue.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
+			homeController.getWarningAlert("Nem megfelelő magassági lépték beosztás érték", 
 					"A magassági lépték beosztás értéke csak pozitív egész szám lehet.");
 			return;
 		}
 		try {
 			length = Validate.isValidPositiveDoubleValue(lengthOfHorizontalAxis.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő az oszlopok távolság értéke", 
+			homeController.getWarningAlert("Nem megfelelő az oszlopok távolság értéke", 
 					"Az oszlopok távolság értéke csak pozitív szám lehet.");
 			return;
 		}
 		try {
 			horizontalScale = Validate.isValidPositiveIntegerValue(horizontalScaleValue.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő vízszintes lépték érték", 
+			homeController.getWarningAlert("Nem megfelelő vízszintes lépték érték", 
 					"A vízszintes lépték értéke csak pozitív egész szám lehet.");
 			return;
 		}

@@ -41,7 +41,7 @@ public class SetWireDataController {
 		try {
 			id = Validate.isValidTextValue(wireID.getText());
 		} catch (InvalidAttributeValueException e) {
-		HomeController.getWarningAlert("Nem megfelelő a fázis azonosítója", "A fázis azonosítója legalább egy betű vagy szám karakter lehet.");
+		homeController.getWarningAlert("Nem megfelelő a fázis azonosítója", "A fázis azonosítója legalább egy betű vagy szám karakter lehet.");
 			return;
 		}
 		try {
@@ -50,7 +50,7 @@ public class SetWireDataController {
 				throw new NumberFormatException();
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő a fázis helyének távolság értéke", 
+		homeController.getWarningAlert("Nem megfelelő a fázis helyének távolság értéke", 
 			"A fázis helyének távolsága: távolság >= 0 és " + homeController.getDrawer().getLengthOfHorizontalAxis() + "m >= távolság.");
 			return;
 		}
@@ -62,7 +62,7 @@ public class SetWireDataController {
 				throw new NumberFormatException();
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő terep balti magasság érték", 
+		homeController.getWarningAlert("Nem megfelelő terep balti magasság érték", 
 					"A terepi balti magasság: magasság >= " + homeController.getDrawer().getElevationStartValue()  + "m és " 
 			+ (homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale()) + "m >= magasság.");
 			return;
@@ -74,13 +74,13 @@ public class SetWireDataController {
 					homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale() ) )
 				throw new NumberFormatException();
 			else if( groundElev >= wireElev ) {
-		HomeController.getWarningAlert("Nem megfelelő a fázis balti magasság értéke", 
+		homeController.getWarningAlert("Nem megfelelő a fázis balti magasság értéke", 
 						"A fázis terepi balti magasság értéke nem lehet nagyobb vagy egyenlő, mint a fázis balti magasság értéke.");
 				return;
 			}
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő a fázis balti magasság értéke", 
+		homeController.getWarningAlert("Nem megfelelő a fázis balti magasság értéke", 
 					"Fázis balti magasság: magasság >= " + homeController.getDrawer().getElevationStartValue()  + "m és " 
 			+ (homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale()) + "m >= magasság.");
 			return;

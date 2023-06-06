@@ -82,7 +82,6 @@ public class Drawer {
 	public double getLengthOfHorizontalAxis() {
 		return lengthOfHorizontalAxis;
 	}
-	
 
 	public BorderPane getRoot() {
 		return root;
@@ -91,8 +90,7 @@ public class Drawer {
 	public void setRoot(BorderPane root) {
 		this.root = root;
 	}
-	
-	
+
 	public void setHomeController(HomeController homeController) {
 		this.homeController = homeController;
 	}
@@ -386,7 +384,7 @@ public class Drawer {
 		addChosenTextToSetTextWindow(text);
 		
 		if( modifyTextWindow == null ) {
-			modifyTextWindow = new ModifyTextWindow(this);
+			modifyTextWindow = new ModifyTextWindow(homeController, this);
 		}
 		else {
 			modifyTextWindow.getStage().show();
@@ -493,7 +491,7 @@ public class Drawer {
 	}
 	
 	public boolean deleteText(Text text) {
-		if( HomeController.getConfirmationAlert("Felirat törlése", "Biztos, hogy törlöd a kiválaszott feliratot?") ) {
+		if( homeController.getConfirmationAlert("Felirat törlése", "Biztos, hogy törlöd a kiválaszott feliratot?") ) {
 			int id = Integer.valueOf(text.getId());
 			archivFileBuilder.removeText(id);
 			archivFileBuilder.removeWireText(id);
@@ -876,7 +874,7 @@ public class Drawer {
 	if(homeController.calculator != null && 
 				wireID.equals(homeController.calculator.wireType + "_" + ElectricWireCalculator.wireID)) {
 		
-		if(HomeController.getConfirmationAlert("Sodrony törlése",
+		if(homeController.getConfirmationAlert("Sodrony törlése",
 				"Biztos, hogy törlöd az aktuális sodronyt?\nA kijelzett adatok is törlésre kerülnek.")){
 		
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
@@ -889,7 +887,7 @@ public class Drawer {
 		homeController.calculator = null;
 		}
 }
-	else if( HomeController.getConfirmationAlert("Sodrony törlése", "Biztos, hogy törlöd a kiválasztott sodronyt?") ) {
+	else if( homeController.getConfirmationAlert("Sodrony törlése", "Biztos, hogy törlöd a kiválasztott sodronyt?") ) {
 		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
 			if(wireID.equals(root.getChildren().get(i).getId())) {
 				root.getChildren().remove(i);
@@ -901,179 +899,10 @@ public class Drawer {
 }
 
 	
-//	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
-//				
-//		if( pointsOfWire.size() == 2) {
-//			drawWireByTwoPoints(pointsOfWire, "-2");
-//		}
-//		else {
-//			drawWire(pointsOfWire, "-2");
-//		}
-//	}
-//	
-//	public void deleteLeftWire() {
-//		
-//		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
-//			if( "-2".equals(root.getChildren().get(i).getId()) ) {
-//				root.getChildren().remove(i);
-//			}
-//		}
-//	}
-//	
-//	private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
-//		Line wire = new Line();
-//		if( "-2".equals(id) )
-//		wire.setStroke(Color.MAGENTA);
-//		else
-//		wire.setStroke(Color.GREEN);	
-//		wire.setStrokeWidth(1.5);
-//		wire.getStrokeDashArray().addAll(1d, 4d);
-//		wire.setId(id);
-//		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-//				.add(START_X).add(HOR_SHIFT * MILLIMETER)
-//				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(0).getDistanceOfWirePoint()) * MILLIMETER));
-//		wire.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(0).getElevationOfWirePoint()) * MILLIMETER);
-//		wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-//				.add(START_X).add(HOR_SHIFT * MILLIMETER)
-//				.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(1).getDistanceOfWirePoint())* MILLIMETER));
-//		wire.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(1).getElevationOfWirePoint()) * MILLIMETER);
-//		root.getChildren().add(wire);
-//	}
-//	
-//	private void drawWire(List<WirePoint> pointsOfWire, String id) { 
-//			try {
-//				double verticalShift =  PAGE_Y + START_Y;
-//				double scale = horizontalScale / 1000d;
-//				for(int i = 0; i < pointsOfWire.size() - 1; i++) {
-//					
-//				HalfParabola parabola = new HalfParabola(pointsOfWire.get(i), pointsOfWire.get(i + 1));
-//				
-//				if( pointsOfWire.get(i).getElevationOfWirePoint() - pointsOfWire.get(i + 1).getElevationOfWirePoint() > 0) {
-//					for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
-//					Circle dot = new Circle();
-//					dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
-//					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i + 1).getDistanceOfWirePoint()) * MILLIMETER)
-//					.subtract(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
-//					dot.setCenterY(verticalShift - 
-//					getVerticalScaledDownHeightValue(pointsOfWire.get(i + 1).getElevationOfWirePoint()) * MILLIMETER -
-//					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
-//					dot.setRadius(1);
-//					dot.setId(id);
-//					if( "-2".equals(id) )
-//					dot.setStroke(Color.MAGENTA);
-//					else
-//					dot.setStroke(Color.GREEN);
-//					root.getChildren().add(dot);
-//					
-//					}
-//				}
-//				else {	
-//					parabola = new HalfParabola(pointsOfWire.get(i + 1), pointsOfWire.get(i));
-//					for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
-//						Circle dot = new Circle();
-//						dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
-//					.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) * MILLIMETER)
-//					.add(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
-//					dot.setCenterY(verticalShift - 
-//					getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) * MILLIMETER -
-//					getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
-//					dot.setRadius(1);
-//					dot.setId(id);
-//					if( "-2".equals(id) )
-//					dot.setStroke(Color.MAGENTA);
-//					else
-//					dot.setStroke(Color.GREEN);	
-//					root.getChildren().add(dot);
-//					}
-//				}
-//			}
-//		} 
-//			catch (InvalidAttributesException e) {
-//				HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
-//			}
-//	}
-//	
-//	public void drawRightWireCurve(List<WirePoint> pointsOfWire) {
-//		
-//		if( pointsOfWire.size() == 2) {
-//			drawWireByTwoPoints(pointsOfWire, "-3");
-//		}
-//		else {
-//			drawWire(pointsOfWire, "-3");
-//		}
-//	}
-//	
-//	 public void deleteRightWire() {
-//			
-//			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
-//				if( "-3".equals(root.getChildren().get(i).getId()) ) {
-//					root.getChildren().remove(i);
-//				}
-//			}
-//		} 
-//	 
-//	 
-//	 public void writeDifferenceOfWireCurve(List<WirePoint> pointsOfWire, int minimumPlace, String id)  {
-//		 try {
-//			HalfParabola leftCurve = new HalfParabola(pointsOfWire.get(0), pointsOfWire.get(minimumPlace));
-//			HalfParabola rightCurve = new HalfParabola(pointsOfWire.get(pointsOfWire.size() - 1), pointsOfWire.get(minimumPlace));
-//			DecimalFormat df = new DecimalFormat("+0.00;-0.00");
-//			int vShift = "-2".equals(id) ? 12 : 5;
-//			for(int i = 1; i < pointsOfWire.size() - 1; i++) {
-//				if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() < 
-//						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
-//			Text diffText =  new Text(df.format(leftCurve
-//				.getElevationOfHalfParabolaPoint(
-//				pointsOfWire.get(i).getDistanceOfWirePoint() 
-//				- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint())
-//				- pointsOfWire.get(i).getElevationOfWirePoint()
-//				+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
-//				diffText.setId(id);
-//				if( "-2".equals(id))
-//					diffText.setStroke(Color.MAGENTA);
-//				else
-//				diffText.setStroke(Color.GREEN);
-//				diffText.setRotationAxis(Rotate.Z_AXIS);
-//				diffText.setRotate(-90);
-//				diffText.xProperty()
-//				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-//					.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
-//				diffText.setY(PAGE_Y + START_Y 
-//						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
-//				root.getChildren().add(diffText);
-//				}
-//				else if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() >= 
-//						(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
-//				Text diffText = new Text(df.format(rightCurve
-//					.getElevationOfHalfParabolaPoint(
-//					pointsOfWire.get(i).getDistanceOfWirePoint() 
-//					- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint()) 
-//					- pointsOfWire.get(i).getElevationOfWirePoint()
-//					+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
-//				diffText.setId(id);
-//				if( "-2".equals(id))
-//				diffText.setStroke(Color.MAGENTA);
-//				else
-//				diffText.setStroke(Color.GREEN);
-//				diffText.setRotationAxis(Rotate.Z_AXIS);
-//				diffText.setRotate(-90);
-//				diffText.xProperty()
-//				.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-//						.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
-//				diffText.setY(PAGE_Y + START_Y 
-//						- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
-//				root.getChildren().add(diffText);
-//				}
-//				
-//			}
-//			
-//		} catch (InvalidAttributesException e) {
-//			HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
-//		}
-//	 }
+
 	
 	private void deleteLine(Line line) {
-	if( HomeController.getConfirmationAlert("Vonal törlése", "Biztos, hogy törlöd a kiválasztott vonalat?") ) {
+	if( homeController.getConfirmationAlert("Vonal törlése", "Biztos, hogy törlöd a kiválasztott vonalat?") ) {
 		int id = Integer.valueOf(line.getId());
 		deletePreResultsData();
 		deleteAllCalculatedWires();
@@ -1121,23 +950,23 @@ public class Drawer {
 	public void drawLine(double startX, double startY, double endX, double endY, String type, Color color, String width) {
 		
 		if( 0 > startX || startX > lengthOfHorizontalAxis ) {
-			HomeController.getWarningAlert("Nem megfelelő StartX koordináta érték",
+			homeController.getWarningAlert("Nem megfelelő StartX koordináta érték",
 					"Az X koordináta értéke: X >= 0 és " + lengthOfHorizontalAxis + " >= X");
 			return;
 		}
 		if( 0 > endX || endX > lengthOfHorizontalAxis ) {
-			HomeController.getWarningAlert("Nem megfelelő VégeX koordináta érték",
+			homeController.getWarningAlert("Nem megfelelő VégeX koordináta érték",
 					"Az X koordináta értéke: X >= 0 és " + lengthOfHorizontalAxis + " >= X");
 			return;
 		}
 		if( elevationStartValue > startY  ||  startY > elevationStartValue + 10 * verticalScale) {
-			HomeController.getWarningAlert("Nem megfelelő StartY koordináta érték", 
+			homeController.getWarningAlert("Nem megfelelő StartY koordináta érték", 
 					"Az Y koordináta értéke: Y >= " + elevationStartValue + " és " +
 				(elevationStartValue + 10 * verticalScale) + " >= Y");
 			return;
 		}
 		if( elevationStartValue > endY  ||  endY > elevationStartValue + 10 * verticalScale) {
-			HomeController.getWarningAlert("Nem megfelelő VégeY koordináta érték", 
+			homeController.getWarningAlert("Nem megfelelő VégeY koordináta érték", 
 					"Az Y koordináta értéke: Y >= " + elevationStartValue + " és " +
 				(elevationStartValue + 10 * verticalScale) + " >= Y");
 			return;
@@ -1349,22 +1178,22 @@ public class Drawer {
 		
 		Text name = new Text("Sodrony típusa:");
 		name.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		name.setY(70);
+		name.setY(68);
 		name.setId("preResult");
 		Text wireTypeName = new Text(homeController.calculator.wireTypeName);
 		wireTypeName.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireTypeName.xProperty().
 		bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(MILLIMETER * (63 - wireTypeName.getText().length()) / 2 ));
-		wireTypeName.setY(70);
+		wireTypeName.setY(68);
 		wireTypeName.setId("preResult");
 		
 		Text color = new Text("Sodrony színe:");
 		color.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		color.setY(90);
+		color.setY(86);
 		color.setId("preResult");
 		Rectangle wireColorCell = new Rectangle();
 		wireColorCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add(30 * MILLIMETER));
-		wireColorCell.setY(80);
+		wireColorCell.setY(73);
 		wireColorCell.setWidth(20);
 		wireColorCell.setHeight(20);
 		wireColorCell.setFill(homeController.calculator.wireColor);
@@ -1372,451 +1201,451 @@ public class Drawer {
 		
 		Text length = new Text("Sodrony hossza:");
 		length.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		length.setY(110);
+		length.setY(104);
 		length.setId("preResult");
 		Text wireLength = new Text(df.format(homeController.calculator.sodrony_hossza).replace(",", ".") + " (m)");
 		wireLength.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireLength.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireLength.getText().length()) / 2 ));
-		wireLength.setY(110);
+		wireLength.setY(104);
 		wireLength.setId("preResult");
 		
 		df.applyPattern("0.0");
 		Text temperature = new Text("Hőmérséklet:");
 		temperature.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		temperature.setY(130);
+		temperature.setY(122);
 		temperature.setId("preResult");
 		Text wireTemperature = new Text(df.format(homeController.calculator.t).replace(",", ".") + " (°C)");
 		wireTemperature.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireTemperature.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireTemperature.getText().length()) / 2 ));
-		wireTemperature.setY(130);
+		wireTemperature.setY(122);
 		wireTemperature.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text keresztmetszet = new Text("Keresztmetszet:");
 		keresztmetszet.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		keresztmetszet.setY(170);
+		keresztmetszet.setY(155);
 		keresztmetszet.setId("preResult");
 		Text wireKeresztmetszet = new Text(df.format(homeController.calculator.wireData.getKeresztMetszet()).replace(",", ".") + " (mm2)");
 		wireKeresztmetszet.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireKeresztmetszet.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireKeresztmetszet.getText().length()) / 2 ));
-		wireKeresztmetszet.setY(170);
+		wireKeresztmetszet.setY(155);
 		wireKeresztmetszet.setId("preResult");
 		
 		Text diameter = new Text("Átmérő:");
 		diameter.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		diameter.setY(190);
+		diameter.setY(173);
 		diameter.setId("preResult");
 		Text wireDiameter = new Text(df.format(homeController.calculator.wireData.getAtmero()).replace(",", ".") + " (mm)");
 		wireDiameter.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireDiameter.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireDiameter.getText().length()) / 2 ));
-		wireDiameter.setY(190);
+		wireDiameter.setY(173);
 		wireDiameter.setId("preResult");
 		
 		df.applyPattern("0.0000");
 		Text weight1 = new Text("Súly:");
 		weight1.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		weight1.setY(210);
+		weight1.setY(191);
 		weight1.setId("preResult");
 		Text wireWeight1 = new Text(df.format(homeController.calculator.wireData.getSuly_kgPerMeter()).replace(",", ".") + " (kg/m)");
 		wireWeight1.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireWeight1.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireWeight1.getText().length()) / 2 ));
-		wireWeight1.setY(210);
+		wireWeight1.setY(191);
 		wireWeight1.setId("preResult");
 		
 		df.applyPattern("0.00000");
 		Text weight2 = new Text("Súly:");
 		weight2.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		weight2.setY(230);
+		weight2.setY(209);
 		weight2.setId("preResult");
 		Text wireWeight2 = new Text(df.format(homeController.calculator.wireData.getSuly_NPerMeter()).replace(",", ".") + " (N/m)");
 		wireWeight2.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireWeight2.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireWeight2.getText().length()) / 2 ));
-		wireWeight2.setY(230);
+		wireWeight2.setY(209);
 		wireWeight2.setId("preResult");
 		
 		df.applyPattern("0.000");
 		Text potteher = new Text("Pótteher:");
 		potteher.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		potteher.setY(250);
+		potteher.setY(227);
 		potteher.setId("preResult");
 		Text wirePotteher = new Text(df.format(homeController.calculator.wireData.getPotTeher()).replace(",", ".") + " (N/m)");
 		wirePotteher.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wirePotteher.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wirePotteher.getText().length()) / 2 ));
-		wirePotteher.setY(250);
+		wirePotteher.setY(227);
 		wirePotteher.setId("preResult");
 		
 		df.applyPattern("0");
 		Text rugalmassagiModulus = new Text("Rugalmas. mod.:");
 		rugalmassagiModulus.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		rugalmassagiModulus.setY(270);
+		rugalmassagiModulus.setY(245);
 		rugalmassagiModulus.setId("preResult");
 		Text wireRugalmassagiModulus = 
 				new Text(df.format(homeController.calculator.wireData.getRugalmassagiModulusz()).replace(",", ".") + " (N/mm2)");
 		wireRugalmassagiModulus.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireRugalmassagiModulus.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireRugalmassagiModulus.getText().length()) / 2 ));
-		wireRugalmassagiModulus.setY(270);
+		wireRugalmassagiModulus.setY(245);
 		wireRugalmassagiModulus.setId("preResult");
 		
 		df.applyPattern("0.00000000");
 		Text hofokTenyezo = new Text("Hőfoktényező:");
 		hofokTenyezo.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		hofokTenyezo.setY(290);
+		hofokTenyezo.setY(263);
 		hofokTenyezo.setId("preResult");
 		Text wireHofokTenyezo = 
 				new Text(df.format(homeController.calculator.wireData.getHofokTenyezo()).replace(",", ".") + " (1/°C)");
 		wireHofokTenyezo.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireHofokTenyezo.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireHofokTenyezo.getText().length()) / 2 ));
-		wireHofokTenyezo.setY(290);
+		wireHofokTenyezo.setY(263);
 		wireHofokTenyezo.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text oszlopkozHossza = new Text("Oszlopköz hossza:");
 		oszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		oszlopkozHossza.setY(330);
+		oszlopkozHossza.setY(296);
 		oszlopkozHossza.setId("preResult");
 		Text wireOszlopkozHossza = 
 				new Text(df.format(homeController.calculator.oszlopkoz_hossza).replace(",", ".") + " (m)");
 		wireOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireOszlopkozHossza.getText().length()) / 2 ));
-		wireOszlopkozHossza.setY(330);
+		wireOszlopkozHossza.setY(296);
 		wireOszlopkozHossza.setId("preResult");
 		
 	
 		Text magassag_kulonbseg = new Text("Δm:");
 		magassag_kulonbseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		magassag_kulonbseg.setY(350);
+		magassag_kulonbseg.setY(314);
 		magassag_kulonbseg.setId("preResult");
 		Text wireMagassagKulonbseg = 
 				new Text(df.format(homeController.calculator.magassag_kulonbseg).replace(",", ".") + " (m)");
 		wireMagassagKulonbseg.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireMagassagKulonbseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireMagassagKulonbseg.getText().length()) / 2 ));
-		wireMagassagKulonbseg.setY(350);
+		wireMagassagKulonbseg.setY(314);
 		wireMagassagKulonbseg.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text hanging = new Text("Belógás fél távon:");
 		hanging.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		hanging.setY(370);
+		hanging.setY(332);
 		hanging.setId("preResult");
 		Text wire_hanging = 
 				new Text(df.format(homeController.calculator.belogas).replace(",", ".") + " (m)");
 		wire_hanging.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_hanging.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_hanging.getText().length()) / 2 ));
-		wire_hanging.setY(370);
+		wire_hanging.setY(332);
 		wire_hanging.setId("preResult");
 		
 		Text felfuggesztesiKoz = new Text("Felfüggesztési köz:");
 		felfuggesztesiKoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		felfuggesztesiKoz.setY(390);
+		felfuggesztesiKoz.setY(350);
 		felfuggesztesiKoz.setId("preResult");
 		Text wireFelfuggesztesiKoz = 
 				new Text(df.format(homeController.calculator.felfuggesztesi_koz).replace(",", ".") + " (m)");
 		wireFelfuggesztesiKoz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireFelfuggesztesiKoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireFelfuggesztesiKoz.getText().length()) / 2 ));
-		wireFelfuggesztesiKoz.setY(390);
+		wireFelfuggesztesiKoz.setY(350);
 		wireFelfuggesztesiKoz.setId("preResult");
 		
 		Text mertekadoOszlopkoz = new Text("Mértékadó oszl.köz:");
 		mertekadoOszlopkoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		mertekadoOszlopkoz.setY(410);
+		mertekadoOszlopkoz.setY(368);
 		mertekadoOszlopkoz.setId("preResult");
 		Text mertekadoOszlopkozHossza = 
 				new Text(df.format(homeController.calculator.mertekado_oszlopkoz).replace(",", ".") + " (m)");
 		mertekadoOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		mertekadoOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - mertekadoOszlopkozHossza.getText().length()) / 2 ));
-		mertekadoOszlopkozHossza.setY(410);
+		mertekadoOszlopkozHossza.setY(368);
 		mertekadoOszlopkozHossza.setId("preResult");
 		
 		Text kritikusOszlopkoz = new Text("Kritikus oszlopköz:");
 		kritikusOszlopkoz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		kritikusOszlopkoz.setY(430);
+		kritikusOszlopkoz.setY(386);
 		kritikusOszlopkoz.setId("preResult");
 		Text kritikusOszlopkozHossza = 
 				new Text(df.format(homeController.calculator.kritikus_oszlopkoz).replace(",", ".") + " (m)");
 		kritikusOszlopkozHossza.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		kritikusOszlopkozHossza.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - kritikusOszlopkozHossza.getText().length()) / 2 ));
-		kritikusOszlopkozHossza.setY(430);
+		kritikusOszlopkozHossza.setY(386);
 		kritikusOszlopkozHossza.setId("preResult");
 		
 		df.applyPattern("0.00000000");
 		Text kozepesFerdeseg = new Text("Közepes ferdeség:");
 		kozepesFerdeseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		kozepesFerdeseg.setY(450);
+		kozepesFerdeseg.setY(420);
 		kozepesFerdeseg.setId("preResult");
 		Text wireKozepesFerdeseg = 
 				new Text(df.format(homeController.calculator.kozepes_ferdeseg).replace(",", "."));
 		wireKozepesFerdeseg.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireKozepesFerdeseg.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireKozepesFerdeseg.getText().length()) / 2 ));
-		wireKozepesFerdeseg.setY(450);
+		wireKozepesFerdeseg.setY(420);
 		wireKozepesFerdeseg.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text szigma_b = new Text("σB:");
 		szigma_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_b.setY(470);
+		szigma_b.setY(438);
 		szigma_b.setId("preResult");
 		Text wireSzigma_b = 
 				new Text(df.format(homeController.calculator.szigma_b).replace(",", ".") + " (N/mm2)");
 		wireSzigma_b.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireSzigma_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireSzigma_b.getText().length()) / 2 ));
-		wireSzigma_b.setY(470);
+		wireSzigma_b.setY(438);
 		wireSzigma_b.setId("preResult");
 		
 		Text szigma_hz = new Text("σHz:");
 		szigma_hz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_hz.setY(490);
+		szigma_hz.setY(456);
 		szigma_hz.setId("preResult");
 		Text wireSzigma_hz = 
 				new Text(df.format(homeController.calculator.szigma_hz).replace(",", ".") + " (N/mm2)");
 		wireSzigma_hz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireSzigma_hz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireSzigma_hz.getText().length()) / 2 ));
-		wireSzigma_hz.setY(490);
+		wireSzigma_hz.setY(456);
 		wireSzigma_hz.setId("preResult");
 		
 		Text szigma_kz = new Text("σkz:");
 		szigma_kz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_kz.setY(510);
+		szigma_kz.setY(474);
 		szigma_kz.setId("preResult");
 		Text wireSzigma_kz = 
 				new Text(df.format(homeController.calculator.szigma_kz).replace(",", ".") + " (N/mm2)");
 		wireSzigma_kz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireSzigma_kz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireSzigma_kz.getText().length()) / 2 ));
-		wireSzigma_kz.setY(510);
+		wireSzigma_kz.setY(474);
 		wireSzigma_kz.setId("preResult");
 		
 		Text szigma_k = new Text("σk:");
 		szigma_k.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		szigma_k.setY(530);
+		szigma_k.setY(492);
 		szigma_k.setId("preResult");
 		Text wireSzigma_k = 
 				new Text(df.format(homeController.calculator.szigma_k).replace(",", ".") + " (N/mm2)");
 		wireSzigma_k.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wireSzigma_k.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wireSzigma_k.getText().length()) / 2 ));
-		wireSzigma_k.setY(530);
+		wireSzigma_k.setY(492);
 		wireSzigma_k.setId("preResult");
 		
 		df.applyPattern("0");
 		Text t0 = new Text("t0:");
 		t0.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		t0.setY(550);
+		t0.setY(510);
 		t0.setId("preResult");
 		Text wire_t0 = 
 				new Text(df.format(homeController.calculator.t0).replace(",", ".") + " (°C)");
 		wire_t0.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_t0.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_t0.getText().length()) / 2 ));
-		wire_t0.setY(550);
+		wire_t0.setY(510);
 		wire_t0.setId("preResult");
 		
 		df.applyPattern("0.000");
 		Text G = new Text("G:");
 		G.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		G.setY(570);
+		G.setY(538);
 		G.setId("preResult");
 		Text wire_G = 
 				new Text(df.format(homeController.calculator.G).replace(",", "."));
 		wire_G.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_G.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_G.getText().length()) / 2 ));
-		wire_G.setY(570);
+		wire_G.setY(538);
 		wire_G.setId("preResult");
 		
 		Text Gz = new Text("Gz:");
 		Gz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		Gz.setY(590);
+		Gz.setY(556);
 		Gz.setId("preResult");
 		Text wire_Gz = 
 				new Text(df.format(homeController.calculator.G_z).replace(",", "."));
 		wire_Gz.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_Gz.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_Gz.getText().length()) / 2 ));
-		wire_Gz.setY(590);
+		wire_Gz.setY(556);
 		wire_Gz.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text d = new Text("d:");
 		d.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		d.setY(610);
+		d.setY(574);
 		d.setId("preResult");
 		Text wire_d = 
 				new Text(df.format(homeController.calculator.d).replace(",", "."));
 		wire_d.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_d.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_d.getText().length()) / 2 ));
-		wire_d.setY(610);
+		wire_d.setY(574);
 		wire_d.setId("preResult");
 		
 		df.applyPattern("0.0000");
 		Text upszilon = new Text("Ƴ:");
 		upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		upszilon.setY(630);
+		upszilon.setY(592);
 		upszilon.setId("preResult");
 		Text wire_upszilon = 
 				new Text(df.format(homeController.calculator.upszilon).replace(",", ".") + " (N/(m x mm2))");
 		wire_upszilon.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_upszilon.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_upszilon.getText().length()) / 2 ));
-		wire_upszilon.setY(630);
+		wire_upszilon.setY(592);
 		wire_upszilon.setId("preResult");
 		
 		Text upszilon_z = new Text("Ƴz:");
 		upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		upszilon_z.setY(650);
+		upszilon_z.setY(610);
 		upszilon_z.setId("preResult");
 		Text wire_upszilon_z = 
 				new Text(df.format(homeController.calculator.upszilon_z).replace(",", ".") + " (N/(m x mm2))");
 		wire_upszilon_z.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_upszilon_z.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_upszilon_z.getText().length()) / 2 ));
-		wire_upszilon_z.setY(650);
+		wire_upszilon_z.setY(610);
 		wire_upszilon_z.setId("preResult");
 		
 		df.applyPattern("0.000000");
 		Text T = new Text("T:");
 		T.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		T.setY(670);
+		T.setY(628);
 		T.setId("preResult");
 		Text wire_T = 
 				new Text(df.format(homeController.calculator.T).replace(",", "."));
 		wire_T.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_T.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_T.getText().length()) / 2 ));
-		wire_T.setY(670);
+		wire_T.setY(628);
 		wire_T.setId("preResult");
 		
 		df.applyPattern("0.0000");
 		Text b = new Text("b:");
 		b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		b.setY(690);
+		b.setY(646);
 		b.setId("preResult");
 		Text wire_b = 
 				new Text(df.format(homeController.calculator.b).replace(",", "."));
 		wire_b.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_b.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_b.getText().length()) / 2 ));
-		wire_b.setY(690);
+		wire_b.setY(646);
 		wire_b.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text A = new Text("A:");
 		A.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		A.setY(710);
+		A.setY(664);
 		A.setId("preResult");
 		Text wire_A = 
 				new Text(df.format(homeController.calculator.A).replace(",", "."));
 		wire_A.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_A.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_A.getText().length()) / 2 ));
-		wire_A.setY(710);
+		wire_A.setY(664);
 		wire_A.setId("preResult");
 		
 		df.applyPattern("0");
 		Text B = new Text("B:");
 		B.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		B.setY(730);
+		B.setY(682);
 		B.setId("preResult");
 		Text wire_B = 
 				new Text(df.format(homeController.calculator.B).replace(",", "."));
 		wire_B.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_B.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_A.getText().length()) / 2 ));
-		wire_B.setY(730);
+		wire_B.setY(682);
 		wire_B.setId("preResult");
 		
 		Text delta = new Text("Δ:");
 		delta.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		delta.setY(750);
+		delta.setY(700);
 		delta.setId("preResult");
 		Text wire_delta = 
 				new Text(df.format(homeController.calculator.delta).replace(",", "."));
 		wire_delta.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_delta.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_delta.getText().length()) / 2 ));
-		wire_delta.setY(750);
+		wire_delta.setY(700);
 		wire_delta.setId("preResult");
 		
 		df.applyPattern("0.00");
 		Text p = new Text("p:");
 		p.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		p.setY(770);
+		p.setY(718);
 		p.setId("preResult");
 		Text wire_p = 
 				new Text(df.format(homeController.calculator.p).replace(",", "."));
 		wire_p.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_p.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_p.getText().length()) / 2 ));
-		wire_p.setY(770);
+		wire_p.setY(718);
 		wire_p.setId("preResult");
 		
 		df.applyPattern("0.0000");
 		Text at = new Text("at:");
 		at.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		at.setY(790);
+		at.setY(736);
 		at.setId("preResult");
 		Text wire_at = 
 				new Text(df.format(homeController.calculator.at).replace(",", "."));
 		wire_at.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_at.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_at.getText().length()) / 2 ));
-		wire_at.setY(790);
+		wire_at.setY(736);
 		wire_at.setId("preResult");
 		
 		Text ar = new Text("ar:");
 		ar.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		ar.setY(810);
+		ar.setY(754);
 		ar.setId("preResult");
 		Text wire_ar = 
 				new Text(df.format(homeController.calculator.ar).replace(",", "."));
 		wire_ar.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_ar.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_ar.getText().length()) / 2 ));
-		wire_ar.setY(810);
+		wire_ar.setY(754);
 		wire_ar.setId("preResult");
 		
 		Text xA = new Text("xA:");
 		xA.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		xA.setY(830);
+		xA.setY(772);
 		xA.setId("preResult");
 		Text wire_xA = 
 				new Text(df.format(homeController.calculator.XA).replace(",", "."));
 		wire_xA.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_xA.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_xA.getText().length()) / 2 ));
-		wire_xA.setY(830);
+		wire_xA.setY(772);
 		wire_xA.setId("preResult");
 		
 		Text xB = new Text("xB:");
 		xB.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).subtract(PAGE_Y * MILLIMETER));
-		xB.setY(850);
+		xB.setY(790);
 		xB.setId("preResult");
 		Text wire_xB = 
 				new Text(df.format(homeController.calculator.XB).replace(",", "."));
 		wire_xB.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		wire_xB.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2)
 				.add(MILLIMETER * (63 - wire_xB.getText().length()) / 2 ));
-		wire_xB.setY(850);
+		wire_xB.setY(790);
 		wire_xB.setId("preResult");
-		
+	
 		root.getChildren().addAll(backgroundCell, position, wirePosition, name, 
 				wireTypeName, color, wireColorCell, length, wireLength, temperature,
 				wireTemperature, keresztmetszet, wireKeresztmetszet, diameter, wireDiameter,
@@ -1877,7 +1706,7 @@ public class Drawer {
 		List<WireDifference> leftWireDiffs = 
 				homeController.getElevationDifferenceOfWires();
 		if( leftWireDiffs.isEmpty() ) {
-			HomeController.getWarningAlert("Bal sodrony eltérései nem számíthatók.", 
+			homeController.getWarningAlert("Bal sodrony eltérései nem számíthatók.", 
 					"Bal sodronyra vonatkozó mérési adatok nem találhatók.");
 			return;
 		}
@@ -1929,7 +1758,7 @@ public class Drawer {
 		List<WireDifference> rightWireDiffs = 
 				homeController.getElevationDifferenceOfWires();
 		if( rightWireDiffs.isEmpty() ) {
-			HomeController.getWarningAlert("Jobb sodrony eltérései nem számíthatók.", 
+			homeController.getWarningAlert("Jobb sodrony eltérései nem számíthatók.", 
 					"Jobb sodronyra vonatkozó mérési adatok nem találhatók.");
 			return;
 		}
@@ -1982,7 +1811,7 @@ public class Drawer {
 		List<WireDifference> mediumWireDiffs = 
 				homeController.getElevationDifferenceOfWires();
 		if( mediumWireDiffs.isEmpty() ) {
-			HomeController.getWarningAlert("Középső sodrony eltérései nem számíthatók.", 
+			homeController.getWarningAlert("Középső sodrony eltérései nem számíthatók.", 
 					"Középső sodronyra vonatkozó mérési adatok nem találhatók.");
 			return;
 		}
@@ -2077,6 +1906,177 @@ public class Drawer {
 			}
 		}
 	}
+	
+//	public void drawLeftWireCurve(List<WirePoint> pointsOfWire) {
+//	
+//if( pointsOfWire.size() == 2) {
+//drawWireByTwoPoints(pointsOfWire, "-2");
+//}
+//else {
+//drawWire(pointsOfWire, "-2");
+//}
+//}
+//
+//public void deleteLeftWire() {
+//
+//for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+//if( "-2".equals(root.getChildren().get(i).getId()) ) {
+//	root.getChildren().remove(i);
+//}
+//}
+//}
+//
+//private void drawWireByTwoPoints(List<WirePoint> pointsOfWire, String id) {
+//Line wire = new Line();
+//if( "-2".equals(id) )
+//wire.setStroke(Color.MAGENTA);
+//else
+//wire.setStroke(Color.GREEN);	
+//wire.setStrokeWidth(1.5);
+//wire.getStrokeDashArray().addAll(1d, 4d);
+//wire.setId(id);
+//wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//	.add(START_X).add(HOR_SHIFT * MILLIMETER)
+//	.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(0).getDistanceOfWirePoint()) * MILLIMETER));
+//wire.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(0).getElevationOfWirePoint()) * MILLIMETER);
+//wire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//	.add(START_X).add(HOR_SHIFT * MILLIMETER)
+//	.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(1).getDistanceOfWirePoint())* MILLIMETER));
+//wire.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pointsOfWire.get(1).getElevationOfWirePoint()) * MILLIMETER);
+//root.getChildren().add(wire);
+//}
+//
+//private void drawWire(List<WirePoint> pointsOfWire, String id) { 
+//try {
+//	double verticalShift =  PAGE_Y + START_Y;
+//	double scale = horizontalScale / 1000d;
+//	for(int i = 0; i < pointsOfWire.size() - 1; i++) {
+//		
+//	HalfParabola parabola = new HalfParabola(pointsOfWire.get(i), pointsOfWire.get(i + 1));
+//	
+//	if( pointsOfWire.get(i).getElevationOfWirePoint() - pointsOfWire.get(i + 1).getElevationOfWirePoint() > 0) {
+//		for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
+//		Circle dot = new Circle();
+//		dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
+//		.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i + 1).getDistanceOfWirePoint()) * MILLIMETER)
+//		.subtract(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
+//		dot.setCenterY(verticalShift - 
+//		getVerticalScaledDownHeightValue(pointsOfWire.get(i + 1).getElevationOfWirePoint()) * MILLIMETER -
+//		getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
+//		dot.setRadius(1);
+//		dot.setId(id);
+//		if( "-2".equals(id) )
+//		dot.setStroke(Color.MAGENTA);
+//		else
+//		dot.setStroke(Color.GREEN);
+//		root.getChildren().add(dot);
+//		
+//		}
+//	}
+//	else {	
+//		parabola = new HalfParabola(pointsOfWire.get(i + 1), pointsOfWire.get(i));
+//		for(double y = 0; y <= Math.abs(parabola.getOrigo().getDistanceOfWirePoint()); y += scale) {
+//			Circle dot = new Circle();
+//			dot.centerXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add(START_X).add(HOR_SHIFT * MILLIMETER)
+//		.add(getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) * MILLIMETER)
+//		.add(getHorizontalScaledDownLengthValue(y) * MILLIMETER));
+//		dot.setCenterY(verticalShift - 
+//		getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) * MILLIMETER -
+//		getVerticalScaledDownHeightValue(parabola.getElevationOfHalfParabolaPoint(y)) * MILLIMETER);
+//		dot.setRadius(1);
+//		dot.setId(id);
+//		if( "-2".equals(id) )
+//		dot.setStroke(Color.MAGENTA);
+//		else
+//		dot.setStroke(Color.GREEN);	
+//		root.getChildren().add(dot);
+//		}
+//	}
+//}
+//} 
+//catch (InvalidAttributesException e) {
+//	HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+//}
+//}
+//
+//public void drawRightWireCurve(List<WirePoint> pointsOfWire) {
+//
+//if( pointsOfWire.size() == 2) {
+//drawWireByTwoPoints(pointsOfWire, "-3");
+//}
+//else {
+//drawWire(pointsOfWire, "-3");
+//}
+//}
+//
+//public void deleteRightWire() {
+//
+//for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+//	if( "-3".equals(root.getChildren().get(i).getId()) ) {
+//		root.getChildren().remove(i);
+//	}
+//}
+//} 
+//
+//
+//public void writeDifferenceOfWireCurve(List<WirePoint> pointsOfWire, int minimumPlace, String id)  {
+//try {
+//HalfParabola leftCurve = new HalfParabola(pointsOfWire.get(0), pointsOfWire.get(minimumPlace));
+//HalfParabola rightCurve = new HalfParabola(pointsOfWire.get(pointsOfWire.size() - 1), pointsOfWire.get(minimumPlace));
+//DecimalFormat df = new DecimalFormat("+0.00;-0.00");
+//int vShift = "-2".equals(id) ? 12 : 5;
+//for(int i = 1; i < pointsOfWire.size() - 1; i++) {
+//	if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() < 
+//			(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
+//Text diffText =  new Text(df.format(leftCurve
+//	.getElevationOfHalfParabolaPoint(
+//	pointsOfWire.get(i).getDistanceOfWirePoint() 
+//	- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint())
+//	- pointsOfWire.get(i).getElevationOfWirePoint()
+//	+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
+//	diffText.setId(id);
+//	if( "-2".equals(id))
+//		diffText.setStroke(Color.MAGENTA);
+//	else
+//	diffText.setStroke(Color.GREEN);
+//	diffText.setRotationAxis(Rotate.Z_AXIS);
+//	diffText.setRotate(-90);
+//	diffText.xProperty()
+//	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//		.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
+//	diffText.setY(PAGE_Y + START_Y 
+//			- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
+//	root.getChildren().add(diffText);
+//	}
+//	else if( i != minimumPlace && pointsOfWire.get(i).getDistanceOfWirePoint() >= 
+//			(pointsOfWire.get(0).getDistanceOfWirePoint() - pointsOfWire.get(pointsOfWire.size() - 1).getDistanceOfWirePoint()) / 2) {
+//	Text diffText = new Text(df.format(rightCurve
+//		.getElevationOfHalfParabolaPoint(
+//		pointsOfWire.get(i).getDistanceOfWirePoint() 
+//		- pointsOfWire.get(minimumPlace).getDistanceOfWirePoint()) 
+//		- pointsOfWire.get(i).getElevationOfWirePoint()
+//		+ pointsOfWire.get(minimumPlace).getElevationOfWirePoint()).replace(',', '.'));
+//	diffText.setId(id);
+//	if( "-2".equals(id))
+//	diffText.setStroke(Color.MAGENTA);
+//	else
+//	diffText.setStroke(Color.GREEN);
+//	diffText.setRotationAxis(Rotate.Z_AXIS);
+//	diffText.setRotate(-90);
+//	diffText.xProperty()
+//	.bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+//			.add(START_X).add((getHorizontalScaledDownLengthValue(pointsOfWire.get(i).getDistanceOfWirePoint()) + 9) * MILLIMETER));
+//	diffText.setY(PAGE_Y + START_Y 
+//			- (getVerticalScaledDownHeightValue(pointsOfWire.get(i).getElevationOfWirePoint()) + vShift) * MILLIMETER);
+//	root.getChildren().add(diffText);
+//	}
+//	
+//}
+//
+//} catch (InvalidAttributesException e) {
+//HomeController.getWarningAlert("Hibás sodrony adatok", "A megadott bemeneti adatokból sodrony nem rajzolható.");
+//}
+//}
 }
 		
 

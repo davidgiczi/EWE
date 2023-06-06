@@ -41,8 +41,6 @@ public class SetCalculatedWireDataController implements Initializable {
 		this.homeController = homeController;
 	}
 	
-	
-	
 	public HomeController getHomeController() {
 		return homeController;
 	}
@@ -50,11 +48,11 @@ public class SetCalculatedWireDataController implements Initializable {
 	@FXML
 	private void handleCountButtonAction() {
 	if( homeController.archivFileBuilder == null || 2 >	homeController.archivFileBuilder.getPillarData().size() ) {
-		HomeController.getWarningAlert("Nem létező oszlop adatok", "Sodrony számításához a kezdő és végoszlop adatainak megadása szükséges.");
+		homeController.getWarningAlert("Nem létező oszlop adatok", "Sodrony számításához a kezdő és végoszlop adatainak megadása szükséges.");
 		return;
 	}
 	if( FileProcess.getWireTypeFileData().isEmpty()) {
-		HomeController.getWarningAlert("Hiányzó vagy üres oszlop típus fájl", "Nem létező vagy üres az oszlop típusokat tartalmazó fájl.");
+		homeController.getWarningAlert("Hiányzó vagy üres oszlop típus fájl", "Nem létező vagy üres az oszlop típusokat tartalmazó fájl.");
 		return;
 	}
 	Double beginnerPillarElevation = 
@@ -65,18 +63,18 @@ public class SetCalculatedWireDataController implements Initializable {
 			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText());
 		
 	if(wireTypeTextField.getText().isBlank() || beginnerPillarElevation == null || lastPillarElevation == null) {
-			HomeController.getWarningAlert("Hiányzó vagy nem létező sodrony megnevezés", "Létező sodrony megnevezés megadása szükséges.");
+			homeController.getWarningAlert("Hiányzó vagy nem létező sodrony megnevezés", "Létező sodrony megnevezés megadása szükséges.");
 			return;
 	}
 	if(wireTypesComboBox.getValue() == null) {
-		HomeController.getWarningAlert("Hiányzó sodrony típus", "Sodrony típus választása szükséges.");
+		homeController.getWarningAlert("Hiányzó sodrony típus", "Sodrony típus választása szükséges.");
 		return;
 	}
 	double szigmaValue;
 	try {
 	szigmaValue = Validate.isValidDoubleValue(szigmaTextField.getText());
 	} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Hibás szigma érték", "A σ értéke csak nem negatív szám lehet.");
+		homeController.getWarningAlert("Hibás szigma érték", "A σ értéke csak nem negatív szám lehet.");
 		return;
 	}	
 	double temperatureValue;
@@ -84,7 +82,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	try {
 		temperatureValue = Double.parseDouble(tempTextField.getText().replace(",", "."));
 	} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Hibás hőmérséklet érték", "A hőmérséklet értéke csak szám lehet.");
+		homeController.getWarningAlert("Hibás hőmérséklet érték", "A hőmérséklet értéke csak szám lehet.");
 		return;
 	}
 	
@@ -115,8 +113,6 @@ public class SetCalculatedWireDataController implements Initializable {
 	homeController.setCalculatedWireDataWindow.getStage().hide();
 	}
 	
-	
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	List<String> wireType =	FileProcess.getWireTypeFileData();
@@ -125,6 +121,5 @@ public class SetCalculatedWireDataController implements Initializable {
 		wireTypesComboBox.getItems().add(data[0]);
 	}
 	}
-	
 	
 }

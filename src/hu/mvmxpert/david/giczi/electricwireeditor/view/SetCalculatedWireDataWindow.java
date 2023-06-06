@@ -29,6 +29,7 @@ public class SetCalculatedWireDataWindow {
 			controller.showWireCheckBox.setSelected(true);
 			stage = new Stage();
 			Scene scene = new Scene(root);
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.setTitle("Sodrony adatok megadása");

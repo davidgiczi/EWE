@@ -43,7 +43,7 @@ public class SetPillarDataController {
 		try {
 			id = Validate.isValidTextValue(pillarID.getText());
 		} catch (InvalidAttributeValueException e) {
-		HomeController.getWarningAlert("Nem megfelelő az oszlop azonosítója", "Az oszlop azonosítója legalább egy betű vagy szám karakter lehet.");
+		homeController.getWarningAlert("Nem megfelelő az oszlop azonosítója", "Az oszlop azonosítója legalább egy betű vagy szám karakter lehet.");
 			return;
 		}
 		try {
@@ -52,7 +52,7 @@ public class SetPillarDataController {
 				throw new NumberFormatException();
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő az oszlop távolság értéke", 
+		homeController.getWarningAlert("Nem megfelelő az oszlop távolság értéke", 
 			"Az oszlop távolsága: távolság >= 0 és " + homeController.getDrawer().getLengthOfHorizontalAxis() + "m >= távolság.");
 			return;
 		}
@@ -64,7 +64,7 @@ public class SetPillarDataController {
 				throw new NumberFormatException();
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő terep balti magasság érték", 
+		homeController.getWarningAlert("Nem megfelelő terep balti magasság érték", 
 					"A terepi balti magasság: magasság >= " + homeController.getDrawer().getElevationStartValue()  + "m és " 
 			+ (homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale()) + "m >= magasság.");
 			return;
@@ -76,13 +76,13 @@ public class SetPillarDataController {
 					homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale() ) )
 				throw new NumberFormatException();
 			else if( groundElev >= pillarElev ) {
-		HomeController.getWarningAlert("Nem megfelelő az oszlop balti magasság értéke", 
+		homeController.getWarningAlert("Nem megfelelő az oszlop balti magasság értéke", 
 						"A terep balti magasság érték nem lehet nagyobb vagy egyenlő, mint az oszlop balti magasság értéke.");
 				return;
 			}
 			
 		} catch (NumberFormatException e) {
-		HomeController.getWarningAlert("Nem megfelelő oszlop balti magasság érték", 
+		homeController.getWarningAlert("Nem megfelelő oszlop balti magasság érték", 
 					"Oszlop balti magasság: magasság >= " + homeController.getDrawer().getElevationStartValue()  + "m és " 
 			+ (homeController.getDrawer().getElevationStartValue() + 10 * homeController.getDrawer().getVerticalScale()) + "m >= magasság.");
 			return;

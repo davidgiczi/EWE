@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.view;
 
 import java.io.IOException;
 
+import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.ModifyTextController;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ public class ModifyTextWindow {
 	
 	private Stage stage;
 	private ModifyTextController controller;
-	
+
 	public Stage getStage() {
 		return stage;
 	}
@@ -34,16 +35,18 @@ public class ModifyTextWindow {
 		return controller;
 	}
 
-	public ModifyTextWindow(Drawer drawer) {
+	public ModifyTextWindow(HomeController homeController,Drawer drawer) {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifyText.fxml"));
 			AnchorPane root = loader.load();
 			controller = (ModifyTextController) loader.getController();
+			controller.setHomeController(homeController);
 			controller.setDrawer(drawer);
 			stage = new Stage();
 			controller.setStage(stage);
 			Scene scene = new Scene(root);
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setX((drawer.getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(50);
 			stage.setScene(scene);

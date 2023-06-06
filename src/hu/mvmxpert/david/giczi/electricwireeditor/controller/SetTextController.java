@@ -44,7 +44,7 @@ public class SetTextController {
 		try {
 			inputText = Validate.isValidTextValue(inputTextField.getText());
 		} catch (InvalidAttributeValueException e) {
-			HomeController.getWarningAlert("Nem látható felirat", "Nem látható felirat nem helyezhető el.");
+			homeController.getWarningAlert("Nem látható felirat", "Nem látható felirat nem helyezhető el.");
 			return;
 		}
 		try {
@@ -52,7 +52,7 @@ public class SetTextController {
 				throw new NumberFormatException();
 			}
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő X koordináta érték", 
+			homeController.getWarningAlert("Nem megfelelő X koordináta érték", 
 					"Az X koordináta értéke: X >= "+ Validate.MIN_X_VALUE + "mm és " + Validate.MAX_X_VALUE + "mm >= X.");
 			return;
 		}
@@ -61,7 +61,7 @@ public class SetTextController {
 				throw new NumberFormatException();
 			}
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő Y koordináta érték", 
+			homeController.getWarningAlert("Nem megfelelő Y koordináta érték", 
 					"Az Y koordináta értéke: Y >= " + Validate.MIN_Y_VALUE + "mm és " + Validate.MAX_Y_VALUE + "mm >= Y.");
 			return;
 		}

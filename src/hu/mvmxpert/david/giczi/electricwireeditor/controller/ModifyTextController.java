@@ -18,10 +18,15 @@ public class ModifyTextController implements Initializable {
 	private Text inputText;
 	private Drawer drawer;
 	private Stage stage;
+	private HomeController homeController;
 	
 	public ModifyTextController() {
 	}
 	
+	public void setHomeController(HomeController homeController) {
+		this.homeController = homeController;
+	}
+
 	public void setInputText(Text inputText) {
 		this.inputText = inputText;
 	}
@@ -57,7 +62,7 @@ public class ModifyTextController implements Initializable {
 		try {
 			rotateValue = Validate.isValidTextRotateValue(rotateValueTextField.getText());
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő felirat forgatási érték", 
+			homeController.getWarningAlert("Nem megfelelő felirat forgatási érték", 
 					"A felirat forgatási értéke csak egész szám lehet: forgatási érték >= 0 és forgatási érték < 360");
 			return;
 		}

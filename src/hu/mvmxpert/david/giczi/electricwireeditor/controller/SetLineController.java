@@ -89,7 +89,7 @@ public class SetLineController implements Initializable {
 			endY = Validate.isValidDoubleValue(endYTextField.getText().replace(',', '.'));
 			
 		} catch (NumberFormatException e) {
-			HomeController.getWarningAlert("Nem megfelelő koordináta bementi érték", "Vonal koordináta érték csak 0 vagy pozitív szám lehet.");
+			homeController.getWarningAlert("Nem megfelelő koordináta bementi érték", "Vonal koordináta érték csak 0 vagy pozitív szám lehet.");
 			return;
 		}
 		if(lineWidthComboBox.getValue() == null)

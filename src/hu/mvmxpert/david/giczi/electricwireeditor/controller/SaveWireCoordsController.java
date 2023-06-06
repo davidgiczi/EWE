@@ -54,19 +54,19 @@ public class SaveWireCoordsController {
 		
 		String type = typeOfWirePoint.getText();
 		if( type == null || type.isBlank() ) {
-			HomeController.getWarningAlert("Nem megfelelő sodrony megnevezés", 
+			homeController.getWarningAlert("Nem megfelelő sodrony megnevezés", 
 					"Sodrony megnevezése legalább egy látható karakter érték lehet.");
 			return;
 		}
 		List<SavedWirePoint> savedWirePoints = homeController.archivFileBuilder.getWirePointsForSaving(type);
 		
 		if( savedWirePoints.isEmpty() ) {
-		HomeController.getWarningAlert("Sodrony pontjai nem menthetők", 
+		homeController.getWarningAlert("Sodrony pontjai nem menthetők", 
 				"Sodrony pontjainak mentéséhez legalább egy \"" + type + "\" megnevezésű vezeték pont szükséges.");
 		return;
 		}
 		if( !scrCheckBox.isSelected() && !txtCheckBox.isSelected()) {
-			HomeController.getWarningAlert("Kimeneti fájl típus választása szükséges", 
+			homeController.getWarningAlert("Kimeneti fájl típus választása szükséges", 
 					"Add meg a kimeneti fájl típusát (*.scr, *.txt).");
 			return;
 		}
@@ -78,25 +78,25 @@ public class SaveWireCoordsController {
 			try {
 				beginX = Validate.isValidPositiveDoubleValue(startX.getText().replace(",", "."));
 			} catch (NumberFormatException e) {
-				HomeController.getWarningAlert("Nem megfelelő a kezdőpont Y értéke", "Az Y értéke csak szám és 0 < Y lehet.");
+				homeController.getWarningAlert("Nem megfelelő a kezdőpont Y értéke", "Az Y értéke csak szám és 0 < Y lehet.");
 				return;
 			}
 			try {
 				beginY = Validate.isValidPositiveDoubleValue(startY.getText().replace(",", "."));
 			} catch (NumberFormatException e) {
-				HomeController.getWarningAlert("Nem megfelelő a kezdőpont X értéke", "Az X értéke csak szám és 0 < X lehet.");
+				homeController.getWarningAlert("Nem megfelelő a kezdőpont X értéke", "Az X értéke csak szám és 0 < X lehet.");
 				return;
 			}
 			try {
 				finishX = Validate.isValidPositiveDoubleValue(endX.getText().replace(",", "."));
 			} catch (NumberFormatException e) {
-				HomeController.getWarningAlert("Nem megfelelő a végpont Y értéke", "Az Y értéke csak szám és 0 < Y lehet.");
+				homeController.getWarningAlert("Nem megfelelő a végpont Y értéke", "Az Y értéke csak szám és 0 < Y lehet.");
 				return;
 			}
 			try {
 				finishY = Validate.isValidPositiveDoubleValue(endY.getText().replace(",", "."));
 			} catch (NumberFormatException e) {
-				HomeController.getWarningAlert("Nem megfelelő a végpont X értéke", "Az X értéke csak szám és 0 < X lehet.");
+				homeController.getWarningAlert("Nem megfelelő a végpont X értéke", "Az X értéke csak szám és 0 < X lehet.");
 				return;
 			}
 			
@@ -115,38 +115,38 @@ public class SaveWireCoordsController {
 			
 			homeController.fileProcess.save2DWirePointsInAutoCadFormat(savedWirePoints, type);
 			homeController.fileProcess.save2DWirePointsInTextFormat(savedWirePoints);
-			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve",
+			homeController.getInfoAlert(savedWirePoints.size() + " db pont mentve",
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type + "_sodrony_2D" + ".scr\n" + 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_2D" + ".txt" );
 		}
 		else if( is2DWindow && scrCheckBox.isSelected() ) {
 			
 			homeController.fileProcess.save2DWirePointsInAutoCadFormat(savedWirePoints, type);
-			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
+			homeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type +  "_sodrony_2D" + ".scr");
 			 
 		}
 		else if( is2DWindow && txtCheckBox.isSelected() ){
 			homeController.fileProcess.save2DWirePointsInTextFormat(savedWirePoints);
-			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
+			homeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_2D" + ".txt");
 		}
 		else if( !is2DWindow && scrCheckBox.isSelected() && txtCheckBox.isSelected() ) {
 			homeController.fileProcess.save3DWirePointsInAutoCadFormat(savedWirePoints, type);
 			homeController.fileProcess.save3DWirePointsInTextFormat(savedWirePoints);
-			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve",
+			homeController.getInfoAlert(savedWirePoints.size() + " db pont mentve",
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type + "_sodrony_3D" + ".scr\n" + 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_3D" + ".txt" );
 		}
 		else if( !is2DWindow && scrCheckBox.isSelected() ) {
 
 			homeController.fileProcess.save3DWirePointsInAutoCadFormat(savedWirePoints, type);
-			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
+			homeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_" + type +  "_sodrony_3D" + ".scr");
 		}
 		else if( !is2DWindow && txtCheckBox.isSelected()) {
 			homeController.fileProcess.save3DWirePointsInTextFormat(savedWirePoints);
-			HomeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
+			homeController.getInfoAlert(savedWirePoints.size() + " db pont mentve", 
 			FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + "_3D" + ".txt");
 		}
 		

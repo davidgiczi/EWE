@@ -63,6 +63,7 @@ public class SetTextWindow {
 			setInputTextXField(controller.inputTextXField);
 			setInputTextYField(controller.inputTextYField);
 			stage = new Stage();
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setX((homeController.getDrawer().getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(150);
 			controller.setStage(stage);

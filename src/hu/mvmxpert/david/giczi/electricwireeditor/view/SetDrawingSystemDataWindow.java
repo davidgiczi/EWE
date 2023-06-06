@@ -33,6 +33,7 @@ public class SetDrawingSystemDataWindow  {
 			stage = new Stage();
 			controller.setStage(stage);
 			Scene scene = new Scene(root);
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.setTitle("Rajzi rendszer beállítások megadása");

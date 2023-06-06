@@ -34,6 +34,7 @@ public class SetLineWindow {
 			stage.setX((homeController.getDrawer().getRoot().widthProperty().get() - root.getPrefWidth()) / 2);
 			stage.setY(50);
 			Scene scene = new Scene(root);
+			stage.initOwner(homeController.homeWindow.primaryStage);
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.setAlwaysOnTop(true);
