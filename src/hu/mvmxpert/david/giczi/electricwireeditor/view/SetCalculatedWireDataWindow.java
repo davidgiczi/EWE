@@ -23,9 +23,9 @@ public class SetCalculatedWireDataWindow {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SetCalculatedWireData.fxml"));
+			loader.setControllerFactory( c -> new SetCalculatedWireDataController(homeController) );
 			AnchorPane root = loader.load();
 			controller = (SetCalculatedWireDataController) loader.getController();
-			controller.setHomeController(homeController);
 			controller.showWireCheckBox.setSelected(true);
 			stage = new Stage();
 			Scene scene = new Scene(root);

@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SaveWireCoordsWindow;
 import javafx.fxml.FXML;
@@ -37,12 +36,8 @@ public class SetCalculatedWireDataController implements Initializable {
 	private CheckBox saveForTxtCheckBox;
 	
 
-	public void setHomeController(HomeController homeController) {
+	public SetCalculatedWireDataController(HomeController homeController) {
 		this.homeController = homeController;
-	}
-	
-	public HomeController getHomeController() {
-		return homeController;
 	}
 
 	@FXML
@@ -51,7 +46,7 @@ public class SetCalculatedWireDataController implements Initializable {
 		homeController.getWarningAlert("Nem létező oszlop adatok", "Sodrony számításához a kezdő és végoszlop adatainak megadása szükséges.");
 		return;
 	}
-	if( FileProcess.getWireTypeFileData().isEmpty()) {
+	if(homeController.fileProcess.getWireTypeFileData().isEmpty()) {
 		homeController.getWarningAlert("Hiányzó vagy üres oszlop típus fájl", "Nem létező vagy üres az oszlop típusokat tartalmazó fájl.");
 		return;
 	}
@@ -115,7 +110,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-	List<String> wireType =	FileProcess.getWireTypeFileData();
+	List<String> wireType =	homeController.fileProcess.getWireTypeFileData();
 	for(int i = 2; i < wireType.size(); i++) {
 		String[] data = wireType.get(i).split(";");
 		wireTypesComboBox.getItems().add(data[0]);

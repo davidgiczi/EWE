@@ -26,15 +26,15 @@ public class FileProcess {
 	
 	public static String FOLDER_PATH;
 	private ArchivFileBuilder archivFileBuilder;
-	private static HomeController homeController;
+	private HomeController homeController;
 	
 	public void setArchivFileBuilder(ArchivFileBuilder archivFileBuilder) {
 		this.archivFileBuilder = archivFileBuilder;
 	}
 	
 	
-	public static void setHomeController(HomeController homeController) {
-		FileProcess.homeController = homeController;
+	public void setHomeController(HomeController homeController) {
+		this.homeController = homeController;
 	}
 
 	public void setFolder() {
@@ -86,7 +86,7 @@ public class FileProcess {
 		return projectData;
 	}
 	
-	public static List<String> getWireTypeFileData(){
+	public List<String> getWireTypeFileData(){
 		
 		List<String> wireTypeData = new ArrayList<>();
 		

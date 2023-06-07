@@ -55,7 +55,7 @@ public class HomeController {
 		drawer.setHomeController(this);
 		homeWindow = new HomeWindow(this);
 		fileProcess = new FileProcess();
-		FileProcess.setHomeController(this);
+		fileProcess.setHomeController(this);
 		homeWindow.setFileProcess(fileProcess);
 		archivFileBuilder = new ArchivFileBuilder();
 		archivFileBuilder.init();
@@ -784,7 +784,7 @@ public class HomeController {
 	
 	
 	public void showCalculatedWire(String wireTypeName, String wireType, double szigmaValue, double temperatureValue) {
-		 calculator = new ElectricWireCalculator(archivFileBuilder, wireTypeName, wireType);
+		 calculator = new ElectricWireCalculator(fileProcess, archivFileBuilder, wireTypeName, wireType);
 		 calculator.calcWire(szigmaValue, temperatureValue);
 		 drawer.drawCalculatedWire(calculator.wirePoints, wireType);
 	}

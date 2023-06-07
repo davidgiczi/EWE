@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 
 public class ElectricWireCalculator {
 	
+	private FileProcess fileProcess;
 	public static int wireID;
 	public Color wireColor;
 	public String wireTypeName;
@@ -65,7 +66,8 @@ public class ElectricWireCalculator {
 		this.wireColor = wireColor;
 	}
 
-	public ElectricWireCalculator(ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
+	public ElectricWireCalculator(FileProcess fileProcess, ArchivFileBuilder archivFileBuilder, String wireTypeName, String wireType) {
+		this.fileProcess = fileProcess;
 		this.archivFileBuilder = archivFileBuilder;
 		this.wireTypeName = wireTypeName;
 		this.wireType = wireType;
@@ -117,8 +119,8 @@ public class ElectricWireCalculator {
 	
 	private void parseWireTypeData() {
 		this.wireTypes = new ArrayList<>();
-		for (int i = 2; i < FileProcess.getWireTypeFileData().size(); i++) {
-			String[] wireData = FileProcess.getWireTypeFileData().get(i).split(";");
+		for (int i = 2; i < fileProcess.getWireTypeFileData().size(); i++) {
+			String[] wireData = fileProcess.getWireTypeFileData().get(i).split(";");
 			WireTypeData wireTypeData = new WireTypeData();
 			wireTypeData.setType(wireData[0]);
 			wireTypeData.setKeresztMetszet(Double.parseDouble(wireData[1]));

@@ -1074,7 +1074,7 @@ public class Drawer {
 						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType);
 		double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), wireType);
 		Line betweenPillarsLine = new Line();
-		betweenPillarsLine.setStroke(Color.RED);
+		betweenPillarsLine.setStroke(Color.DARKORANGE);
 		betweenPillarsLine.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(beginnerPillar.getDistanceOfPillar()) * MILLIMETER)
@@ -1091,7 +1091,7 @@ public class Drawer {
 						- archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
 		betweenPillarsLine.setId("line");
 		Line line = new Line();
-		line.setStroke(Color.RED);
+		line.setStroke(Color.DARKORANGE);
 		line.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
@@ -1108,7 +1108,7 @@ public class Drawer {
 						- archivFileBuilder.getSystemData().getElevationStartValue() - hangingValue + deltaPillarElevation) * MILLIMETER);
 		line.setId("arrow");
 		Line leftArrow = new Line();
-		leftArrow.setStroke(Color.RED);
+		leftArrow.setStroke(Color.DARKORANGE);
 		leftArrow.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
@@ -1125,7 +1125,7 @@ public class Drawer {
 						hangingValue + deltaPillarElevation) * MILLIMETER - 2 * MILLIMETER);
 		leftArrow.setId("arrow");
 		Line rightArrow = new Line();
-		rightArrow.setStroke(Color.RED);
+		rightArrow.setStroke(Color.DARKORANGE);
 		rightArrow.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
