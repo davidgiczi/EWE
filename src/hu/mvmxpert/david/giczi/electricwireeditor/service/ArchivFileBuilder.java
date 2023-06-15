@@ -357,14 +357,14 @@ public class ArchivFileBuilder {
 			String[] textValues = textData.getTextValue().split("\\s+");
 			if( typeValues.length == 2 && textValues.length == 3 && textData.getTextValue().startsWith(type) ) {
 				try {
-					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")) );
+					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 					
 				}
 			}
 			else if( typeValues.length == 1 && textValues.length == 2 && textData.getTextValue().startsWith(type) ) {
 				try {
-					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")) );
+					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 					
 				}
@@ -385,7 +385,7 @@ public class ArchivFileBuilder {
 							
 				try {
 					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
+							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
 	
 				} catch (NumberFormatException e) {
 				}
@@ -394,7 +394,7 @@ public class ArchivFileBuilder {
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
 				try {
 					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")));
+							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 				
 				}
@@ -406,7 +406,7 @@ public class ArchivFileBuilder {
 				try {
 					
 					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
+							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
 				
 				} catch (NumberFormatException e) {
 				
@@ -417,7 +417,7 @@ public class ArchivFileBuilder {
 				try {
 					
 					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")));
+							.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
 				
 				} catch (NumberFormatException e) {
 				
