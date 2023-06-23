@@ -898,9 +898,7 @@ public class Drawer {
 		
 }
 
-	
-
-	
+		
 	private void deleteLine(Line line) {
 	if( homeController.getConfirmationAlert("Vonal törlése", "Biztos, hogy törlöd a kiválasztott vonalat?") ) {
 		int id = Integer.valueOf(line.getId());
@@ -1074,6 +1072,7 @@ public class Drawer {
 						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType);
 		double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), wireType);
 		Line betweenPillarsLine = new Line();
+		betweenPillarsLine.setStrokeWidth(2);
 		betweenPillarsLine.setStroke(Color.DARKORANGE);
 		betweenPillarsLine.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
@@ -1092,6 +1091,7 @@ public class Drawer {
 		betweenPillarsLine.setId("line");
 		Line line = new Line();
 		line.setStroke(Color.DARKORANGE);
+		line.setStrokeWidth(2);
 		line.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
@@ -1109,6 +1109,7 @@ public class Drawer {
 		line.setId("arrow");
 		Line leftArrow = new Line();
 		leftArrow.setStroke(Color.DARKORANGE);
+		leftArrow.setStrokeWidth(2);
 		leftArrow.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
@@ -1126,6 +1127,7 @@ public class Drawer {
 		leftArrow.setId("arrow");
 		Line rightArrow = new Line();
 		rightArrow.setStroke(Color.DARKORANGE);
+		rightArrow.setStrokeWidth(2);
 		rightArrow.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
@@ -1741,7 +1743,7 @@ public class Drawer {
 			diffValue.setId("leftDiffs_" + ElectricWireCalculator.wireID);
 			Text limitValue = new Text("|" + leftWireDiff.getDifferenceLimit() + "cm|");
 			limitValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
-			if( 0 > leftWireDiff.getDifference() && Math.abs(leftWireDiff.getDifference() * 100.0) < leftWireDiff.getDifferenceLimit())
+			if( 0 >= leftWireDiff.getDifference() && Math.abs(leftWireDiff.getDifference() * 100.0) < leftWireDiff.getDifferenceLimit())
 				limitValue.setFill(Color.GREEN);
 			else
 				limitValue.setFill(Color.RED);
@@ -1793,7 +1795,7 @@ public class Drawer {
 			diffValue.setId("rightDiffs_" + ElectricWireCalculator.wireID);
 			Text limitValue = new Text("|" + rightWireDiff.getDifferenceLimit() + "cm|");
 			limitValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
-			if( 0 > rightWireDiff.getDifference() && Math.abs(rightWireDiff.getDifference() * 100.0) < rightWireDiff.getDifferenceLimit())
+			if( 0 >= rightWireDiff.getDifference() && Math.abs(rightWireDiff.getDifference() * 100.0) < rightWireDiff.getDifferenceLimit())
 				limitValue.setFill(Color.GREEN);
 			else
 				limitValue.setFill(Color.RED);
@@ -1846,7 +1848,7 @@ public class Drawer {
 			diffValue.setId("mediumDiffs_" + ElectricWireCalculator.wireID);
 			Text limitValue = new Text("|" + mediumWireDiff.getDifferenceLimit() + "cm|");
 			limitValue.setFont(Font.font("ariel", FontWeight.BOLD, FontPosture.REGULAR, 14));
-			if( 0 > mediumWireDiff.getDifference() && Math.abs(mediumWireDiff.getDifference() * 100.0) < mediumWireDiff.getDifferenceLimit())
+			if( 0 >= mediumWireDiff.getDifference() && Math.abs(mediumWireDiff.getDifference() * 100.0) < mediumWireDiff.getDifferenceLimit())
 				limitValue.setFill(Color.GREEN);
 			else
 				limitValue.setFill(Color.RED);

@@ -425,7 +425,7 @@ public class HomeController {
 		}
 	}
 	
-	public void exit() {
+	public boolean exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.initOwner(homeWindow.primaryStage);
@@ -436,6 +436,7 @@ public class HomeController {
 		if (result.get() == ButtonType.OK){
 		    System.exit(0);
 		}
+		return false;
 	}
 	
 	public void getInfoAlert(String title, String text) {

@@ -66,7 +66,7 @@ public class HomeWindow  {
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 				@Override
-				public void handle(WindowEvent arg0) {
+				public void handle(WindowEvent event) {
 					if(homeController.setCoordSystemWindow != null )
 						homeController.setCoordSystemWindow.getStage().hide();
 					if(homeController.setPillarDataWindow != null ) 
@@ -83,6 +83,20 @@ public class HomeWindow  {
 						homeController.saveWireCoordsWindow.getStage().hide();
 					if(homeController.setCalculatedWireDataWindow != null )
 						homeController.setCalculatedWireDataWindow.getStage().hide();
+					
+					if( !homeController.archivFileBuilder.getPillarData().isEmpty() || 
+							!homeController.archivFileBuilder.getWireData().isEmpty() ||
+							!homeController.archivFileBuilder.getTextData().isEmpty() ) {
+						
+						if(homeController.getConfirmationAlert("A projekt adatainak mentése szükséges", 
+								"Mented a projekt adatait?")) {
+							homeController.saveProject();
+						}
+					}
+						
+					if( !homeController.exit()) {
+						event.consume();
+					}
 				}
 			});
 
