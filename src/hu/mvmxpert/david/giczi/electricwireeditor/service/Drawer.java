@@ -110,7 +110,7 @@ public class Drawer {
 		page.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2));
 		page.setY(PAGE_Y);
 		page.setWidth(A4_WIDTH);
-		page.heightProperty().bind(root.widthProperty().subtract(50));
+		page.heightProperty().bind(root.heightProperty().subtract(30));
 		Line leftMargin = new Line();
 		leftMargin.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).add((A4_WIDTH - MARGIN) / 2));
 		leftMargin.setStartY(PAGE_Y);
@@ -1160,9 +1160,9 @@ public class Drawer {
 		deletePreResultsData();
 		Rectangle backgroundCell = new Rectangle();
 		backgroundCell.xProperty().bind(root.widthProperty().divide(2).add(A4_WIDTH / 2).add((VER_SHIFT - 2) * MILLIMETER));
-		backgroundCell.setY(35);
+		backgroundCell.setY(PAGE_Y);
 		backgroundCell.setWidth(60 * MILLIMETER);
-		backgroundCell.heightProperty().bind(root.heightProperty().subtract(40));
+		backgroundCell.heightProperty().bind(root.heightProperty().subtract(30));
 		backgroundCell.setFill(Color.WHITE);
 		backgroundCell.setId("preResult");
 		
@@ -1684,9 +1684,9 @@ public class Drawer {
 		if( !isBackgroundCellExisted() ) {
 		Rectangle backgroundCell = new Rectangle();
 		backgroundCell.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).subtract(63 * MILLIMETER));
-		backgroundCell.setY(35);
+		backgroundCell.setY(PAGE_Y);
 		backgroundCell.setWidth(60 * MILLIMETER);
-		backgroundCell.heightProperty().bind(root.heightProperty().subtract(40));
+		backgroundCell.heightProperty().bind(root.heightProperty().subtract(30));
 		backgroundCell.setFill(Color.WHITE);
 		backgroundCell.setId("backgroundCell");
 		root.getChildren().add(backgroundCell);
