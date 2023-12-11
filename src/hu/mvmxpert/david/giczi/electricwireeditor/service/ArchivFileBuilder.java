@@ -95,7 +95,7 @@ public class ArchivFileBuilder {
 		
 		Collections.sort(pillarData);
 		
-		return pillarData.get(0);
+		return pillarData.stream().filter(p -> p.getPillarTexts() != null).findFirst().get();
 	}
 	
 	public PillarData getLastPillar() {
@@ -104,8 +104,9 @@ public class ArchivFileBuilder {
 			return null;
 		
 		Collections.sort(pillarData);
+		Collections.reverse(pillarData);
 	
-		return pillarData.get( pillarData.size() - 1 );
+		return pillarData.stream().filter(p -> p.getPillarTexts() != null).findFirst().get();
 	}
 	
 	public void removePillar(int id, BorderPane root) {

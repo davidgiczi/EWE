@@ -141,12 +141,18 @@ public class FileProcess {
 			for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			writer.write(pillarData.getPillarData());
 			writer.newLine();
+			if( pillarData.getPillarTexts() == null ) {
+				continue;
+			}
 			writer.write(pillarData.getPillarTexts());
 			writer.newLine();
 			}
 			for (WireData wireData : archivFileBuilder.getWireData()) {
 				writer.write(wireData.getWireData());
 				writer.newLine();
+				if( wireData.getWireTexts() == null ) {
+					continue;
+				}
 				writer.write(wireData.getWireTexts());
 				writer.newLine();
 				}

@@ -33,7 +33,7 @@ public class WireData implements Comparable<WireData> {
 			bd.append(textData.getTextData())
 			.append("\n");
 		}
-		return bd.substring(0, bd.length() - 1);
+		return bd.toString().isEmpty() ? null : bd.substring(0, bd.length() - 1);
 	}
 	
 	public int getId() {

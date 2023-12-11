@@ -34,7 +34,7 @@ public class PillarData implements Comparable<PillarData> {
 			bd.append(textData.getTextData())
 			.append("\n");
 		}
-		return bd.substring(0, bd.length() - 1);
+		return bd.toString().isEmpty() ? null : bd.substring(0, bd.length() - 1);
 	}
 	
 	public int getId() {
