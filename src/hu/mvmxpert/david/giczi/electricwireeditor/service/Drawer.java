@@ -215,7 +215,7 @@ public class Drawer {
 				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
-	public void drawPillar(String id, double groundElevation, double topElevation, double distance, boolean isHooded) {
+	public void drawPillar(String id, double groundElevation, double topElevation, double distance, boolean leftHand, boolean rightHand) {
 		Line pillar = new Line();
 		pillar.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
@@ -237,23 +237,44 @@ public class Drawer {
 			});
 		root.getChildren().add(pillar);
 		
-		PillarData pillarData = new PillarData(groundElevation, topElevation, distance, isHooded);
+		PillarData pillarData = new PillarData(groundElevation, topElevation, distance, leftHand, rightHand);
 		pillarData.setId(ArchivFileBuilder.addID());
 		pillar.setId(String.valueOf(pillarData.getId()));
 		archivFileBuilder.addPillar(pillarData);
 		
-		if( isHooded ) {
+		if( leftHand || rightHand ) {
 			Line hood = new Line();
+			
 			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 					.add(START_X)
-					.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
-					.add((HOR_SHIFT - 1) * MILLIMETER));
+					.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER).add(HOR_SHIFT * MILLIMETER));
 			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+			if( leftHand && !rightHand ) {
+			
 			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 					.add(START_X)
 					.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
-					.add((HOR_SHIFT + 1) * MILLIMETER));
-			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+					.add((HOR_SHIFT - 1) * MILLIMETER));
+			}
+			else if( !leftHand &&  rightHand) {
+				
+			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X)
+						.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+						.add((HOR_SHIFT + 1) * MILLIMETER));
+				
+			}
+			else if( leftHand && rightHand ) {
+				hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X)
+						.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER).add((HOR_SHIFT -1) * MILLIMETER));
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X)
+						.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+						.add((HOR_SHIFT + 1) * MILLIMETER));
+			}
+			
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
@@ -277,7 +298,7 @@ public class Drawer {
 		(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
-	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean isHooded) {
+	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean leftHand, boolean rightHand) {
 		Line wire = new Line();
 		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
@@ -299,23 +320,44 @@ public class Drawer {
 			});
 		root.getChildren().add(wire);
 		
-		WireData wireData = new WireData(groundElevation, topElevation, distance, isHooded);
+		WireData wireData = new WireData(groundElevation, topElevation, distance, leftHand, rightHand);
 		wireData.setId(ArchivFileBuilder.addID());
 		wire.setId(String.valueOf(wireData.getId()));
 		archivFileBuilder.addWire(wireData);
 		
-		if( isHooded ) {
+		if( leftHand || rightHand ) {
 			Line hood = new Line();
 			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 					.add(START_X)
 					.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
-					.add((HOR_SHIFT - 1) * MILLIMETER));
+					.add(HOR_SHIFT * MILLIMETER));
 			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
-			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
-					.add((HOR_SHIFT + 1) * MILLIMETER));
 			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(topElevation - elevationStartValue) * MILLIMETER);
+			
+			if( leftHand && !rightHand ) {
+				
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X)
+						.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+						.add((HOR_SHIFT - 1) * MILLIMETER));
+				}
+				else if( !leftHand &&  rightHand) {
+					
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+							.add((HOR_SHIFT + 1) * MILLIMETER));
+					
+				}
+				else if( leftHand && rightHand ) {
+					hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER).add((HOR_SHIFT -1) * MILLIMETER));
+					hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(distance) * MILLIMETER)
+							.add((HOR_SHIFT + 1) * MILLIMETER));
+				}
 			hood.setCursor(Cursor.HAND);
 			hood.setStroke(Color.RED);
 			hood.setId(String.valueOf(wireData.getId()));
@@ -593,20 +635,41 @@ public class Drawer {
 		pillar.setId(String.valueOf(id));
 		root.getChildren().add(pillar);
 		
-		if( pD.isHasCap() ) {
+		if( pD.isLeftHand() || pD.isRightHand() ) {
 			Line hood = new Line();
 			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 					.add(START_X)
 					.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
-					.add((HOR_SHIFT - 1) * MILLIMETER));
+					.add(HOR_SHIFT * MILLIMETER));
 			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
 					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
-			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
-					.add((HOR_SHIFT + 1) * MILLIMETER));
 			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
 					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+			
+				if( pD.isLeftHand() && !pD.isRightHand() ) {
+				
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X)
+						.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+						.add((HOR_SHIFT - 1) * MILLIMETER));
+				}
+				else if( !pD.isLeftHand() &&  pD.isRightHand()) {
+					
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+							.add((HOR_SHIFT + 1) * MILLIMETER));
+					
+				}
+				else if( pD.isLeftHand() && pD.isRightHand() ) {
+					hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER).add((HOR_SHIFT - 1) * MILLIMETER));
+					hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+							.add((HOR_SHIFT + 1) * MILLIMETER));
+				}	
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
@@ -703,20 +766,40 @@ public class Drawer {
 		wire.setId(String.valueOf(id));
 		root.getChildren().add(wire);
 		
-		if( wD.isHasCap() ) {
+		if( wD.isLeftHand() || wD.isRightHand() ) {
 			Line hood = new Line();
 			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 					.add(START_X)
 					.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfWire()) * MILLIMETER)
-					.add((HOR_SHIFT - 1) * MILLIMETER));
+					.add(HOR_SHIFT * MILLIMETER));
 			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(wD.getTopElevetaion() - 
 					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
-			hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfWire()) * MILLIMETER)
-					.add((HOR_SHIFT + 1) * MILLIMETER));
 			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(wD.getTopElevetaion() - 
 					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+				if( wD.isLeftHand() && !wD.isRightHand() ) {
+				
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+						.add(START_X)
+						.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfWire()) * MILLIMETER)
+						.add((HOR_SHIFT - 1) * MILLIMETER));
+				}
+				else if( !wD.isLeftHand() &&  wD.isRightHand()) {
+					
+				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfWire()) * MILLIMETER)
+							.add((HOR_SHIFT + 1) * MILLIMETER));
+					
+				}
+				else if( wD.isLeftHand() && wD.isRightHand() ) {
+					hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfWire()) * MILLIMETER).add((HOR_SHIFT - 1) * MILLIMETER));
+					hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(wD.getDistanceOfWire()) * MILLIMETER)
+							.add((HOR_SHIFT + 1) * MILLIMETER));
+				}
 			hood.setCursor(Cursor.HAND);
 			hood.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();

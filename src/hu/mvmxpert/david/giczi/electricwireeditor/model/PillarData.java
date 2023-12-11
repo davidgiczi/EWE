@@ -11,19 +11,21 @@ public class PillarData implements Comparable<PillarData> {
 	private double topElevetaion;
 	private double distanceOfPillar;
 	private List<TextData> pillarTextList;
-	private boolean hasCap;
+	private boolean leftHand;
+	private boolean rightHand;
 	
-	public PillarData(double groundElevation, double topElevetaion, double distanceOfPillar, boolean hasCap) {
+	public PillarData(double groundElevation, double topElevetaion, double distanceOfPillar, boolean leftHand, boolean rightHand) {
 
 		this.groundElevation = groundElevation;
 		this.topElevetaion = topElevetaion;
 		this.distanceOfPillar = distanceOfPillar;
-		this.hasCap = hasCap;
+		this.leftHand = leftHand;
+		this.rightHand = rightHand;
 		pillarTextList = new ArrayList<>();
 	}
 
 	public String getPillarData() {
-		return "Pillar#" + groundElevation + "#" + topElevetaion + "#" + distanceOfPillar + "#" + hasCap;
+		return "Pillar#" + groundElevation + "#" + topElevetaion + "#" + distanceOfPillar + "#" + leftHand + "#" + rightHand;
 	}
 	
 	public String getPillarTexts() {
@@ -66,11 +68,21 @@ public class PillarData implements Comparable<PillarData> {
 	public void setPillarTextList(List<TextData> pillarTextList) {
 		this.pillarTextList = pillarTextList;
 	}
-	public boolean isHasCap() {
-		return hasCap;
+	
+	public boolean isLeftHand() {
+		return leftHand;
 	}
-	public void setHasCap(boolean hasCap) {
-		this.hasCap = hasCap;
+
+	public void setLeftHand(boolean leftHand) {
+		this.leftHand = leftHand;
+	}
+
+	public boolean isRightHand() {
+		return rightHand;
+	}
+
+	public void setRightHand(boolean rightHand) {
+		this.rightHand = rightHand;
 	}
 
 	@Override

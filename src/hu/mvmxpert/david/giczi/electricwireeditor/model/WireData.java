@@ -10,19 +10,21 @@ public class WireData implements Comparable<WireData> {
 	private double topElevetaion;
 	private double distanceOfWire;
 	private List<TextData> wireTextList;
-	private boolean hasCap;
+	private boolean leftHand;
+	private boolean rightHand;
 	
-	public WireData(double groundElevation, double topElevetaion, double distanceOfWire, boolean hasCap) {
+	public WireData(double groundElevation, double topElevetaion, double distanceOfWire, boolean leftHand, boolean rightHand) {
 		
 		this.groundElevation = groundElevation;
 		this.topElevetaion = topElevetaion;
 		this.distanceOfWire = distanceOfWire;
-		this.hasCap = hasCap;
+		this.leftHand = leftHand;
+		this.rightHand = rightHand;
 		wireTextList = new ArrayList<>();
 	}
 	
 	public String getWireData() {
-		return "Wire#"+  groundElevation + "#" + topElevetaion + "#" + distanceOfWire + "#" + hasCap;
+		return "Wire#"+  groundElevation + "#" + topElevetaion + "#" + distanceOfWire + "#" + leftHand + "#" + rightHand;
 	}
 	
 	public String getWireTexts() {
@@ -69,11 +71,21 @@ public class WireData implements Comparable<WireData> {
 		this.wireTextList = wireTextList;
 	}
 	
-	public boolean isHasCap() {
-		return hasCap;
+	
+	public boolean isLeftHand() {
+		return leftHand;
 	}
-	public void setHasCap(boolean hasCap) {
-		this.hasCap = hasCap;
+
+	public void setLeftHand(boolean leftHand) {
+		this.leftHand = leftHand;
+	}
+
+	public boolean isRightHand() {
+		return rightHand;
+	}
+
+	public void setRightHand(boolean rightHand) {
+		this.rightHand = rightHand;
 	}
 
 	@Override

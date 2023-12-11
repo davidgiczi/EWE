@@ -23,7 +23,10 @@ public class SetPillarDataController {
 	@FXML
 	private TextField pillarElevation;
 	@FXML
-	private CheckBox hasCap;
+	private CheckBox leftHand;
+	@FXML
+	private CheckBox rightHand;
+	
 
 	public SetPillarDataController() {
 	}
@@ -88,13 +91,7 @@ public class SetPillarDataController {
 			return;
 		}
 		
-		if( hasCap.isSelected() ) {
-			homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, true);
-		}
-		else {
-			homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, false);
-		}
-		
+		homeController.getDrawer().drawPillar(id, groundElev, pillarElev, distance, leftHand.isSelected(), rightHand.isSelected());
 	}
 	
 }

@@ -21,7 +21,9 @@ public class SetWireDataController {
 	@FXML
 	private TextField wireElevation;
 	@FXML
-	private CheckBox hasCap;
+	private CheckBox leftHand;
+	@FXML
+	private CheckBox rightHand;
 
 	public SetWireDataController() {
 	}
@@ -86,12 +88,8 @@ public class SetWireDataController {
 			return;
 		}
 		
-		if( hasCap.isSelected() ) {
-			homeController.getDrawer().drawElectricWire(id, groundElev, wireElev, distance, true);
-		}
-		else {
-			homeController.getDrawer().drawElectricWire(id, groundElev, wireElev, distance, false);
-		}
+		
+		homeController.getDrawer().drawElectricWire(id, groundElev, wireElev, distance, leftHand.isSelected(), rightHand.isSelected());
 		
 	}
 	

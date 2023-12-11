@@ -45,7 +45,7 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="209.0" layoutY="262.0" mnemonicParsing="false" text="Küldés" onAction="#handleSendButtonClick">
+      <Button layoutX="209.0" layoutY="262.0" mnemonicParsing="false" onAction="#handleSendButtonClick" text="Küldés">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -64,7 +64,15 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Label>
-      <CheckBox fx:id="hasCap" layoutX="225.0" layoutY="228.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Az oszlop tetejének jelölése">
+      <CheckBox fx:id="leftHand" layoutX="112.0" layoutY="228.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Bal kar">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+       <CheckBox fx:id="rightHand" layoutX="312.0" layoutY="228.0" mnemonicParsing="false" style="-fx-text-fill: #708090;" text="Jobb kar">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>

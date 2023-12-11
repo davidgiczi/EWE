@@ -303,12 +303,24 @@ public class HomeController {
 		
 		for (String dataLine : projectData) {
 			String[] data = dataLine.split("#");
-			if( "Pillar".equals(data[0]) ) {
+			if( "Pillar".equals(data[0]) && data.length == 5) {
 			pillar = new PillarData(
 					Double.parseDouble(data[1]),
 					Double.parseDouble(data[2]),
 					Double.parseDouble(data[3]), 
-					Boolean.parseBoolean(data[4]));
+					Boolean.parseBoolean(data[4]),
+					Boolean.parseBoolean(data[4]) ? true : false);
+			pillar.setId(ArchivFileBuilder.addID());
+			archivFileBuilder.addPillar(pillar);
+			drawer.drawInputPillar(pillar.getId());
+					}
+			else if( "Pillar".equals(data[0]) && data.length == 6) {
+				pillar = new PillarData(
+						Double.parseDouble(data[1]),
+						Double.parseDouble(data[2]),
+						Double.parseDouble(data[3]), 
+						Boolean.parseBoolean(data[4]),
+						Boolean.parseBoolean(data[5]));
 			pillar.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addPillar(pillar);
 			drawer.drawInputPillar(pillar.getId());
@@ -326,9 +338,7 @@ public class HomeController {
 						Double.parseDouble(data[8]),
 						Double.parseDouble(data[9]),
 						Double.parseDouble(data[10]),
-						Double.parseDouble(data[11])
-						);
-						
+						Double.parseDouble(data[11]));		
 			}
 		}
 	}
@@ -339,15 +349,26 @@ public class HomeController {
 		
 		for (String dataLine : projectData) {
 			String[] data = dataLine.split("#");
-			if( "Wire".equals(data[0]) ) {
+			if( "Wire".equals(data[0]) && data.length == 5) {
 			wire = new WireData(Double.parseDouble(data[1]), 
 					Double.parseDouble(data[2]),
 					Double.parseDouble(data[3]), 
-					Boolean.parseBoolean(data[4]));
+					Boolean.parseBoolean(data[4]),
+					Boolean.parseBoolean(data[4]) ? true : false);
 			wire.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addWire(wire);
 			drawer.drawInputWire(wire.getId());
 			}
+			else if( "Wire".equals(data[0]) && data.length == 6) {
+				wire = new WireData(Double.parseDouble(data[1]), 
+						Double.parseDouble(data[2]),
+						Double.parseDouble(data[3]), 
+						Boolean.parseBoolean(data[4]),
+						Boolean.parseBoolean(data[5]));
+				wire.setId(ArchivFileBuilder.addID());
+				archivFileBuilder.addWire(wire);
+				drawer.drawInputWire(wire.getId());
+				}
 			else if( "WireText".equals(data[0]) ) {
 				drawer.setText(wire.getId(), 
 						data[1], 
