@@ -58,7 +58,8 @@ public class SetCalculatedWireDataController implements Initializable {
 			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText());
 		
 	if(wireTypeTextField.getText().isBlank() || beginnerPillarElevation == null || lastPillarElevation == null) {
-			homeController.getWarningAlert("Hiányzó vagy nem létező sodrony megnevezés", "Létező sodrony megnevezés megadása szükséges.");
+			homeController.getWarningAlert("Nem létező sodrony, vagy nem megfelelő sodrony hivatkozás", 
+					"Növekvő oszlopszám szerinti oldal (bal, közép, jobb) és a kar helyének (ak, kk, fk) megadása szükséges.");
 			return;
 	}
 	if(wireTypesComboBox.getValue() == null) {

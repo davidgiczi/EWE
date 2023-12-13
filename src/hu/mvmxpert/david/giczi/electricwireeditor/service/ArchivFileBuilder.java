@@ -402,7 +402,18 @@ public class ArchivFileBuilder {
 		for (TextData textData : textList) {
 		String[] textValues = textData.getTextValue().split("\\s+");
 		
-		if( typeValues.length == 2 && textValues.length >= 5 && 
+		if(typeValues.length == 2 && textValues.length == 4 &&
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+			
+			try {
+				elevation = Double.parseDouble(textData.getTextValue()
+						.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
+			} catch (NumberFormatException e) {
+				
+			}
+			
+		}
+		else if( typeValues.length == 2 && textValues.length >= 5 && 
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
 							
 				try {
@@ -412,17 +423,7 @@ public class ArchivFileBuilder {
 				} catch (NumberFormatException e) {
 				}
 		}
-		else if( typeValues.length == 1 && textValues.length == 4 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
-				try {
-					elevation = Double.parseDouble(textData.getTextValue()
-							.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
-				} catch (NumberFormatException e) {
-				
-				}
-			
-		}
-		else if( typeValues.length == 2 && textValues.length >= 5 && 
+		else if( typeValues.length == 2 && textValues.length == 4 && 
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
 		
 				try {
@@ -434,8 +435,9 @@ public class ArchivFileBuilder {
 				
 				}
 		}
-		else if( typeValues.length == 1 && textValues.length == 4 && 
+		else if( typeValues.length == 2 && textValues.length >= 5 && 
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+		
 				try {
 					
 					elevation = Double.parseDouble(textData.getTextValue()
