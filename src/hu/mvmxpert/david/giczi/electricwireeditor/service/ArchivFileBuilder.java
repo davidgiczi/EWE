@@ -377,9 +377,9 @@ public class ArchivFileBuilder {
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
 			String[] textValues = textData.getTextValue().split("\\s+");
-			if( typeValues.length == 2 && textValues.length == 3 && textData.getTextValue().startsWith(type) ) {
+			if( typeValues.length == 2 && textValues.length == 2 && textData.getTextValue().startsWith(typeValues[0]) ) {
 				try {
-					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")).trim().replace(",", "."));
+					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 					
 				}
@@ -413,6 +413,18 @@ public class ArchivFileBuilder {
 			}
 			
 		}
+		else if(typeValues.length == 2 && textValues.length == 4 &&
+				textData.getTextValue().startsWith(typeValues[0] + " " + typeValues[1].substring(0, 1) + "f") 
+				&& textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+			
+			try {
+				elevation = Double.parseDouble(textData.getTextValue()
+						.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
+			} catch (NumberFormatException e) {
+				
+			}
+			
+		}
 		else if( typeValues.length == 2 && textValues.length >= 5 && 
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
 							
@@ -434,6 +446,18 @@ public class ArchivFileBuilder {
 				} catch (NumberFormatException e) {
 				
 				}
+		}
+		else if(typeValues.length == 2 && textValues.length == 4 &&
+				textData.getTextValue().startsWith(typeValues[0] + " " + typeValues[1].substring(0, 1) + "f") 
+				&& textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+			
+			try {
+				elevation = Double.parseDouble(textData.getTextValue()
+						.substring(textData.getTextValue().indexOf("hr.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
+			} catch (NumberFormatException e) {
+				
+			}
+			
 		}
 		else if( typeValues.length == 2 && textValues.length >= 5 && 
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
