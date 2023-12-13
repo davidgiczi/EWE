@@ -304,7 +304,7 @@ public class ElectricWireCalculator {
 		WireDifference difference = new WireDifference();
 		
 		difference.setDifference(
-				(int) ((archivFileBuilder.getBeginnerPillar().getTopElevetaion() +
+				(int) ((archivFileBuilder.getElevation(archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireType) +
 				(int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
 									 - elevation) * 100.0) / 100.0);
 

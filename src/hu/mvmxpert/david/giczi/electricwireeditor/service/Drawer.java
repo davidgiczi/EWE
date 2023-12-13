@@ -980,13 +980,12 @@ public class Drawer {
 	}
 		
 }
+	
 
-		
 	private void deleteLine(Line line) {
-	if( homeController.getConfirmationAlert("Vonal törlése", "Biztos, hogy törlöd a kiválasztott vonalat?") ) {
+	if( homeController.getConfirmationAlert("Vonal rajzi elem törlése", 
+			"Biztos, hogy törlöd a kiválasztott vonalat és feliratait?") ) {
 		int id = Integer.valueOf(line.getId());
-		deletePreResultsData();
-		deleteAllCalculatedWires();
 		archivFileBuilder.removePillar(id, root);
 		archivFileBuilder.removeWire(id, root);
 		archivFileBuilder.removeLine(id, root);

@@ -913,6 +913,7 @@ public class HomeController {
 			Double elevation = archivFileBuilder.getElevation(wireData.getWireTextList(), 
 					setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
 			
+			
 			if( distance != null && elevation != null ) {
 			WireDifference difference =	calculator.getElevationDifference(distance, elevation);
 			difference.setId(wireData.getWireTextList().get(0).getTextValue());

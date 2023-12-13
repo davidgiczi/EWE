@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import hu.mvmxpert.david.giczi.electricwireeditor.model.DistanceValue;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.DrawingSystemData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
@@ -116,8 +115,13 @@ public class ArchivFileBuilder {
 			return;
 			
 		for(TextData pillarText : pillar.getPillarTextList()) {
-		
 			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				
+				try {
+					Integer.parseInt(root.getChildren().get(i).getId());
+				} catch (Exception e) {
+					continue;
+				}
 				
 				if(root.getChildren().get(i).getId() != null && 
 						(Integer.valueOf(root.getChildren().get(i).getId()) == pillarText.getId() ||
@@ -168,6 +172,13 @@ public class ArchivFileBuilder {
 		
 		for(TextData wireText : wire.getWireTextList()) {
 			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				
+				try {
+					Integer.parseInt(root.getChildren().get(i).getId());
+				} catch (Exception e) {
+					continue;
+				}
+				
 				if( root.getChildren().get(i).getId() != null && 
 						(Integer.valueOf(root.getChildren().get(i).getId()) == wireText.getId() ||
 						Integer.valueOf(root.getChildren().get(i).getId()) == id)) {
@@ -236,16 +247,26 @@ public class ArchivFileBuilder {
 	}
 	
 	public void removeLine(int id, BorderPane root) {
+		
 		for(int i = lineData.size() - 1; i >= 0; i--) {
 			if( lineData.get(i).getId() == id ) {
 				lineData.remove(lineData.get(i));
 			}
 		}
-		for(int i = root.getChildren().size() - 1; i >= 0; i--) {
-			if(root.getChildren().get(i).getId() != null && Integer.valueOf(root.getChildren().get(i).getId()) == id) {
-				root.getChildren().remove(i);
+				
+			for(int i = root.getChildren().size() - 1; i >= 0; i--) {
+				
+				try {
+					Integer.parseInt(root.getChildren().get(i).getId());
+				} catch (Exception e) {
+					continue;
+				}
+				
+				if(root.getChildren().get(i).getId() != null && Integer.valueOf(root.getChildren().get(i).getId()) == id) {
+					root.getChildren().remove(i);
+				}
 			}
-		}
+			
 	}	
 	
 	public LineData getLineData(int id) {
