@@ -34,8 +34,7 @@ public class Validate {
 	
 	public static double isValidDoubleValue(String inputValue) throws NumberFormatException {
 		double value = Double.parseDouble(inputValue.replace(",", "."));
-		if( 0 > value)
-			throw new NumberFormatException();
+		
 		return value;
 	}
 	

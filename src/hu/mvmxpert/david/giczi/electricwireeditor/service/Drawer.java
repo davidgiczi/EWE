@@ -1029,7 +1029,7 @@ public class Drawer {
 	
 	public void drawLine(double startX, double startY, double endX, double endY, String type, Color color, String width) {
 		
-		if( 0 > startX || startX > lengthOfHorizontalAxis ) {
+		/*if( 0 > startX || startX > lengthOfHorizontalAxis ) {
 			homeController.getWarningAlert("Nem megfelelő StartX koordináta érték",
 					"Az X koordináta értéke: X >= 0 és " + lengthOfHorizontalAxis + " >= X");
 			return;
@@ -1050,7 +1050,7 @@ public class Drawer {
 					"Az Y koordináta értéke: Y >= " + elevationStartValue + " és " +
 				(elevationStartValue + 10 * verticalScale) + " >= Y");
 			return;
-		}
+		}*/
 		LineData lineData = new LineData(startX, startY, endX, endY, type, 
 				color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity(), width);
 		lineData.setId(ArchivFileBuilder.addID());
