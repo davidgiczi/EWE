@@ -837,15 +837,19 @@ public class HomeController {
 			return;
 		}
 		double validDistance;
+		Double lengthOfWire = null; 
 		try {
 			validDistance = Validate.isValidDoubleValue(distance);
+			PillarData lastPillar = archivFileBuilder.getLastPillar();
+			lengthOfWire = archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType) == null ? 
+			lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
 			
-			if(0 > validDistance || archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() < validDistance)
+			if(0 > validDistance || lengthOfWire < validDistance)
 				throw new NumberFormatException();
 			
 		} catch (NumberFormatException e) {
 			getWarningAlert("Nem megfelelő távolság érték", "A belógáshoz tartozó távolság csak szám lehet, és\n" +
-					"távolság >= 0  és " + archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() + "m >= távolság");
+					"távolság >= 0  és " + lengthOfWire + "m >= távolság");
 			return;
 		}
 		double hangingValue = calculator.getWireHangingValueByDistance(validDistance);
