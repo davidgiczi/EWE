@@ -68,7 +68,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	double szigmaValue;
 	try {
-	szigmaValue = Validate.isValidDoubleValue(szigmaTextField.getText());
+	szigmaValue = Validate.isValidPositiveDoubleValue(szigmaTextField.getText());
 	} catch (NumberFormatException e) {
 		homeController.getWarningAlert("Hibás szigma érték", "A σ értéke csak nem negatív szám lehet.");
 		return;
