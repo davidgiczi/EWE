@@ -596,22 +596,16 @@ public class HomeController {
 		List<TextData> textList = archivFileBuilder.getTextData();
 		List<LineData> lineList = archivFileBuilder.getLineData();
 		lastPillar.setDistanceOfPillar(0);
-		boolean addZero = true;
 		for (int i = lastPillar.getPillarTextList().size() - 1; i >= 0; i-- ) {
 			String[] values = lastPillar.getPillarTextList().get(i).getTextValue().split("\\s+");
 			if( values.length == 1 && lastPillar.getPillarTextList().get(i).getTextValue().indexOf("m") != -1 ) {
-				lastPillar.getPillarTextList().get(i).setTextValue("0");
+				lastPillar.getPillarTextList().get(i).setTextValue("0.000m");
 			}
 			else if( values.length == 2 && (lastPillar.getPillarTextList().get(i).getTextValue().startsWith("bal") ||
 											lastPillar.getPillarTextList().get(i).getTextValue().startsWith("közép") ||
 											lastPillar.getPillarTextList().get(i).getTextValue().startsWith("jobb")) ) {
-				if( addZero ) {
-					lastPillar.getPillarTextList().get(i).setTextValue("0");
-					addZero = false;
-				}
-				else {
+
 					lastPillar.getPillarTextList().remove(i);
-				}	
 			}
 		}
 		archivFileBuilder.init();
