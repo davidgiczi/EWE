@@ -144,6 +144,13 @@ public class HomeWindow  {
 				homeController.init();
 			}
 		});
+		MenuItem autoDrawing = new MenuItem("Oszlopköz automatikus kirajzolása");
+		autoDrawing.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				homeController.drawPillarSectionAutomatically();
+			}
+		});
 		setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
 		setPillarData.setDisable(true);
 		setPillarData.setOnAction(new EventHandler<ActionEvent>() {
@@ -209,7 +216,7 @@ public class HomeWindow  {
 			}
 		});
 		createNewProject.getItems().addAll(setProjectName, new SeparatorMenuItem(), setProjectFolder, 
-				new SeparatorMenuItem(), setCoordSystem, new SeparatorMenuItem(), setPillarData, new SeparatorMenuItem(), setWireData);
+				new SeparatorMenuItem(), setCoordSystem, autoDrawing, new SeparatorMenuItem(), setPillarData, new SeparatorMenuItem(), setWireData);
 		projectProcess.getItems().addAll(createNewProject, new SeparatorMenuItem(), 
 				openProject, new SeparatorMenuItem()/*, printScreen*/, saveProject, new SeparatorMenuItem(), exitProject);
 		Menu modifyDraw = new Menu("Rajz módosítása");

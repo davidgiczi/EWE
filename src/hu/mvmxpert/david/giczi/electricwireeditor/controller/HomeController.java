@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import javax.naming.directory.InvalidAttributesException;
+
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
@@ -15,6 +18,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
+import hu.mvmxpert.david.giczi.electricwireeditor.service.PillarSectionDrawingAutomatically;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SaveWireCoordsWindow;
@@ -922,6 +926,36 @@ public class HomeController {
 		
 		return differences;
 	}
+	
+	
+	public void drawPillarSectionAutomatically() {
+		String startPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz kezdő oszlopának azonosítóját:").trim();
+		if( startPillarId == null || startPillarId.isEmpty() ){
+			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "A kezdő oszlop azonosítójának megadása szükséges.");
+			return;
+		}
+		String endPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz végső oszlopának azonosítóját:").trim();
+		if( endPillarId == null || endPillarId.isEmpty() ){
+			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "A végső oszlop azonosítójának megadása szükséges.");
+			return;
+		}
+		List<String> measData = fileProcess.openMeasurmentData();
+		if( measData.isEmpty() ) {
+			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "Mérési adatok nem olvashatók.");
+			return;
+		}
+		
+		try {
+				PillarSectionDrawingAutomatically autoDrawing = 
+				new PillarSectionDrawingAutomatically(startPillarId, endPillarId, measData);
+		}
+		catch (NumberFormatException e) {
+			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "Nem megfelelő mérési adatok.");
+			return;
+		}
+	
+	}
+	
 	
 //	public void showLeftWire() {
 //	List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();

@@ -61,6 +61,7 @@ public class FileProcess {
 		return getProjectFileData();
 	}
 	
+	
 	private List<String> getProjectFileData(){
 	
 		List<String> projectData = new ArrayList<>();
@@ -85,6 +86,45 @@ public class FileProcess {
 		
 		return projectData;
 	}
+	
+	public List<String> openMeasurmentData() {
+		FileChooser projectFileChooser = new FileChooser();
+		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ? new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
+		projectFileChooser.setTitle("Válassz mérési fájlt");
+		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Projekt fájlok (*.txt)", "*.txt");
+		projectFileChooser.getExtensionFilters().add(projectFileFilter);
+		File selectedFile = projectFileChooser.showOpenDialog(homeController.homeWindow.primaryStage);
+		String filePath = null;
+		if ( selectedFile != null ) {
+			filePath = selectedFile.getAbsolutePath();
+			
+		}	
+		return getMeasurmentData(filePath);
+	}
+	
+	private List<String> getMeasurmentData(String filePath){
+		List<String> measData = new ArrayList<>();
+		if( filePath == null )
+			return measData;
+		
+		File file = new File( filePath );
+		
+		try(BufferedReader reader = new BufferedReader(
+				new FileReader(file, StandardCharsets.UTF_8))) {
+			
+				String row = reader.readLine();
+				while( row != null ) {
+					measData.add(row);
+					row = reader.readLine();
+				}
+		}
+			catch (IOException e) {
+			homeController.getWarningAlert("Fájl megnyitása sikertelen", "\"" + file.getName() + "\" projekt fájl megnyitása sikertelen.");
+			} 
+		
+		return measData;
+	}
+	
 	
 	public List<String> getWireTypeFileData(){
 		
