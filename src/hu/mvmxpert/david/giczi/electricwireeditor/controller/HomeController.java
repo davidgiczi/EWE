@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
@@ -929,13 +930,13 @@ public class HomeController {
 	
 	
 	public void drawPillarSectionAutomatically() {
-		String startPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz kezdő oszlopának azonosítóját:").trim();
-		if( startPillarId == null || startPillarId.isEmpty() ){
+		String startPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz kezdő oszlopának azonosítóját:");
+		if( startPillarId == null || startPillarId.trim().isEmpty()){
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "A kezdő oszlop azonosítójának megadása szükséges.");
 			return;
 		}
-		String endPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz végső oszlopának azonosítóját:").trim();
-		if( endPillarId == null || endPillarId.isEmpty() ){
+		String endPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz végső oszlopának azonosítóját:");
+		if( endPillarId == null || endPillarId.trim().isEmpty()){
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "A végső oszlop azonosítójának megadása szükséges.");
 			return;
 		}
@@ -952,6 +953,13 @@ public class HomeController {
 		catch (NumberFormatException e) {
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "Nem megfelelő mérési adatok.");
 			return;
+		}
+		catch (InvalidAttributeValueException e) {
+			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", e.getMessage());
+			return;
+		}
+		catch (InvalidAttributesException e) {
+			getWarningAlert("Hiányzó mérési adatok", e.getMessage());
 		}
 	
 	}
