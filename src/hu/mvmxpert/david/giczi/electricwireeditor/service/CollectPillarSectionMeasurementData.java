@@ -1,5 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
 
-public class PillarSectionDrawingAutomatically {
+public class CollectPillarSectionMeasurementData {
 	
 	
 	private String startPillarId;
@@ -24,7 +25,7 @@ public class PillarSectionDrawingAutomatically {
 	private static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR"};
 	
 
-	public PillarSectionDrawingAutomatically(String startPillarId, String endPillarId, List<String> measDataList) 
+	public CollectPillarSectionMeasurementData(String startPillarId, String endPillarId, List<String> measDataList) 
 			throws InvalidAttributeValueException, InvalidAttributesException {
 		this.startPillarId = startPillarId.trim().toUpperCase();
 		this.endPillarId = endPillarId.trim().toUpperCase();
@@ -102,15 +103,35 @@ public class PillarSectionDrawingAutomatically {
 	}
 	
 	private void isValidListFor(List<MeasPoint> wirePointList) throws InvalidAttributeValueException{
-		int groundWirePoint = 0;
-		int upperWirePoint = 0;
-		for( MeasPoint wirePoint1 : wirePointList ) {
+		boolean isSingle;
+		for (MeasPoint wirePoint1 : wirePointList) {
+			isSingle = true;
+			for (MeasPoint wirePoint2 : wirePointList) {
+				
+				if( wirePoint1.pointId.endsWith(POINT_TYPE[7]) ) {
+					isSingle = false;
+				}
+				else if( wirePoint1.pointId.endsWith(POINT_TYPE[9]) ) {
+					isSingle = false;
+				}
+				else if( wirePoint1.pointId.endsWith(POINT_TYPE[10]) && 
+						wirePoint1.pointId.substring(0, wirePoint1.pointId.length() - 4).equals(wirePoint2.pointId) &&
+						wirePoint1.isUpper != wirePoint2.isUpper) {
+					isSingle = false;
+				}
+				else if( (wirePoint1.pointId + "-" + POINT_TYPE[10]).equals(wirePoint2.pointId) 
+						&& wirePoint1.isUpper != wirePoint2.isUpper) {
+					isSingle = false;
+				}
+				else if( wirePoint1.pointId.equals(wirePoint2.pointId) && wirePoint1.isUpper != wirePoint2.isUpper ) {
+					isSingle = false;
+				}
+			}
 			
-			for( MeasPoint wirePoint2 : wirePointList ) {
-			
-			
+			if( isSingle ) {
+				throw new InvalidAttributeValueException("Hiányzó vagy hibás sodrony mérés: " + wirePoint1.pointId);
+			}
 		}
-	}
 }	
 	
 	private void parseMediumWirePointList() {
@@ -163,15 +184,7 @@ public class PillarSectionDrawingAutomatically {
 				mediumWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				mediumWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				mediumWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					mediumWirePoint.setPointType(POINT_TYPE[2] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					mediumWirePoint.setPointType(POINT_TYPE[2] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					mediumWirePoint.setPointType(POINT_TYPE[2]);
-				}
+				mediumWirePoint.setPointType(POINT_TYPE[2]);
 				mediumWirePoint.setUpper(true);
 				mediumWirePointList.add(mediumWirePoint);
 			}
@@ -233,15 +246,7 @@ public class PillarSectionDrawingAutomatically {
 				leftWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				leftWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				leftWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					leftWirePoint.setPointType(POINT_TYPE[0]);
-				}
+				leftWirePoint.setPointType(POINT_TYPE[0]);
 				leftWirePoint.setUpper(true);
 				leftOutsideWirePointList.add(leftWirePoint);
 			}
@@ -298,15 +303,7 @@ public class PillarSectionDrawingAutomatically {
 				leftWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				leftWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				leftWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[3]);
-				}
+				leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[3]);
 				leftWirePoint.setUpper(true);
 				leftOutsideWirePointList.add(leftWirePoint);
 			}
@@ -367,15 +364,7 @@ public class PillarSectionDrawingAutomatically {
 				rightWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				rightWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				rightWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					rightWirePoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					rightWirePoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					rightWirePoint.setPointType(POINT_TYPE[1]);
-				}
+				rightWirePoint.setPointType(POINT_TYPE[1]);
 				rightWirePoint.setUpper(true);
 				rightOutsideWirePointList.add(rightWirePoint);
 			}
@@ -432,15 +421,7 @@ public class PillarSectionDrawingAutomatically {
 				rightWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				rightWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				rightWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					rightWirePoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					rightWirePoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					rightWirePoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[3]);
-				}
+				rightWirePoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[3]);
 				rightWirePoint.setUpper(true);
 				rightOutsideWirePointList.add(rightWirePoint);
 			}
@@ -498,15 +479,7 @@ public class PillarSectionDrawingAutomatically {
 				leftWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				leftWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				leftWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[4]);
-				}
+				leftWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[4]);
 				leftWirePoint.setUpper(true);
 				leftInsideWirePointList.add(leftWirePoint);
 			}
@@ -563,15 +536,7 @@ public class PillarSectionDrawingAutomatically {
 				rightWirePoint.setPointX(Double.parseDouble(rowData[1]));
 				rightWirePoint.setPointY(Double.parseDouble(rowData[2]));
 				rightWirePoint.setPointZ(Double.parseDouble(rowData[3]));
-				if( rowData[0].contains(POINT_TYPE[9]) ) {
-					rightWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[5] + "-" + POINT_TYPE[9]);
-				}
-				else if( rowData[0].contains(POINT_TYPE[10]) ) {
-					rightWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[5] + "-" + POINT_TYPE[10]);
-				}
-				else {
-					rightWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[5]);
-				}
+				rightWirePoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[5]);
 				rightWirePoint.setUpper(true);
 				rightInsideWirePointList.add(rightWirePoint);
 			}
@@ -808,6 +773,104 @@ public class PillarSectionDrawingAutomatically {
 				
 		}
 		
+	}
+	
+	
+	public int getMinElevation() {
+	List<Double> minValueList = new ArrayList<>();
+	double startPillarMinValue = startPillarPointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( startPillarMinValue != 0) {
+		minValueList.add(startPillarMinValue);
+	}
+	double endPillarMinValue = endPillarPointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( endPillarMinValue != 0 ) {
+		minValueList.add(endPillarMinValue);
+	}
+	double leftOutsideMinValue = leftOutsideWirePointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( leftOutsideMinValue != 0 ) {
+		minValueList.add(leftOutsideMinValue);
+	}
+	double leftInsideMinValue = leftInsideWirePointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( leftInsideMinValue != 0 ) {
+		minValueList.add(leftInsideMinValue);
+	}
+	double mediumMinValue = mediumWirePointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( mediumMinValue != 0 ) {
+		minValueList.add(mediumMinValue);
+	}
+	double rightInsideMinValue = rightInsideWirePointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( rightInsideMinValue != 0 ) {
+		minValueList.add(rightInsideMinValue);
+	}
+	double rightOutsideMinValue = rightOutsideWirePointList.stream().mapToDouble( e -> e.pointZ).min().orElse(0d);
+	if( rightInsideMinValue != 0 ) {
+		minValueList.add(rightOutsideMinValue);	
+	}
+	return (int) minValueList.stream().mapToDouble(v -> v).min().orElse(-1d);
+	}
+	
+	
+	
+	public int getMaxElevation() {
+		List<Double> maxValueList = new ArrayList<>();
+		double startPillarMaxValue = startPillarPointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( startPillarMaxValue != 0) {
+			maxValueList.add(startPillarMaxValue);
+		}
+		double endPillarMaxValue = endPillarPointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( endPillarMaxValue != 0 ) {
+			maxValueList.add(endPillarMaxValue);
+		}
+		double leftOutsideMaxValue = leftOutsideWirePointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( leftOutsideMaxValue != 0 ) {
+			maxValueList.add(leftOutsideMaxValue);
+		}
+		double leftInsideMaxValue = leftInsideWirePointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( leftInsideMaxValue != 0 ) {
+			maxValueList.add(leftInsideMaxValue);
+		}
+		double mediumMaxValue = mediumWirePointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( mediumMaxValue != 0 ) {
+			maxValueList.add(mediumMaxValue);
+		}
+		double rightInsideMaxValue = rightInsideWirePointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( rightInsideMaxValue != 0 ) {
+			maxValueList.add(rightInsideMaxValue);
+		}
+		double rightOutsideMaxValue = rightOutsideWirePointList.stream().mapToDouble( e -> e.pointZ).max().orElse(0d);
+		if( rightInsideMaxValue != 0 ) {
+			maxValueList.add(rightOutsideMaxValue);	
+		}
+		return (int) (maxValueList.stream().mapToDouble(v -> v).max().orElse(-2d) + 1);
+	}
+	
+	public String getLengthOfPillarSection() {
+		
+		double aveStartX = startPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointX)
+				.average().orElse(0d);
+		double aveStartY = startPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointY)
+				.average().orElse(0d);
+		double aveEndX = endPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointX)
+				.average().orElse(0d);
+		double aveEndY = endPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointY)
+				.average().orElse(0d);
+		
+		return new DecimalFormat("0.000")
+				.format(calcHorizonatlDistance(
+						new MeasPoint(aveStartX, aveStartY), new MeasPoint(aveEndX, aveEndY)))
+				.replace(",", ".");
+	}
+	
+	private double calcHorizonatlDistance(MeasPoint pointA, MeasPoint pointB) {
+		return Math.sqrt(Math.pow(pointA.pointX - pointB.pointX, 2) + Math.pow(pointA.pointY - pointB.pointY, 2));
 	}
 	
 

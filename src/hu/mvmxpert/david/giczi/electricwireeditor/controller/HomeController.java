@@ -19,7 +19,7 @@ import hu.mvmxpert.david.giczi.electricwireeditor.service.ArchivFileBuilder;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Drawer;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.ElectricWireCalculator;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.FileProcess;
-import hu.mvmxpert.david.giczi.electricwireeditor.service.PillarSectionDrawingAutomatically;
+import hu.mvmxpert.david.giczi.electricwireeditor.service.CollectPillarSectionMeasurementData;
 import hu.mvmxpert.david.giczi.electricwireeditor.service.Validate;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.HomeWindow;
 import hu.mvmxpert.david.giczi.electricwireeditor.view.SaveWireCoordsWindow;
@@ -945,10 +945,10 @@ public class HomeController {
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "Mérési adatok nem olvashatók.");
 			return;
 		}
-		
+		CollectPillarSectionMeasurementData autoCollector = null;
 		try {
-				PillarSectionDrawingAutomatically autoDrawing = 
-				new PillarSectionDrawingAutomatically(startPillarId, endPillarId, measData);
+				autoCollector = 
+				new CollectPillarSectionMeasurementData(startPillarId, endPillarId, measData);
 		}
 		catch (NumberFormatException e) {
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "Nem megfelelő mérési adatok.");
@@ -961,6 +961,11 @@ public class HomeController {
 		catch (InvalidAttributesException e) {
 			getWarningAlert("Hiányzó mérési adatok", e.getMessage());
 		}
+		init();
+		showInputDrawingSystemDataOnCoordSystemDataWindow();
+		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(autoCollector.getMinElevation()));
+		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(autoCollector.getMaxElevation()));
+		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setText(autoCollector.getLengthOfPillarSection());
 	
 	}
 	

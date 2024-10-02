@@ -10,6 +10,15 @@ public class MeasPoint {
 	public boolean isUpper;
 	
 	
+	public MeasPoint() {
+		
+	}
+	
+	public MeasPoint(double pointX, double pointY) {
+		this.pointX = pointX;
+		this.pointY = pointY;
+	}
+
 	public void setPointId(String pointId) {
 		this.pointId = pointId;
 	}
@@ -29,6 +38,8 @@ public class MeasPoint {
 	public void setUpper(boolean isUpper) {
 		this.isUpper = isUpper;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "MeasPoint [pointId=" + pointId + ", pointX=" + pointX + ", pointY=" + pointY + ", pointZ=" + pointZ
