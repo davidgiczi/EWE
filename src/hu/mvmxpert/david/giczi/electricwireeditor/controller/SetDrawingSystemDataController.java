@@ -38,6 +38,9 @@ public class SetDrawingSystemDataController {
 		int verticalScale;
 		double length;
 		int horizontalScale;
+		int minElevationValue = 0;
+		int maxElevationValue = 0;
+		
 		
 		try {
 			startElevation = Validate.isValidIntegerValue(startElevationValue.getText());
@@ -67,6 +70,24 @@ public class SetDrawingSystemDataController {
 					"A vízszintes lépték értéke csak pozitív egész szám lehet.");
 			return;
 		}
+		
+		if( homeController.collectSectionMeasurmentData != null ) {
+			minElevationValue = homeController.collectSectionMeasurmentData.getMinElevation();
+			maxElevationValue = homeController.collectSectionMeasurmentData.getMaxElevation();
+			lengthOfHorizontalAxis.setEditable(true);
+		}
+		
+		if( minElevationValue != 0 && maxElevationValue != 0 ) {
+			
+		try {
+			Validate.isValidPillarSectionElevation(startElevation, verticalScale, minElevationValue, maxElevationValue);
+		}catch (NumberFormatException e) {
+			homeController.getWarningAlert("Nem megfelelő magassági lépték érték" , e.getMessage());
+			return;
+		}
+	}
+		
+		homeController.collectSectionMeasurmentData = null;
 		homeController.archivFileBuilder.setSystemData(length, horizontalScale, startElevation, verticalScale);
 		if( !homeController.archivFileBuilder.getPillarData().isEmpty() ||
 			!homeController.archivFileBuilder.getWireData().isEmpty() ||

@@ -53,6 +53,7 @@ public class HomeController {
 	public SaveWireCoordsWindow saveWireCoordsWindow;
 	public SetCalculatedWireDataWindow setCalculatedWireDataWindow;
 	public ElectricWireCalculator calculator;
+	public CollectPillarSectionMeasurementData collectSectionMeasurmentData;
 	
 	
 	public HomeController() {
@@ -79,7 +80,7 @@ public class HomeController {
 		homeWindow.setPillarData.setDisable(true);
 		homeWindow.setWireData.setDisable(true);
 		setTitle(drawer.getRoot());
-		drawer.drawPage();	
+		drawer.drawPage();
 	}
 	
 	public void showSetLineDataWindow() {
@@ -945,9 +946,8 @@ public class HomeController {
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "Mérési adatok nem olvashatók.");
 			return;
 		}
-		CollectPillarSectionMeasurementData autoCollector = null;
 		try {
-				autoCollector = 
+				collectSectionMeasurmentData = 
 				new CollectPillarSectionMeasurementData(startPillarId, endPillarId, measData);
 		}
 		catch (NumberFormatException e) {
@@ -963,10 +963,10 @@ public class HomeController {
 		}
 		init();
 		showInputDrawingSystemDataOnCoordSystemDataWindow();
-		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(autoCollector.getMinElevation()));
-		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(autoCollector.getMaxElevation()));
-		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setText(autoCollector.getLengthOfPillarSection());
-	
+		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(collectSectionMeasurmentData.getMinElevation()));
+		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(collectSectionMeasurmentData.getMaxElevation()));
+		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setText(collectSectionMeasurmentData.getLengthOfPillarSection());
+		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setEditable(false);
 	}
 	
 	

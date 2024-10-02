@@ -9,6 +9,18 @@ public class Validate {
 		public static int MIN_X_VALUE = 1;
 		public static int MIN_Y_VALUE = 10;
 		
+	
+	public static void isValidPillarSectionElevation(int startElevation, int elevationScale, int minElevation, int maxElevation)
+	throws NumberFormatException{
+		if( startElevation > minElevation ) {
+			throw new NumberFormatException("A magassági lépték kezdő magassága nem lehet nagyobb, mint " + minElevation + "m.");
+		}
+		else if( startElevation + 10 * elevationScale < maxElevation ) {
+			throw new NumberFormatException("A magassági lépték beosztás értéke nem lehet kisebb, mint " 
+		+ Math.round((maxElevation - startElevation) / 10f) + "m.");
+		}
+	}
+	
 	public static boolean isValidInputText(String inputText) {
 		
 		if( inputText == null || inputText.isBlank() || 3 > inputText.length() ) {
