@@ -23,6 +23,7 @@ public class CollectPillarSectionMeasurementData {
 	public List<MeasPoint> rightInsideWirePointList;
 	public List<MeasPoint> mediumWirePointList;
 	private static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR"};
+	private DecimalFormat df;
 	
 
 	public CollectPillarSectionMeasurementData(String startPillarId, String endPillarId, List<String> measDataList) 
@@ -863,15 +864,118 @@ public class CollectPillarSectionMeasurementData {
 				.mapToDouble(a -> a.pointY)
 				.average().orElse(0d);
 		
-		return new DecimalFormat("0.000")
-				.format(calcHorizonatlDistance(
-						new MeasPoint(aveStartX, aveStartY), new MeasPoint(aveEndX, aveEndY)))
+		df = new DecimalFormat("0.000");
+		
+		return df.format(calcHorizonatlDistance(new MeasPoint(aveStartX, aveStartY), new MeasPoint(aveEndX, aveEndY)))
 				.replace(",", ".");
 	}
 	
 	private double calcHorizonatlDistance(MeasPoint pointA, MeasPoint pointB) {
+		if( pointA == null || pointB == null ) {
+			return 0.0;
+		}
 		return Math.sqrt(Math.pow(pointA.pointX - pointB.pointX, 2) + Math.pow(pointA.pointY - pointB.pointY, 2));
 	}
 	
+	private MeasPoint getMeasuredPointById(String pointId, boolean isUpper) {
+		
+		MeasPoint point = null;
+		
+		for (MeasPoint measPoint : startPillarPointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		
+		for (MeasPoint measPoint : endPillarPointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		
+		for (MeasPoint measPoint : leftOutsideWirePointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		for (MeasPoint measPoint : leftInsideWirePointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		
+		for (MeasPoint measPoint : mediumWirePointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		
+		for (MeasPoint measPoint : rightInsideWirePointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		
+		for (MeasPoint measPoint : rightOutsideWirePointList) {
+			if( pointId.equals(measPoint.pointId) && measPoint.isUpper == isUpper) {
+				point = measPoint;
+			}
+		}
+		
+		
+		return point;
+		
+	}
+	
+	
+	public String calcLeftDistance() {	
+		MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		df = new DecimalFormat("0.00");
+		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}
+	
+	public String calcRightDistance() {	
+		MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		df = new DecimalFormat("0.00");
+		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}
+	
+	public String calcLeftOutsideDistance() {	
+		MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		df = new DecimalFormat("0.00");
+		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}
+	
+	
+	public String calcLeftInsideDistance() {
+		MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		df = new DecimalFormat("0.00");
+		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}	
+	
+   public String calcMediumDistance() {
+	   MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+	   MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+	   df = new DecimalFormat("0.00");
+	   return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}	
+	
+	public String calcRightInsideDistance() {
+		 MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		 MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		 df = new DecimalFormat("0.00");
+		 return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}
+ 
+   public String calcRightOutsideDistance() {
+	   	 MeasPoint startPoint = getMeasuredPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		 MeasPoint endPoint = getMeasuredPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		 df = new DecimalFormat("0.00");
+		 return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	}
 
 }

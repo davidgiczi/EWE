@@ -13,11 +13,11 @@ public class Validate {
 	public static void isValidPillarSectionElevation(int startElevation, int elevationScale, int minElevation, int maxElevation)
 	throws NumberFormatException{
 		if( startElevation > minElevation ) {
-			throw new NumberFormatException("A magassági lépték kezdő magassága nem lehet nagyobb, mint " + minElevation + "m.");
+			throw new NumberFormatException("A magassági lépték kezdő magassága nem lehet nagyobb, mint " + minElevation + " méter.");
 		}
 		else if( startElevation + 10 * elevationScale < maxElevation ) {
 			throw new NumberFormatException("A magassági lépték beosztás értéke nem lehet kisebb, mint " 
-		+ Math.round((maxElevation - startElevation) / 10f) + "m.");
+		+ Math.round((maxElevation - startElevation) / 10f) + " méter.");
 		}
 	}
 	

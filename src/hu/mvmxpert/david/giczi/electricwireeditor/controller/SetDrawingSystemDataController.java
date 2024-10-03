@@ -38,8 +38,8 @@ public class SetDrawingSystemDataController {
 		int verticalScale;
 		double length;
 		int horizontalScale;
-		int minElevationValue = 0;
-		int maxElevationValue = 0;
+		int minElevationValue = -1;
+		int maxElevationValue = -1;
 		
 		
 		try {
