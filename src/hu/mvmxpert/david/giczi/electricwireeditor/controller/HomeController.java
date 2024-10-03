@@ -964,7 +964,8 @@ public class HomeController {
 		init();
 		showInputDrawingSystemDataOnCoordSystemDataWindow();
 		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(collectSectionMeasurmentData.getMinElevation()));
-		setCoordSystemWindow.getController().elevationScaleValue.setText(String.valueOf(collectSectionMeasurmentData.getMaxElevation()));
+		setCoordSystemWindow.getController().elevationScaleValue
+		.setText(String.valueOf((int)Math.ceil((collectSectionMeasurmentData.getMaxElevation() - collectSectionMeasurmentData.getMinElevation()) / 10f)));
 		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setText(collectSectionMeasurmentData.getLengthOfPillarSection());
 		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setEditable(false);
 	}

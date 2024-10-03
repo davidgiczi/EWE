@@ -15,9 +15,9 @@ public class Validate {
 		if( startElevation > minElevation ) {
 			throw new NumberFormatException("A magassági lépték kezdő magassága nem lehet nagyobb, mint " + minElevation + " méter.");
 		}
-		else if( startElevation + 10 * elevationScale < maxElevation ) {
+		else if( maxElevation > startElevation + 10 * elevationScale  ) {
 			throw new NumberFormatException("A magassági lépték beosztás értéke nem lehet kisebb, mint " 
-		+ Math.round((maxElevation - startElevation) / 10f) + " méter.");
+		+ (int) Math.ceil((maxElevation - startElevation) / 10f) + " méter.");
 		}
 	}
 	

@@ -74,10 +74,9 @@ public class SetDrawingSystemDataController {
 		if( homeController.collectSectionMeasurmentData != null ) {
 			minElevationValue = homeController.collectSectionMeasurmentData.getMinElevation();
 			maxElevationValue = homeController.collectSectionMeasurmentData.getMaxElevation();
-			lengthOfHorizontalAxis.setEditable(true);
 		}
 		
-		if( minElevationValue != 0 && maxElevationValue != 0 ) {
+		if( minElevationValue != -1 && maxElevationValue != -1 ) {
 			
 		try {
 			Validate.isValidPillarSectionElevation(startElevation, verticalScale, minElevationValue, maxElevationValue);
@@ -87,6 +86,7 @@ public class SetDrawingSystemDataController {
 		}
 	}
 		
+		lengthOfHorizontalAxis.setEditable(true);
 		homeController.collectSectionMeasurmentData = null;
 		homeController.archivFileBuilder.setSystemData(length, horizontalScale, startElevation, verticalScale);
 		if( !homeController.archivFileBuilder.getPillarData().isEmpty() ||
