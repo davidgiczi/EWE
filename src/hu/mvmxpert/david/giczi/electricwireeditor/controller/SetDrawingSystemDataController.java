@@ -87,7 +87,6 @@ public class SetDrawingSystemDataController {
 	}
 		
 		lengthOfHorizontalAxis.setEditable(true);
-		homeController.collectSectionMeasurmentData = null;
 		homeController.archivFileBuilder.setSystemData(length, horizontalScale, startElevation, verticalScale);
 		if( !homeController.archivFileBuilder.getPillarData().isEmpty() ||
 			!homeController.archivFileBuilder.getWireData().isEmpty() ||
@@ -105,6 +104,8 @@ public class SetDrawingSystemDataController {
 		homeController.homeWindow.setPillarData.setDisable(false);
 		homeController.homeWindow.setWireData.setDisable(false);
 		homeController.homeWindow.saveProject.setDisable(false);
+		homeController.drawMeasuredPillarSectionAutomatically();
+		homeController.collectSectionMeasurmentData = null;
 		stage.hide();
 	}
 

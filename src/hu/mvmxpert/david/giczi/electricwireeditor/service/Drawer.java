@@ -298,6 +298,14 @@ public class Drawer {
 		(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
+	public void drawPillarAutomatically(String id, List<Double> measuredPillarData, boolean leftHand, boolean rightHand) {
+		
+	}
+	
+	public void drawWireAutomatically(String id, List<Double> measuredWireData, boolean leftHand, boolean rightHand) {
+		
+	}
+	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean leftHand, boolean rightHand) {
 		Line wire = new Line();
 		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)

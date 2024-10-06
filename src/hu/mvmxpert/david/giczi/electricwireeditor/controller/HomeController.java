@@ -930,7 +930,7 @@ public class HomeController {
 	}
 	
 	
-	public void drawPillarSectionAutomatically() {
+	public void collectPillarSectionMeasuredData() {
 		String startPillarId = setInputText("Oszlopköz adatainak megadása", "Add meg az oszlopköz kezdő oszlopának azonosítóját:");
 		if( startPillarId == null || startPillarId.trim().isEmpty()){
 			getWarningAlert("Oszlopköz kirajzolása nem hajtható végre", "A kezdő oszlop azonosítójának megadása szükséges.");
@@ -966,10 +966,17 @@ public class HomeController {
 		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(collectSectionMeasurmentData.getMinElevation()));
 		setCoordSystemWindow.getController().elevationScaleValue
 		.setText(String.valueOf((int)Math.ceil((collectSectionMeasurmentData.getMaxElevation() - collectSectionMeasurmentData.getMinElevation()) / 10f)));
-		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setText(collectSectionMeasurmentData.getLengthOfPillarSection());
+		setCoordSystemWindow.getController().lengthOfHorizontalAxis.
+		setText(new DecimalFormat("0.000").format(collectSectionMeasurmentData.getLengthOfPillarSection()).replace(",", "."));
+		setCoordSystemWindow.getController().horizontalScaleValue.
+		setText(String.valueOf((int)(collectSectionMeasurmentData.getLengthOfPillarSection() / 0.12)));
 		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setEditable(false);
 	}
 	
+	public void drawMeasuredPillarSectionAutomatically() {
+		
+	}
+	 
 	
 //	public void showLeftWire() {
 //	List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();

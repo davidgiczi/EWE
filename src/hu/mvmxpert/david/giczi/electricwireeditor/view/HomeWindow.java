@@ -148,7 +148,7 @@ public class HomeWindow  {
 		autoDrawing.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				homeController.drawPillarSectionAutomatically();
+				homeController.collectPillarSectionMeasuredData();
 			}
 		});
 		setPillarData = new MenuItem("Távvezeték oszlop adatok megadása");
