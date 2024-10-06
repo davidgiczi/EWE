@@ -42,10 +42,6 @@ public class CollectPillarSectionMeasurementData {
 		parseMediumWirePointList();
 		validatePillarInputData();
 		validateInputWireData();
-		
-		startPillarPointList.forEach(System.out::println);
-		System.out.println("--------------------------------------------------------------------------------------------");
-		endPillarPointList.forEach(System.out::println);
 	}
 	
 	
@@ -565,9 +561,12 @@ public class CollectPillarSectionMeasurementData {
 	
 	private void parseStartPillarPointListData() {
 		startPillarPointList = new ArrayList<>();
+		boolean isTPSMeasure;
+		boolean isGrabbedId;
 		for( String measDataRow : measDataList ) {
 			
-			boolean isTPSMeasure = false;
+			 isTPSMeasure = false;
+			 isGrabbedId = false;
 			
 			String[] rowData = measDataRow.split(",");
 			
@@ -603,7 +602,7 @@ public class CollectPillarSectionMeasurementData {
 				topPoint.setPointType(POINT_TYPE[6]);
 				startPillarPointList.add(topPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftPoint = new MeasPoint();
 				leftPoint.setPointId(POINT_TYPE[0] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				leftPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -612,8 +611,9 @@ public class CollectPillarSectionMeasurementData {
 				leftPoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[8]);
 				leftPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(leftPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightPoint = new MeasPoint();
 				rightPoint.setPointId(POINT_TYPE[1] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				rightPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -622,8 +622,9 @@ public class CollectPillarSectionMeasurementData {
 				rightPoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[8]);
 				rightPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(rightPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint mediumPoint = new MeasPoint();
 				mediumPoint.setPointId(POINT_TYPE[2] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				mediumPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -632,8 +633,9 @@ public class CollectPillarSectionMeasurementData {
 				mediumPoint.setPointType(POINT_TYPE[2] + "-" + POINT_TYPE[8]);
 				mediumPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(mediumPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftOutPoint = new MeasPoint();
 				leftOutPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				leftOutPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -642,8 +644,9 @@ public class CollectPillarSectionMeasurementData {
 				leftOutPoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[8]);
 				leftOutPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(leftOutPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftInPoint = new MeasPoint();
 				leftInPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				leftInPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -652,8 +655,9 @@ public class CollectPillarSectionMeasurementData {
 				leftInPoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + POINT_TYPE[8]);
 				leftInPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(leftInPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightInPoint = new MeasPoint();
 				rightInPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				rightInPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -662,8 +666,9 @@ public class CollectPillarSectionMeasurementData {
 				rightInPoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + POINT_TYPE[8]);
 				rightInPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(rightInPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightOutPoint = new MeasPoint();
 				rightOutPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				rightOutPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -672,8 +677,15 @@ public class CollectPillarSectionMeasurementData {
 				rightOutPoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[8]);
 				rightOutPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(rightOutPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
+			 
+			if( isGrabbedId ) {
+				continue;
+			}
+			
+			
+			if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint leftPoint = new MeasPoint();
 				leftPoint.setPointId(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
 				leftPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -683,7 +695,7 @@ public class CollectPillarSectionMeasurementData {
 				leftPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(leftPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint rightPoint = new MeasPoint();
 				rightPoint.setPointId(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
 				rightPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -693,7 +705,7 @@ public class CollectPillarSectionMeasurementData {
 				rightPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(rightPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint mediumPoint = new MeasPoint();
 				mediumPoint.setPointId(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
 				mediumPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -703,7 +715,7 @@ public class CollectPillarSectionMeasurementData {
 				mediumPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(mediumPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
 			startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint leftOutPoint = new MeasPoint();
 				leftOutPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
@@ -714,7 +726,7 @@ public class CollectPillarSectionMeasurementData {
 				leftOutPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(leftOutPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
 			startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint leftInPoint = new MeasPoint();
 				leftInPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
@@ -725,7 +737,7 @@ public class CollectPillarSectionMeasurementData {
 				leftInPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(leftInPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + 
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + 
 			startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint rightInPoint = new MeasPoint();
 				rightInPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
@@ -736,7 +748,7 @@ public class CollectPillarSectionMeasurementData {
 				rightInPoint.setUpper(isTPSMeasure ? true : false);
 				startPillarPointList.add(rightInPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
 			startPillarId + "-" + endPillarId + "-"  + POINT_TYPE[8]) ) {
 				MeasPoint rightOutPoint = new MeasPoint();
 				rightOutPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-"  +  POINT_TYPE[8]);
@@ -754,9 +766,12 @@ public class CollectPillarSectionMeasurementData {
 
 	private void parseEndPillarPointListData() {
 		endPillarPointList = new ArrayList<>();
+		boolean isTPSMeasure;
+		boolean isGrabbedId;
 		for( String measDataRow : measDataList ) {
 			
-			boolean isTPSMeasure = false;
+			isTPSMeasure = false;
+			isGrabbedId = false;
 			
 			String[] rowData = measDataRow.split(",");
 			
@@ -780,6 +795,7 @@ public class CollectPillarSectionMeasurementData {
 				basePoint.setPointZ(Double.parseDouble(rowData[3]));
 				basePoint.setPointType(POINT_TYPE[5]);
 				endPillarPointList.add(basePoint);
+				isGrabbedId = true;
 			}
 			else if( pillarId[0].equalsIgnoreCase(endPillarId) && 
 					rowData[rowData.length - 1].equalsIgnoreCase(POINT_TYPE[6])) {
@@ -791,8 +807,9 @@ public class CollectPillarSectionMeasurementData {
 				topPoint.setUpper(true);
 				topPoint.setPointType(POINT_TYPE[6]);
 				endPillarPointList.add(topPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftPoint = new MeasPoint();
 				leftPoint.setPointId(POINT_TYPE[0] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				leftPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -801,8 +818,9 @@ public class CollectPillarSectionMeasurementData {
 				leftPoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[8]);
 				leftPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(leftPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightPoint = new MeasPoint();
 				rightPoint.setPointId(POINT_TYPE[1] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				rightPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -811,8 +829,9 @@ public class CollectPillarSectionMeasurementData {
 				rightPoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[8]);
 				rightPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(rightPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint mediumPoint = new MeasPoint();
 				mediumPoint.setPointId(POINT_TYPE[2] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				mediumPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -821,8 +840,9 @@ public class CollectPillarSectionMeasurementData {
 				mediumPoint.setPointType(POINT_TYPE[2] + "-" + POINT_TYPE[8]);
 				mediumPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(mediumPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftOutPoint = new MeasPoint();
 				leftOutPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				leftOutPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -831,8 +851,9 @@ public class CollectPillarSectionMeasurementData {
 				leftOutPoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[8]);
 				leftOutPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(leftOutPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftInPoint = new MeasPoint();
 				leftInPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				leftInPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -841,8 +862,9 @@ public class CollectPillarSectionMeasurementData {
 				leftInPoint.setPointType(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + POINT_TYPE[8]);
 				leftInPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(leftInPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightInPoint = new MeasPoint();
 				rightInPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				rightInPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -851,8 +873,9 @@ public class CollectPillarSectionMeasurementData {
 				rightInPoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + POINT_TYPE[8]);
 				rightInPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(rightInPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightOutPoint = new MeasPoint();
 				rightOutPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" +  POINT_TYPE[8]);
 				rightOutPoint.setPointX(Double.parseDouble(rowData[1]));
@@ -861,10 +884,18 @@ public class CollectPillarSectionMeasurementData {
 				rightOutPoint.setPointType(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[8]);
 				rightOutPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(rightOutPoint);
+				isGrabbedId = true;
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			
+			
+			if( isGrabbedId ) {
+				continue;
+			}
+			
+			
+			if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftPoint = new MeasPoint();
-				leftPoint.setPointId(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +   POINT_TYPE[8]);
+				leftPoint.setPointId(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" +   POINT_TYPE[8]);
 				leftPoint.setPointX(Double.parseDouble(rowData[1]));
 				leftPoint.setPointY(Double.parseDouble(rowData[2]));
 				leftPoint.setPointZ(Double.parseDouble(rowData[3]));
@@ -872,9 +903,9 @@ public class CollectPillarSectionMeasurementData {
 				leftPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(leftPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightPoint = new MeasPoint();
-				rightPoint.setPointId(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  POINT_TYPE[8]);
+				rightPoint.setPointId(POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				rightPoint.setPointX(Double.parseDouble(rowData[1]));
 				rightPoint.setPointY(Double.parseDouble(rowData[2]));
 				rightPoint.setPointZ(Double.parseDouble(rowData[3]));
@@ -882,9 +913,9 @@ public class CollectPillarSectionMeasurementData {
 				rightPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(rightPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith( POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase( POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint mediumPoint = new MeasPoint();
-				mediumPoint.setPointId(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  POINT_TYPE[8]);
+				mediumPoint.setPointId(POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				mediumPoint.setPointX(Double.parseDouble(rowData[1]));
 				mediumPoint.setPointY(Double.parseDouble(rowData[2]));
 				mediumPoint.setPointZ(Double.parseDouble(rowData[3]));
@@ -892,10 +923,10 @@ public class CollectPillarSectionMeasurementData {
 				mediumPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(mediumPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
-			startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
+			endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftOutPoint = new MeasPoint();
-				leftOutPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  POINT_TYPE[8]);
+				leftOutPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				leftOutPoint.setPointX(Double.parseDouble(rowData[1]));
 				leftOutPoint.setPointY(Double.parseDouble(rowData[2]));
 				leftOutPoint.setPointZ(Double.parseDouble(rowData[3]));
@@ -903,10 +934,10 @@ public class CollectPillarSectionMeasurementData {
 				leftOutPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(leftOutPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
-			startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
+			endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint leftInPoint = new MeasPoint();
-				leftInPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  POINT_TYPE[8]);
+				leftInPoint.setPointId(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				leftInPoint.setPointX(Double.parseDouble(rowData[1]));
 				leftInPoint.setPointY(Double.parseDouble(rowData[2]));
 				leftInPoint.setPointZ(Double.parseDouble(rowData[3]));
@@ -914,10 +945,10 @@ public class CollectPillarSectionMeasurementData {
 				leftInPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(leftInPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + 
-			startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" +  POINT_TYPE[4] + "-" + 
+			endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightInPoint = new MeasPoint();
-				rightInPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  POINT_TYPE[8]);
+				rightInPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				rightInPoint.setPointX(Double.parseDouble(rowData[1]));
 				rightInPoint.setPointY(Double.parseDouble(rowData[2]));
 				rightInPoint.setPointZ(Double.parseDouble(rowData[3]));
@@ -925,10 +956,10 @@ public class CollectPillarSectionMeasurementData {
 				rightInPoint.setUpper(isTPSMeasure ? true : false);
 				endPillarPointList.add(rightInPoint);
 			}
-			else if( rowData[0].toUpperCase().startsWith(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
-			startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8]) ) {
+			else if( rowData[0].equalsIgnoreCase(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
+			endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8]) ) {
 				MeasPoint rightOutPoint = new MeasPoint();
-				rightOutPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  POINT_TYPE[8]);
+				rightOutPoint.setPointId(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + startPillarId + "-" +  POINT_TYPE[8]);
 				rightOutPoint.setPointX(Double.parseDouble(rowData[1]));
 				rightOutPoint.setPointY(Double.parseDouble(rowData[2]));
 				rightOutPoint.setPointZ(Double.parseDouble(rowData[3]));
