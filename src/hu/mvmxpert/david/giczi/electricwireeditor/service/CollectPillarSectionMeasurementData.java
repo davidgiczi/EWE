@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.management.InvalidAttributeValueException;
@@ -1097,113 +1098,185 @@ public class CollectPillarSectionMeasurementData {
 		return point;	
 	}
 	
-	public String calcLeftDistance() {	
-		MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		if( startPoint == null ){
-			startPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+	private List<MeasPoint> getPillarLeftMeasPointList() {	
+		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		if( startUpPoint == null ){
+			startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		}
-		
-		MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-		if( endPoint == null ) {
-			endPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		if( startDownPoint == null ){
+			startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		}
-		df = new DecimalFormat("0.00");
-		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		if( endUpPoint == null ) {
+			endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		}
+		MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		if( endDownPoint == null ) {
+			endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		}
+		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}
 	
-	public String calcRightDistance() {	
-		MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		if( startPoint == null ) {
-			startPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+	private List<MeasPoint> getPillarRightMeasPointList() {	
+		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		if( startUpPoint == null ) {
+			startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		}
-		MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-		if( endPoint == null ){
-			endPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		}
-		df = new DecimalFormat("0.00");
-		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+		MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		if( startDownPoint == null ) {
+			startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		}
+		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		if( endUpPoint == null ){
+			endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		}		MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		if( endDownPoint == null ){
+			endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		}
+		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}
 	
-	public String calcLeftOutsideDistance() {	
-		MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		if( startPoint == null ) {
-			startPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
+	public List<MeasPoint> getPillarLeftOutsideMeasPointList() {	
+		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		if( startUpPoint == null ) {
+			startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
 		startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		}
-		MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-		if( endPoint == null ) {
-			endPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" +
+		MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		if( startDownPoint == null ) {
+			startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
+		startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		}
+		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		if( endUpPoint == null ) {
+			endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" +
 					endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		}
-		df = new DecimalFormat("0.00");
-		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+		MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		if( endDownPoint == null ) {
+			endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" +
+					endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		}		
+		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}
 	
 	
-	public String calcLeftInsideDistance() {
-		MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		if( startPoint == null ) {
-			startPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
+	public List<MeasPoint> getPillarLeftInsideMeasPointList() {
+		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		if( startUpPoint == null ) {
+			startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
 		startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		}
-		MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-		if( endPoint == null ) {
-			endPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" +
+		MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		if( startDownPoint == null ) {
+			startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
+		startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		}
+		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		if( endUpPoint == null ) {
+			endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" +
 		endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		}
-		df = new DecimalFormat("0.00");
-		return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+		MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		if( endDownPoint == null ) {
+			endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" +
+		endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		}
+		
+		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}	
 	
-   public String calcMediumDistance() {
-	   MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-	   if( startPoint == null ) {
-		   startPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+   public List<MeasPoint> getPillarMediumMeasPointList() {
+	   MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+	   if( startUpPoint == null ) {
+		   startUpPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 	   }
-	   MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-	   if( endPoint == null ) {
-		   endPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+	   MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+	   if( startDownPoint == null ) {
+		   startDownPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 	   }
-	   df = new DecimalFormat("0.00");
-	   return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+	   MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+	   if( endUpPoint == null ) {
+		   endUpPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+	   }
+	   MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+	   if( endDownPoint == null ) {
+		   endDownPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+	   }
+	   return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}	
 	
-	public String calcRightInsideDistance() {
-		 MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		 if( startPoint == null ) {
-			 startPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
+	public List<MeasPoint> getPillarRightInsideMeasPointList() {
+		 MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+		 if( startUpPoint == null ) {
+			 startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
 		 startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		 }
-		 MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-		 if( endPoint == null ) {
-			 endPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
+		 MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		 if( startDownPoint == null ) {
+			 startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
+		 startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		 }
+		 MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		 if( endUpPoint == null ) {
+			 endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
 		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		 }
-		 df = new DecimalFormat("0.00");
-		 return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+		 MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		 if( endDownPoint == null ) {
+			 endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
+		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		 }
+		 return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}
  
-   public String calcRightOutsideDistance() {
-	   	 MeasPoint startPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-	   	 if( startPoint == null ) {
-	   		 startPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
+   public List<MeasPoint> getPillarRightOutsideMeasPointList() {
+	   	 MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
+	   	 if( startUpPoint == null ) {
+	   		 startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
 	   	 startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 	   	 }
-		 MeasPoint endPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
-		 if( endPoint == null ) {
-			 endPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" +
+	   	MeasPoint startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+	   	 if( startDownPoint == null ) {
+	   		 startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
+	   	 startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+	   	 }
+		 MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		 if( endUpPoint == null ) {
+			 endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" +
 		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		 }
-		 df = new DecimalFormat("0.00");
-		 return df.format(calcHorizonatlDistance(startPoint, endPoint)).replace(",", ".");
+		 MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		 if( endDownPoint == null ) {
+			 endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" +
+		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
+		 }
+		 return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
 	}
    
-   public List<Double> getMeasuredPillarData(){
-	   return null;
+   public List<Double> getStartPillarData(){
+	   
+	   double groundElevation = startPillarPointList.stream()
+			   					.filter(b -> b.pointType.equals(POINT_TYPE[5]))
+			   					.mapToDouble(b -> b.pointZ).average().orElse(0.0);
+	   double topElevation = startPillarPointList.stream()
+					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
+					.mapToDouble(b -> b.pointZ).average().orElse(0.0);
+	  MeasPoint leftGroundPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[8], false);
+	  if( leftGroundPoint == null ) {
+		  leftGroundPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[8], false);
+	  }
+	  
+	 
+	  double heightOfPillar = topElevation > 0 && groundElevation > 0 ? topElevation - groundElevation : -1.0;
+	   return Arrays.asList(0.0, heightOfPillar);
    }
+   
    
    public List<Double> getMeasuredWireData(){
 	   return null;
    }
+   
 
 }
