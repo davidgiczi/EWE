@@ -11,6 +11,7 @@ import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
@@ -974,6 +975,11 @@ public class HomeController {
 	}
 	
 	public void drawMeasuredPillarSectionAutomatically() {
+		
+		List<Double> startPillarData = collectSectionMeasurmentData.getStartPillarData();
+		List<MeasPoint> startPillarMeasPointList = collectSectionMeasurmentData.getStartPillarMeasPointList();
+		
+		startPillarMeasPointList.forEach(System.out::println);
 		
 	}
 	 

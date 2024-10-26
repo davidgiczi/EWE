@@ -1098,7 +1098,7 @@ public class CollectPillarSectionMeasurementData {
 		return point;	
 	}
 	
-	private List<MeasPoint> getPillarLeftMeasPointList() {	
+	private List<MeasPoint> getStartPillarLeftMeasPointList() {	
 		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		if( startUpPoint == null ){
 			startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
@@ -1107,6 +1107,10 @@ public class CollectPillarSectionMeasurementData {
 		if( startDownPoint == null ){
 			startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		}
+		return Arrays.asList(startDownPoint, startUpPoint);
+	}
+	
+	private List<MeasPoint> getEndPillarLeftMeasPointList() {	
 		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		if( endUpPoint == null ) {
 			endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
@@ -1115,10 +1119,10 @@ public class CollectPillarSectionMeasurementData {
 		if( endDownPoint == null ) {
 			endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 		}
-		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
+		return Arrays.asList(endDownPoint, endUpPoint);
 	}
 	
-	private List<MeasPoint> getPillarRightMeasPointList() {	
+	private List<MeasPoint> getStartPillarRightMeasPointList() {	
 		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		if( startUpPoint == null ) {
 			startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
@@ -1127,17 +1131,22 @@ public class CollectPillarSectionMeasurementData {
 		if( startDownPoint == null ) {
 			startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		}
+		return Arrays.asList(startDownPoint, startUpPoint);
+	}
+	
+	private List<MeasPoint> getEndPillarRightMeasPointList() {	
 		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		if( endUpPoint == null ){
 			endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
-		}		MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
+		}
+		MeasPoint endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		if( endDownPoint == null ){
 			endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 		}
-		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
+		return Arrays.asList(endDownPoint, endUpPoint);
 	}
 	
-	public List<MeasPoint> getPillarLeftOutsideMeasPointList() {	
+	private List<MeasPoint> getStartPillarLeftOutsideMeasPointList() {	
 		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		if( startUpPoint == null ) {
 			startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
@@ -1148,6 +1157,10 @@ public class CollectPillarSectionMeasurementData {
 			startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + 
 		startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		}
+		return Arrays.asList(startDownPoint, startUpPoint);
+	}
+	
+	private List<MeasPoint> getEndPillarLeftOutsideMeasPointList() {	
 		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		if( endUpPoint == null ) {
 			endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" +
@@ -1158,11 +1171,10 @@ public class CollectPillarSectionMeasurementData {
 			endDownPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" +
 					endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 		}		
-		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
+		return Arrays.asList(endDownPoint, endUpPoint);
 	}
 	
-	
-	public List<MeasPoint> getPillarLeftInsideMeasPointList() {
+	private List<MeasPoint> getStartPillarLeftInsideMeasPointList() {
 		MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		if( startUpPoint == null ) {
 			startUpPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
@@ -1173,6 +1185,11 @@ public class CollectPillarSectionMeasurementData {
 			startDownPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + 
 		startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		}
+		
+		return Arrays.asList(startDownPoint, startUpPoint);
+	}
+	
+	private List<MeasPoint> getEndPillarLeftInsideMeasPointList() {
 		MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		if( endUpPoint == null ) {
 			endUpPoint = getEndPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" +
@@ -1184,10 +1201,10 @@ public class CollectPillarSectionMeasurementData {
 		endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 		}
 		
-		return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
-	}	
+		return Arrays.asList(endDownPoint, endUpPoint);
+	}
 	
-   public List<MeasPoint> getPillarMediumMeasPointList() {
+   private List<MeasPoint> getStartPillarMediumMeasPointList() {
 	   MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 	   if( startUpPoint == null ) {
 		   startUpPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], true);
@@ -1196,6 +1213,10 @@ public class CollectPillarSectionMeasurementData {
 	   if( startDownPoint == null ) {
 		   startDownPoint = getStartPillarPointById(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 	   }
+	   return Arrays.asList(startDownPoint, startUpPoint);
+	}	
+	
+   private List<MeasPoint> getEndPillarMediumMeasPointList() {
 	   MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 	   if( endUpPoint == null ) {
 		   endUpPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
@@ -1204,10 +1225,10 @@ public class CollectPillarSectionMeasurementData {
 	   if( endDownPoint == null ) {
 		   endDownPoint = getEndPillarPointById(POINT_TYPE[2] + "-" + endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 	   }
-	   return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
-	}	
-	
-	public List<MeasPoint> getPillarRightInsideMeasPointList() {
+	   return Arrays.asList(endDownPoint, endUpPoint);
+   }
+     
+	private List<MeasPoint> getStartPillarRightInsideMeasPointList() {
 		 MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 		 if( startUpPoint == null ) {
 			 startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
@@ -1218,6 +1239,10 @@ public class CollectPillarSectionMeasurementData {
 			 startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
 		 startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 		 }
+		 return Arrays.asList(startDownPoint, startUpPoint);
+	}
+	
+	private List<MeasPoint> getEndPillarRightInsideMeasPointList() {
 		 MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		 if( endUpPoint == null ) {
 			 endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
@@ -1228,10 +1253,11 @@ public class CollectPillarSectionMeasurementData {
 			 endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + 
 		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 		 }
-		 return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
+		 return Arrays.asList(endDownPoint, endUpPoint);
+		
 	}
- 
-   public List<MeasPoint> getPillarRightOutsideMeasPointList() {
+
+   private List<MeasPoint> getStartPillarRightOutsideMeasPointList() {
 	   	 MeasPoint startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + POINT_TYPE[8], true);
 	   	 if( startUpPoint == null ) {
 	   		 startUpPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
@@ -1242,7 +1268,12 @@ public class CollectPillarSectionMeasurementData {
 	   		 startDownPoint = getStartPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + 
 	   	 startPillarId + "-" + endPillarId + "-" + POINT_TYPE[8], false);
 	   	 }
-		 MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
+		 return Arrays.asList(startDownPoint, startUpPoint);
+	}
+   
+   
+   private List<MeasPoint> getEndPillarRightOutsideMeasPointList() {
+	   MeasPoint endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + endPillarId + "-" + POINT_TYPE[8], true);
 		 if( endUpPoint == null ) {
 			 endUpPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" +
 		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], true);
@@ -1252,31 +1283,122 @@ public class CollectPillarSectionMeasurementData {
 			 endDownPoint = getEndPillarPointById(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" +
 		 endPillarId + "-" + startPillarId + "-" + POINT_TYPE[8], false);
 		 }
-		 return Arrays.asList(startDownPoint, startUpPoint, endDownPoint, endUpPoint);
-	}
+		 return Arrays.asList(endDownPoint, endUpPoint);
+   }
    
    public List<Double> getStartPillarData(){
-	   
+	   List<Double> startPillarData = new ArrayList<>();
 	   double groundElevation = startPillarPointList.stream()
 			   					.filter(b -> b.pointType.equals(POINT_TYPE[5]))
-			   					.mapToDouble(b -> b.pointZ).average().orElse(0.0);
+			   					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
 	   double topElevation = startPillarPointList.stream()
 					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
-					.mapToDouble(b -> b.pointZ).average().orElse(0.0);
-	  MeasPoint leftGroundPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + POINT_TYPE[8], false);
-	  if( leftGroundPoint == null ) {
-		  leftGroundPoint = getStartPillarPointById(POINT_TYPE[0] + "-" + POINT_TYPE[8], false);
+					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
+	   
+	  if( topElevation > -1 && groundElevation > -1 && topElevation > groundElevation ) {
+		  startPillarData.add(topElevation - groundElevation);
+	  }	  
+	  else {
+		  startPillarData.add(-1d);
 	  }
 	  
+	 Double leftOutsideElev = getElevation(getStartPillarLeftOutsideMeasPointList());
+	 if( leftOutsideElev != null ) {
+		 startPillarData.add(leftOutsideElev);
+	 }
+	 Double leftInsideElev = getElevation(getStartPillarLeftInsideMeasPointList());
+	 if( leftInsideElev != null ) {
+		 startPillarData.add(leftInsideElev);
+	 }
+	 Double rightInsideElev = getElevation(getStartPillarRightInsideMeasPointList());
+	 if( rightInsideElev != null ) {
+		 startPillarData.add(rightInsideElev);
+	 }
+	 Double rightOutsideElev = getElevation(getStartPillarRightOutsideMeasPointList());
+	 if( rightOutsideElev != null ) {
+		 startPillarData.add(rightOutsideElev);
+	 }
+	 Double leftElev = getElevation(getStartPillarLeftMeasPointList());
+	 if( leftElev != null ) {
+		 startPillarData.add(leftElev);
+	 }
+	 Double mediumElev = getElevation(getStartPillarMediumMeasPointList());
+	 if( mediumElev != null ) {
+		 startPillarData.add(mediumElev);
+	 }
+	 Double rightElev = getElevation(getStartPillarRightMeasPointList());
+	 if( rightElev != null ) {
+		 startPillarData.add(rightElev);
+	 }
 	 
-	  double heightOfPillar = topElevation > 0 && groundElevation > 0 ? topElevation - groundElevation : -1.0;
-	   return Arrays.asList(0.0, heightOfPillar);
+	   return startPillarData;
    }
    
-   
-   public List<Double> getMeasuredWireData(){
+   private Double getElevation(List<MeasPoint> measPointList) {
+	   double groundPointElev = -1;
+	   double topPointElev = -1;
+	   for (MeasPoint measPoint : measPointList) {
+		   if( measPoint != null && !measPoint.isUpper) {
+			   groundPointElev = measPoint.pointZ;
+		   }
+		   else if( measPoint.isUpper ) {
+			   topPointElev = measPoint.pointZ;
+		   }
+	}
+	   
+	   if( topPointElev > -1 && groundPointElev > -1  && topPointElev > groundPointElev ) {
+		   return topPointElev - groundPointElev;
+	   }
+	   
 	   return null;
    }
+   
+   public List<MeasPoint> getStartPillarMeasPointList(){
+	   
+	   List<MeasPoint> measPointList = new ArrayList<>();
+	   
+	   for (MeasPoint measPoint : getStartPillarLeftOutsideMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   for (MeasPoint measPoint : getStartPillarLeftInsideMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   
+	   for (MeasPoint measPoint : getStartPillarRightInsideMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   for (MeasPoint measPoint : getStartPillarRightOutsideMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   for (MeasPoint measPoint : getStartPillarLeftMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   for (MeasPoint measPoint : getStartPillarMediumMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   for (MeasPoint measPoint : getStartPillarRightMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   
+	   return measPointList;
+   }
+   
+   
+  
    
 
 }
