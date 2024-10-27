@@ -980,7 +980,19 @@ public class HomeController {
 		List<MeasPoint> startPillarMeasPointList = collectSectionMeasurmentData.getStartPillarMeasPointList();
 		List<Double> endPillarElevationList = collectSectionMeasurmentData.getEndPillarElevationList();
 		List<MeasPoint> endPillarMeasPointList = collectSectionMeasurmentData.getEndPillarMeasPointList();
+		List<Double> distances = collectSectionMeasurmentData.getDistances();
 		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfPillarSection();
+		
+		System.out.println("StartPillar:");
+		startPillarElevationList.forEach(System.out::println);
+		startPillarMeasPointList.forEach(System.out::println);
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.println("EndPillar:");
+		endPillarElevationList.forEach(System.out::println);
+		endPillarMeasPointList.forEach(System.out::println);
+		System.out.println("---------------------------------------------------------------------------------");
+		distances.forEach(System.out::println);
+		System.out.println("LengthOfSection: " + lenghtOfSection);
 		
 		
 	}

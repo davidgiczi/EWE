@@ -1492,4 +1492,29 @@ public class CollectPillarSectionMeasurementData {
 	   return measPointList;
    }
 
+ public List<Double> getDistances(){
+	 
+	 List<MeasPoint> leftStart = getStartPillarLeftMeasPointList();
+	 List<MeasPoint> leftEnd = getEndPillarLeftMeasPointList();
+	 List<MeasPoint> mediumStart = getStartPillarMediumMeasPointList();
+	 List<MeasPoint> mediumEnd = getEndPillarMediumMeasPointList();
+	 List<MeasPoint> rightStart = getStartPillarRightMeasPointList();
+	 List<MeasPoint> rightEnd = getEndPillarRightMeasPointList();
+	 List<MeasPoint> leftOutsideStart = getStartPillarLeftOutsideMeasPointList();
+	 List<MeasPoint> leftOutsideEnd = getEndPillarLeftOutsideMeasPointList();
+	 List<MeasPoint> leftInsideStart = getStartPillarLeftInsideMeasPointList();
+	 List<MeasPoint> leftInsideEnd = getEndPillarLeftInsideMeasPointList();
+	 List<MeasPoint> rightInsideStart = getStartPillarRightInsideMeasPointList();
+	 List<MeasPoint> rightInsideEnd = getEndPillarRightInsideMeasPointList();
+	 List<MeasPoint> rightOutsideStart = getStartPillarRightOutsideMeasPointList();
+	 List<MeasPoint> rightOutsideEnd = getEndPillarRightOutsideMeasPointList(); 
+	 return Arrays.asList(calcHorizonatlDistance(leftStart.get(1), leftEnd.get(1)),
+			 			  calcHorizonatlDistance(mediumStart.get(1), mediumEnd.get(1)),
+			 			  calcHorizonatlDistance(rightStart.get(1), rightEnd.get(1)),
+			  calcHorizonatlDistance(leftOutsideStart.get(1), leftOutsideEnd.get(1)),
+			  calcHorizonatlDistance(leftInsideStart.get(1), leftInsideEnd.get(1)),
+			  calcHorizonatlDistance(rightInsideStart.get(1), rightInsideEnd.get(1)),
+			  calcHorizonatlDistance(rightOutsideStart.get(1), rightOutsideEnd.get(1)));
+ }
+ 
 }
