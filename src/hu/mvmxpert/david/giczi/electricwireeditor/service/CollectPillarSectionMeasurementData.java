@@ -1,13 +1,10 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
-
 import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
 
 public class CollectPillarSectionMeasurementData {
@@ -24,7 +21,7 @@ public class CollectPillarSectionMeasurementData {
 	public List<MeasPoint> rightInsideWirePointList;
 	public List<MeasPoint> mediumWirePointList;
 	private static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR"};
-	private DecimalFormat df;
+	
 	
 
 	public CollectPillarSectionMeasurementData(String startPillarId, String endPillarId, List<String> measDataList) 

@@ -993,8 +993,7 @@ public class HomeController {
 		System.out.println("---------------------------------------------------------------------------------");
 		distances.forEach(System.out::println);
 		System.out.println("LengthOfSection: " + lenghtOfSection);
-		
-		
+
 	}
 	 
 	
