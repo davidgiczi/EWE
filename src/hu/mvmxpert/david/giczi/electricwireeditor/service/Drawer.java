@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import hu.mvmxpert.david.giczi.electricwireeditor.controller.HomeController;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
@@ -298,11 +299,40 @@ public class Drawer {
 		(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
 	
-	public void drawPillarAutomatically(String id, List<Double> measuredPillarData, boolean leftHand, boolean rightHand) {
-		
+	public void drawPillarAutomatically(String pillarId, double pillarDistance, List<Double> elevationList, 
+			List<MeasPoint> measPointList, List<Double> distances) {
+		Line pillar = new Line();
+		pillar.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		pillar.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevationList.get(0) - elevationStartValue) * MILLIMETER);
+		pillar.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		if( elevationList.get(1) == null ) {
+		double topElevation = elevationList.stream()
+				.filter(e -> e != null && elevationList.indexOf(e) > 0)
+				.mapToDouble(e -> e).average().getAsDouble();
+		pillar.setEndY(PAGE_Y + START_Y -
+				getVerticalScaledDownHeightValue(elevationList.get(0) + topElevation - elevationStartValue) * MILLIMETER);
+		}
+		else {
+		pillar.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevationList.get(1) - elevationStartValue) * MILLIMETER);
+		}
+		pillar.setStroke(Color.BLUE);
+		pillar.setStrokeWidth(3);
+		pillar.setCursor(Cursor.HAND);
+		pillar.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			setDrawLineWindowData(line);
+			deleteLine(line);
+			});
+		root.getChildren().add(pillar);
 	}
 	
-	public void drawWireAutomatically(String id, List<Double> measuredWireData, boolean leftHand, boolean rightHand) {
+	public void drawWireAutomatically(String id) {
 		
 	}
 	

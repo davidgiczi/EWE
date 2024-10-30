@@ -10,8 +10,8 @@ import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
 public class CollectPillarSectionMeasurementData {
 	
 	
-	private String startPillarId;
-	private String endPillarId;
+	public String startPillarId;
+	public String endPillarId;
 	private List<String> measDataList;
 	public List<MeasPoint> startPillarPointList;
 	public List<MeasPoint> endPillarPointList;
@@ -20,7 +20,7 @@ public class CollectPillarSectionMeasurementData {
 	public List<MeasPoint> rightOutsideWirePointList;
 	public List<MeasPoint> rightInsideWirePointList;
 	public List<MeasPoint> mediumWirePointList;
-	private static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR"};
+	public static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR"};
 	
 	
 
@@ -1292,42 +1292,22 @@ public class CollectPillarSectionMeasurementData {
 					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
 					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
 	   
-	  if( topElevation > -1 && groundElevation > -1 && topElevation > groundElevation ) {
-		  startPillarData.add(topElevation - groundElevation);
-	  }	  
-	  else {
-		  startPillarData.add(-1d);
+	  if( topElevation > -1 && groundElevation > -1 ) {
+		  startPillarData.add(groundElevation);
+		  startPillarData.add(topElevation);
 	  }
-	  
-	 Double leftOutsideElev = getElevation(getStartPillarLeftOutsideMeasPointList(), groundElevation);
-	 if( leftOutsideElev != null ) {
-		 startPillarData.add(leftOutsideElev);
-	 }
-	 Double leftInsideElev = getElevation(getStartPillarLeftInsideMeasPointList(), groundElevation);
-	 if( leftInsideElev != null ) {
-		 startPillarData.add(leftInsideElev);
-	 }
-	 Double rightInsideElev = getElevation(getStartPillarRightInsideMeasPointList(), groundElevation);
-	 if( rightInsideElev != null ) {
-		 startPillarData.add(rightInsideElev);
-	 }
-	 Double rightOutsideElev = getElevation(getStartPillarRightOutsideMeasPointList(), groundElevation);
-	 if( rightOutsideElev != null ) {
-		 startPillarData.add(rightOutsideElev);
-	 }
-	 Double leftElev = getElevation(getStartPillarLeftMeasPointList(), groundElevation);
-	 if( leftElev != null ) {
-		 startPillarData.add(leftElev);
-	 }
-	 Double mediumElev = getElevation(getStartPillarMediumMeasPointList(), groundElevation);
-	 if( mediumElev != null ) {
-		 startPillarData.add(mediumElev);
-	 }
-	 Double rightElev = getElevation(getStartPillarRightMeasPointList(), groundElevation);
-	 if( rightElev != null ) {
-		 startPillarData.add(rightElev);
-	 }
-	 
+	  else if( topElevation == -1 ) {
+		  startPillarData.add(groundElevation);
+		  startPillarData.add(null);
+	  }
+	   
+	  startPillarData.add(getElevation(getStartPillarLeftOutsideMeasPointList(), groundElevation));
+	  startPillarData.add(getElevation(getStartPillarLeftInsideMeasPointList(), groundElevation));
+	  startPillarData.add(getElevation(getStartPillarRightInsideMeasPointList(), groundElevation));
+	  startPillarData.add(getElevation(getStartPillarRightOutsideMeasPointList(), groundElevation));
+	  startPillarData.add(getElevation(getStartPillarLeftMeasPointList(), groundElevation));
+	  startPillarData.add( getElevation(getStartPillarMediumMeasPointList(), groundElevation));
+	  startPillarData.add(getElevation(getStartPillarRightMeasPointList(), groundElevation));
 	   return startPillarData;
    }
    
@@ -1406,10 +1386,12 @@ public class CollectPillarSectionMeasurementData {
 					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
 					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
 	   
-	  if( topElevation > -1 && groundElevation > -1 && topElevation > groundElevation ) {
-		  endPillarData.add(topElevation - groundElevation);
-	  }	  
-	  else {
+	  if( topElevation > -1 && groundElevation > -1 ) {
+		  endPillarData.add(groundElevation);
+		  endPillarData.add(topElevation);
+	  }
+	  else if( topElevation == -1 ) {
+		  endPillarData.add(groundElevation);
 		  endPillarData.add(-1d);
 	  }
 	  

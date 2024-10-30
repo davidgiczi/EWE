@@ -982,18 +982,9 @@ public class HomeController {
 		List<MeasPoint> endPillarMeasPointList = collectSectionMeasurmentData.getEndPillarMeasPointList();
 		List<Double> distances = collectSectionMeasurmentData.getDistances();
 		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfPillarSection();
+		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, 
+				startPillarElevationList, startPillarMeasPointList, null);
 		
-		System.out.println("StartPillar:");
-		startPillarElevationList.forEach(System.out::println);
-		startPillarMeasPointList.forEach(System.out::println);
-		System.out.println("---------------------------------------------------------------------------------");
-		System.out.println("EndPillar:");
-		endPillarElevationList.forEach(System.out::println);
-		endPillarMeasPointList.forEach(System.out::println);
-		System.out.println("---------------------------------------------------------------------------------");
-		distances.forEach(System.out::println);
-		System.out.println("LengthOfSection: " + lenghtOfSection);
-
 	}
 	 
 	
