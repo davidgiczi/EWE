@@ -18,6 +18,13 @@ public class MeasPoint {
 		this.pointX = pointX;
 		this.pointY = pointY;
 	}
+	
+	public MeasPoint(String pointId, double pointX, double pointY, double pointZ) {
+		this.pointId = pointId;
+		this.pointX = pointX;
+		this.pointY = pointY;
+		this.pointZ = pointZ;
+	}
 
 	public void setPointId(String pointId) {
 		this.pointId = pointId;

@@ -976,15 +976,13 @@ public class HomeController {
 	
 	public void drawMeasuredPillarSectionAutomatically() {
 		
-		List<Double> startPillarElevationList = collectSectionMeasurmentData.getStartPillarElevationList();
 		List<MeasPoint> startPillarMeasPointList = collectSectionMeasurmentData.getStartPillarMeasPointList();
-		List<Double> endPillarElevationList = collectSectionMeasurmentData.getEndPillarElevationList();
 		List<MeasPoint> endPillarMeasPointList = collectSectionMeasurmentData.getEndPillarMeasPointList();
 		List<Double> distances = collectSectionMeasurmentData.getDistances();
 		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfPillarSection();
-		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, 
-				startPillarElevationList, startPillarMeasPointList, null);
-		
+		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, startPillarMeasPointList, null);
+		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
+							
 	}
 	 
 	

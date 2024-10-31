@@ -1283,59 +1283,25 @@ public class CollectPillarSectionMeasurementData {
 		 return Arrays.asList(endDownPoint, endUpPoint);
    }
    
-   public List<Double> getStartPillarElevationList(){
-	   List<Double> startPillarData = new ArrayList<>();
-	   double groundElevation = startPillarPointList.stream()
-			   					.filter(b -> b.pointType.equals(POINT_TYPE[5]))
-			   					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
-	   double topElevation = startPillarPointList.stream()
-					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
-					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
+ public List<MeasPoint> getStartPillarMeasPointList(){
 	   
-	  if( topElevation > -1 && groundElevation > -1 ) {
-		  startPillarData.add(groundElevation);
-		  startPillarData.add(topElevation);
-	  }
-	  else if( topElevation == -1 ) {
-		  startPillarData.add(groundElevation);
-		  startPillarData.add(null);
-	  }
+	   List<MeasPoint> measPointList = getStartPillarBaseTopData();
 	   
-	  startPillarData.add(getElevation(getStartPillarLeftOutsideMeasPointList(), groundElevation));
-	  startPillarData.add(getElevation(getStartPillarLeftInsideMeasPointList(), groundElevation));
-	  startPillarData.add(getElevation(getStartPillarRightInsideMeasPointList(), groundElevation));
-	  startPillarData.add(getElevation(getStartPillarRightOutsideMeasPointList(), groundElevation));
-	  startPillarData.add(getElevation(getStartPillarLeftMeasPointList(), groundElevation));
-	  startPillarData.add( getElevation(getStartPillarMediumMeasPointList(), groundElevation));
-	  startPillarData.add(getElevation(getStartPillarRightMeasPointList(), groundElevation));
-	   return startPillarData;
-   }
-   
-   private Double getElevation(List<MeasPoint> measPointList, double groundElevation) {
-	   double groundPointElev = -1;
-	   double topPointElev = -1;
-	   for (MeasPoint measPoint : measPointList) {
-		   if( measPoint != null && !measPoint.isUpper) {
-			   groundPointElev = measPoint.pointZ;
-		   }
-		   else if( measPoint != null && measPoint.isUpper ) {
-			   topPointElev = measPoint.pointZ;
+	   for (MeasPoint measPoint : getStartPillarLeftMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
 		   }
 	}
-	   
-	   if( topPointElev > -1 && groundPointElev > -1 && topPointElev > groundPointElev ) {
-		   return topPointElev - groundPointElev;
-	   }
-	   else if( topPointElev > -1 && groundPointElev == -1) {
-		   return topPointElev - groundElevation;
-		   
-	   }
-	   return null;
-   }
-   
-   public List<MeasPoint> getStartPillarMeasPointList(){
-	   
-	   List<MeasPoint> measPointList = new ArrayList<>();
+	   for (MeasPoint measPoint : getStartPillarMediumMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
+	   for (MeasPoint measPoint : getStartPillarRightMeasPointList()) {
+		   if( measPoint != null ) {
+			   measPointList.add(measPoint);
+		   }
+	}
 	   
 	   for (MeasPoint measPoint : getStartPillarLeftOutsideMeasPointList()) {
 		   if( measPoint != null ) {
@@ -1358,78 +1324,87 @@ public class CollectPillarSectionMeasurementData {
 			   measPointList.add(measPoint);
 		   }
 	}
-	   for (MeasPoint measPoint : getStartPillarLeftMeasPointList()) {
-		   if( measPoint != null ) {
-			   measPointList.add(measPoint);
-		   }
-	}
-	   for (MeasPoint measPoint : getStartPillarMediumMeasPointList()) {
-		   if( measPoint != null ) {
-			   measPointList.add(measPoint);
-		   }
-	}
-	   for (MeasPoint measPoint : getStartPillarRightMeasPointList()) {
-		   if( measPoint != null ) {
-			   measPointList.add(measPoint);
-		   }
-	}
 	   
 	   return measPointList;
    }
    
-   public List<Double> getEndPillarElevationList(){
-	   List<Double> endPillarData = new ArrayList<>();
-	   double groundElevation = endPillarPointList.stream()
-			   					.filter(b -> b.pointType.equals(POINT_TYPE[5]))
-			   					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
-	   double topElevation = endPillarPointList.stream()
+   private List<MeasPoint> getStartPillarBaseTopData(){
+	   List<MeasPoint> startPillarData = new ArrayList<>();
+	   double startBaseX = startPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointX)
+				.average().orElse(0d);
+		double startBaseY = startPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointY)
+				.average().orElse(0d);
+	   double startBaseZ = startPillarPointList.stream()
+			   	.filter(b -> b.pointType.equals(POINT_TYPE[5]))
+			   	.mapToDouble(b -> b.pointZ).average().orElse(0d);
+	   double startTopX = startPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[6]))
+				.mapToDouble(a -> a.pointX)
+				.average().orElse(0d);
+		double startTopY = startPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[6]))
+				.mapToDouble(a -> a.pointY)
+				.average().orElse(0d);
+	   double startTopZ = startPillarPointList.stream()
 					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
-					.mapToDouble(b -> b.pointZ).average().orElse(-1d);
-	   
-	  if( topElevation > -1 && groundElevation > -1 ) {
-		  endPillarData.add(groundElevation);
-		  endPillarData.add(topElevation);
-	  }
-	  else if( topElevation == -1 ) {
-		  endPillarData.add(groundElevation);
-		  endPillarData.add(-1d);
-	  }
-	  
-	 Double leftOutsideElev = getElevation(getEndPillarLeftOutsideMeasPointList(), groundElevation);
-	 if( leftOutsideElev != null ) {
-		 endPillarData.add(leftOutsideElev);
-	 }
-	 Double leftInsideElev = getElevation(getEndPillarLeftInsideMeasPointList(), groundElevation);
-	 if( leftInsideElev != null ) {
-		 endPillarData.add(leftInsideElev);
-	 }
-	 Double rightInsideElev = getElevation(getEndPillarRightInsideMeasPointList(), groundElevation);
-	 if( rightInsideElev != null ) {
-		 endPillarData.add(rightInsideElev);
-	 }
-	 Double rightOutsideElev = getElevation(getEndPillarRightOutsideMeasPointList(), groundElevation);
-	 if( rightOutsideElev != null ) {
-		 endPillarData.add(rightOutsideElev);
-	 }
-	 Double leftElev = getElevation(getEndPillarLeftMeasPointList(), groundElevation);
-	 if( leftElev != null ) {
-		 endPillarData.add(leftElev);
-	 }
-	 Double mediumElev = getElevation(getEndPillarMediumMeasPointList(), groundElevation);
-	 if( mediumElev != null ) {
-		 endPillarData.add(mediumElev);
-	 }
-	 Double rightElev = getElevation(getEndPillarRightMeasPointList(), groundElevation);
-	 if( rightElev != null ) {
-		 endPillarData.add(rightElev);
-	 }
-	 
+					.mapToDouble(b -> b.pointZ).average().orElse(0d);
+	   MeasPoint startBase = null;
+	   if( startBaseX != 0 && startBaseY != 0 && startBaseZ != 0 ) {
+		   startBase = new MeasPoint("StartBaseCenter", startBaseX, startBaseY, startBaseZ);
+	   }
+	   MeasPoint startTop = null;
+	   if( startTopX != 0 && startTopY != 0 && startTopZ != 0 ) {
+		   startTop = new MeasPoint("EndTopCenter", startTopX, startTopY, startTopZ);
+	   }
+	   startPillarData.add(startBase);
+	   startPillarData.add(startTop);
+	   return startPillarData;
+   }
+   
+   private List<MeasPoint> getEndPillarBaseTopData(){
+	   List<MeasPoint> endPillarData = new ArrayList<>();
+	   double endBaseX = endPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointX)
+				.average().orElse(0d);
+		double endBaseY = endPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
+				.mapToDouble(a -> a.pointY)
+				.average().orElse(0d);
+	   double endBaseZ = endPillarPointList.stream()
+			   	.filter(b -> b.pointType.equals(POINT_TYPE[5]))
+			   	.mapToDouble(b -> b.pointZ).average().orElse(0d);
+	   double endTopX = endPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[6]))
+				.mapToDouble(a -> a.pointX)
+				.average().orElse(0d);
+		double endTopY = endPillarPointList.stream()
+				.filter(a -> a.pointType.equals(POINT_TYPE[6]))
+				.mapToDouble(a -> a.pointY)
+				.average().orElse(0d);
+	   double endTopZ = endPillarPointList.stream()
+					.filter(b -> b.pointType.equals(POINT_TYPE[6]))
+					.mapToDouble(b -> b.pointZ).average().orElse(0d);
+	   MeasPoint endBase = null;
+	   if( endBaseX != 0 && endBaseY != 0 && endBaseZ != 0 ) {
+		   endBase = new MeasPoint("EndBaseCenter", endBaseX, endBaseY, endBaseZ);
+	   }
+	   MeasPoint endTop = null;
+	   if( endTopX != 0 && endTopY != 0 && endTopZ != 0 ) {
+		   endTop = new MeasPoint("EndTopCenter", endTopX, endTopY, endTopZ);
+	   }
+	   endPillarData.add(endBase);
+	   endPillarData.add(endTop);
 	   return endPillarData;
    }
   
  public List<MeasPoint> getEndPillarMeasPointList(){
 	   
-	   List<MeasPoint> measPointList = new ArrayList<>();
+	   List<MeasPoint> measPointList = getEndPillarBaseTopData();
 	   
 	   for (MeasPoint measPoint : getEndPillarLeftOutsideMeasPointList()) {
 		   if( measPoint != null ) {
