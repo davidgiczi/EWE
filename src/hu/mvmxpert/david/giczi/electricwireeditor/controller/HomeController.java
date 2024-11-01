@@ -961,6 +961,9 @@ public class HomeController {
 		}
 		catch (InvalidAttributesException e) {
 			getWarningAlert("Hiányzó mérési adatok", e.getMessage());
+			if( collectSectionMeasurmentData == null ) {
+				return;
+			}
 		}
 		init();
 		showInputDrawingSystemDataOnCoordSystemDataWindow();
