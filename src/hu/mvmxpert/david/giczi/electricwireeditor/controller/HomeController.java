@@ -984,8 +984,7 @@ public class HomeController {
 		List<Double> distances = collectSectionMeasurmentData.getDistances();
 		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfPillarSection();
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, startPillarMeasPointList, null);
-		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
-							
+		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);					
 	}
 	 
 	

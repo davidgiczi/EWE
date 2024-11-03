@@ -346,72 +346,33 @@ public class Drawer {
 		root.getChildren().add(hood);
 	}
 	
-	public void drawPillarAutomatically(String pillarId, double pillarDistance, List<MeasPoint> measPointList, List<Double> distances) {
-		Line pillar = new Line();
-		pillar.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-				.add(START_X)
-				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
-				.add(HOR_SHIFT * MILLIMETER));
-		pillar.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(measPointList.get(0).pointZ - elevationStartValue) * MILLIMETER);
-		pillar.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-				.add(START_X)
-				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
-				.add(HOR_SHIFT * MILLIMETER));
-		double aveTopElevation = measPointList.stream()
-				.filter(e -> e != null && measPointList.indexOf(e) > 1 && e.isUpper)
-				.mapToDouble(e -> e.pointZ).max().getAsDouble();
-		if( measPointList.get(1) == null ) {
-		pillar.setEndY(PAGE_Y + START_Y -
-				getVerticalScaledDownHeightValue(aveTopElevation - elevationStartValue) * MILLIMETER);
-		}
-		else {
-		pillar.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(measPointList.get(1).pointZ - elevationStartValue) * MILLIMETER);
-		}
-		pillar.setStroke(Color.BLUE);
-		pillar.setStrokeWidth(3);
-		pillar.setCursor(Cursor.HAND);
-		pillar.setOnMouseClicked( h -> {
-			Line line = (Line) h.getSource();
-			setDrawLineWindowData(line);
-			deleteLine(line);
-			});
-		root.getChildren().add(pillar);
+	private void writeDistances(List<Double> distances, double pillarDistance, int pillarId) {
 		
-		PillarData pillarData = new PillarData(measPointList.get(0).pointZ, 
-				measPointList.get(1) == null ? aveTopElevation : measPointList.get(1).pointZ , pillarDistance, 
-				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])), 
-				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1])));
-		pillarData.setId(ArchivFileBuilder.addID());
-		pillar.setId(String.valueOf(pillarData.getId()));
-		archivFileBuilder.addPillar(pillarData);
+		if( distances == null ) {
+			return;
+		}
+			DecimalFormat df = new DecimalFormat("0.00");
+			if( distances.get(0) != 0 && distances.get(1) == 0 && distances.get(2) != 0 ) {	
+			setText(pillarId, "bal " + df.format(distances.get(0)).replace(",", ".") + "m", 
+			(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+			PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			setText(pillarId, "jobb " + df.format(distances.get(2)).replace(",", ".") + "m", 
+			(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+			PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) != 0 && distances.get(1) != 0 && distances.get(2) != 0 ) {
+				
+			}
+			else if( distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0) {
+				
+			}
+				
 		
-		setText(pillarData.getId(), pillarId + ".", 
-				(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);	
-		setText(pillarData.getId(), df.format(pillarDistance).replace(",", ".") + "m", 
-				(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 20, 18, 0, false, false, 0, 0, 0, 1);
+	}
+	
+	private void writeElevations(List<MeasPoint> measPointList, double pillarDistance, Line pillar) {
 		
 		DecimalFormat df = new DecimalFormat("0.00");
-			
-		if( distances != null ) {
-		
-		if( distances.get(0) != 0 && distances.get(1) == 0 && distances.get(2) != 0 ) {	
-		setText(pillarData.getId(), "bal " + df.format(distances.get(0)).replace(",", ".") + "m", 
-		(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
-		PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
-		setText(pillarData.getId(), "jobb " + df.format(distances.get(2)).replace(",", ".") + "m", 
-		(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
-		PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
-		}
-		else if( distances.get(0) != 0 && distances.get(1) != 0 && distances.get(2) != 0 ) {
-			
-		}
-		else if( distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0) {
-			
-		}
-			
-	}
 		
 		if( measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3])) &&
@@ -430,22 +391,92 @@ public class Drawer {
 		}
 		else if( measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) &&
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1])) ) {
-			setText(pillarData.getId(), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 3) * MILLIMETER, 
 					pillar.getStartY() - 15 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(pillarData.getId(), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 3) * MILLIMETER,
-					pillar.getEndY() + 10 * MILLIMETER, 18, -90, true, true, 0, 0, 0, 1);
-			setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 16) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
-					pillar.getStartY() - 15 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+					pillar.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
-					pillar.getEndY()  + 10 * MILLIMETER, 18, -90, true, true, 0, 0, 0, 1);
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 17) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ);
 		}
+			
+	}
+
+	private void writeTopElevation(MeasPoint topPoint, double pillarDistance, int pillarId, boolean isEndPillar) {
+		if( topPoint == null ) {
+			return;
+		}
+		DecimalFormat df = new DecimalFormat("0.00");
+		setText(pillarId, "Csúcs", 
+				(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
+				PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(topPoint.pointZ - elevationStartValue) + 20) * MILLIMETER, 
+				18, 0, false, true, 0, 0, 0, 1);
+		setText(pillarId, "Bf. " + df.format(topPoint.pointZ).replace(",", ".") + "m", 
+				isEndPillar ? (getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 11) * MILLIMETER :
+					(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 4) * MILLIMETER, 
+				 PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(topPoint.pointZ - elevationStartValue) + 15) * MILLIMETER,
+				18, 0, false, true, 0, 0, 0, 1);
 		
+	}
+	
+	public void drawPillarAutomatically(String pillarId, double pillarDistance, List<MeasPoint> measPointList, List<Double> distances) {
+		Line pillar = new Line();
+		pillar.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		pillar.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(measPointList.get(0).pointZ - elevationStartValue) * MILLIMETER);
+		pillar.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
+				.add(HOR_SHIFT * MILLIMETER));
+		double maxTopElevation = measPointList.stream()
+				.filter(e -> e != null && measPointList.indexOf(e) > 1 && e.isUpper)
+				.mapToDouble(e -> e.pointZ).max().getAsDouble();
+		if( measPointList.get(1) == null ) {
+		pillar.setEndY(PAGE_Y + START_Y -
+				getVerticalScaledDownHeightValue(maxTopElevation - elevationStartValue) * MILLIMETER);
+		}
+		else {
+		pillar.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(measPointList.get(1).pointZ - elevationStartValue) * MILLIMETER);
+		}
+		pillar.setStroke(Color.BLUE);
+		pillar.setStrokeWidth(3);
+		pillar.setCursor(Cursor.HAND);
+		pillar.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			setDrawLineWindowData(line);
+			deleteLine(line);
+			});
+		root.getChildren().add(pillar);
+		
+		PillarData pillarData = new PillarData(measPointList.get(0).pointZ, 
+				measPointList.get(1) == null ? maxTopElevation : measPointList.get(1).pointZ , pillarDistance, 
+				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])), 
+				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1])));
+		pillarData.setId(ArchivFileBuilder.addID());
+		pillar.setId(String.valueOf(pillarData.getId()));
+		archivFileBuilder.addPillar(pillarData);
+		
+		setText(pillarData.getId(), pillarId + ".", 
+				(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
+				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);	
+		setText(pillarData.getId(), df.format(pillarDistance).replace(",", ".") + "m", 
+				distances == null ? (getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER :
+					(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 7) * MILLIMETER, 
+				PAGE_Y + START_Y + 20, 18, 0, false, false, 0, 0, 0, 1);	
+		writeDistances(distances, pillarDistance, pillarData.getId());
+		writeElevations(measPointList, pillarDistance, pillar);
+		writeTopElevation(measPointList.get(1), pillarDistance, pillarData.getId(), distances != null);
 	}
 	
 	public void drawWireAutomatically(String id) {
