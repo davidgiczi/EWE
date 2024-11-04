@@ -353,12 +353,12 @@ public class Drawer {
 		}
 			DecimalFormat df = new DecimalFormat("0.00");
 			if( distances.get(0) != 0 && distances.get(1) == 0 && distances.get(2) != 0 ) {	
-			setText(pillarId, "bal " + df.format(distances.get(0)).replace(",", ".") + "m", 
-			(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
-			PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
-			setText(pillarId, "jobb " + df.format(distances.get(2)).replace(",", ".") + "m", 
-			(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
-			PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "bal " + df.format(distances.get(0)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(2)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) != 0 && distances.get(1) != 0 && distances.get(2) != 0 ) {
 				setText(pillarId, "bal " + df.format(distances.get(0)).replace(",", ".") + "m", 
@@ -372,11 +372,116 @@ public class Drawer {
 						PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 				
 			}
-			else if( distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0) {
-				
+			else if( distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(3)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "bal " + df.format(distances.get(4)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
-				
-		
+			else if( distances.get(0) != 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(0)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) != 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "közép " + df.format(distances.get(1)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) != 0 && distances.get(3) == 0 && 
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "jobb " + df.format(distances.get(2)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(3)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(4)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
+					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(3)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "bal " + df.format(distances.get(4)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
+				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(3)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(4)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
+					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(3)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
+			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
+					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+				setText(pillarId, "bal " + df.format(distances.get(4)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
+						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+			}
 	}
 	
 	private void writeElevations(List<MeasPoint> measPointList, double pillarDistance, Line pillar) {
@@ -391,6 +496,43 @@ public class Drawer {
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3])) &&
 			measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4])) ) {
+			
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+		
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(7).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(8).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(9).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(9).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(7).pointZ);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(9).pointZ);
 			
 		}
 		else if( measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) &&

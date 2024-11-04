@@ -1057,7 +1057,7 @@ public class CollectPillarSectionMeasurementData {
 				.mapToDouble(a -> a.pointY)
 				.average().orElse(0d);
 			
-		return calcHorizonatlDistance(new MeasPoint(aveStartX, aveStartY), new MeasPoint(aveEndX, aveEndY));
+		return (int) (1000 * calcHorizonatlDistance(new MeasPoint(aveStartX, aveStartY), new MeasPoint(aveEndX, aveEndY))) / 1000.0;
 	}
 	
 	private double calcHorizonatlDistance(MeasPoint pointA, MeasPoint pointB) {
