@@ -50,6 +50,7 @@ public class CollectPillarSectionMeasurementData {
 		}	
 		int basePoint = 0;
 		int isUpperPoint = 0;
+		int isGroundPoint = 0;
 		for(MeasPoint measPoint : startPillarPointList) {
 			if( measPoint.pointType.equals(POINT_TYPE[5]) ) {
 				basePoint++;
@@ -57,18 +58,32 @@ public class CollectPillarSectionMeasurementData {
 			else if( measPoint.isUpper && measPoint.pointType.endsWith(POINT_TYPE[8]) ) {
 				isUpperPoint++;
 			}
+			else if( !measPoint.isUpper && measPoint.pointType.endsWith(POINT_TYPE[8]) ) {
+				isGroundPoint++;
+			}
 		}
 		if( basePoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó " +  POINT_TYPE[5] + " pontok a(z) " + startPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó " +  POINT_TYPE[5] + " pont a(z) " + startPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó " + POINT_TYPE[8] + " pontok a(z) "  + startPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó sodrony " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+		}
+		else if( isGroundPoint == 0 ) {
+			throw new InvalidAttributeValueException("Hiányzó terepi " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+		}
+		else if( isUpperPoint > isGroundPoint ) {
+			throw new InvalidAttributeValueException("Kevesebb terepi, mint sodrony " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+		}
+		else if( isUpperPoint < isGroundPoint ) {
+			throw new InvalidAttributeValueException("Kevesebb sodrony, mint terepi " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
 		}
 		
 		if( endPillarPointList.isEmpty() ) {
 			throw new InvalidAttributeValueException("Nem található mérési adat a(z) " + endPillarId + ". oszlopra vonatkozóan.");
 		}
-		
+		basePoint = 0;
+		isUpperPoint = 0;
+		isGroundPoint = 0;
 		for(MeasPoint measPoint : endPillarPointList) {
 			if( measPoint.pointType.equals(POINT_TYPE[5]) ) {
 				basePoint++;
@@ -76,12 +91,24 @@ public class CollectPillarSectionMeasurementData {
 			else if( measPoint.isUpper && measPoint.pointType.endsWith(POINT_TYPE[8]) ) {
 				isUpperPoint++;
 			}
+			else if( !measPoint.isUpper && measPoint.pointType.endsWith(POINT_TYPE[8]) ) {
+				isGroundPoint++;
+			}
 		}
 		if( basePoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó " +  POINT_TYPE[5] + " pontok a(z) " + endPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó " +  POINT_TYPE[5] + " pont a(z) " + endPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó " + POINT_TYPE[8] + " pontok a(z) "  + endPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó sodrony " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+		}
+		else if( isGroundPoint == 0 ) {
+			throw new InvalidAttributeValueException("Hiányzó terepi " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+		}
+		else if( isUpperPoint > isGroundPoint ) {
+			throw new InvalidAttributeValueException("Kevesebb terepi, mint sodrony " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+		}
+		else if( isUpperPoint < isGroundPoint ) {
+			throw new InvalidAttributeValueException("Kevesebb sodrony, mint terepi " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
 		}
 			
 	}
