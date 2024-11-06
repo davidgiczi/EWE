@@ -66,16 +66,16 @@ public class CollectPillarSectionMeasurementData {
 			throw new InvalidAttributeValueException("Hiányzó " +  POINT_TYPE[5] + " pont a(z) " + startPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó sodrony " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó befogás " + POINT_TYPE[8] + " pontok a(z) "  + startPillarId + ". oszlopnál.");
 		}
 		else if( isGroundPoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó terepi " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó terepi " + POINT_TYPE[8] + " pontok a(z) "  + startPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint > isGroundPoint ) {
-			throw new InvalidAttributeValueException("Kevesebb terepi, mint sodrony " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Kevesebb terepi, mint befogás " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint < isGroundPoint ) {
-			throw new InvalidAttributeValueException("Kevesebb sodrony, mint terepi " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Kevesebb befogás, mint terepi " + POINT_TYPE[8] + " pont a(z) "  + startPillarId + ". oszlopnál.");
 		}
 		
 		if( endPillarPointList.isEmpty() ) {
@@ -99,16 +99,16 @@ public class CollectPillarSectionMeasurementData {
 			throw new InvalidAttributeValueException("Hiányzó " +  POINT_TYPE[5] + " pont a(z) " + endPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó sodrony " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó befogás " + POINT_TYPE[8] + " pontok a(z) "  + endPillarId + ". oszlopnál.");
 		}
 		else if( isGroundPoint == 0 ) {
-			throw new InvalidAttributeValueException("Hiányzó terepi " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Hiányzó terepi " + POINT_TYPE[8] + " pontok a(z) "  + endPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint > isGroundPoint ) {
-			throw new InvalidAttributeValueException("Kevesebb terepi, mint sodrony " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Kevesebb terepi, mint befogás " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
 		}
 		else if( isUpperPoint < isGroundPoint ) {
-			throw new InvalidAttributeValueException("Kevesebb sodrony, mint terepi " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
+			throw new InvalidAttributeValueException("Kevesebb befogás, mint terepi " + POINT_TYPE[8] + " pont a(z) "  + endPillarId + ". oszlopnál.");
 		}
 			
 	}
