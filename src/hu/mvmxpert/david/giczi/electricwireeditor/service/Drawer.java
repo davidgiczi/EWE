@@ -373,16 +373,16 @@ public class Drawer {
 				
 			}
 			else if( distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
-				setText(pillarId, "bal " + df.format(distances.get(3)).replace(",", ".") + "m", 
+				setText(pillarId, "bal külső " + df.format(distances.get(3)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
-				setText(pillarId, "bal " + df.format(distances.get(4)).replace(",", ".") + "m", 
+				setText(pillarId, "bal belső " + df.format(distances.get(4)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
 						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
-				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
+				setText(pillarId, "jobb belső " + df.format(distances.get(5)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
 						PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
-				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
+				setText(pillarId, "jobb külső " + df.format(distances.get(6)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
 						PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
@@ -586,7 +586,175 @@ public class Drawer {
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ);
 		}
+		else if( measPointList.size() == 4 && 
+				 measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) ) {
+			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 3) * MILLIMETER, 
+					pillar.getStartY() - 15 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 16) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+		}
+		else if( measPointList.size() == 4 &&
+				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1]))) {
+			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
+					pillar.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 17) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ);
+		}
+		else if( measPointList.size() == 4 && 
+				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
+			setText(Integer.parseInt(pillar.getId()), "közép ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 6) * MILLIMETER, 
+					pillar.getStartY() - 17 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "közép ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 6) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 18) * MILLIMETER, 
+					18, -90, false, true, 0, 0, 0, 1);
+		}
+		else if( measPointList.size() == 4 &&
+				 measPointList.stream().anyMatch(m -> m != null && 
+					m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3]))) {
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+		}
+		else if( measPointList.size() == 4 && 
+				measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+		}
+		else if( measPointList.size() == 4 &&
+				measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3]))) {
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ);
+		}
+		else if( measPointList.size() == 4 &&
+				measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ);
+		}
+		else if( measPointList.size() == 6 &&  measPointList.stream().anyMatch(m -> m != null && 
+					m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3])) &&
+				measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
 			
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(5).pointZ);
+		}
+		else if( measPointList.size() == 6 && measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3])) &&
+			measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))){
+			
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ);
+		}
+		else if( measPointList.size() == 6 && measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3])) &&
+				measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
+			
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ);
+		}
+		else if( measPointList.size() == 6 && measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4])) &&
+				measPointList.stream().anyMatch(m -> m != null && 
+				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3]))) {
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
+					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
+					18, -90, true, true, 0, 0, 0, 1);
+			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ);
+			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ);
+		}
 	}
 
 	private void writeTopElevation(MeasPoint topPoint, double pillarDistance, int pillarId, boolean isEndPillar) {
