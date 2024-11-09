@@ -4,6 +4,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.controller;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -971,9 +972,9 @@ public class HomeController {
 		setCoordSystemWindow.getController().elevationScaleValue
 		.setText(String.valueOf((int)Math.ceil((collectSectionMeasurmentData.getMaxElevation() - collectSectionMeasurmentData.getMinElevation()) / 10f)));
 		setCoordSystemWindow.getController().lengthOfHorizontalAxis.
-		setText(new DecimalFormat("0.000").format(collectSectionMeasurmentData.getLengthOfPillarSection()).replace(",", "."));
+		setText(new DecimalFormat("0.000").format(collectSectionMeasurmentData.getLengthOfMainPillarSection()).replace(",", "."));
 		setCoordSystemWindow.getController().horizontalScaleValue.
-		setText(String.valueOf((int)(collectSectionMeasurmentData.getLengthOfPillarSection() / 0.12)));
+		setText(String.valueOf((int)(collectSectionMeasurmentData.getLengthOfMainPillarSection() / 0.12)));
 		setCoordSystemWindow.getController().lengthOfHorizontalAxis.setEditable(false);
 	}
 	
@@ -981,10 +982,11 @@ public class HomeController {
 		
 		List<MeasPoint> startPillarMeasPointList = collectSectionMeasurmentData.getStartPillarMeasPointList();
 		List<MeasPoint> endPillarMeasPointList = collectSectionMeasurmentData.getEndPillarMeasPointList();
-		List<Double> distances = collectSectionMeasurmentData.getDistances();
-		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfPillarSection();
+		List<Double> distances = collectSectionMeasurmentData.getLengthOfSectionBetweenPillars();
+		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfMainPillarSection();
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, startPillarMeasPointList, null);
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
+		
 	}
 	 
 	

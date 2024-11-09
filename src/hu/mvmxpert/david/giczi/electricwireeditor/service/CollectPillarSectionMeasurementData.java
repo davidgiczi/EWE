@@ -2,10 +2,12 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasWire;
 
 public class CollectPillarSectionMeasurementData {
 	
@@ -1065,7 +1067,7 @@ public class CollectPillarSectionMeasurementData {
 		return (int) (maxValueList.stream().mapToDouble(v -> v).max().orElse(-2d) + 1);
 	}
 	
-	public double getLengthOfPillarSection() {
+	public double getLengthOfMainPillarSection() {
 		
 		double aveStartX = startPillarPointList.stream()
 				.filter(a -> a.pointType.equals(POINT_TYPE[5]))
@@ -1473,7 +1475,7 @@ public class CollectPillarSectionMeasurementData {
 	   return measPointList;
    }
 
- public List<Double> getDistances(){
+ public List<Double> getLengthOfSectionBetweenPillars(){
 	 
 	 List<MeasPoint> leftStart = getStartPillarLeftMeasPointList();
 	 List<MeasPoint> leftEnd = getEndPillarLeftMeasPointList();
@@ -1496,6 +1498,86 @@ public class CollectPillarSectionMeasurementData {
 			  calcHorizonatlDistance(leftInsideStart.get(1), leftInsideEnd.get(1)),
 			  calcHorizonatlDistance(rightInsideStart.get(1), rightInsideEnd.get(1)),
 			  calcHorizonatlDistance(rightOutsideStart.get(1), rightOutsideEnd.get(1)));
+ }
+ 
+ 
+ public List<MeasWire> getMeasWirePointList(){
+	 	List<MeasWire> measWire = new ArrayList<>();
+	 
+	 if( !leftInsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(leftInsideWirePointList);
+		 measWire = parseMeasWireData(idSet);
+	 }
+	 if( !rightInsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(rightInsideWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet));
+	 }
+	 if( !leftOutsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(leftOutsideWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet));
+	 }
+	 if( !mediumWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(mediumWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet));
+	 }
+	 if( !rightOutsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(rightOutsideWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet));
+	 }
+	 return measWire;
+ }
+ 
+ private HashSet<String> getWireIdSet(List<MeasPoint> wirePointList){
+	 HashSet<String> idSet = new HashSet<>();
+	 
+	 for (MeasPoint wirePoint : wirePointList) {
+		 
+		 String[] idComponents = wirePoint.pointId.split("-");
+		 
+		 if( idComponents.length == 4 ) {
+			 idSet.add(idComponents[3]);
+		 }
+		 else if( idComponents.length == 5 && startPillarId.equals(idComponents[1]) ) {
+			 idSet.add(idComponents[3] + "-" + idComponents[4]);
+		 }
+		 else if( idComponents.length == 5 && startPillarId.equals(idComponents[2]) ) {
+			 idSet.add(idComponents[4]);
+		 }
+		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[2]) ) {
+			 idSet.add(idComponents[4] + "-" + idComponents[5]);
+		 }
+		 else if( idComponents.length == 5 && idComponents[4].equals(POINT_TYPE[9])) {
+			 idSet.add(idComponents[3]);
+		 }
+		 else if( idComponents.length == 5 && idComponents[4].equals(POINT_TYPE[10])) {
+			 idSet.add(idComponents[3]);
+		 }
+		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[1]) && idComponents[5].equals(POINT_TYPE[9])) {
+			 idSet.add(idComponents[3] + "-" + idComponents[4]);
+		 }
+		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[2]) &&  idComponents[5].equals(POINT_TYPE[9])) {
+			 idSet.add(idComponents[4]);
+		 }
+		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[1]) && idComponents[5].equals(POINT_TYPE[10])) {
+			 idSet.add(idComponents[3] + "-" + idComponents[4]);
+		}
+		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[2]) && idComponents[5].equals(POINT_TYPE[10])) {
+			 idSet.add(idComponents[4]);
+		 }
+		 else if( idComponents.length == 7 && idComponents[6].equals(POINT_TYPE[9])) {
+			 idSet.add(idComponents[4] + "-" + idComponents[5]);
+		 }
+		 else if( idComponents.length == 7 && idComponents[6].equals(POINT_TYPE[10])) {
+			 idSet.add(idComponents[4] + "-" + idComponents[5]);
+		 } 
+	}
+	 
+	 return idSet;
+ }
+ 
+ private List<MeasWire> parseMeasWireData(HashSet<String> idSet){
+	 
+	 return null; 
  }
  
 }

@@ -440,7 +440,7 @@ public class Drawer {
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
 					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
 				setText(pillarId, "jobb " + df.format(distances.get(5)).replace(",", ".") + "m", 
-						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 12) * MILLIMETER, 
+						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 15) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 				setText(pillarId, "jobb " + df.format(distances.get(6)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT  - VER_SHIFT - 15) * MILLIMETER, 
