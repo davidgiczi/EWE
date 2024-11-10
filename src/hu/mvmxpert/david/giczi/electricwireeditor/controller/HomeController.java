@@ -13,6 +13,7 @@ import javax.naming.directory.InvalidAttributesException;
 
 import hu.mvmxpert.david.giczi.electricwireeditor.model.LineData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasPoint;
+import hu.mvmxpert.david.giczi.electricwireeditor.model.MeasWire;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.PillarData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.TextData;
 import hu.mvmxpert.david.giczi.electricwireeditor.model.WireData;
@@ -986,7 +987,9 @@ public class HomeController {
 		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfMainPillarSection();
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, startPillarMeasPointList, null);
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
+		List<MeasWire> measWireList = collectSectionMeasurmentData.getMeasWirePointList();
 		
+		measWireList.forEach(System.out::println);
 	}
 	 
 	

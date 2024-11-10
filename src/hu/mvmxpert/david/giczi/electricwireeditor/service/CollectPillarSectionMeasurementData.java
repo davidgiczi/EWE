@@ -1506,23 +1506,23 @@ public class CollectPillarSectionMeasurementData {
 	 
 	 if( !leftInsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(leftInsideWirePointList);
-		 measWire = parseMeasWireData(idSet);
+		 measWire = parseMeasWireData(idSet, 1);
 	 }
 	 if( !rightInsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(rightInsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet));
+		 measWire.addAll(parseMeasWireData(idSet, 3));
 	 }
 	 if( !leftOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(leftOutsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet));
+		 measWire.addAll(parseMeasWireData(idSet, 0));
 	 }
 	 if( !mediumWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(mediumWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet));
+		 measWire.addAll(parseMeasWireData(idSet, 2));
 	 }
 	 if( !rightOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(rightOutsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet));
+		 measWire.addAll(parseMeasWireData(idSet, 4));
 	 }
 	 return measWire;
  }
@@ -1575,9 +1575,127 @@ public class CollectPillarSectionMeasurementData {
 	 return idSet;
  }
  
- private List<MeasWire> parseMeasWireData(HashSet<String> idSet){
+ private List<MeasWire> parseMeasWireData(HashSet<String> wireIdSet, int wireDataType){
 	 
-	 return null; 
+	 List<MeasWire> measWireList = new ArrayList<>();
+	 
+	 if (wireDataType == 0) {
+		 		 
+		for (String wireId : wireIdSet) {
+			MeasWire measWire = new MeasWire();
+			measWire.setWireType(wireDataType);
+			for (MeasPoint measPoint : leftOutsideWirePointList){
+			
+			 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+				 measWire.setGroundPoint(measPoint);
+			 }
+			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+				 measWire.setVEZPoint(measPoint);
+			 }
+			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+				 measWire.setSDRPoint(measPoint);
+			 }
+			 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+				 measWire.setSDRPoint(measPoint);
+			 } 		 
+		}
+			measWireList.add(measWire);
+	}
+}
+		else if (wireDataType == 1) {
+			 
+			for (String wireId : wireIdSet) {
+				MeasWire measWire = new MeasWire();
+				measWire.setWireType(wireDataType);
+				for (MeasPoint measPoint : leftInsideWirePointList){
+				
+				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+					 measWire.setGroundPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+					 measWire.setVEZPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+					 measWire.setSDRPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+					 measWire.setSDRPoint(measPoint);
+				 } 		 
+			}
+				measWireList.add(measWire);
+	}
+}
+		else if (wireDataType == 2) {
+			 
+			for (String wireId : wireIdSet) {
+				MeasWire measWire = new MeasWire();
+				measWire.setWireType(wireDataType);
+				for (MeasPoint measPoint : mediumWirePointList){
+				
+				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+					 measWire.setGroundPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+					 measWire.setVEZPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+					 measWire.setSDRPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+					 measWire.setSDRPoint(measPoint);
+				 } 		 
+			}
+				measWireList.add(measWire);
+	}
+}
+		else if (wireDataType == 3) {
+			 
+			for (String wireId : wireIdSet) {
+				MeasWire measWire = new MeasWire();
+				measWire.setWireType(wireDataType);
+				for (MeasPoint measPoint : rightInsideWirePointList){
+				
+				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+					 measWire.setGroundPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+					 measWire.setVEZPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+					 measWire.setSDRPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+					 measWire.setSDRPoint(measPoint);
+				 } 		 
+			}
+				measWireList.add(measWire);
+	}
+}
+		else if (wireDataType == 4) {
+			 
+			for (String wireId : wireIdSet) {
+				MeasWire measWire = new MeasWire();
+				measWire.setWireType(wireDataType);
+				for (MeasPoint measPoint : rightOutsideWirePointList){
+				
+				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+					 measWire.setGroundPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+					 measWire.setVEZPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+					 measWire.setSDRPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+					 measWire.setSDRPoint(measPoint);
+				 } 		 
+			}
+				measWireList.add(measWire);
+	}
+}
+	 
+	 return measWireList;
  }
  
 }
