@@ -1594,18 +1594,21 @@ public class CollectPillarSectionMeasurementData {
 		for (String wireId : wireIdSet) {
 			MeasWire measWire = new MeasWire();
 			measWire.setWireType(wireDataType);
+			measWire.setWireId(wireId);
 			for (MeasPoint measPoint : leftOutsideWirePointList){
 			
-			 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+			 if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && !measPoint.isUpper) {
 				 measWire.setGroundPoint(measPoint);
-			 }
-			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+			 } 
+			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+					 measPoint.pointId.endsWith(POINT_TYPE[9])) {
 				 measWire.setVEZPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+					 measPoint.pointId.endsWith(POINT_TYPE[10])) {
 				 measWire.setSDRPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && measPoint.isUpper) {
 				 measWire.setSDRPoint(measPoint);
 			 } 		 
 		}			
@@ -1613,25 +1616,35 @@ public class CollectPillarSectionMeasurementData {
 			if( grabPoint != null ) {
 			measWire.setDistanceOfWire(grabPoint);
 			}
-			measWireList.add(measWire);
+			if( measWire.getGroundPoint() == null ) {
+				measWire.setWireId(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+				measWire.calcHalfPillarSectionGroundPoint(getStartPillarLeftMeasPointList().get(0), 
+						getEndPillarLeftMeasPointList().get(0));
+			}
+			if( measWire.getSDRPoint() != null ) {
+				measWireList.add(measWire);
+			}
 	}
 }	else if (wireDataType == 1) {
 	 
 	for (String wireId : wireIdSet) {
 		MeasWire measWire = new MeasWire();
 		measWire.setWireType(wireDataType);
+		measWire.setWireId(wireId);
 		for (MeasPoint measPoint : mediumWirePointList){
 		
-		 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+		 if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && !measPoint.isUpper ) {
 			 measWire.setGroundPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 			 measWire.setVEZPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 			 measWire.setSDRPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && measPoint.isUpper ) {
 			 measWire.setSDRPoint(measPoint);
 		 } 		 
 	}
@@ -1639,7 +1652,14 @@ public class CollectPillarSectionMeasurementData {
 		if( grabPoint != null ) {
 		measWire.setDistanceOfWire(grabPoint);
 		}
-		measWireList.add(measWire);
+		if( measWire.getGroundPoint() == null ) {
+			measWire.setWireId(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+			measWire.calcHalfPillarSectionGroundPoint(getStartPillarMediumMeasPointList().get(0), 
+					getEndPillarMediumMeasPointList().get(0));
+		}
+		if( measWire.getSDRPoint() != null ) {
+			measWireList.add(measWire);
+		}
 	}
 }
 		else if (wireDataType == 2) {
@@ -1647,45 +1667,60 @@ public class CollectPillarSectionMeasurementData {
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
 				measWire.setWireType(wireDataType);
+				measWire.setWireId(wireId);
 				for (MeasPoint measPoint : rightOutsideWirePointList){
 				
-				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+				 if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && !measPoint.isUpper ) {
 					 measWire.setGroundPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 					 measWire.setVEZPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 					 measWire.setSDRPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && measPoint.isUpper ) {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
-				MeasPoint grabPoint = getStartPillarRightOutsideMeasPointList().get(1);
+				MeasPoint grabPoint = getStartPillarRightMeasPointList().get(1);
 				if( grabPoint != null ) {
 				measWire.setDistanceOfWire(grabPoint);
 				}
-				measWireList.add(measWire);
+				if( measWire.getGroundPoint() == null ) {
+					measWire.setWireId(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+					measWire.calcHalfPillarSectionGroundPoint(getStartPillarRightMeasPointList().get(0), 
+							getEndPillarRightMeasPointList().get(0));
+				}
+				if( measWire.getSDRPoint() != null ) {
+					measWireList.add(measWire);
+				}
 	}
 }		
-	else if (wireDataType == 3) {
+		else if (  wireDataType == 3 ) {
 			 
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
 				measWire.setWireType(wireDataType);
+				measWire.setWireId(wireId);
 				for (MeasPoint measPoint : leftOutsideWirePointList){
 				
-				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
-					 measWire.setGroundPoint(measPoint);
+				 if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 !measPoint.isUpper ) {
+					 measWire.setGroundPoint(measPoint); 
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 					 measWire.setVEZPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 					 measWire.setSDRPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.isUpper ) {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
@@ -1693,7 +1728,14 @@ public class CollectPillarSectionMeasurementData {
 				if( grabPoint != null ) {
 				measWire.setDistanceOfWire(grabPoint);
 				}
-				measWireList.add(measWire);
+				if( measWire.getGroundPoint() == null ) {
+					measWire.setWireId(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+					measWire.calcHalfPillarSectionGroundPoint(getStartPillarLeftOutsideMeasPointList().get(0), 
+							getEndPillarLeftOutsideMeasPointList().get(0));
+				}
+				if( measWire.getSDRPoint() != null ) {
+					measWireList.add(measWire);
+				}
 	}
 }
 		else if (wireDataType == 4) {
@@ -1701,18 +1743,23 @@ public class CollectPillarSectionMeasurementData {
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
 				measWire.setWireType(wireDataType);
+				measWire.setWireId(wireId);
 				for (MeasPoint measPoint : leftInsideWirePointList){
 				
-				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+				 if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 !measPoint.isUpper ) {
 					 measWire.setGroundPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 					 measWire.setVEZPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 					 measWire.setSDRPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+						 measPoint.isUpper ) {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
@@ -1720,7 +1767,14 @@ public class CollectPillarSectionMeasurementData {
 				if( grabPoint != null ) {
 				measWire.setDistanceOfWire(grabPoint);
 				}
-				measWireList.add(measWire);	
+				if( measWire.getGroundPoint() == null ) {
+					measWire.setWireId(POINT_TYPE[0] + "-" + POINT_TYPE[4]  + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+					measWire.calcHalfPillarSectionGroundPoint(getStartPillarLeftInsideMeasPointList().get(0), 
+							getEndPillarLeftInsideMeasPointList().get(0));
+				}
+				if( measWire.getSDRPoint() != null ) {
+					measWireList.add(measWire);
+				}
 	}
 }	
 	else if (wireDataType == 5) {
@@ -1728,18 +1782,23 @@ public class CollectPillarSectionMeasurementData {
 	for (String wireId : wireIdSet) {
 		MeasWire measWire = new MeasWire();
 		measWire.setWireType(wireDataType);
+		measWire.setWireId(wireId);
 		for (MeasPoint measPoint : rightInsideWirePointList){
 		
-		 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+		 if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 !measPoint.isUpper ) {
 			 measWire.setGroundPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 			 measWire.setVEZPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 			 measWire.setSDRPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 measPoint.isUpper ) {
 			 measWire.setSDRPoint(measPoint);
 		 } 		 
 	}
@@ -1747,7 +1806,14 @@ public class CollectPillarSectionMeasurementData {
 		if( grabPoint != null ) {
 		measWire.setDistanceOfWire(grabPoint);
 		}
-		measWireList.add(measWire);	
+		if( measWire.getGroundPoint() == null ) {
+			measWire.setWireId(POINT_TYPE[1] + "-" + POINT_TYPE[4]  + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+			measWire.calcHalfPillarSectionGroundPoint(getStartPillarRightInsideMeasPointList().get(0), 
+					getEndPillarRightInsideMeasPointList().get(0));
+		}
+		if( measWire.getSDRPoint() != null ) {
+			measWireList.add(measWire);
+		}
 	}
 }
 	else if (wireDataType == 6) {
@@ -1755,18 +1821,23 @@ public class CollectPillarSectionMeasurementData {
 		for (String wireId : wireIdSet) {
 			MeasWire measWire = new MeasWire();
 			measWire.setWireType(wireDataType);
+			measWire.setWireId(wireId);
 			for (MeasPoint measPoint : rightOutsideWirePointList){
 			
-			 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+			 if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+					 !measPoint.isUpper ) {
 				 measWire.setGroundPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+					 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 				 measWire.setVEZPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+					 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 				 measWire.setSDRPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+					 measPoint.isUpper ) {
 				 measWire.setSDRPoint(measPoint);
 			 } 		 
 		}
@@ -1774,7 +1845,14 @@ public class CollectPillarSectionMeasurementData {
 			if( grabPoint != null ) {
 			measWire.setDistanceOfWire(grabPoint);
 			}
-			measWireList.add(measWire);	
+			if( measWire.getGroundPoint() == null ) {
+				measWire.setWireId(POINT_TYPE[1] + "-" + POINT_TYPE[3]  + "-" + startPillarId + "-" + endPillarId + "-" + POINT_TYPE[7]);
+				measWire.calcHalfPillarSectionGroundPoint(getStartPillarRightOutsideMeasPointList().get(0), 
+						getEndPillarRightOutsideMeasPointList().get(0));
+			}
+			if( measWire.getSDRPoint() != null ) {
+				measWireList.add(measWire);
+			}
 		}
 	}
 	 

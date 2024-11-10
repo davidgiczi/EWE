@@ -10,7 +10,6 @@ public class MeasWire {
 	private MeasPoint SDRPoint;
 	private double distanceOfWire;
 	
-	
 	public int getWireType() {
 		return wireType;
 	}
@@ -48,12 +47,14 @@ public class MeasWire {
 	public void setDistanceOfWire(MeasPoint grabPoint) {
 		this.distanceOfWire = Math.sqrt(Math.pow(this.SDRPoint.pointX - grabPoint.pointX, 2) + Math.pow(this.SDRPoint.pointY - grabPoint.pointY, 2));
 	}
-	public void calcGroundPoint(MeasPoint startGrabPoint, MeasPoint endGrabPoint) {
+	public void calcHalfPillarSectionGroundPoint(MeasPoint startGrabPoint, MeasPoint endGrabPoint) {
+		if( startGrabPoint == null || endGrabPoint == null ) {
+			return;
+		}
 		this.groundPoint = new MeasPoint(wireId, ((startGrabPoint.pointX + endGrabPoint.pointX) / 2.0),
 										((startGrabPoint.pointY + endGrabPoint.pointY) / 2.0), 
 										((startGrabPoint.pointZ + endGrabPoint.pointZ) / 2.0));
 	}
-	
 	@Override
 	public String toString() {
 		return "MeasWire [wireType=" + wireType + ", wireId=" + wireId + ", groundPoint=" + groundPoint + ", VEZPoint="
