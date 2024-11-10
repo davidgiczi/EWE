@@ -1503,27 +1503,36 @@ public class CollectPillarSectionMeasurementData {
  
  public List<MeasWire> getMeasWirePointList(){
 	 	List<MeasWire> measWire = new ArrayList<>();
-	 
-	 if( !leftInsideWirePointList.isEmpty() ) {
-		 HashSet<String> idSet = getWireIdSet(leftInsideWirePointList);
-		 measWire = parseMeasWireData(idSet, 1);
-	 }
-	 if( !rightInsideWirePointList.isEmpty() ) {
-		 HashSet<String> idSet = getWireIdSet(rightInsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet, 3));
-	 }
+	 	
 	 if( !leftOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(leftOutsideWirePointList);
 		 measWire.addAll(parseMeasWireData(idSet, 0));
-	 }
+			 }
 	 if( !mediumWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(mediumWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet, 1));
+		 }
+	 if( !rightOutsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(rightOutsideWirePointList);
 		 measWire.addAll(parseMeasWireData(idSet, 2));
+		 }
+	 if( !leftOutsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(leftOutsideWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet, 3));
+		 }
+	 if( !leftInsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(leftInsideWirePointList);
+		 measWire = parseMeasWireData(idSet, 4);
+	 }
+	 if( !rightInsideWirePointList.isEmpty() ) {
+		 HashSet<String> idSet = getWireIdSet(rightInsideWirePointList);
+		 measWire.addAll(parseMeasWireData(idSet, 5));
 	 }
 	 if( !rightOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(rightOutsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet, 4));
+		 measWire.addAll(parseMeasWireData(idSet, 6));
 	 }
+	 
 	 return measWire;
  }
  
@@ -1600,15 +1609,94 @@ public class CollectPillarSectionMeasurementData {
 				 measWire.setSDRPoint(measPoint);
 			 } 		 
 		}			
-			MeasPoint grabPoint = getStartPillarLeftOutsideMeasPointList().get(1) == null ? 
-			getStartPillarLeftMeasPointList().get(1) : getStartPillarLeftOutsideMeasPointList().get(1);
+			MeasPoint grabPoint = getStartPillarLeftMeasPointList().get(1);
 			if( grabPoint != null ) {
 			measWire.setDistanceOfWire(grabPoint);
 			}
 			measWireList.add(measWire);
 	}
+}	else if (wireDataType == 1) {
+	 
+	for (String wireId : wireIdSet) {
+		MeasWire measWire = new MeasWire();
+		measWire.setWireType(wireDataType);
+		for (MeasPoint measPoint : mediumWirePointList){
+		
+		 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+			 measWire.setGroundPoint(measPoint);
+		 }
+		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+			 measWire.setVEZPoint(measPoint);
+		 }
+		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+			 measWire.setSDRPoint(measPoint);
+		 }
+		 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+			 measWire.setSDRPoint(measPoint);
+		 } 		 
+	}
+		MeasPoint grabPoint = getStartPillarMediumMeasPointList().get(1);
+		if( grabPoint != null ) {
+		measWire.setDistanceOfWire(grabPoint);
+		}
+		measWireList.add(measWire);
+	}
 }
-		else if (wireDataType == 1) {
+		else if (wireDataType == 2) {
+			 
+			for (String wireId : wireIdSet) {
+				MeasWire measWire = new MeasWire();
+				measWire.setWireType(wireDataType);
+				for (MeasPoint measPoint : rightOutsideWirePointList){
+				
+				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+					 measWire.setGroundPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+					 measWire.setVEZPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+					 measWire.setSDRPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+					 measWire.setSDRPoint(measPoint);
+				 } 		 
+			}
+				MeasPoint grabPoint = getStartPillarRightOutsideMeasPointList().get(1);
+				if( grabPoint != null ) {
+				measWire.setDistanceOfWire(grabPoint);
+				}
+				measWireList.add(measWire);
+	}
+}		
+	else if (wireDataType == 3) {
+			 
+			for (String wireId : wireIdSet) {
+				MeasWire measWire = new MeasWire();
+				measWire.setWireType(wireDataType);
+				for (MeasPoint measPoint : leftOutsideWirePointList){
+				
+				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+					 measWire.setGroundPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+					 measWire.setVEZPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+					 measWire.setSDRPoint(measPoint);
+				 }
+				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+					 measWire.setSDRPoint(measPoint);
+				 } 		 
+			}
+				MeasPoint grabPoint = getStartPillarLeftOutsideMeasPointList().get(1);
+				if( grabPoint != null ) {
+				measWire.setDistanceOfWire(grabPoint);
+				}
+				measWireList.add(measWire);
+	}
+}
+		else if (wireDataType == 4) {
 			 
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
@@ -1632,91 +1720,63 @@ public class CollectPillarSectionMeasurementData {
 				if( grabPoint != null ) {
 				measWire.setDistanceOfWire(grabPoint);
 				}
-				measWireList.add(measWire);
-	}
-}
-		else if (wireDataType == 2) {
-			 
-			for (String wireId : wireIdSet) {
-				MeasWire measWire = new MeasWire();
-				measWire.setWireType(wireDataType);
-				for (MeasPoint measPoint : mediumWirePointList){
-				
-				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
-					 measWire.setGroundPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
-					 measWire.setVEZPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
-					 measWire.setSDRPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
-					 measWire.setSDRPoint(measPoint);
-				 } 		 
-			}
-				MeasPoint grabPoint = getStartPillarMediumMeasPointList().get(1);
-				if( grabPoint != null ) {
-				measWire.setDistanceOfWire(grabPoint);
-				}
-				measWireList.add(measWire);
-	}
-}
-		else if (wireDataType == 3) {
-			 
-			for (String wireId : wireIdSet) {
-				MeasWire measWire = new MeasWire();
-				measWire.setWireType(wireDataType);
-				for (MeasPoint measPoint : rightInsideWirePointList){
-				
-				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
-					 measWire.setGroundPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
-					 measWire.setVEZPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
-					 measWire.setSDRPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
-					 measWire.setSDRPoint(measPoint);
-				 } 		 
-			}
-				MeasPoint grabPoint = getStartPillarRightInsideMeasPointList().get(1);
-				if( grabPoint != null ) {
-				measWire.setDistanceOfWire(grabPoint);
-				}
-				measWireList.add(measWire);
-	}
-}
-		else if (wireDataType == 4) {
-			 
-			for (String wireId : wireIdSet) {
-				MeasWire measWire = new MeasWire();
-				measWire.setWireType(wireDataType);
-				for (MeasPoint measPoint : rightOutsideWirePointList){
-				
-				 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
-					 measWire.setGroundPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
-					 measWire.setVEZPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
-					 measWire.setSDRPoint(measPoint);
-				 }
-				 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
-					 measWire.setSDRPoint(measPoint);
-				 } 		 
-			}
-				MeasPoint grabPoint = getStartPillarRightOutsideMeasPointList().get(1) == null ? 
-				getStartPillarRightMeasPointList().get(1) : getStartPillarRightOutsideMeasPointList().get(1);
-				if( grabPoint != null ) {
-				measWire.setDistanceOfWire(grabPoint);
-				}
 				measWireList.add(measWire);	
 	}
+}	
+	else if (wireDataType == 5) {
+	 
+	for (String wireId : wireIdSet) {
+		MeasWire measWire = new MeasWire();
+		measWire.setWireType(wireDataType);
+		for (MeasPoint measPoint : rightInsideWirePointList){
+		
+		 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+			 measWire.setGroundPoint(measPoint);
+		 }
+		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+			 measWire.setVEZPoint(measPoint);
+		 }
+		 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+			 measWire.setSDRPoint(measPoint);
+		 }
+		 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+			 measWire.setSDRPoint(measPoint);
+		 } 		 
+	}
+		MeasPoint grabPoint = getStartPillarRightInsideMeasPointList().get(1);
+		if( grabPoint != null ) {
+		measWire.setDistanceOfWire(grabPoint);
+		}
+		measWireList.add(measWire);	
+	}
 }
+	else if (wireDataType == 6) {
+		 
+		for (String wireId : wireIdSet) {
+			MeasWire measWire = new MeasWire();
+			measWire.setWireType(wireDataType);
+			for (MeasPoint measPoint : rightOutsideWirePointList){
+			
+			 if( measPoint.pointId.contains(wireId) && !measPoint.isUpper) {
+				 measWire.setGroundPoint(measPoint);
+			 }
+			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[9])) {
+				 measWire.setVEZPoint(measPoint);
+			 }
+			 else if( measPoint.pointId.contains(wireId) && measPoint.pointId.endsWith(POINT_TYPE[10])) {
+				 measWire.setSDRPoint(measPoint);
+			 }
+			 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
+				 measWire.setSDRPoint(measPoint);
+			 } 		 
+		}
+			MeasPoint grabPoint = getStartPillarRightOutsideMeasPointList().get(1);
+			if( grabPoint != null ) {
+			measWire.setDistanceOfWire(grabPoint);
+			}
+			measWireList.add(measWire);	
+		}
+	}
 	 
 	 return measWireList;
  }
