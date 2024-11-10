@@ -7,7 +7,7 @@ public class MeasWire {
 	private MeasPoint groundPoint;
 	private MeasPoint VEZPoint;
 	private MeasPoint SDRPoint;
-	private double distanceOfwire;
+	private double distanceOfWire;
 	
 	
 	public int getWireType() {
@@ -34,16 +34,16 @@ public class MeasWire {
 	public void setSDRPoint(MeasPoint sDRPoint) {
 		SDRPoint = sDRPoint;
 	}
-	public double getDistanceOfwire() {
-		return distanceOfwire;
+	public double getDistanceOfWire() {
+		return distanceOfWire;
 	}
-	public void setDistanceOfwire(MeasPoint grabPoint) {
-		this.distanceOfwire = Math.sqrt(Math.pow(this.SDRPoint.pointX - grabPoint.pointX, 2) + Math.pow(this.SDRPoint.pointY - grabPoint.pointY, 2));
+	public void setDistanceOfWire(MeasPoint grabPoint) {
+		this.distanceOfWire = Math.sqrt(Math.pow(this.SDRPoint.pointX - grabPoint.pointX, 2) + Math.pow(this.SDRPoint.pointY - grabPoint.pointY, 2));
 	}
 	@Override
 	public String toString() {
 		return "MaesWire [wireType=" + wireType + ", groundPoint=" + groundPoint + ", VEZPoint=" + VEZPoint
-				+ ", SDRPoint=" + SDRPoint + ", distanceOfwire=" + distanceOfwire + "]";
+				+ ", SDRPoint=" + SDRPoint + ", distanceOfWire=" + distanceOfWire + "]";
 	}
 	
 

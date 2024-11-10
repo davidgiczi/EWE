@@ -1527,6 +1527,7 @@ public class CollectPillarSectionMeasurementData {
 	 return measWire;
  }
  
+
  private HashSet<String> getWireIdSet(List<MeasPoint> wirePointList){
 	 HashSet<String> idSet = new HashSet<>();
 	 
@@ -1598,7 +1599,12 @@ public class CollectPillarSectionMeasurementData {
 			 else if( measPoint.pointId.contains(wireId) && measPoint.isUpper) {
 				 measWire.setSDRPoint(measPoint);
 			 } 		 
-		}
+		}			
+			MeasPoint grabPoint = getStartPillarLeftOutsideMeasPointList().get(1) == null ? 
+			getStartPillarLeftMeasPointList().get(1) : getStartPillarLeftOutsideMeasPointList().get(1);
+			if( grabPoint != null ) {
+			measWire.setDistanceOfWire(grabPoint);
+			}
 			measWireList.add(measWire);
 	}
 }
@@ -1622,6 +1628,10 @@ public class CollectPillarSectionMeasurementData {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
+				MeasPoint grabPoint = getStartPillarLeftInsideMeasPointList().get(1);
+				if( grabPoint != null ) {
+				measWire.setDistanceOfWire(grabPoint);
+				}
 				measWireList.add(measWire);
 	}
 }
@@ -1645,6 +1655,10 @@ public class CollectPillarSectionMeasurementData {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
+				MeasPoint grabPoint = getStartPillarMediumMeasPointList().get(1);
+				if( grabPoint != null ) {
+				measWire.setDistanceOfWire(grabPoint);
+				}
 				measWireList.add(measWire);
 	}
 }
@@ -1668,6 +1682,10 @@ public class CollectPillarSectionMeasurementData {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
+				MeasPoint grabPoint = getStartPillarRightInsideMeasPointList().get(1);
+				if( grabPoint != null ) {
+				measWire.setDistanceOfWire(grabPoint);
+				}
 				measWireList.add(measWire);
 	}
 }
@@ -1691,7 +1709,12 @@ public class CollectPillarSectionMeasurementData {
 					 measWire.setSDRPoint(measPoint);
 				 } 		 
 			}
-				measWireList.add(measWire);
+				MeasPoint grabPoint = getStartPillarRightOutsideMeasPointList().get(1) == null ? 
+				getStartPillarRightMeasPointList().get(1) : getStartPillarRightOutsideMeasPointList().get(1);
+				if( grabPoint != null ) {
+				measWire.setDistanceOfWire(grabPoint);
+				}
+				measWireList.add(measWire);	
 	}
 }
 	 
