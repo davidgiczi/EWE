@@ -3,7 +3,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.model;
 public class MeasWire {
 
 	
-	private int wireType;
+	private int wireType = -1;
 	private String wireId;
 	private MeasPoint groundPoint;
 	private MeasPoint VEZPoint;

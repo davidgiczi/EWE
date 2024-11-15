@@ -1510,23 +1510,23 @@ public class CollectPillarSectionMeasurementData {
 			 }
 	 if( !mediumWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(mediumWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet, 1));
+		 measWire.addAll(parseMeasWireData(idSet, 3));
 		 }
 	 if( !rightOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(rightOutsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet, 2));
+		 measWire.addAll(parseMeasWireData(idSet, 5));
 		 }
 	 if( !leftOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(leftOutsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet, 3));
+		 measWire.addAll(parseMeasWireData(idSet, 1));
 		 }
 	 if( !leftInsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(leftInsideWirePointList);
-		 measWire = parseMeasWireData(idSet, 4);
+		 measWire = parseMeasWireData(idSet, 2);
 	 }
 	 if( !rightInsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(rightInsideWirePointList);
-		 measWire.addAll(parseMeasWireData(idSet, 5));
+		 measWire.addAll(parseMeasWireData(idSet, 4));
 	 }
 	 if( !rightOutsideWirePointList.isEmpty() ) {
 		 HashSet<String> idSet = getWireIdSet(rightOutsideWirePointList);
@@ -1625,7 +1625,7 @@ public class CollectPillarSectionMeasurementData {
 				measWireList.add(measWire);
 			}
 	}
-}	else if (wireDataType == 1) {
+}	else if (wireDataType == 3) {
 	 
 	for (String wireId : wireIdSet) {
 		MeasWire measWire = new MeasWire();
@@ -1662,7 +1662,7 @@ public class CollectPillarSectionMeasurementData {
 		}
 	}
 }
-		else if (wireDataType == 2) {
+		else if (wireDataType == 6) {
 			 
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
@@ -1699,7 +1699,7 @@ public class CollectPillarSectionMeasurementData {
 				}
 	}
 }		
-		else if (  wireDataType == 3 ) {
+		else if (  wireDataType == 1 ) {
 			 
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
@@ -1738,7 +1738,7 @@ public class CollectPillarSectionMeasurementData {
 				}
 	}
 }
-		else if (wireDataType == 4) {
+		else if (wireDataType == 2) {
 			 
 			for (String wireId : wireIdSet) {
 				MeasWire measWire = new MeasWire();
@@ -1777,7 +1777,7 @@ public class CollectPillarSectionMeasurementData {
 				}
 	}
 }	
-	else if (wireDataType == 5) {
+	else if (wireDataType == 4) {
 	 
 	for (String wireId : wireIdSet) {
 		MeasWire measWire = new MeasWire();
@@ -1816,7 +1816,7 @@ public class CollectPillarSectionMeasurementData {
 		}
 	}
 }
-	else if (wireDataType == 6) {
+	else if (wireDataType == 5) {
 		 
 		for (String wireId : wireIdSet) {
 			MeasWire measWire = new MeasWire();

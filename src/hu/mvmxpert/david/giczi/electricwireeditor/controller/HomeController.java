@@ -969,6 +969,7 @@ public class HomeController {
 		}
 		init();
 		showInputDrawingSystemDataOnCoordSystemDataWindow();
+		setTitle(homeWindow.getRoot());
 		setCoordSystemWindow.getController().startElevationValue.setText(String.valueOf(collectSectionMeasurmentData.getMinElevation()));
 		setCoordSystemWindow.getController().elevationScaleValue
 		.setText(String.valueOf((int)Math.ceil((collectSectionMeasurmentData.getMaxElevation() - collectSectionMeasurmentData.getMinElevation()) / 10f)));
@@ -988,8 +989,10 @@ public class HomeController {
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, startPillarMeasPointList, null);
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
 		List<MeasWire> measWireList = collectSectionMeasurmentData.getMeasWirePointList();
+		for (MeasWire measWire : measWireList) {
+			drawer.drawWireAutomatically(measWire);
+		}
 		
-		measWireList.forEach(System.out::println);
 	}
 	 
 	
