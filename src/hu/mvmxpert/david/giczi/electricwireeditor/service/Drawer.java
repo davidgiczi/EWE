@@ -875,7 +875,7 @@ public class Drawer {
 		DecimalFormat df = new DecimalFormat("0.00");
 		switch (measWire.getWireType()) {
 		case 0:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
@@ -890,7 +890,7 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			break;
 		case 1:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
@@ -905,7 +905,7 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			break;	
 		case 2:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
@@ -920,7 +920,7 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			break;		
 		case 3:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
@@ -935,7 +935,7 @@ public class Drawer {
 					18, -90, false, true, 0, 0, 0, 1);
 			break;
 		case 4:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
@@ -950,7 +950,7 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			break;
 		case 5:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
@@ -965,17 +965,17 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			break;
 		case 6:
-			setText(id, measWire.getWireId().equals(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
+			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER, 
 					wire.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getSDRPoint().pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER,
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getSDRPoint().pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			break;		

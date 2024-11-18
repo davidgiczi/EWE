@@ -97,6 +97,7 @@ public class FileProcess {
 		String filePath = null;
 		if ( selectedFile != null ) {
 			filePath = selectedFile.getAbsolutePath();
+			FOLDER_PATH = selectedFile.getParent();
 			HomeController.PROJECT_NAME = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
 		}	
 		return getMeasurmentData(filePath);
