@@ -516,19 +516,19 @@ public class Drawer {
 		
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(7).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			
 			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(8).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(9).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(9).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ, true);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ, true);
@@ -558,11 +558,11 @@ public class Drawer {
 			
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 12) * MILLIMETER, 
-					pillar.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 12) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 17) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ, true);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ, true);
 			
@@ -579,11 +579,11 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
-					pillar.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 17) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ, true);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ, true);
 		}
@@ -602,11 +602,11 @@ public class Drawer {
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1]))) {
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
-					pillar.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 17) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ, true);
 		}
 		else if( measPointList.size() == 4 && 
@@ -648,11 +648,11 @@ public class Drawer {
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3]))) {
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ, true);
 		}
 		else if( measPointList.size() == 4 &&
@@ -660,11 +660,11 @@ public class Drawer {
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
 			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ, true);
 		}
 		else if( measPointList.size() == 6 &&  measPointList.stream().anyMatch(m -> m != null && 
@@ -697,19 +697,19 @@ public class Drawer {
 			
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			
 			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ, true);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ, true);
 		}
@@ -748,11 +748,11 @@ public class Drawer {
 					18, -90, true, true, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
-					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ, true);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(5).pointZ, true);
 		}
@@ -860,6 +860,11 @@ public class Drawer {
 				return;
 			}
 			drawLeftHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "bal " + measWire.getWireId() + ": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER, 
+					18, -90, true, false, 0, 0, 0, 1);
 		}
 		else if( measWire.getWireType() > -1 && 3 < measWire.getWireType() ) {
 			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
@@ -867,11 +872,15 @@ public class Drawer {
 				return;
 			}
 			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "jobb " + measWire.getWireId() + ": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
+					18, -90, false, false, 0, 0, 0, 1);
 		}
-		
 	}
 	
-	private void writeMeasWireData(int id ,MeasWire measWire, Line wire) {
+	private void writeMeasWireData(int id, MeasWire measWire, Line wire) {
 		DecimalFormat df = new DecimalFormat("0.00");
 		switch (measWire.getWireType()) {
 		case 0:
@@ -943,11 +952,11 @@ public class Drawer {
 					PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb belső af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER, 
-					wire.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(id, "jobb belső af.: Bf. " + df.format(measWire.getSDRPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getSDRPoint().pointZ - elevationStartValue) + 17) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			break;
 		case 5:
 			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
@@ -958,11 +967,11 @@ public class Drawer {
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb külső af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER, 
-					wire.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(id, "jobb külső af.: Bf. " + df.format(measWire.getSDRPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getSDRPoint().pointZ - elevationStartValue) + 17) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			break;
 		case 6:
 			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
@@ -973,11 +982,11 @@ public class Drawer {
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER, 
-					wire.getStartY() - 16 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
+					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getSDRPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getSDRPoint().pointZ - elevationStartValue) + 17) * MILLIMETER, 
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, false, true, 0, 0, 0, 1);
 			break;		
 		default:
 			

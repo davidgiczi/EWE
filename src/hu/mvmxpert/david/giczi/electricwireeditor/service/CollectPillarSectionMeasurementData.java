@@ -1547,20 +1547,22 @@ public class CollectPillarSectionMeasurementData {
 		 if( idComponents.length == 4 ) {
 			 idSet.add(idComponents[3]);
 		 }
-		 else if( idComponents.length == 5 && startPillarId.equals(idComponents[1]) ) {
+		 else if( idComponents.length == 5 && startPillarId.equals(idComponents[1]) && !idComponents[4].equals(POINT_TYPE[9])
+				 && !idComponents[4].equals(POINT_TYPE[10]) ) {
 			 idSet.add(idComponents[3] + "-" + idComponents[4]);
 		 }
-		 else if( idComponents.length == 5 && startPillarId.equals(idComponents[2]) ) {
-			 idSet.add(idComponents[4]);
-		 }
-		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[2]) ) {
-			 idSet.add(idComponents[4] + "-" + idComponents[5]);
+		 else if( idComponents.length == 5 && startPillarId.equals(idComponents[2]) && !idComponents[4].equals(POINT_TYPE[9])
+				 && !idComponents[4].equals(POINT_TYPE[10]) ) {
+			 idSet.add(idComponents[3] + "-" + idComponents[4]);
 		 }
 		 else if( idComponents.length == 5 && idComponents[4].equals(POINT_TYPE[9])) {
 			 idSet.add(idComponents[3]);
 		 }
 		 else if( idComponents.length == 5 && idComponents[4].equals(POINT_TYPE[10])) {
 			 idSet.add(idComponents[3]);
+		 }
+		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[2]) ) {
+			 idSet.add(idComponents[4] + "-" + idComponents[5]);
 		 }
 		 else if( idComponents.length == 6 && startPillarId.equals(idComponents[1]) && idComponents[5].equals(POINT_TYPE[9])) {
 			 idSet.add(idComponents[3] + "-" + idComponents[4]);
@@ -1600,18 +1602,20 @@ public class CollectPillarSectionMeasurementData {
 			 if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && !measPoint.isUpper) {
 				 measWire.setGroundPoint(measPoint);
 			 } 
-			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId + "-" + POINT_TYPE[9]) && 
 					 measPoint.pointId.endsWith(POINT_TYPE[9])) {
 				 measWire.setVEZPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId + "-" + POINT_TYPE[10]) && 
 					 measPoint.pointId.endsWith(POINT_TYPE[10])) {
 				 measWire.setSDRPoint(measPoint);
 			 }
 			 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && measPoint.isUpper) {
 				 measWire.setSDRPoint(measPoint);
 			 } 		 
-		}			
+		}		
+			
+			
 			MeasPoint grabPoint = getStartPillarLeftMeasPointList().get(1);
 			if( grabPoint != null ) {
 			measWire.setDistanceOfWire(grabPoint);
@@ -1636,11 +1640,11 @@ public class CollectPillarSectionMeasurementData {
 		 if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && !measPoint.isUpper ) {
 			 measWire.setGroundPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId + "-" + POINT_TYPE[9] ) && 
 				 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 			 measWire.setVEZPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+		 else if( measPoint.pointId.equals(POINT_TYPE[2] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId + "-" + POINT_TYPE[10]) && 
 				 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 			 measWire.setSDRPoint(measPoint);
 		 }
@@ -1673,11 +1677,11 @@ public class CollectPillarSectionMeasurementData {
 				 if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && !measPoint.isUpper ) {
 					 measWire.setGroundPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId + "-" + POINT_TYPE[9]) && 
 						 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 					 measWire.setVEZPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId + "-" + POINT_TYPE[10]) && 
 						 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 					 measWire.setSDRPoint(measPoint);
 				 }
@@ -1711,11 +1715,13 @@ public class CollectPillarSectionMeasurementData {
 						 !measPoint.isUpper ) {
 					 measWire.setGroundPoint(measPoint); 
 				 }
-				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+						 + "-" + POINT_TYPE[9]) && 
 						 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 					 measWire.setVEZPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+						 + "-" + POINT_TYPE[10]) && 
 						 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 					 measWire.setSDRPoint(measPoint);
 				 }
@@ -1750,11 +1756,13 @@ public class CollectPillarSectionMeasurementData {
 						 !measPoint.isUpper ) {
 					 measWire.setGroundPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+						 + "-" + POINT_TYPE[9]) && 
 						 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 					 measWire.setVEZPoint(measPoint);
 				 }
-				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+				 else if( measPoint.pointId.equals(POINT_TYPE[0] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+						 + "-" + POINT_TYPE[10]) && 
 						 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 					 measWire.setSDRPoint(measPoint);
 				 }
@@ -1789,11 +1797,13 @@ public class CollectPillarSectionMeasurementData {
 				 !measPoint.isUpper ) {
 			 measWire.setGroundPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+				 + "-" + POINT_TYPE[9]) && 
 				 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 			 measWire.setVEZPoint(measPoint);
 		 }
-		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+		 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[4] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+				 + "-" + POINT_TYPE[10]) && 
 				 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 			 measWire.setSDRPoint(measPoint);
 		 }
@@ -1828,11 +1838,13 @@ public class CollectPillarSectionMeasurementData {
 					 !measPoint.isUpper ) {
 				 measWire.setGroundPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+					 + "-" + POINT_TYPE[9]) && 
 					 measPoint.pointId.endsWith(POINT_TYPE[9]) ) {
 				 measWire.setVEZPoint(measPoint);
 			 }
-			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId) && 
+			 else if( measPoint.pointId.equals(POINT_TYPE[1] + "-" + POINT_TYPE[3] + "-" + startPillarId + "-" + endPillarId + "-" +  wireId
+					 + "-" + POINT_TYPE[10]) && 
 					 measPoint.pointId.endsWith(POINT_TYPE[10]) ) {
 				 measWire.setSDRPoint(measPoint);
 			 }

@@ -981,6 +981,9 @@ public class HomeController {
 	
 	public void drawMeasuredPillarSectionAutomatically() {
 		
+		if( collectSectionMeasurmentData == null ) {
+			return;
+		}
 		List<MeasPoint> startPillarMeasPointList = collectSectionMeasurmentData.getStartPillarMeasPointList();
 		List<MeasPoint> endPillarMeasPointList = collectSectionMeasurmentData.getEndPillarMeasPointList();
 		List<Double> distances = collectSectionMeasurmentData.getLengthOfSectionBetweenPillars();
