@@ -541,7 +541,7 @@ public class Drawer {
 			measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
 			
 			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 3) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER, 
 					pillar.getStartY() - 15 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
@@ -571,7 +571,7 @@ public class Drawer {
 		else if( measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) &&
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1])) ) {
 			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 3) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER, 
 					pillar.getStartY() - 15 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
@@ -590,7 +590,7 @@ public class Drawer {
 		else if( measPointList.size() == 4 && 
 				 measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) ) {
 			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 3) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER, 
 					pillar.getStartY() - 15 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
@@ -765,12 +765,12 @@ public class Drawer {
 		DecimalFormat df = new DecimalFormat("0.00");
 		setText(pillarId, "Csúcs", 
 				(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(topPoint.pointZ - elevationStartValue) + 20) * MILLIMETER, 
+				PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(topPoint.pointZ - elevationStartValue) + 15) * MILLIMETER, 
 				18, 0, false, true, 0, 0, 0, 1);
 		setText(pillarId, "Bf. " + df.format(topPoint.pointZ).replace(",", ".") + "m", 
 				isEndPillar ? (getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 11) * MILLIMETER :
 					(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 4) * MILLIMETER, 
-				 PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(topPoint.pointZ - elevationStartValue) + 15) * MILLIMETER,
+				 PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(topPoint.pointZ - elevationStartValue) + 10) * MILLIMETER,
 				18, 0, false, true, 0, 0, 0, 1);
 		
 	}
