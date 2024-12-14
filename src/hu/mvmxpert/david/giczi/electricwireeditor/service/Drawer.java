@@ -302,49 +302,95 @@ public class Drawer {
 	
 	
 	private void drawLeftHood(String id, double pillarDistance, double elevation, boolean isPillar) {
-		Line hood = new Line();
-		hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		Line hoodHr = new Line();
+		hoodHr.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER).add(HOR_SHIFT * MILLIMETER));
-		hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
-		hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
-		hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		hoodHr.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
+		hoodHr.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
+		hoodHr.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
 				.add((HOR_SHIFT - 1) * MILLIMETER));
-		hood.setCursor(Cursor.HAND);
-		hood.setOnMouseClicked( h -> {
+		hoodHr.setCursor(Cursor.HAND);
+		hoodHr.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
 			setDrawLineWindowData(line);
 			deleteLine(line);
 			});
-		hood.setId(id);
-		hood.setStroke(isPillar ? Color.BLUE : Color.RED);
-		hood.setStrokeWidth(3);
-		root.getChildren().add(hood);
+		hoodHr.setId(id);
+		hoodHr.setStroke(isPillar ? Color.BLUE : Color.RED);
+		hoodHr.setStrokeWidth(3);
+		root.getChildren().add(hoodHr);
+		if( isPillar ) {
+			return;
+		}
+		Line hoodVr = new Line();
+		hoodVr.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER).add(HOR_SHIFT * MILLIMETER));
+		hoodVr.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
+		hoodVr.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue - verticalScale / 5.0) * MILLIMETER);
+		hoodVr.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
+				.add((HOR_SHIFT) * MILLIMETER));
+		hoodVr.setCursor(Cursor.HAND);
+		hoodVr.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			setDrawLineWindowData(line);
+			deleteLine(line);
+			});
+		hoodVr.setId(id);
+		hoodVr.setStroke(Color.RED);
+		hoodVr.setStrokeWidth(3);
+		root.getChildren().add(hoodVr);
 	}
 	
 	private void drawRightHood(String id, double pillarDistance, double elevation, boolean isPillar) {
-		Line hood = new Line();
-		hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		Line hoodHr = new Line();
+		hoodHr.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER).add(HOR_SHIFT * MILLIMETER));
-		hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
-		hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
-		hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+		hoodHr.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
+		hoodHr.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
+		hoodHr.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 				.add(START_X)
 				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
 				.add((HOR_SHIFT + 1) * MILLIMETER));
-		hood.setCursor(Cursor.HAND);
-		hood.setOnMouseClicked( h -> {
+		hoodHr.setCursor(Cursor.HAND);
+		hoodHr.setOnMouseClicked( h -> {
 			Line line = (Line) h.getSource();
 			setDrawLineWindowData(line);
 			deleteLine(line);
 			});
-		hood.setId(id);
-		hood.setStroke(isPillar ? Color.BLUE : Color.RED);
-		hood.setStrokeWidth(3);
-		root.getChildren().add(hood);
+		hoodHr.setId(id);
+		hoodHr.setStroke(isPillar ? Color.BLUE : Color.RED);
+		hoodHr.setStrokeWidth(3);
+		root.getChildren().add(hoodHr);
+		if( isPillar ) {
+			return;
+		}
+		Line hoodVr = new Line();
+		hoodVr.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER).add(HOR_SHIFT * MILLIMETER));
+		hoodVr.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue) * MILLIMETER);
+		hoodVr.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(elevation - elevationStartValue - verticalScale / 5.0) * MILLIMETER);
+		hoodVr.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				.add(START_X)
+				.add(getHorizontalScaledDownLengthValue(pillarDistance) * MILLIMETER)
+				.add((HOR_SHIFT) * MILLIMETER));
+		hoodVr.setCursor(Cursor.HAND);
+		hoodVr.setOnMouseClicked( h -> {
+			Line line = (Line) h.getSource();
+			setDrawLineWindowData(line);
+			deleteLine(line);
+			});
+		hoodVr.setId(id);
+		hoodVr.setStroke(Color.RED);
+		hoodVr.setStrokeWidth(3);
+		root.getChildren().add(hoodVr);
 	}
 	
 	private void writeDistances(List<Double> distances, double pillarDistance, int pillarId) {
@@ -888,6 +934,9 @@ public class Drawer {
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() - horizontalScale / 1000.0, 
 					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire(), 
+					measWire.getVEZPoint().pointZ - verticalScale / 5.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
 		}
 		else if( measWire.getWireType() > -1 && 3 < measWire.getWireType() ) {
 			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
@@ -903,6 +952,19 @@ public class Drawer {
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
 					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire(), 
+					measWire.getVEZPoint().pointZ - verticalScale / 5.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+		}
+		else if( measWire.getWireType() == 3 ){
+			if( measWire.getVEZPoint() == null ) {
+				return;
+			}
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "közép " + measWire.getWireId() + ": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 10) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
+					18, -90, false, false, 0, 0, 0, 1);
 		}
 	}
 	
@@ -912,7 +974,7 @@ public class Drawer {
 		case 0:
 			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+					PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -957,15 +1019,15 @@ public class Drawer {
 		case 3:
 			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-					PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+					PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "közép af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 10) * MILLIMETER, 
 					wire.getStartY() - 17 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(id, "közép af.: Bf. " + df.format(measWire.getSDRPoint().pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER,
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 10) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getSDRPoint().pointZ - elevationStartValue) + 18) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			break;
@@ -975,7 +1037,7 @@ public class Drawer {
 					PAGE_Y + START_Y + 40 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-					PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb belső af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER, 
 					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
@@ -990,7 +1052,7 @@ public class Drawer {
 					PAGE_Y + START_Y + 45 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+					PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb külső af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 12) * MILLIMETER, 
 					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
@@ -1002,10 +1064,10 @@ public class Drawer {
 		case 6:
 			setText(id, measWire.getWireId().endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[7]) ? "fél táv" : measWire.getWireId().toLowerCase(), 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-					PAGE_Y + START_Y + 25 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+					PAGE_Y + START_Y + 35 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, df.format(measWire.getDistanceOfWire()).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-					PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER, 
 					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
@@ -1216,7 +1278,8 @@ public class Drawer {
 		txt.setCursor(Cursor.HAND); 
 		txt.setOnMouseClicked( t -> {
 		Text inputText = (Text) t.getSource();
-		showModifyTextWindow(inputText); });
+		showModifyTextWindow(inputText);
+		});
 		root.getChildren().add(txt);
 	}
 	
