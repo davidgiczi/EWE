@@ -320,7 +320,6 @@ public class HomeController {
 					Boolean.parseBoolean(data[4]) ? true : false);
 			pillar.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addPillar(pillar);
-			drawer.drawInputPillar(pillar.getId());
 					}
 			else if( "Pillar".equals(data[0]) && data.length == 6) {
 				pillar = new PillarData(
@@ -331,7 +330,6 @@ public class HomeController {
 						Boolean.parseBoolean(data[5]));
 			pillar.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addPillar(pillar);
-			drawer.drawInputPillar(pillar.getId());
 			}
 			else if( "PillarText".equals(data[0]) ) {
 				
@@ -348,7 +346,13 @@ public class HomeController {
 						Double.parseDouble(data[10]),
 						Double.parseDouble(data[11]));		
 			}
+			
 		}
+		
+		for (PillarData inputPillar : archivFileBuilder.getPillarData()) {
+			drawer.drawInputPillar(inputPillar.getId());
+		};
+		
 	}
 	
 	private void loadWireData(List<String> projectData) {

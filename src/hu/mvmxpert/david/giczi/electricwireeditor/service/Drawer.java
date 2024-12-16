@@ -1421,53 +1421,72 @@ public class Drawer {
 		root.getChildren().add(pillar);
 		
 		if( pD.isLeftHand() || pD.isRightHand() ) {
-			Line hood = new Line();
-			hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
-					.add(HOR_SHIFT * MILLIMETER));
-			hood.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
-					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
-			hood.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue(pD.getTopElevetaion() - 
-					archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
-			
-				if( pD.isLeftHand() && !pD.isRightHand() ) {
-				
-				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+			Line hoodLeft = null;
+			Line hoodRight = null;
+				if( pD.isLeftHand() ) {
+					hoodLeft = new Line();
+				Double elevation = archivFileBuilder.getElevation(pD.getPillarTextList(), "bal ak");
+				hoodLeft.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+							.add(HOR_SHIFT * MILLIMETER));
+				hoodLeft.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue((elevation != null ? elevation : pD.getTopElevetaion()) - 
+							archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+				hoodLeft.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 						.add(START_X)
 						.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
 						.add((HOR_SHIFT - 1) * MILLIMETER));
+				hoodLeft.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue((elevation != null ? elevation : pD.getTopElevetaion()) - 
+							archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);	
 				}
-				else if( !pD.isLeftHand() &&  pD.isRightHand()) {
-					
-				hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+				if( pD.isRightHand() ) {
+				hoodRight = new Line();
+				Double elevation = archivFileBuilder.getElevation(pD.getPillarTextList(), "jobb ak");
+				hoodRight.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
+							.add(START_X)
+							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
+							.add(HOR_SHIFT * MILLIMETER));
+				hoodRight.setStartY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue((elevation != null ? elevation : pD.getTopElevetaion()) - 
+							archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);
+				hoodRight.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 							.add(START_X)
 							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
 							.add((HOR_SHIFT + 1) * MILLIMETER));
+				hoodRight.setEndY(PAGE_Y + START_Y - getVerticalScaledDownHeightValue((elevation != null ? elevation : pD.getTopElevetaion()) - 
+							archivFileBuilder.getSystemData().getElevationStartValue()) * MILLIMETER);	
 					
 				}
-				else if( pD.isLeftHand() && pD.isRightHand() ) {
-					hood.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-							.add(START_X)
-							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER).add((HOR_SHIFT - 1) * MILLIMETER));
-					hood.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-							.add(START_X)
-							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
-							.add((HOR_SHIFT + 1) * MILLIMETER));
-				}	
-			hood.setCursor(Cursor.HAND);
-			hood.setOnMouseClicked( h -> {
+	
+		if( hoodLeft != null ) {
+			hoodLeft.setCursor(Cursor.HAND);
+			hoodLeft.setOnMouseClicked( h -> {
 				Line line = (Line) h.getSource();
 				setDrawLineWindowData(line);
 				deleteLine(line);
 				});
-			hood.setId(String.valueOf(id));
-			hood.setStroke(Color.BLUE);
-			hood.setStrokeWidth(3);
-			root.getChildren().add(hood);
+			hoodLeft.setId(String.valueOf(id));
+			hoodLeft.setStroke(Color.BLUE);
+			hoodLeft.setStrokeWidth(3);
+			root.getChildren().add(hoodLeft);
+			
 		}
-		
+		if( hoodRight != null ) {
+			hoodRight.setCursor(Cursor.HAND);
+			hoodRight.setOnMouseClicked( h -> {
+				Line line = (Line) h.getSource();
+				setDrawLineWindowData(line);
+				deleteLine(line);
+				});
+			hoodRight.setId(String.valueOf(id));
+			hoodRight.setStroke(Color.BLUE);
+			hoodRight.setStrokeWidth(3);
+			root.getChildren().add(hoodRight);
+			
+		}
+			
 	}
+		
+}
 	
 	public void drawInputPillarText(PillarData pillarData, double shiftY1) {
 		
