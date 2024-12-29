@@ -1082,6 +1082,16 @@ public class Drawer {
 		
 	}
 	
+	public void drawMeasGroundPoint(List<MeasPoint> groundPoints) {
+		
+		for (int i = 0; i < groundPoints.size() - 1; i++) {
+			drawLine(groundPoints.get(i).pointX, groundPoints.get(i).pointY, 
+					groundPoints.get(i + 1).pointX, groundPoints.get(i + 1).pointY, "folyamatos", Color.BROWN, "3");
+			
+		}
+		
+	}
+	
 	public void drawElectricWire(String text, double groundElevation, double topElevation, double distance, boolean leftHand, boolean rightHand) {
 		Line wire = new Line();
 		wire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)

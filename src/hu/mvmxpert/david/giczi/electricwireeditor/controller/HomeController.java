@@ -998,7 +998,11 @@ public class HomeController {
 		for (MeasWire measWire : measWireList) {
 			drawer.drawWireAutomatically(measWire);
 		}
-		
+		List<MeasPoint> groundPointList = collectSectionMeasurmentData.getMeasGroundPointList();
+		if( groundPointList.isEmpty() ) {
+			return;
+		}	
+		drawer.drawMeasGroundPoint(groundPointList);	
 	}
 	 
 	

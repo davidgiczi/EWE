@@ -2,6 +2,7 @@ package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import javax.management.InvalidAttributeValueException;
@@ -22,7 +23,7 @@ public class CollectPillarSectionMeasurementData {
 	public List<MeasPoint> rightOutsideWirePointList;
 	public List<MeasPoint> rightInsideWirePointList;
 	public List<MeasPoint> mediumWirePointList;
-	public static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR"};
+	public static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "BEF", "VEZ", "SDR", "TEREP"};
 	
 	
 
@@ -1869,6 +1870,35 @@ public class CollectPillarSectionMeasurementData {
 	}
 	 
 	 return measWireList;
+ }
+ 
+ public List<MeasPoint> getMeasGroundPointList(){
+	 MeasPoint startPillarBaseCenter = getStartPillarBaseTopData().get(0);
+	 MeasPoint endPillarBaseCenter = getEndPillarBaseTopData().get(0);
+	 List<MeasPoint> groundMeasPointList = new ArrayList<>();
+	 if( startPillarBaseCenter == null || endPillarBaseCenter == null ) {
+		 return groundMeasPointList;
+	 }
+	 AzimuthAndDistance mainLineData = new AzimuthAndDistance(startPillarBaseCenter, endPillarBaseCenter);
+	 for (String measDataRow : measDataList) {
+		String[] rowData = measDataRow.split(",");
+		if( rowData.length == 0 ) {
+			rowData = measDataRow.split(";");
+		}
+		if( rowData[rowData.length - 1].equalsIgnoreCase(POINT_TYPE[11]) ) {
+			
+			MeasPoint measedGroundPoint = new MeasPoint("MeasGroundPoint", 
+					Double.parseDouble(rowData[1]), Double.parseDouble(rowData[2]), Double.parseDouble(rowData[3]));
+			AzimuthAndDistance groundPointData = new AzimuthAndDistance(startPillarBaseCenter, measedGroundPoint);
+			double alfa = mainLineData.calcAzimuth() - groundPointData.calcAzimuth();
+			double distance = Math.cos(alfa) * groundPointData.calcDistance();
+			if( 0 < distance && distance < mainLineData.calcDistance() ) {
+				groundMeasPointList.add(new MeasPoint(distance, measedGroundPoint.pointZ));
+			}	
+		}
+	}
+	 Collections.sort(groundMeasPointList);
+	 return groundMeasPointList;
  }
  
 }

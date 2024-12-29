@@ -1,6 +1,6 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.model;
 
-public class MeasPoint {
+public class MeasPoint implements Comparable<MeasPoint> {
 	
 	public String pointId;
 	public double pointX;
@@ -51,6 +51,11 @@ public class MeasPoint {
 	public String toString() {
 		return "MeasPoint [pointId=" + pointId + ", pointX=" + pointX + ", pointY=" + pointY + ", pointZ=" + pointZ
 				+ ", pointType=" + pointType + ", isUpper=" + isUpper + "]";
+	}
+
+	@Override
+	public int compareTo(MeasPoint o) {
+		return  this.pointX > o.pointX ? 1 : this.pointX < o.pointX ? -1 : 0;
 	}
 	
 }
