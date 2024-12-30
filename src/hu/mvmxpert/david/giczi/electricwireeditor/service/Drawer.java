@@ -16,6 +16,8 @@ import hu.mvmxpert.david.giczi.electricwireeditor.view.ModifyTextWindow;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -129,6 +131,29 @@ public class Drawer {
 		rightMargin.getStrokeDashArray().addAll(4d);
 		page.setFill(Color.WHITE);
 		root.getChildren().addAll(page, leftMargin, rightMargin);
+	}
+	
+	public void addCompass() {
+		ImageView compass = new ImageView(new Image("/logo/north.png"));
+		compass.setScaleX(0.15);
+		compass.setScaleY(0.15);
+		compass.xProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2).subtract(12 * MILLIMETER));
+		compass.setY(PAGE_Y + 82 * MILLIMETER);
+		compass.setCursor(Cursor.HAND);
+		compass.setOnMouseClicked( c ->{
+		String rotation = homeController.setInputText("Északi irány megadása", "Add meg a forgatás fok értékét 0° és 360° között: ");
+		try {
+			double rotationValue = Double.parseDouble(rotation.replace(",", "."));
+			compass.setRotate(rotationValue);
+		}
+		catch (NumberFormatException e) {
+			homeController.getInfoAlert("Nem megfelelő forgatás érték", "A forgatás értéke csak szám lehet.");
+		}
+		});
+		if( homeController.collectSectionMeasurmentData != null ) {
+			compass.setRotate(Math.toDegrees(homeController.collectSectionMeasurmentData.getMainLineAzimuth()));
+		}
+		root.getChildren().add(compass);
 	}
 	
 	public void drawVerticalAxis() {

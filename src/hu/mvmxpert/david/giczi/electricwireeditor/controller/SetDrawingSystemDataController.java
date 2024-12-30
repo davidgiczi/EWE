@@ -101,6 +101,7 @@ public class SetDrawingSystemDataController {
 		homeController.getDrawer().drawHorizontalAxis();
 		homeController.getDrawer().drawVerticalAxis();
 		homeController.getDrawer().writeElevationValueForVerticalAxis();
+		homeController.getDrawer().addCompass();
 		homeController.homeWindow.setPillarData.setDisable(false);
 		homeController.homeWindow.setWireData.setDisable(false);
 		homeController.homeWindow.saveProject.setDisable(false);

@@ -45,8 +45,6 @@ public class CollectPillarSectionMeasurementData {
 		validateInputWireData();
 	}
 	
-	
-	
 	private void validatePillarInputData() throws InvalidAttributeValueException {
 		if( startPillarPointList.isEmpty() ) {
 			throw new InvalidAttributeValueException("Nem található mérési adat a(z) " + startPillarId + ". oszlopra vonatkozóan.");
@@ -1870,6 +1868,15 @@ public class CollectPillarSectionMeasurementData {
 	}
 	 
 	 return measWireList;
+ }
+ 
+ public double getMainLineAzimuth() {
+	 MeasPoint startPillarBaseCenter = getStartPillarBaseTopData().get(0);
+	 MeasPoint endPillarBaseCenter = getEndPillarBaseTopData().get(0);
+	 if( startPillarBaseCenter == null || endPillarBaseCenter == null ) {
+		 return 0;
+	 }
+	 return new AzimuthAndDistance(startPillarBaseCenter, endPillarBaseCenter).calcAzimuth();
  }
  
  public List<MeasPoint> getMeasGroundPointList(){
