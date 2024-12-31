@@ -23,6 +23,7 @@ public class ArchivFileBuilder {
 	private List<WireData> wireData;
 	private List<TextData> textData;
 	private List<LineData> lineData;
+	private double azimuth;
 	
 	public DrawingSystemData getSystemData() {
 		return systemData;
@@ -47,6 +48,14 @@ public class ArchivFileBuilder {
 	public List<LineData> getLineData() {
 		return lineData;
 	}
+	
+	public double getAzimuth() {
+		return azimuth;
+	}
+
+	public void setAzimuth(double azimuth) {
+		this.azimuth = azimuth;
+	}
 
 	public void init() {
 		id = 0;
@@ -55,6 +64,7 @@ public class ArchivFileBuilder {
 		wireData = new ArrayList<>();
 		textData = new ArrayList<>();
 		lineData = new ArrayList<>();
+		azimuth = 0;
 	}
 	
 	public static int addID() {

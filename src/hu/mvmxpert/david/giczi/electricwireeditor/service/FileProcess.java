@@ -179,6 +179,8 @@ public class FileProcess {
 			
 			writer.write(archivFileBuilder.getSystemData().getDrawingSystemData());
 			writer.newLine();
+			writer.write("Azimuth#" + archivFileBuilder.getAzimuth());
+			writer.newLine();
 			for (PillarData pillarData : archivFileBuilder.getPillarData()) {
 			writer.write(pillarData.getPillarData());
 			writer.newLine();

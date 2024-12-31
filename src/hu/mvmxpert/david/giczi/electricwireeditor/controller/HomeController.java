@@ -271,6 +271,7 @@ public class HomeController {
 	loadDrawingSystemData(projectData);
 	drawSystem();
 	loadPillarData(projectData);
+	drawer.addCompass();
 	loadWireData(projectData);
 	loadTextData(projectData);
 	loadLineData(projectData);
@@ -345,6 +346,9 @@ public class HomeController {
 						Double.parseDouble(data[9]),
 						Double.parseDouble(data[10]),
 						Double.parseDouble(data[11]));		
+			}
+			else if( "Azimuth".equals(data[0]) ) {
+				archivFileBuilder.setAzimuth(Double.parseDouble(data[1]));
 			}
 			
 		}

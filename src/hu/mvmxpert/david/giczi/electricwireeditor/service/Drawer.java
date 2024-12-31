@@ -141,10 +141,11 @@ public class Drawer {
 		compass.setY(PAGE_Y + 82 * MILLIMETER);
 		compass.setCursor(Cursor.HAND);
 		compass.setOnMouseClicked( c ->{
-		String rotation = homeController.setInputText("Északi irány megadása", "Add meg a forgatás fok értékét 0° és 360° között: ");
+		String rotation = homeController.setInputText("Északi irány megadása", "Add meg a forgatás értékét 0° és 360° között: ");
 		try {
 			double rotationValue = Double.parseDouble(rotation.replace(",", "."));
 			compass.setRotate(rotationValue);
+			archivFileBuilder.setAzimuth(rotationValue);
 		}
 		catch (NumberFormatException e) {
 			homeController.getInfoAlert("Nem megfelelő forgatás érték", "A forgatás értéke csak szám lehet.");
@@ -152,6 +153,10 @@ public class Drawer {
 		});
 		if( homeController.collectSectionMeasurmentData != null ) {
 			compass.setRotate(Math.toDegrees(homeController.collectSectionMeasurmentData.getMainLineAzimuth()));
+			archivFileBuilder.setAzimuth(compass.getRotate());
+		}
+		else if( archivFileBuilder.getAzimuth() != 0 ) {
+			compass.setRotate(archivFileBuilder.getAzimuth());
 		}
 		root.getChildren().add(compass);
 	}
@@ -649,10 +654,10 @@ public class Drawer {
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 16) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER, 
 					pillar.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ, true);
@@ -672,10 +677,10 @@ public class Drawer {
 		else if( measPointList.size() == 4 &&
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1]))) {
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER, 
 					pillar.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			drawRightHood(pillar.getId(),pillarDistance, measPointList.get(3).pointZ, true);
@@ -1094,10 +1099,10 @@ public class Drawer {
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire())  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 					PAGE_Y + START_Y + 20 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getGroundPoint().pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 8) * MILLIMETER, 
 					wire.getStartY() - 16 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(id, "jobb af.: Bf. " + df.format(measWire.getSDRPoint().pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 7) * MILLIMETER,
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 8) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getSDRPoint().pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			break;		
