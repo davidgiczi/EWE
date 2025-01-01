@@ -141,14 +141,14 @@ public class Drawer {
 		compass.setY(PAGE_Y + 82 * MILLIMETER);
 		compass.setCursor(Cursor.HAND);
 		compass.setOnMouseClicked( c ->{
-		String rotation = homeController.setInputText("Északi irány megadása", "Add meg a forgatás értékét 0° és 360° között: ");
+		String rotation = homeController.setInputText("Oszlopköz irányának megadása", "Add meg az irányszög értékét 0° és 360° között: ");
 		try {
 			double rotationValue = Double.parseDouble(rotation.replace(",", "."));
 			compass.setRotate(rotationValue);
 			archivFileBuilder.setAzimuth(rotationValue);
 		}
 		catch (NumberFormatException e) {
-			homeController.getInfoAlert("Nem megfelelő forgatás érték", "A forgatás értéke csak szám lehet.");
+			homeController.getInfoAlert("Nem megfelelő irányszög érték", "Az irányszög értéke csak szám lehet.");
 		}
 		});
 		if( homeController.collectSectionMeasurmentData != null ) {
