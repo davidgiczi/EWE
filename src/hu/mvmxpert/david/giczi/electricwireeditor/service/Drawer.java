@@ -141,9 +141,16 @@ public class Drawer {
 		compass.setY(PAGE_Y + 82 * MILLIMETER);
 		compass.setCursor(Cursor.HAND);
 		compass.setOnMouseClicked( c ->{
-		String rotation = homeController.setInputText("Oszlopköz irányának megadása", "Add meg az irányszög értékét 0° és 360° között: ");
+		String rotation = homeController.setInputText("Az oszlopköz iránya: " + (int) (100 * compass.getRotate()) / 100.0 + "°", 
+				"Add meg az irányszög értékét 0° és 360° között: ");
+		double rotationValue;
 		try {
-			double rotationValue = Double.parseDouble(rotation.replace(",", "."));
+			if( rotation != null) {
+				rotationValue = Double.parseDouble(rotation.replace(",", "."));
+			}
+			else {
+				rotationValue = compass.getRotate();
+			}
 			compass.setRotate(rotationValue);
 			archivFileBuilder.setAzimuth(rotationValue);
 		}
