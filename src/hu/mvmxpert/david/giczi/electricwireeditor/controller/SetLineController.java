@@ -71,8 +71,10 @@ public class SetLineController implements Initializable {
 		lineTypeComboBox.getItems().add("folyamatos");
 		lineTypeComboBox.getItems().add("szaggatott");
 		lineTypeComboBox.getItems().add("pontozott");
+		lineTypeComboBox.getItems().add("vetület");
 		lineWidthComboBox.getItems().add("0.5");
 		lineWidthComboBox.getItems().add("1");
+		lineWidthComboBox.getItems().add("1.5");
 		lineWidthComboBox.getItems().add("3");
 	}
 	

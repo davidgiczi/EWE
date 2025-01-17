@@ -1000,16 +1000,37 @@ public class HomeController {
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
 		List<MeasWire> measWireList = collectSectionMeasurmentData.getMeasWirePointList();
 		for (MeasWire measWire : measWireList) {
+			measWire.setAbcissaProjection(getWireProjectionAbcissa(measWire.getWireType()));
 			drawer.drawWireAutomatically(measWire);
 		}
+		drawer.drawWireHorizontalProjections();
 		List<MeasPoint> groundPointList = collectSectionMeasurmentData.getMeasGroundPointList();
 		if( groundPointList.isEmpty() ) {
 			return;
 		}	
-		drawer.drawMeasGroundPoint(groundPointList);	
+		drawer.drawMeasGroundPoint(groundPointList);
 	}
-	 
 	
+	private double getWireProjectionAbcissa(int wireType) {
+		List<Double> diffs = collectSectionMeasurmentData.getAbscissaForWireLineProjection();
+		switch (wireType) {
+		case 0:
+			return diffs.get(0);
+		case 1:
+			return diffs.get(3);
+		case 2:
+			return diffs.get(4);
+		case 3:
+			return diffs.get(1);
+		case 4:
+			return diffs.get(5);
+		case 5:
+			return diffs.get(6);
+		case 6:		
+			return diffs.get(2);
+		}
+		return 0d;
+	}	
 //	public void showLeftWire() {
 //	List<WirePoint> wirePoints = archivFileBuilder.getLeftWirePoints();
 //	if(wirePoints.size() < 2) {

@@ -1908,4 +1908,25 @@ public class CollectPillarSectionMeasurementData {
 	 return groundMeasPointList;
  }
  
+ public List<Double> getAbscissaForWireLineProjection(){
+	 List<Double> diffs = new ArrayList<>();
+	 MeasPoint leftStart = getStartPillarLeftMeasPointList().get(1);
+	 MeasPoint mediumStart = getStartPillarMediumMeasPointList().get(1);
+	 MeasPoint rightStart = getStartPillarRightMeasPointList().get(1);
+	 MeasPoint leftOutsideStart = getStartPillarLeftOutsideMeasPointList().get(1);
+	 MeasPoint leftInsideStart = getStartPillarLeftInsideMeasPointList().get(1);
+	 MeasPoint rightInsideStart = getStartPillarRightInsideMeasPointList().get(1);
+	 MeasPoint rightOutsideStart = getStartPillarRightOutsideMeasPointList().get(1);
+	 MeasPoint startPillarBaseCenter = getStartPillarBaseTopData().get(0);
+	 Arrays.asList(leftStart, mediumStart, rightStart, leftOutsideStart, leftInsideStart, rightInsideStart, rightOutsideStart)
+	 .forEach(measPoint -> {
+	if( measPoint != null ) {
+	 AzimuthAndDistance pointData = new AzimuthAndDistance(startPillarBaseCenter, measPoint);
+	 double alfa = getMainLineAzimuth() - pointData.calcAzimuth();
+	 diffs.add(Math.cos(alfa) * pointData.calcDistance());
+}
+}); 
+	 return diffs;
+ }
+ 
 }
