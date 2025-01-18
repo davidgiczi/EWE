@@ -1017,15 +1017,15 @@ public class HomeController {
 		case 0:
 			return diffs.get(0);
 		case 1:
-			return diffs.get(3);
+			return diffs.get(0);
 		case 2:
-			return diffs.get(4);
+			return diffs.get(1);
 		case 3:
 			return diffs.get(1);
 		case 4:
-			return diffs.get(5);
+			return diffs.get(2);
 		case 5:
-			return diffs.get(6);
+			return diffs.get(3);
 		case 6:		
 			return diffs.get(2);
 		}
