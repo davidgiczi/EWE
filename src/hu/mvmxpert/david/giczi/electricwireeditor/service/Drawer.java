@@ -214,316 +214,178 @@ public class Drawer {
 		}
 			
 	public void drawWireHorizontalProjections() {
-		if( homeController.collectSectionMeasurmentData == null ) {
-			return;
-		}
+		
 		List<Double> diffs = homeController.collectSectionMeasurmentData.getAbscissaForWireLineProjection();
 		List<Double> distances = homeController.collectSectionMeasurmentData.getLengthOfSectionBetweenPillars();
 		
 		if( distances.get(0) != 0 && distances.get(1) != 0 && distances.get(2) != 0 ) {
-			Line leftWire = new Line();
-			leftWire.setStroke(Color.RED);
-			leftWire.getStrokeDashArray().addAll(2d, 4d);
-			leftWire.setStrokeWidth(1.5);
-			leftWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(0) ) * MILLIMETER));
-			leftWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			leftWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(0) + diffs.get(0) ) * MILLIMETER));
-			leftWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			Line mediumWire = new Line();
-			mediumWire.setStroke(Color.RED);
-			mediumWire.getStrokeDashArray().addAll(2d, 4d);
-			mediumWire.setStrokeWidth(1.5);
-			mediumWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(1) ) * MILLIMETER));
-			mediumWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			mediumWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(1) + diffs.get(1) ) * MILLIMETER));
-			mediumWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			Line rightWire = new Line();
-			rightWire.setStroke(Color.RED);
-			rightWire.getStrokeDashArray().addAll(2d, 4d);
-			rightWire.setStrokeWidth(1.5);
-			rightWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(2) ) * MILLIMETER));
-			rightWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			rightWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(2) + diffs.get(2) ) * MILLIMETER));
-			rightWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			root.getChildren().addAll(leftWire, mediumWire, rightWire);
-			archivFileBuilder.addLine(new LineData(diffs.get(0), 
-					archivFileBuilder.getSystemData().getElevationStartValue(),
-					distances.get(0) + diffs.get(0),
-					archivFileBuilder.getSystemData().getElevationStartValue(), 
-					"vetület", 1.0, 0.0, 0.0, 1.0, "1.5"));
 			
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+				archivFileBuilder.getSystemData().getElevationStartValue() + 
+				5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+				distances.get(1) + diffs.get(1), 
+				archivFileBuilder.getSystemData().getElevationStartValue() + 
+				5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+				"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(2), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(2) + diffs.get(2), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) != 0 && distances.get(1) == 0 && distances.get(2) != 0 
-				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0) {
-			Line leftWire = new Line();
-			leftWire.setStroke(Color.RED);
-			leftWire.getStrokeDashArray().addAll(2d, 4d);
-			leftWire.setStrokeWidth(1.5);
-			leftWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(0) ) * MILLIMETER));
-			leftWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			leftWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(0) + diffs.get(0) ) * MILLIMETER));
-			leftWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			Line rightWire = new Line();
-			rightWire.setStroke(Color.RED);
-			rightWire.getStrokeDashArray().addAll(2d, 4d);
-			rightWire.setStrokeWidth(1.5);
-			rightWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(2) ) * MILLIMETER));
-			rightWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			rightWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(2) + diffs.get(2) ) * MILLIMETER));
-			rightWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			root.getChildren().addAll(leftWire, rightWire);	
+				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(1) + diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) != 0 && distances.get(1) == 0 && distances.get(2) == 0 
-				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0) {
-			Line leftWire = new Line();
-			leftWire.setStroke(Color.RED);
-			leftWire.getStrokeDashArray().addAll(2d, 4d);
-			leftWire.setStrokeWidth(1.5);
-			leftWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(0) ) * MILLIMETER));
-			leftWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			leftWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(0) + diffs.get(0) ) * MILLIMETER));
-			leftWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			root.getChildren().add(leftWire);
+				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) == 0 && distances.get(1) != 0 && distances.get(2) == 0 
-				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0) {
-			Line mediumWire = new Line();
-			mediumWire.setStroke(Color.RED);
-			mediumWire.getStrokeDashArray().addAll(2d, 4d);
-			mediumWire.setStrokeWidth(1.5);
-			mediumWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(1) ) * MILLIMETER));
-			mediumWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			mediumWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(1) + diffs.get(1) ) * MILLIMETER));
-			mediumWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			root.getChildren().add(mediumWire);
+				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) != 0 
-				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0) {
-			Line rightWire = new Line();
-			rightWire.setStroke(Color.RED);
-			rightWire.getStrokeDashArray().addAll(2d, 4d);
-			rightWire.setStrokeWidth(1.5);
-			rightWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(2) ) * MILLIMETER));
-			rightWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			rightWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(2) + diffs.get(2) ) * MILLIMETER));
-			rightWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			root.getChildren().add(rightWire);
+				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+		}
+		else if( distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					2.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					2.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(1) + diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(2), 
+				archivFileBuilder.getSystemData().getElevationStartValue() + 
+				5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+				distances.get(2) + diffs.get(2), 
+				archivFileBuilder.getSystemData().getElevationStartValue() + 
+				5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+				"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(3), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(3) + diffs.get(3), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 
-				&& distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) != 0) {
-			Line leftOutsideWire = new Line();
-			leftOutsideWire.setStroke(Color.RED);
-			leftOutsideWire.getStrokeDashArray().addAll(2d, 4d);
-			leftOutsideWire.setStrokeWidth(1.5);
-			leftOutsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(3) ) * MILLIMETER));
-			leftOutsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 3) * MILLIMETER);
-			leftOutsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(3) + diffs.get(3) ) * MILLIMETER));
-			leftOutsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 3) * MILLIMETER);
-			Line leftInsideWire = new Line();
-			leftInsideWire.setStroke(Color.RED);
-			leftInsideWire.getStrokeDashArray().addAll(2d, 4d);
-			leftInsideWire.setStrokeWidth(1.5);
-			leftInsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(4) ) * MILLIMETER));
-			leftInsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			leftInsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(4) + diffs.get(4) ) * MILLIMETER));
-			leftInsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);	
-			Line rightInsideWire = new Line();
-			rightInsideWire.setStroke(Color.RED);
-			rightInsideWire.getStrokeDashArray().addAll(2d, 4d);
-			rightInsideWire.setStrokeWidth(1.5);
-			rightInsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(5) ) * MILLIMETER));
-			rightInsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			rightInsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(5) + diffs.get(5) ) * MILLIMETER));
-			rightInsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			Line rightOutsideWire = new Line();
-			rightOutsideWire.setStroke(Color.RED);
-			rightOutsideWire.getStrokeDashArray().addAll(2d, 4d);
-			rightOutsideWire.setStrokeWidth(1.5);
-			rightOutsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(6) ) * MILLIMETER));
-			rightOutsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			rightOutsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(6) + diffs.get(6) ) * MILLIMETER));
-			rightOutsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			root.getChildren().addAll(leftOutsideWire, leftInsideWire, rightInsideWire, rightOutsideWire);
+				&& distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					2.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					2.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(1) + diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 
-				&& distances.get(3) != 0 && distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0) {
-			Line leftOutsideWire = new Line();
-			leftOutsideWire.setStroke(Color.RED);
-			leftOutsideWire.getStrokeDashArray().addAll(2d, 4d);
-			leftOutsideWire.setStrokeWidth(1.5);
-			leftOutsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(3) ) * MILLIMETER));
-			leftOutsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 3) * MILLIMETER);
-			leftOutsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(3) + diffs.get(3) ) * MILLIMETER));
-			leftOutsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 3) * MILLIMETER);
-			Line leftInsideWire = new Line();
-			leftInsideWire.setStroke(Color.RED);
-			leftInsideWire.getStrokeDashArray().addAll(2d, 4d);
-			leftInsideWire.setStrokeWidth(1.5);
-			leftInsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(4) ) * MILLIMETER));
-			leftInsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			leftInsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(4) + diffs.get(4) ) * MILLIMETER));
-			leftInsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			root.getChildren().addAll(leftOutsideWire, leftInsideWire);
+				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(1) + diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 
-				&& distances.get(3) == 0 && distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) != 0) {
-			Line rightInsideWire = new Line();
-			rightInsideWire.setStroke(Color.RED);
-			rightInsideWire.getStrokeDashArray().addAll(2d, 4d);
-			rightInsideWire.setStrokeWidth(1.5);
-			rightInsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(5) ) * MILLIMETER));
-			rightInsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			rightInsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(5) + diffs.get(5) ) * MILLIMETER));
-			rightInsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			Line rightOutsideWire = new Line();
-			rightOutsideWire.setStroke(Color.RED);
-			rightOutsideWire.getStrokeDashArray().addAll(2d, 4d);
-			rightOutsideWire.setStrokeWidth(1.5);
-			rightOutsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(6) ) * MILLIMETER));
-			rightOutsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			rightOutsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(6) + diffs.get(6) ) * MILLIMETER));
-			rightOutsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			root.getChildren().addAll(rightInsideWire, rightOutsideWire);
+				&& distances.get(3) == 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					3.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(1) + diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					5.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 
-				&& distances.get(3) == 0 && distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) == 0) {
-			Line leftInsideWire = new Line();
-			leftInsideWire.setStroke(Color.RED);
-			leftInsideWire.getStrokeDashArray().addAll(2d, 4d);
-			leftInsideWire.setStrokeWidth(1.5);
-			leftInsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(4) ) * MILLIMETER));
-			leftInsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			leftInsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(4) + diffs.get(4) ) * MILLIMETER));
-			leftInsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 2) * MILLIMETER);
-			Line rightInsideWire = new Line();
-			rightInsideWire.setStroke(Color.RED);
-			rightInsideWire.getStrokeDashArray().addAll(2d, 4d);
-			rightInsideWire.setStrokeWidth(1.5);
-			rightInsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(5) ) * MILLIMETER));
-			rightInsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			rightInsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(5) + diffs.get(5) ) * MILLIMETER));
-			rightInsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT) * MILLIMETER);
-			root.getChildren().addAll(leftInsideWire, rightInsideWire);
-		}
-		else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 
-				&& distances.get(3) != 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0) {
-			Line leftOutsideWire = new Line();
-			leftOutsideWire.setStroke(Color.RED);
-			leftOutsideWire.getStrokeDashArray().addAll(2d, 4d);
-			leftOutsideWire.setStrokeWidth(1.5);
-			leftOutsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(3) ) * MILLIMETER));
-			leftOutsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT - 3) * MILLIMETER);
-			leftOutsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(3) + diffs.get(3) ) * MILLIMETER));
-			leftOutsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT - 3) * MILLIMETER);
-			Line rightOutsideWire = new Line();
-			rightOutsideWire.setStroke(Color.RED);
-			rightOutsideWire.getStrokeDashArray().addAll(2d, 4d);
-			rightOutsideWire.setStrokeWidth(1.5);
-			rightOutsideWire.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER).add(getHorizontalScaledDownLengthValue( diffs.get(6) ) * MILLIMETER));
-			rightOutsideWire.setStartY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			rightOutsideWire.endXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
-					.add(START_X)
-					.add(HOR_SHIFT * MILLIMETER)
-					.add(getHorizontalScaledDownLengthValue( distances.get(6) + diffs.get(6) ) * MILLIMETER));
-			rightOutsideWire.setEndY(PAGE_Y + START_Y + (VER_SHIFT + 1 ) * MILLIMETER);
-			root.getChildren().addAll(leftOutsideWire, rightOutsideWire);		
+				&& distances.get(3) != 0 && distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+			drawLine(diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					2.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(0) + diffs.get(0), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					2.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
+			drawLine(diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0, 
+					distances.get(1) + diffs.get(1), 
+					archivFileBuilder.getSystemData().getElevationStartValue() + 
+					6.0 * archivFileBuilder.getSystemData().getVerticalScale() / -10.0,
+					"vetület", Color.RED, "1.5");
 		}
 		
 	}
