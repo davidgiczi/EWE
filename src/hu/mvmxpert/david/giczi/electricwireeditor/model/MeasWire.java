@@ -51,7 +51,7 @@ public class MeasWire {
 		return abcissaProjection;
 	}
 	public void setAbcissaProjection(double abcissaProjection) {
-		this.distanceOfWire += abcissaProjection; 
+		this.distanceOfWire += abcissaProjection;
 		this.abcissaProjection = abcissaProjection;
 	}
 	public void setDistanceOfWire(MeasPoint grabPoint) {
