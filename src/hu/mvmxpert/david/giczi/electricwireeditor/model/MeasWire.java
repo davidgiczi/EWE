@@ -10,7 +10,7 @@ public class MeasWire {
 	private MeasPoint VEZPoint;
 	private MeasPoint SDRPoint;
 	private double distanceOfWire;
-	private double abcissaProjection;
+	private double distanceCorrection;
 	
 	public int getWireType() {
 		return wireType;
@@ -47,12 +47,12 @@ public class MeasWire {
 		this.wireId = wireId;
 	}
 	
-	public double getAbcissaProjection() {
-		return abcissaProjection;
+	public double getDistanceCorrection() {
+		return distanceCorrection;
 	}
-	public void setAbcissaProjection(double abcissaProjection) {
-		this.distanceOfWire += abcissaProjection;
-		this.abcissaProjection = abcissaProjection;
+	public void setDistanceCorrection(double distanceCorrection) {
+		this.distanceOfWire += distanceCorrection;
+		this.distanceCorrection = distanceCorrection;
 	}
 	public void setDistanceOfWire(MeasPoint grabPoint) {
 		this.distanceOfWire = Math.sqrt(Math.pow(this.SDRPoint.pointX - grabPoint.pointX, 2) + Math.pow(this.SDRPoint.pointY - grabPoint.pointY, 2));

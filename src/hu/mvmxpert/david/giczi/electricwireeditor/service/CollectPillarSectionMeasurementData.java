@@ -1925,6 +1925,9 @@ public class CollectPillarSectionMeasurementData {
 	 double alfa = getMainLineAzimuth() - pointData.calcAzimuth();
 	 diffs.add(Math.cos(alfa) * pointData.calcDistance());
 }
+	else {
+		diffs.add(0.0);
+	}
 }); 
 	 return diffs;
  }
