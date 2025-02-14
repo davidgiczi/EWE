@@ -1889,7 +1889,7 @@ public class CollectPillarSectionMeasurementData {
 	 AzimuthAndDistance mainLineData = new AzimuthAndDistance(startPillarBaseCenter, endPillarBaseCenter);
 	 for (String measDataRow : measDataList) {
 		String[] rowData = measDataRow.split(",");
-		if( rowData.length == 0 ) {
+		if( rowData.length == 1 ) {
 			rowData = measDataRow.split(";");
 		}
 		if( rowData[rowData.length - 1].equalsIgnoreCase(POINT_TYPE[11]) ) {
@@ -1900,7 +1900,7 @@ public class CollectPillarSectionMeasurementData {
 			double alfa = mainLineData.calcAzimuth() - groundPointData.calcAzimuth();
 			double distance = Math.cos(alfa) * groundPointData.calcDistance();
 			if( 0 < distance && distance < mainLineData.calcDistance() ) {
-				groundMeasPointList.add(new MeasPoint(distance, measedGroundPoint.pointZ));
+				groundMeasPointList.add(new MeasPoint(rowData[0], distance, measedGroundPoint.pointZ));
 			}	
 		}
 	}

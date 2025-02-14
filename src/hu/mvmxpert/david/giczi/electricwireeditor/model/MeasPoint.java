@@ -14,6 +14,12 @@ public class MeasPoint implements Comparable<MeasPoint> {
 		
 	}
 	
+	public MeasPoint(String pointId, double pointX, double pointY) {
+		this.pointId = pointId;
+		this.pointX = pointX;
+		this.pointY = pointY;
+	}
+	
 	public MeasPoint(double pointX, double pointY) {
 		this.pointX = pointX;
 		this.pointY = pointY;
