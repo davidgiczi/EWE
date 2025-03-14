@@ -1886,6 +1886,7 @@ public class CollectPillarSectionMeasurementData {
 	 if( startPillarBaseCenter == null || endPillarBaseCenter == null ) {
 		 return groundMeasPointList;
 	 }
+	 groundMeasPointList.add(new MeasPoint(startPillarBaseCenter.pointId, 0.0, startPillarBaseCenter.pointZ));
 	 AzimuthAndDistance mainLineData = new AzimuthAndDistance(startPillarBaseCenter, endPillarBaseCenter);
 	 for (String measDataRow : measDataList) {
 		String[] rowData = measDataRow.split(",");
@@ -1904,6 +1905,8 @@ public class CollectPillarSectionMeasurementData {
 			}	
 		}
 	}
+	 groundMeasPointList.add(new MeasPoint(endPillarBaseCenter.pointId, 
+			 calcHorizonatlDistance(startPillarBaseCenter, endPillarBaseCenter), endPillarBaseCenter.pointZ));
 	 Collections.sort(groundMeasPointList);
 	 return groundMeasPointList;
  }
