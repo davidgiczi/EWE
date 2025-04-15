@@ -63,7 +63,7 @@ public class Drawer {
 		return horizontalScale;
 	}
 
-	public void setHorizontalScale(int horizontalScale) {
+	public void setHorizontalScale(int horizontalScale) { 
 		this.horizontalScale = horizontalScale;
 	}
 
@@ -522,11 +522,19 @@ public class Drawer {
 		
 		setText(pillarData.getId(), id + ".", 
 				(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
-				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);	
+				PAGE_Y + START_Y + 30 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
+		if( leftHand ) {
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(pillarData.getId(), "bal ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
+		}
+		else if( rightHand ) {
+			setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(distance) - VER_SHIFT) * MILLIMETER, pillar.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
+			setText(pillarData.getId(), "jobb ak.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(distance) - VER_SHIFT) * MILLIMETER, pillar.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
+		}
 		setText(pillarData.getId(), df.format(distance).replace(",", ".") + "m", 
 		(getHorizontalScaledDownLengthValue(distance)  + HOR_SHIFT - VER_SHIFT) * MILLIMETER, PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
 	}
@@ -1398,10 +1406,18 @@ public class Drawer {
 		
 		setText(wireData.getId(), text, (getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 				PAGE_Y + START_Y + 65, 18, 0, false, false, 0, 0, 0, 1);
+		if( leftHand ) {
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
 		setText(wireData.getId(), "bal af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance)  - HOR_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
+		}
+		else if( rightHand ) {
+			setText(wireData.getId(), "jobb af.: Bf. " + df.format(groundElevation).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(distance)  - VER_SHIFT) * MILLIMETER, wire.getStartY(), 18, -90, true, false, 0, 0, 0, 1);
+			setText(wireData.getId(), "jobb af.: Bf. " + df.format(topElevation).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(distance)  - VER_SHIFT) * MILLIMETER, wire.getEndY(), 18, -90, true, true, 0, 0, 0, 1);
+		}
 		setText(wireData.getId(), df.format(distance).replace(",", ".") + "m", 
 				(getHorizontalScaledDownLengthValue(distance) + HOR_SHIFT - VER_SHIFT) * MILLIMETER, 
 				PAGE_Y + START_Y + 50, 18, 0, false, false, 0, 0, 0, 1);
