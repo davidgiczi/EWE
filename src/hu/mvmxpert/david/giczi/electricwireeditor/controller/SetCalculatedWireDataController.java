@@ -94,7 +94,6 @@ public class SetCalculatedWireDataController implements Initializable {
 	if( showWireDiffsCheckBox.isSelected() ) {
 		homeController.showDifferencesOfWires();
 	}
-	
 	if( saveForAutoCadCheckBox.isSelected() ) {
 		homeController.fileProcess.saveCalulatedWirePointsInAutoCadFormat(homeController.calculator.wirePoints, wireTypeTextField.getText());
 	}

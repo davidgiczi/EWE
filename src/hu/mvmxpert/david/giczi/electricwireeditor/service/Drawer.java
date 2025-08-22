@@ -1943,7 +1943,7 @@ public class Drawer {
 	
 	public void drawCalculatedWire(List<WirePoint> wirePoints, String wireType) {
 		
-		double scale = horizontalScale / 1000d;
+		double scale = Math.round(horizontalScale / 1000d);
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType);
 		String id = homeController.calculator.getWireIDAsString(wireType);
