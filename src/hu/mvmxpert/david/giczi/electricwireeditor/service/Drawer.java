@@ -774,6 +774,7 @@ public class Drawer {
 		
 		DecimalFormat df = new DecimalFormat("0.00");
 		
+		
 		if( measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[3])) &&
 			measPointList.stream().anyMatch(m -> m != null && 

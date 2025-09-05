@@ -345,4 +345,10 @@ public class ElectricWireCalculator {
 				distanceOfWire * (magassag_kulonbseg / oszlopkoz_hossza );
 	}
 	
+	public double getAverageGroundElevationByDistance(double distanceOfWire) {
+		return archivFileBuilder.getBeginnerPillar().getGroundElevation() + 
+				distanceOfWire * ((archivFileBuilder.getLastPillar().getGroundElevation() - 
+					archivFileBuilder.getBeginnerPillar().getGroundElevation()) / oszlopkoz_hossza);
+	}
+	
 }
