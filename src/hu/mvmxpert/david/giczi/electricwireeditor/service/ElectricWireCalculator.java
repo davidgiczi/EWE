@@ -340,4 +340,9 @@ public class ElectricWireCalculator {
 						-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0;
 	}
 	
+	public double getDeltaElevationBetweenPillars(double distanceOfWire) {
+		return archivFileBuilder.getBeginnerPillar().getTopElevetaion() + 
+				distanceOfWire * (magassag_kulonbseg / oszlopkoz_hossza );
+	}
+	
 }
