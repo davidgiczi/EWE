@@ -867,7 +867,11 @@ public class HomeController {
 		hangingValue = 0 > hangingValue ? Math.abs(hangingValue) + pillarElevationDifference : pillarElevationDifference - hangingValue;
 		drawer.drawHangingArrow(validDistance, hangingValue, pillarElevationDifference, calculator.wireType);
 		getInfoAlert(validDistance  + " méter távolsághoz tartozó belógás", 
-				"A belógás értéke: " + (int)  (hangingValue * 1000.0) / 1000.0  + " méter");
+				"A belógás értéke: " + (int)  (hangingValue * 1000.0) / 1000.0  + " méter\n" +
+				"A sodrony Balti magassága: " + 
+						(int) ((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000) / 1000.0 + " méter\n" +
+				"A terep átlagos magassága: " + 
+						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000) / 1000.0 + " méter");
 		drawer.deleteHangingArrow();
 	}
 	
@@ -884,10 +888,15 @@ public class HomeController {
 			calculator.getTheHighestHangingWireValue(distance == null ? archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() : distance);
 		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), hangingData.get(2), calculator.wireType);
 		getInfoAlert("A legnagyobb belógás távolsága: " + (int) (hangingData.get(0) * 100.0) / 100.0 + " méter", 
-				"A legnagyobb belógás értéke: " + (int) (hangingData.get(1) * 1000.0) / 1000.0  + " méter");
+				"A legnagyobb belógás értéke: " + (int) (hangingData.get(1) * 1000.0) / 1000.0  + " méter\n" +
+				"A sodrony Balti magassága: " + 
+						(int)  ((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - 
+								hangingData.get(1)) * 1000) / 1000.0 + " méter\n" + 
+				"A terep átlagos magassága: " + 
+								(int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000) / 1000.0 + " méter");
 		drawer.deleteHangingArrow();
 	}
-		
+		 
 	public void save2DWireCoords() {	
 		
 		if(  archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {

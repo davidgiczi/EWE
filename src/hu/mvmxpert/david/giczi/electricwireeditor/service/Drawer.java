@@ -1326,7 +1326,7 @@ public class Drawer {
 		
 		for (int i = 0; i < groundPoints.size() - 1; i++) {
 			drawLine(groundPoints.get(i).pointX, groundPoints.get(i).pointY, 
-					groundPoints.get(i + 1).pointX, groundPoints.get(i + 1).pointY, "folyamatos", Color.BROWN, "3");
+					groundPoints.get(i + 1).pointX, groundPoints.get(i + 1).pointY, "folyamatos", Color.rgb(0, 128, 0), "3");
 			
 		}
 		
