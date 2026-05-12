@@ -59,7 +59,7 @@ public class SetCalculatedWireDataController implements Initializable {
 		
 	if(wireTypeTextField.getText().isBlank() || beginnerPillarElevation == null || lastPillarElevation == null) {
 			homeController.getWarningAlert("Nem létező sodrony, vagy nem megfelelő sodrony hivatkozás", 
-					"Növekvő oszlopszám szerinti oldal (bal, közép, jobb) és a kar helyének (ak, kk, fk) megadása szükséges.");
+					"Növekvő oszlopszám szerinti oldal (bal, közép, jobb, védő) és a kar helyének (ak, kk, fk) megadása szükséges.");
 			return;
 	}
 	if(wireTypesComboBox.getValue() == null) {
@@ -83,7 +83,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	
 	if( showWireCheckBox.isSelected() ) {
-	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText(), szigmaValue, temperatureValue);
+	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText().toLowerCase(), szigmaValue, temperatureValue);
 	}
 	if( showPreResultsCheckBox.isSelected() ) {
 		homeController.showPreResultsData();

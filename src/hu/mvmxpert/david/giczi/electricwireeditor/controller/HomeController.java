@@ -1037,6 +1037,12 @@ public class HomeController {
 			return diffs.get(6);
 		case 6:
 			return diffs.get(2);
+		case 7:
+			return diffs.get(7);
+		case 8:
+			return diffs.get(8);
+		case 9:
+			return diffs.get(9);
 		}
 		
 		return 0.0;
