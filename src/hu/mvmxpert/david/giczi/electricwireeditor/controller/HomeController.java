@@ -318,7 +318,7 @@ public class HomeController {
 					Double.parseDouble(data[2]),
 					Double.parseDouble(data[3]), 
 					Boolean.parseBoolean(data[4]),
-					Boolean.parseBoolean(data[4]) ? true : false);
+					Boolean.parseBoolean(data[4]));
 			pillar.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addPillar(pillar);
 					}
@@ -370,7 +370,7 @@ public class HomeController {
 					Double.parseDouble(data[2]),
 					Double.parseDouble(data[3]), 
 					Boolean.parseBoolean(data[4]),
-					Boolean.parseBoolean(data[4]) ? true : false);
+					Boolean.parseBoolean(data[4]));
 			wire.setId(ArchivFileBuilder.addID());
 			archivFileBuilder.addWire(wire);
 			drawer.drawInputWire(wire.getId());
@@ -504,12 +504,7 @@ public class HomeController {
 		alert.setTitle(title);
 		alert.setHeaderText(text);
 		Optional<ButtonType> option = alert.showAndWait();
-		if(option.get() == ButtonType.OK) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return option.get() == ButtonType.OK;
 	}
 	
 	public void modifyLengthOfBaseLine() {
@@ -864,7 +859,7 @@ public class HomeController {
 		}
 		double hangingValue = calculator.getWireHangingValueByDistance(validDistance);
 		double pillarElevationDifference = (int) (1000.0 * calculator.magassag_kulonbseg * validDistance / calculator.oszlopkoz_hossza) / 1000.0;
-		hangingValue = 0 > hangingValue ? Math.abs(hangingValue) + pillarElevationDifference : pillarElevationDifference - hangingValue;
+		hangingValue = pillarElevationDifference - hangingValue;
 		drawer.drawHangingArrow(validDistance, hangingValue, pillarElevationDifference, calculator.wireType);
 		getInfoAlert(validDistance  + " méter távolsághoz tartozó belógás", 
 				"A belógás értéke: " + (int)  (hangingValue * 1000.0) / 1000.0  + " méter\n" +
@@ -933,14 +928,12 @@ public class HomeController {
 		List<WireDifference> differences = new ArrayList<>();
 		
 		for (WireData wireData : archivFileBuilder.getWireData()) {
-			
 			Double distance = archivFileBuilder.getDistance(wireData.getWireTextList(), 
 					setCalculatedWireDataWindow.controller.wireTypeTextField.getText()) == null ?
 							wireData.getDistanceOfWire() : archivFileBuilder.getDistance(wireData.getWireTextList(), 
 									setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
 			Double elevation = archivFileBuilder.getElevation(wireData.getWireTextList(), 
 					setCalculatedWireDataWindow.controller.wireTypeTextField.getText(), true);
-			
 			
 			if( distance != null && elevation != null ) {
 			WireDifference difference =	calculator.getElevationDifference(distance, elevation);

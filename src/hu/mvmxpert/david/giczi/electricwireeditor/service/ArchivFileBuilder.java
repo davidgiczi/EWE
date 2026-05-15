@@ -412,9 +412,21 @@ public class ArchivFileBuilder {
 		type = type.toLowerCase();
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
+		
 		String[] textValues = textData.getTextValue().split("\\s+");
 		
-		if(typeValues.length == 1 && textValues.length == 4 &&
+		if(typeValues.length == 1 && textValues.length == 3 &&
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
+			
+			try {
+				elevation = Double.parseDouble(textData.getTextValue()
+						.substring(textData.getTextValue().indexOf("Bf.") + 4, textData.getTextValue().indexOf("m")).trim().replace(",", "."));
+			} catch (NumberFormatException e) {
+				
+			}
+			
+		}
+		else if(typeValues.length == 1 && textValues.length == 4 &&
 				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
 			
 			try {
