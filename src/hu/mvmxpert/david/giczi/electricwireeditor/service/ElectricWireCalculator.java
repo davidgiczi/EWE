@@ -319,13 +319,13 @@ public class ElectricWireCalculator {
 		
 		for(double distance = 0d; distance <= baseDistance; distance += 0.01) {
 			
-			double hanging = 4 * belogas * distance * (oszlopkoz_hossza - distance) / Math.pow(oszlopkoz_hossza, 2);
+			double hanging = getWireHangingValueByDistance(distance);
 			
 			double pillarElevationDifference = (int) (1000.0 * magassag_kulonbseg * distance / baseDistance) / 1000.0;
 			
-			if( hanging >= maxHanging ) {
+			if( pillarElevationDifference - hanging >= maxHanging ) {
 				hangingDistance = distance;
-				maxHanging = hanging;
+				maxHanging = pillarElevationDifference - hanging;
 				pillarElevationDifferenceForMaxHanging = pillarElevationDifference;
 			}
 		}

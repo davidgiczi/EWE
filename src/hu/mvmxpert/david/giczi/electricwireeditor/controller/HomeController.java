@@ -871,7 +871,9 @@ public class HomeController {
 				"A sodrony Balti magassága: " + 
 						(int) ((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000) / 1000.0 + " méter\n" +
 				"A terep átlagos magassága: " + 
-						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000) / 1000.0 + " méter");
+						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000) / 1000.0 + " méter\n" +
+				"Szabadmagasság: " + ((int) (((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000) - 
+						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000))) / 1000.0 + "méter");
 		drawer.deleteHangingArrow();
 	}
 	
@@ -893,7 +895,10 @@ public class HomeController {
 						(int)  ((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - 
 								hangingData.get(1)) * 1000) / 1000.0 + " méter\n" + 
 				"A terep átlagos magassága: " + 
-								(int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000) / 1000.0 + " méter");
+								(int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000) / 1000.0 + " méter\n" + 
+				"Szabadmagasság: " + (int) (((int)  ((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - 
+						hangingData.get(1)) * 1000)) -  
+				((int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000))) / 1000.0 + "méter");
 		drawer.deleteHangingArrow();
 	}
 		 
