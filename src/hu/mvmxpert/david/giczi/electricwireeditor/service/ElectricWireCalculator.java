@@ -147,8 +147,8 @@ public class ElectricWireCalculator {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		if( beginnerPillar != null && lastPillar != null ) {
-			double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), type);
-			double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), type);
+			double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), type, true);
+			double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), type, true);
 			this.magassag_kulonbseg = lastPillarElevation - beginnerPillarElevation;
 		}	
 	}
@@ -304,7 +304,7 @@ public class ElectricWireCalculator {
 		WireDifference difference = new WireDifference();
 		
 		difference.setDifference(
-				(int) ((archivFileBuilder.getElevation(archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireType) +
+				(int) ((archivFileBuilder.getElevation(archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireType, true) +
 				(int)((10 * this.p * Math.cosh((this.XA + distance) / this.p) + -10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0
 									 - elevation) * 100.0) / 100.0);
 
@@ -334,20 +334,19 @@ public class ElectricWireCalculator {
 	}
 
 	public double getWireHangingValueByDistance(double distanceOfWire) {
-	
 		return (int)((10 * this.p * Math.cosh((this.XA + distanceOfWire) / this.p) + 
 						-10 * this.p * Math.cosh(this.XA / this.p)) * 100.0) / 1000.0;
 	}
 	
 	public double getDeltaElevationBetweenPillars(double distanceOfWire) {
-		return archivFileBuilder.getBeginnerPillar().getTopElevetaion() + 
+		return archivFileBuilder.getElevation(archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireType, true)  + 
 				distanceOfWire * (magassag_kulonbseg / oszlopkoz_hossza );
 	}
 	
 	public double getAverageGroundElevationByDistance(double distanceOfWire) {
-		return archivFileBuilder.getBeginnerPillar().getGroundElevation() + 
-				distanceOfWire * ((archivFileBuilder.getLastPillar().getGroundElevation() - 
-					archivFileBuilder.getBeginnerPillar().getGroundElevation()) / oszlopkoz_hossza);
+		return archivFileBuilder.getElevation(archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireType, false) + 
+				distanceOfWire * ((archivFileBuilder.getElevation(archivFileBuilder.getLastPillar().getPillarTextList(), wireType, false) - 
+						archivFileBuilder.getElevation(archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireType, false)) / oszlopkoz_hossza);
 	}
 	
 }

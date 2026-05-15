@@ -52,10 +52,10 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	Double beginnerPillarElevation = 
 			homeController.archivFileBuilder
-			.getElevation(homeController.archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireTypeTextField.getText());
+			.getElevation(homeController.archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireTypeTextField.getText(), true);
 	Double lastPillarElevation = 
 			homeController.archivFileBuilder
-			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText());
+			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText(), true);
 		
 	if(wireTypeTextField.getText().isBlank() || beginnerPillarElevation == null || lastPillarElevation == null) {
 			homeController.getWarningAlert("Nem létező sodrony, vagy nem megfelelő sodrony hivatkozás", 

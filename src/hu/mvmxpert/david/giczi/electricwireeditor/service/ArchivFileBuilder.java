@@ -387,9 +387,10 @@ public class ArchivFileBuilder {
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
 			String[] textValues = textData.getTextValue().split("\\s+");
+	
 			if( typeValues.length == 2 && textValues.length == 2 && textData.getTextValue().startsWith(typeValues[0]) ) {
 				try {
-					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
+					distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 					
 				}
@@ -406,7 +407,7 @@ public class ArchivFileBuilder {
 		return distance;
 	}
 	
-	public Double getElevation(List<TextData> textList, String type) {
+	public Double getElevation(List<TextData> textList, String type, boolean isAtTop) {
 		Double elevation = null;
 		type = type.toLowerCase();
 		String[] typeValues = type.split("\\s+");
@@ -414,7 +415,7 @@ public class ArchivFileBuilder {
 		String[] textValues = textData.getTextValue().split("\\s+");
 		
 		if(typeValues.length == 1 && textValues.length == 4 &&
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
 			
 			try {
 				elevation = Double.parseDouble(textData.getTextValue()
@@ -425,7 +426,7 @@ public class ArchivFileBuilder {
 			
 		}
 		else if(typeValues.length == 2 && textValues.length == 4 &&
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
 			
 			try {
 				elevation = Double.parseDouble(textData.getTextValue()
@@ -437,7 +438,7 @@ public class ArchivFileBuilder {
 		}
 		else if(typeValues.length == 2 && textValues.length == 4 &&
 				textData.getTextValue().startsWith(typeValues[0] + " " + typeValues[1].substring(0, 1) + "f") 
-				&& textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				&& textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
 			
 			try {
 				elevation = Double.parseDouble(textData.getTextValue()
@@ -448,7 +449,7 @@ public class ArchivFileBuilder {
 			
 		}
 		else if( typeValues.length == 2 && textValues.length >= 5 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
 							
 				try {
 					elevation = Double.parseDouble(textData.getTextValue()
@@ -458,7 +459,7 @@ public class ArchivFileBuilder {
 				}
 		}
 		else if( typeValues.length == 2 && textValues.length == 4 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop() == isAtTop) {
 		
 				try {
 					
@@ -471,7 +472,7 @@ public class ArchivFileBuilder {
 		}
 		else if(typeValues.length == 2 && textValues.length == 4 &&
 				textData.getTextValue().startsWith(typeValues[0] + " " + typeValues[1].substring(0, 1) + "f") 
-				&& textData.getTextValue().contains("Bf.") && textData.isAtTop()) {
+				&& textData.getTextValue().contains("Bf.") && textData.isAtTop() == isAtTop) {
 			
 			try {
 				elevation = Double.parseDouble(textData.getTextValue()
@@ -482,7 +483,7 @@ public class ArchivFileBuilder {
 			
 		}
 		else if( typeValues.length == 2 && textValues.length >= 5 && 
-				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop()) {
+				textData.getTextValue().startsWith(type) && textData.getTextValue().contains("hr.") && textData.isAtTop() == isAtTop) {
 		
 				try {
 					

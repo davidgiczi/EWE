@@ -2076,7 +2076,7 @@ public class Drawer {
 			Line hoodRight = null;
 				if( pD.isLeftHand() ) {
 					hoodLeft = new Line();
-				Double elevation = archivFileBuilder.getElevation(pD.getPillarTextList(), "bal ak");
+				Double elevation = archivFileBuilder.getElevation(pD.getPillarTextList(), "bal ak", true);
 				hoodLeft.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 							.add(START_X)
 							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
@@ -2092,7 +2092,7 @@ public class Drawer {
 				}
 				if( pD.isRightHand() ) {
 				hoodRight = new Line();
-				Double elevation = archivFileBuilder.getElevation(pD.getPillarTextList(), "jobb ak");
+				Double elevation = archivFileBuilder.getElevation(pD.getPillarTextList(), "jobb ak", true);
 				hoodRight.startXProperty().bind(root.widthProperty().divide(2).subtract(A4_WIDTH / 2)
 							.add(START_X)
 							.add(getHorizontalScaledDownLengthValue(pD.getDistanceOfPillar()) * MILLIMETER)
@@ -2339,7 +2339,7 @@ public class Drawer {
 		
 		double scale = Math.round(horizontalScale / 1000d);
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
-		double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType);
+		double beginnerPillarElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType, true);
 		String id = homeController.calculator.getWireIDAsString(wireType);
 		for (int i = 0; i < wirePoints.size(); i += scale) {
 			Circle dot = new Circle();
@@ -2609,11 +2609,11 @@ public class Drawer {
 	public void drawHangingArrow(double distance, double hangingValue, double deltaPillarElevation, String wireType) {
 		PillarData beginnerPillar = archivFileBuilder.getBeginnerPillar();
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
-		double beginnerElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType);
+		double beginnerElevation = archivFileBuilder.getElevation(beginnerPillar.getPillarTextList(), wireType, true);
 		double lastPillarDistance = 
 				archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType) == null ? 
 						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), wireType);
-		double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), wireType);
+		double lastPillarElevation = archivFileBuilder.getElevation(lastPillar.getPillarTextList(), wireType, true);
 		Line betweenPillarsLine = new Line();
 		betweenPillarsLine.setStrokeWidth(2);
 		betweenPillarsLine.setStroke(Color.DARKORANGE);

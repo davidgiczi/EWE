@@ -939,7 +939,7 @@ public class HomeController {
 							wireData.getDistanceOfWire() : archivFileBuilder.getDistance(wireData.getWireTextList(), 
 									setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
 			Double elevation = archivFileBuilder.getElevation(wireData.getWireTextList(), 
-					setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
+					setCalculatedWireDataWindow.controller.wireTypeTextField.getText(), true);
 			
 			
 			if( distance != null && elevation != null ) {
