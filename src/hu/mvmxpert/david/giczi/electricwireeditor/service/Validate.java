@@ -23,7 +23,7 @@ public class Validate {
 	
 	public static boolean isValidInputText(String inputText) {
 		
-		if( inputText == null || inputText.isBlank() || 3 > inputText.length() ) {
+		if( inputText == null || inputText.isBlank() || 4 > inputText.length() || inputText.toLowerCase().equals("közé")) {
 			return false;
 		}
 		
@@ -88,4 +88,5 @@ public class Validate {
 			throw new NumberFormatException();
 		return rotateValue;
 	}
+	
 }

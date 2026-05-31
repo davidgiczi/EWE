@@ -384,24 +384,33 @@ public class ArchivFileBuilder {
 	
 	public Double getDistance(List<TextData> textList, String type) {
 		Double distance = null;
+		type = type.toLowerCase();
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
+			
 			String[] textValues = textData.getTextValue().split("\\s+");
-	
-			if( typeValues.length == 2 && textValues.length == 2 && textData.getTextValue().startsWith(typeValues[0]) ) {
+			
+			if( typeValues.length == 1 && textValues.length == 2 && textData.getTextValue().startsWith(type) ) {
+				try {
+					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
+				} catch (NumberFormatException e) {
+					
+				}
+			}
+			else if( typeValues.length == 2 && textValues.length == 2 && textData.getTextValue().startsWith(typeValues[0]) ) {
 				try {
 					distance = Double.parseDouble(textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 					
 				}
 			}
-			else if( typeValues.length == 1 && textValues.length == 2 && textData.getTextValue().startsWith(type) ) {
+			else if( typeValues.length == 2 && textValues.length == 3 && textData.getTextValue().startsWith(type) ) {
 				try {
-					distance = Double.parseDouble( textValues[1].substring(0, textValues[1].indexOf("m")).trim().replace(",", "."));
+					distance = Double.parseDouble( textValues[2].substring(0, textValues[2].indexOf("m")).trim().replace(",", "."));
 				} catch (NumberFormatException e) {
 					
 				}
-			} 
+			}
 		}
 		
 		return distance;

@@ -57,9 +57,11 @@ public class SetCalculatedWireDataController implements Initializable {
 			homeController.archivFileBuilder
 			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText(), true);
 		
-	if(wireTypeTextField.getText().isBlank() || beginnerPillarElevation == null || lastPillarElevation == null) {
+	if( !Validate.isValidInputText(wireTypeTextField.getText()) || beginnerPillarElevation == null || lastPillarElevation == null ) {
 			homeController.getWarningAlert("Nem létező sodrony, vagy nem megfelelő sodrony hivatkozás", 
-					"Növekvő oszlopszám szerinti oldal (bal, közép, jobb, védő) és a kar helyének (ak, kk, fk) megadása szükséges.");
+					"A lekérdezéshez az állomány a kar adott magassági elhelyezkedése (ak, kk, fk) alapján készülhet.\n"
+					+ "\nA sodronyt növekvő oszlopszám szerinti oldal (bal, jobb, védő),"
+					+ " és a sodrony karon való elhelyezkedésének (külső, közép, belső) megfelelően szükséges megadni.");
 			return;
 	}
 	if(wireTypesComboBox.getValue() == null) {
@@ -83,7 +85,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	
 	if( showWireCheckBox.isSelected() ) {
-	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText().toLowerCase(), szigmaValue, temperatureValue);
+	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText(), szigmaValue, temperatureValue);
 	}
 	if( showPreResultsCheckBox.isSelected() ) {
 		homeController.showPreResultsData();
