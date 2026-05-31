@@ -826,7 +826,7 @@ public class HomeController {
 			PROJECT_NAME = projectName;
 		}
 		else {
-			getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 4 karakter hosszúságú.");
+			getWarningAlert("Nem megfelelő projektnév", "A projekt neve legalább 3 karakter hosszúságú.");
 		}
 		setTitle(homeWindow.getRoot());
 		return projectName;

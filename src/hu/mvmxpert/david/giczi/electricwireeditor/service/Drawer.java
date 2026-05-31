@@ -1566,7 +1566,7 @@ public class Drawer {
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
-					18, -90, false, true, 0, 0, 0, 1);
+					18, -90, false, false, 0, 0, 0, 1);
 			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
@@ -1607,7 +1607,7 @@ public class Drawer {
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 20) * MILLIMETER,
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, true, false, 0, 0, 0, 1);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() - horizontalScale / 1000.0, 
 					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
@@ -1627,7 +1627,7 @@ public class Drawer {
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 20) * MILLIMETER,
-					18, -90, false, true, 0, 0, 0, 1);
+					18, -90, false, false, 0, 0, 0, 1);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire() - horizontalScale / 1000.0, measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
 					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
@@ -1646,7 +1646,7 @@ public class Drawer {
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 20) * MILLIMETER,
-					18, -90, false, true, 0, 0, 0, 1);
+					18, -90, false, false, 0, 0, 0, 1);
 			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
@@ -1665,7 +1665,7 @@ public class Drawer {
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 20) * MILLIMETER,
-					18, -90, true, true, 0, 0, 0, 1);
+					18, -90, true, false, 0, 0, 0, 1);
 			drawMediumHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire() - horizontalScale / 1000.0, measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
@@ -1685,7 +1685,7 @@ public class Drawer {
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 20) * MILLIMETER,
-					18, -90, false, true, 0, 0, 0, 1);
+					18, -90, false, false, 0, 0, 0, 1);
 			drawMediumHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire() - horizontalScale / 1000.0, measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 

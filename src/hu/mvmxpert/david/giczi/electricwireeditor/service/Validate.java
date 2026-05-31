@@ -1,5 +1,8 @@
 package hu.mvmxpert.david.giczi.electricwireeditor.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.management.InvalidAttributeValueException;
 
 public class Validate {
@@ -8,7 +11,7 @@ public class Validate {
 		public static int MAX_Y_VALUE;
 		public static int MIN_X_VALUE = 1;
 		public static int MIN_Y_VALUE = 10;
-		
+		private static final List<String> FORBIDDEN_WORDS = Arrays.asList("köz, közé, job");
 	
 	public static void isValidPillarSectionElevation(int startElevation, int elevationScale, int minElevation, int maxElevation)
 	throws NumberFormatException{
@@ -23,7 +26,7 @@ public class Validate {
 	
 	public static boolean isValidInputText(String inputText) {
 		
-		if( inputText == null || inputText.isBlank() || 4 > inputText.length() || inputText.toLowerCase().equals("közé")) {
+		if( inputText == null || inputText.isBlank() || 3 > inputText.length() || FORBIDDEN_WORDS.contains(inputText)) {
 			return false;
 		}
 		
