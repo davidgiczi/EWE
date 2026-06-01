@@ -52,12 +52,12 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	Double beginnerPillarElevation = 
 			homeController.archivFileBuilder
-			.getElevation(homeController.archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireTypeTextField.getText(), true);
+			.getElevation(homeController.archivFileBuilder.getBeginnerPillar().getPillarTextList(), wireTypeTextField.getText().toLowerCase(), true);
 	Double lastPillarElevation = 
 			homeController.archivFileBuilder
-			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText(), true);
+			.getElevation(homeController.archivFileBuilder.getLastPillar().getPillarTextList(), wireTypeTextField.getText().toLowerCase(), true);
 		
-	if( !Validate.isValidInputText(wireTypeTextField.getText()) || beginnerPillarElevation == null || lastPillarElevation == null ) {
+	if( !Validate.isValidInputText(wireTypeTextField.getText().toLowerCase()) || beginnerPillarElevation == null || lastPillarElevation == null ) {
 			homeController.getWarningAlert("Nem létező sodrony, vagy nem megfelelő sodrony hivatkozás", 
 					"A lekérdezéshez az állomány a kar adott magassági elhelyezkedése (ak, kk, fk) alapján készülhet.\n"
 					+ "\nA sodronyt növekvő oszlopszám szerinti oldal (bal, jobb, védő),"
@@ -85,7 +85,7 @@ public class SetCalculatedWireDataController implements Initializable {
 	}
 	
 	if( showWireCheckBox.isSelected() ) {
-	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText(), szigmaValue, temperatureValue);
+	homeController.showCalculatedWire(wireTypesComboBox.getValue(), wireTypeTextField.getText().toLowerCase(), szigmaValue, temperatureValue);
 	}
 	if( showPreResultsCheckBox.isSelected() ) {
 		homeController.showPreResultsData();
@@ -97,14 +97,14 @@ public class SetCalculatedWireDataController implements Initializable {
 		homeController.showDifferencesOfWires();
 	}
 	if( saveForAutoCadCheckBox.isSelected() ) {
-		homeController.fileProcess.saveCalulatedWirePointsInAutoCadFormat(homeController.calculator.wirePoints, wireTypeTextField.getText());
+		homeController.fileProcess.saveCalulatedWirePointsInAutoCadFormat(homeController.calculator.wirePoints, wireTypeTextField.getText().toLowerCase());
 	}
 	if( saveForTxtCheckBox.isSelected() ) {
-		homeController.fileProcess.saveCalulatedWirePointsInTextFormat(homeController.calculator.wirePoints, wireTypeTextField.getText());
+		homeController.fileProcess.saveCalulatedWirePointsInTextFormat(homeController.calculator.wirePoints, wireTypeTextField.getText().toLowerCase());
 	}
 	if( homeController.saveWireCoordsWindow == null ) {
 		homeController.saveWireCoordsWindow = new SaveWireCoordsWindow(homeController);
-		homeController.saveWireCoordsWindow.controller.getTypeOfWirePoint().setText(wireTypeTextField.getText());
+		homeController.saveWireCoordsWindow.controller.getTypeOfWirePoint().setText(wireTypeTextField.getText().toLowerCase());
 		homeController.saveWireCoordsWindow.getStage().hide();
 	}
 	homeController.setCalculatedWireDataWindow.getStage().hide();

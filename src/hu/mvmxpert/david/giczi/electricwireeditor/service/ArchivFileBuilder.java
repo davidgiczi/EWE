@@ -384,7 +384,6 @@ public class ArchivFileBuilder {
 	
 	public Double getDistance(List<TextData> textList, String type) {
 		Double distance = null;
-		type = type.toLowerCase();
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
 			
@@ -418,7 +417,6 @@ public class ArchivFileBuilder {
 	
 	public Double getElevation(List<TextData> textList, String type, boolean isAtTop) {
 		Double elevation = null;
-		type = type.toLowerCase();
 		String[] typeValues = type.split("\\s+");
 		for (TextData textData : textList) {
 		

@@ -931,9 +931,9 @@ public class HomeController {
 			Double distance = archivFileBuilder.getDistance(wireData.getWireTextList(), 
 					setCalculatedWireDataWindow.controller.wireTypeTextField.getText()) == null ?
 							wireData.getDistanceOfWire() : archivFileBuilder.getDistance(wireData.getWireTextList(), 
-									setCalculatedWireDataWindow.controller.wireTypeTextField.getText());
+									setCalculatedWireDataWindow.controller.wireTypeTextField.getText().toLowerCase());
 			Double elevation = archivFileBuilder.getElevation(wireData.getWireTextList(), 
-					setCalculatedWireDataWindow.controller.wireTypeTextField.getText(), true);
+					setCalculatedWireDataWindow.controller.wireTypeTextField.getText().toLowerCase(), true);
 			
 			if( distance != null && elevation != null ) {
 			WireDifference difference =	calculator.getElevationDifference(distance, elevation);
@@ -943,6 +943,7 @@ public class HomeController {
 			}
 		}
 		
+	
 		return differences;
 	}
 	

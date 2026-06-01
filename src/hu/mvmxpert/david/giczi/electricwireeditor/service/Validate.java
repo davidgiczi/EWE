@@ -11,7 +11,7 @@ public class Validate {
 		public static int MAX_Y_VALUE;
 		public static int MIN_X_VALUE = 1;
 		public static int MIN_Y_VALUE = 10;
-		private static final List<String> FORBIDDEN_WORDS = Arrays.asList("köz, közé, job");
+		private static final List<String> FORBIDDEN_WORDS = Arrays.asList("köz", "közé", "job");
 	
 	public static void isValidPillarSectionElevation(int startElevation, int elevationScale, int minElevation, int maxElevation)
 	throws NumberFormatException{
@@ -25,7 +25,7 @@ public class Validate {
 	}
 	
 	public static boolean isValidInputText(String inputText) {
-		
+	
 		if( inputText == null || inputText.isBlank() || 3 > inputText.length() || FORBIDDEN_WORDS.contains(inputText)) {
 			return false;
 		}

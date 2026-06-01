@@ -70,7 +70,7 @@ public class ElectricWireCalculator {
 		this.fileProcess = fileProcess;
 		this.archivFileBuilder = archivFileBuilder;
 		this.wireTypeName = wireTypeName;
-		this.wireType = wireType.toLowerCase();
+		this.wireType = wireType;
 		parseWireTypeData();
 		this.wireData = wireTypes.stream().filter( w -> wireTypeName.equals(w.getType())).findFirst().get();
 	}

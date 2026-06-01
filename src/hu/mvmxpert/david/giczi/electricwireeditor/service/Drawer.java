@@ -3608,7 +3608,7 @@ public class Drawer {
 	}
 	
 	private void deleteWireDifferences(String wireID) {
-		
+				
 		String[] idComponents = wireID.split("_");
 		String id = "leftDiffs";
 		
