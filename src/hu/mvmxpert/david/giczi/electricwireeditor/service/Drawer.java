@@ -938,31 +938,31 @@ public class Drawer {
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
-					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) == 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal külső " + df.format(distances.get(3)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
-					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal belső " + df.format(distances.get(4)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
-					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) == 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "jobb belső " + df.format(distances.get(5)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
-					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "jobb külső " + df.format(distances.get(6)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
-					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 ) {
+					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) == 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal külső " + df.format(distances.get(3)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -971,7 +971,7 @@ public class Drawer {
 						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
-					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) != 0 ) {
+					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) != 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "jobb belső " + df.format(distances.get(5)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -1036,7 +1036,7 @@ public class Drawer {
 						PAGE_Y + START_Y + 35 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
-					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+					distances.get(4) == 0 && distances.get(5) == 0 && distances.get(6) != 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal külső " + df.format(distances.get(3)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -1054,7 +1054,7 @@ public class Drawer {
 						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) != 0 && 
-					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+					distances.get(4) == 0 && distances.get(5) != 0 && distances.get(6) == 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal külső " + df.format(distances.get(3)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -1063,7 +1063,7 @@ public class Drawer {
 						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
-					distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) == 0 ) {
+					distances.get(4) != 0 && distances.get(5) != 0 && distances.get(6) == 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal belső " + df.format(distances.get(4)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -1081,7 +1081,7 @@ public class Drawer {
 						PAGE_Y + START_Y + 15 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
 			}	
 			else if( distances.get(0) == 0 && distances.get(1) == 0 && distances.get(2) == 0 && distances.get(3) == 0 && 
-					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) != 0 ) {
+					distances.get(4) != 0 && distances.get(5) == 0 && distances.get(6) != 0 && distances.get(10) == 0 && distances.get(11) == 0) {
 				setText(pillarId, "bal belső " + df.format(distances.get(4)).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance)  + HOR_SHIFT - VER_SHIFT - 9) * MILLIMETER, 
 						PAGE_Y + START_Y + 10 * MILLIMETER, 18, 0, false, false, 0, 0, 0, 1);
@@ -1904,7 +1904,7 @@ public class Drawer {
 				return;
 			}
 			DecimalFormat df = new DecimalFormat("0.00");
-			setText(wireData.getId(), 
+			setText(wireData.getId(), "bal közép " +
 					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") : measWire.getWireId().toLowerCase()) + 
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
@@ -1924,7 +1924,7 @@ public class Drawer {
 				return;
 			}
 			DecimalFormat df = new DecimalFormat("0.00");
-			setText(wireData.getId(),
+			setText(wireData.getId(), "jobb közép " +
 					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") : measWire.getWireId().toLowerCase()) + 
 					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 6) * MILLIMETER, 
