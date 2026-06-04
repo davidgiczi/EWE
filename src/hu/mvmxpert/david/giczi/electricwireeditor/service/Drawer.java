@@ -1777,7 +1777,11 @@ public class Drawer {
 		wire.setId(String.valueOf(wireData.getId()));
 		archivFileBuilder.addWire(wireData);
 		writeMeasWireData(wireData.getId(), measWire, wire);
-		if( measWire.getWireType() > -1 && 3 > measWire.getWireType() ) {
+		drawMeasWireVEZPoint(measWire, wireData);
+	}
+	
+	private void drawMeasWireVEZPoint(MeasWire measWire, WireData wireData) {
+		if( measWire.getWireType() == 0 ) {
 			drawLeftHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
 			if( measWire.getVEZPoint() == null ) {
 				return;
@@ -1798,22 +1802,43 @@ public class Drawer {
 					measWire.getDistanceOfWire(), 
 					measWire.getVEZPoint().pointZ - verticalScale / 10.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
 		}
-		else if( 3 < measWire.getWireType() && 7 > measWire.getWireType() ) {
-			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
+		else if( measWire.getWireType() == 1 ) {
+			drawLeftHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
 			if( measWire.getVEZPoint() == null ) {
 				return;
 			}
 			DecimalFormat df = new DecimalFormat("0.00");
-			setText(wireData.getId(), "jobb " + 
-					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") :
-						measWire.getWireId().toUpperCase().contains("VEDO") ? measWire.getWireId().toUpperCase().replace("VEDO", "védő") : measWire.getWireId().toLowerCase()) + 
-					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+			setText(wireData.getId(), "bal külső " + 
+					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") : 
+						measWire.getWireId().toUpperCase().contains("VEDO") ? measWire.getWireId().toUpperCase().replace("VEDO", "védő") : measWire.getWireId().toLowerCase())
+					+ ": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
-					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
-					18, -90, false, false, 0, 0, 0, 1);
-			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER, 
+					18, -90, true, false, 0, 0, 0, 1);
+			drawLeftHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
-					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
+					measWire.getDistanceOfWire() - horizontalScale / 1000.0, 
+					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire(), 
+					measWire.getVEZPoint().pointZ - verticalScale / 10.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+		}
+		else if( measWire.getWireType() == 2 ) {
+			drawLeftHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
+			if( measWire.getVEZPoint() == null ) {
+				return;
+			}
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "bal belső " + 
+					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") : 
+						measWire.getWireId().toUpperCase().contains("VEDO") ? measWire.getWireId().toUpperCase().replace("VEDO", "védő") : measWire.getWireId().toLowerCase())
+					+ ": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER, 
+					18, -90, true, false, 0, 0, 0, 1);
+			drawLeftHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire() - horizontalScale / 1000.0, 
 					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire(), 
@@ -1833,6 +1858,69 @@ public class Drawer {
 					18, -90, false, false, 0, 0, 0, 1);
 			drawMediumHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ);
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire() - horizontalScale / 1000.0, measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
+					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire(), 
+					measWire.getVEZPoint().pointZ - verticalScale / 10.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+		}
+		else if( measWire.getWireType() == 4 ) {
+			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
+			if( measWire.getVEZPoint() == null ) {
+				return;
+			}
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "jobb belső " + 
+					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") :
+						measWire.getWireId().toUpperCase().contains("VEDO") ? measWire.getWireId().toUpperCase().replace("VEDO", "védő") : measWire.getWireId().toLowerCase()) + 
+					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
+					18, -90, false, false, 0, 0, 0, 1);
+			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
+					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire(), 
+					measWire.getVEZPoint().pointZ - verticalScale / 10.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+		}
+		else if( measWire.getWireType() == 5 ) {
+			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
+			if( measWire.getVEZPoint() == null ) {
+				return;
+			}
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "jobb külső " + 
+					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") :
+						measWire.getWireId().toUpperCase().contains("VEDO") ? measWire.getWireId().toUpperCase().replace("VEDO", "védő") : measWire.getWireId().toLowerCase()) + 
+					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
+					18, -90, false, false, 0, 0, 0, 1);
+			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
+					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
+					measWire.getDistanceOfWire(), 
+					measWire.getVEZPoint().pointZ - verticalScale / 10.0, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
+		}
+		else if( measWire.getWireType() == 6 ) {
+			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getSDRPoint().pointZ, false);
+			if( measWire.getVEZPoint() == null ) {
+				return;
+			}
+			DecimalFormat df = new DecimalFormat("0.00");
+			setText(wireData.getId(), "jobb " + 
+					(measWire.getWireId().toUpperCase().contains("KV") ? measWire.getWireId().toUpperCase().replace("KV", "kV") :
+						measWire.getWireId().toUpperCase().contains("VEDO") ? measWire.getWireId().toUpperCase().replace("VEDO", "védő") : measWire.getWireId().toLowerCase()) + 
+					": Bf. " + df.format(measWire.getVEZPoint().pointZ).replace(",", ".") + "m", 
+					(getHorizontalScaledDownLengthValue(measWire.getDistanceOfWire()) - HOR_SHIFT + 3) * MILLIMETER, 
+					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measWire.getVEZPoint().pointZ - elevationStartValue) + 19) * MILLIMETER,
+					18, -90, false, false, 0, 0, 0, 1);
+			drawRightHood(String.valueOf(wireData.getId()), measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, false);
+			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
 					measWire.getDistanceOfWire() + horizontalScale / 1000.0, 
 					measWire.getVEZPoint().pointZ, "folyamatos", 1.0, 0.0, 0.0, 1.0, "3"));
 			archivFileBuilder.addLine(new LineData(measWire.getDistanceOfWire(), measWire.getVEZPoint().pointZ, 
