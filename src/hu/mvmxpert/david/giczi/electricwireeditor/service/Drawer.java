@@ -1153,51 +1153,75 @@ public class Drawer {
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[2])) &&
 			measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5])) ) {
-			
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+					
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 3) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 3) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(10).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(10).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(10).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(11).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép " +
+					(measPointList.get(11).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(11).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(11).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 		
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(6).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(7).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(7).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(12).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(12).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(12).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(13).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(13).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(13).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(13).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(8).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(8).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(8).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 20) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(9).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(9).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(9).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 20) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(9).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1215,18 +1239,26 @@ public class Drawer {
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
 			
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 3) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 3) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1239,18 +1271,26 @@ public class Drawer {
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
 			
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1262,18 +1302,26 @@ public class Drawer {
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
 					
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb közép ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb közép" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 16) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1286,18 +1334,26 @@ public class Drawer {
 			measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4])) ) {
 			
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 		
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1311,18 +1367,26 @@ public class Drawer {
 			measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5])) ) {
 			
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					 ".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal közép ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal közép" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 20) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 20) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1339,34 +1403,50 @@ public class Drawer {
 			measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5])) ) {
 			
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 4) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 4) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 8) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 8) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 		
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(6).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					 ".: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(7).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(7).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(8).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső"+
+					(measPointList.get(8).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(8).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 18) * MILLIMETER, 
 					pillar.getStartY() - 24 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(9).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(9).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(9).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 18) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(9).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1468,10 +1548,14 @@ public class Drawer {
 		else if( measPointList.size() == 4 &&
 				 measPointList.stream().anyMatch(m -> m != null && 
 					m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
@@ -1480,10 +1564,14 @@ public class Drawer {
 		else if( measPointList.size() == 4 && 
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5]))) {
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
@@ -1492,10 +1580,14 @@ public class Drawer {
 		else if( measPointList.size() == 4 &&
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5]))) {
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1504,10 +1596,14 @@ public class Drawer {
 		else if( measPointList.size() == 4 &&
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 18) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 18) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1517,18 +1613,26 @@ public class Drawer {
 					m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4])) &&
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5]))) {
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 5) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
@@ -1541,18 +1645,26 @@ public class Drawer {
 			measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5]))){
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 17) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1564,17 +1676,25 @@ public class Drawer {
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[4]))) {
 			
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal külső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal külső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb külső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb külső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
@@ -1585,17 +1705,25 @@ public class Drawer {
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5])) &&
 				measPointList.stream().anyMatch(m -> m != null && 
 				m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1] + "-" + CollectPillarSectionMeasurementData.POINT_TYPE[5]))) {
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER, 
 					pillar.getStartY() - 23 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal belső ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal belső" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 9) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 23) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER, 
 					pillar.getStartY() - 25 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb belső ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb belső" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - 2 * HOR_SHIFT + 13) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 24) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1606,26 +1734,38 @@ public class Drawer {
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1])) &&
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
 				
-				setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+				setText(Integer.parseInt(pillar.getId()), "bal" +
+						(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+						".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER, 
 						pillar.getStartY() - 18 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-				setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+				setText(Integer.parseInt(pillar.getId()), "bal" +
+						(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+						".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
 						PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 16) * MILLIMETER, 
 						18, -90, true, true, 0, 0, 0, 1);
 				
-				setText(Integer.parseInt(pillar.getId()), "közép ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+				setText(Integer.parseInt(pillar.getId()), "közép" +
+						(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+						".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 6) * MILLIMETER, 
 						pillar.getStartY() - 20 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-				setText(Integer.parseInt(pillar.getId()), "közép ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+				setText(Integer.parseInt(pillar.getId()), "közép" +
+						(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+						".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 6) * MILLIMETER,
 						PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 18) * MILLIMETER, 
 						18, -90, false, true, 0, 0, 0, 1);
 				
-				setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
+				setText(Integer.parseInt(pillar.getId()), "jobb" +
+						(measPointList.get(6).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+						".: Bf. " + df.format(measPointList.get(6).pointZ).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 12) * MILLIMETER, 
 						pillar.getStartY() - 19 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-				setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
+				setText(Integer.parseInt(pillar.getId()), "jobb" +
+						(measPointList.get(7).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+						".: Bf. " + df.format(measPointList.get(7).pointZ).replace(",", ".") + "m", 
 						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 12) * MILLIMETER,
 						PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(7).pointZ - elevationStartValue) + 17) * MILLIMETER, 
 						18, -90, false, true, 0, 0, 0, 1);
@@ -1635,17 +1775,25 @@ public class Drawer {
 			}
 		else if( measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) &&
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1])) ) {
-			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER, 
 					pillar.getStartY() - 18 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 16) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb" +
+					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER, 
 					pillar.getStartY() - 20 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb" +
+					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1654,10 +1802,14 @@ public class Drawer {
 		}
 		else if( measPointList.size() == 4 && 
 				 measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[0])) ) {
-			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER, 
 					pillar.getStartY() - 18 * MILLIMETER, 18, -90, true, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "bal ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "bal" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 2) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 16) * MILLIMETER, 
 					18, -90, true, true, 0, 0, 0, 1);
@@ -1665,10 +1817,14 @@ public class Drawer {
 		}
 		else if( measPointList.size() == 4 &&
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[1]))) {
-			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
 					pillar.getStartY() - 20 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "jobb ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "jobb" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
@@ -1676,10 +1832,14 @@ public class Drawer {
 		}
 		else if( measPointList.size() == 4 && 
 				measPointList.stream().anyMatch(m -> m != null && m.pointId.startsWith(CollectPillarSectionMeasurementData.POINT_TYPE[2])) ) {
-			setText(Integer.parseInt(pillar.getId()), "közép ak.: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "közép" +
+					(measPointList.get(2).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(2).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 5) * MILLIMETER, 
 					pillar.getStartY() - 20 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
-			setText(Integer.parseInt(pillar.getId()), "közép ak.: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
+			setText(Integer.parseInt(pillar.getId()), "közép" +
+					(measPointList.get(3).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
+					".: Bf. " + df.format(measPointList.get(3).pointZ).replace(",", ".") + "m", 
 					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 5) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(3).pointZ - elevationStartValue) + 18) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
