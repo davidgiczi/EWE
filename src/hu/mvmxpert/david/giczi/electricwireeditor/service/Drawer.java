@@ -1789,12 +1789,12 @@ public class Drawer {
 			setText(Integer.parseInt(pillar.getId()), "jobb" +
 					(measPointList.get(4).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
 					".: Bf. " + df.format(measPointList.get(4).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER, 
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER, 
 					pillar.getStartY() - 20 * MILLIMETER, 18, -90, false, false, 0, 0, 0, 1);
 			setText(Integer.parseInt(pillar.getId()), "jobb" +
 					(measPointList.get(5).pointId.endsWith(CollectPillarSectionMeasurementData.POINT_TYPE[9]) ? " ak" : " bef") +
 					".: Bf. " + df.format(measPointList.get(5).pointZ).replace(",", ".") + "m", 
-					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 8) * MILLIMETER,
+					(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 7) * MILLIMETER,
 					PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(measPointList.get(5).pointZ - elevationStartValue) + 17) * MILLIMETER, 
 					18, -90, false, true, 0, 0, 0, 1);
 			drawLeftHood(pillar.getId(), pillarDistance, measPointList.get(3).pointZ, true);
@@ -1847,7 +1847,30 @@ public class Drawer {
 		
 	}
 
-	private void writeTopElevation(MeasPoint topPoint, double pillarDistance, int pillarId, boolean isEndPillar) {
+	
+	public void writePillarArmElevation(List<MeasPoint> pillarArmPointList, double pillarDistance, String pillarId) {
+		if( pillarArmPointList == null ) {
+			return;
+		}
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		for (MeasPoint armPoint : pillarArmPointList) {
+			
+			
+			if( armPoint.pointId.contains(pillarId) ) {
+				setText(Integer.valueOf(pillarId), armPoint.pointType +  "Bf. " + df.format(armPoint.pointZ).replace(",", ".") + "m",
+						armPoint.pointId.contains(CollectPillarSectionMeasurementData.POINT_TYPE[0]) ?	
+						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT - 2) * MILLIMETER :
+						(getHorizontalScaledDownLengthValue(pillarDistance) - HOR_SHIFT + 13) * MILLIMETER,	
+						 PAGE_Y + START_Y - (getVerticalScaledDownHeightValue(armPoint.pointZ - elevationStartValue) + 20) * MILLIMETER,
+						18, 270, false, true, 0, 0, 0, 1);
+			}
+			
+		}
+		
+	}
+	
+	private void writePillarTopElevation(MeasPoint topPoint, double pillarDistance, int pillarId, boolean isEndPillar) {
 		if( topPoint == null ) {
 			return;
 		}
@@ -1932,7 +1955,7 @@ public class Drawer {
 				PAGE_Y + START_Y + 10, 18, 0, false, false, 0, 0, 0, 1);	
 		writeDistances(distances, pillarDistance, pillarData.getId());
 		writePillarElevations(measPointList, pillarDistance, pillar);
-		writeTopElevation(measPointList.get(1), pillarDistance, pillarData.getId(), distances != null);
+		writePillarTopElevation(measPointList.get(1), pillarDistance, pillarData.getId(), distances != null);
 	}
 	
 	public void drawWireAutomatically(MeasWire measWire) {

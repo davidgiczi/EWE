@@ -28,6 +28,7 @@ public class CollectPillarSectionMeasurementData {
 	public List<MeasPoint> rightTheUppestWirePointList;
 	public List<MeasPoint> leftMediumWirePointList;
 	public List<MeasPoint> rightMediumWirePointList;
+	public List<MeasPoint> pillarArmPointList;
 	public static String[] POINT_TYPE = {"BAL", "JOBB", "KOZEP", "VEDO", "KULSO", "BELSO", "ALAP", "CSUCS", "FEL", "KAR", "VEZ", "SDR", "TEREP", "BEF"};
 	
 	
@@ -37,6 +38,7 @@ public class CollectPillarSectionMeasurementData {
 		this.startPillarId = startPillarId.trim().toUpperCase();
 		this.endPillarId = endPillarId.trim().toUpperCase();
 		this.measDataList = measDataList;
+		createPillarArmPointList();
 		parseStartPillarPointListData();
 		parseEndPillarPointListData();
 		parseLeftOutSideWirePointList();
@@ -55,6 +57,83 @@ public class CollectPillarSectionMeasurementData {
 		validateInputWireData();
 	}
 	
+	
+	private void createPillarArmPointList() {
+		List<String> dataList = new ArrayList<>();
+		for (int i = measDataList.size() - 1; i > 0; i--) {
+			
+			String[] data = measDataList.get(i).split(";");
+			
+			if( data.length > 1 && 
+					( data[0].toUpperCase().endsWith(POINT_TYPE[9]) || data[0].toUpperCase().endsWith(POINT_TYPE[13]) ) ){
+				dataList.add(measDataList.get(i));
+				measDataList.remove(i);
+			}
+		}
+		
+		boolean isArm;
+		boolean isPair = false;
+		
+		for (int i = 0; i < dataList.size(); i++) {
+			
+			String[] measData1 = dataList.get(i).split(";");
+			isArm = measData1[0].endsWith(POINT_TYPE[9]);
+			
+			for (int j = i + 1; j < dataList.size(); j++) {
+				
+				String[] measData2 = dataList.get(j).split(";");
+			
+				if( measData1[0].substring(0, measData1[0].length() - 3).
+						equals(measData2[0].substring(0, measData2[0].length() - 3)) ) {
+					
+					isPair = true;
+					
+					if( isArm ) {
+							measDataList.add(dataList.get(j));
+					
+					}
+					else {
+						measDataList.add(dataList.get(i));
+					}
+				}
+				
+			}
+			
+			if( !isPair ) {
+				measDataList.add(dataList.get(i));
+				
+			}
+	
+	}
+
+		for (int i = 0; i < measDataList.size(); i++) {
+			if( dataList.contains(measDataList.get(i)) ) {
+				dataList.remove(measDataList.get(i));
+			}
+		}
+			
+		if( dataList.isEmpty() ) {
+			return;
+		}
+		
+		pillarArmPointList = new ArrayList<>();
+		
+		for (String armPoint : dataList) {
+			String[] armData = armPoint.split(";");
+			MeasPoint pillarArmPoint = new MeasPoint();
+			pillarArmPoint.setPointId(armData[0]);
+			pillarArmPoint.setPointX(Double.parseDouble(armData[1]));
+			pillarArmPoint.setPointY(Double.parseDouble(armData[2]));
+			pillarArmPoint.setPointZ(Double.parseDouble(armData[3]));
+			String[] partsOfType = armData[0].split("-");
+			pillarArmPoint.setPointType( partsOfType.length == 4 || partsOfType.length == 5 ? 
+					partsOfType[0].toLowerCase() + " " + partsOfType[1].toLowerCase() + " kar: " : 
+						partsOfType[0].toLowerCase() + " kar: " );
+			pillarArmPoint.setUpper(true);
+			pillarArmPointList.add(pillarArmPoint);
+		}
+		
+}
 	private void validatePillarInputData() throws InvalidAttributeValueException {
 		if( startPillarPointList.isEmpty() ) {
 			throw new InvalidAttributeValueException("Nem található mérési adat a(z) " + startPillarId + ". oszlopra vonatkozóan.");

@@ -56,6 +56,7 @@ public class HomeController {
 	public SetCalculatedWireDataWindow setCalculatedWireDataWindow;
 	public ElectricWireCalculator calculator;
 	public CollectPillarSectionMeasurementData collectSectionMeasurmentData;
+	private List<MeasPoint> groundPointList;
 	
 	
 	public HomeController() {
@@ -857,6 +858,7 @@ public class HomeController {
 					"távolság >= 0  és " + lengthOfWire + "m >= távolság");
 			return;
 		}
+		Double measuredGroundPointElevation = getMeasuredGroundPointElevation(validDistance);	
 		double hangingValue = calculator.getWireHangingValueByDistance(validDistance);
 		double pillarElevationDifference = (int) (1000.0 * calculator.magassag_kulonbseg * validDistance / calculator.oszlopkoz_hossza) / 1000.0;
 		hangingValue = pillarElevationDifference - hangingValue;
@@ -865,12 +867,37 @@ public class HomeController {
 				"A belógás értéke: " + (int)  (hangingValue * 1000.0) / 1000.0  + " méter\n" +
 				"A sodrony Balti magassága: " + 
 						(int) ((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000) / 1000.0 + " méter\n" +
-				"A terep átlagos magassága: " + 
-						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000) / 1000.0 + " méter\n" +
-				"Szabadmagasság: " + ((int) (((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000) - 
-						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000))) / 1000.0 + "méter");
+				"A terep" + (measuredGroundPointElevation == null  ? " átlagos magassága: " +
+						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000) / 1000.0 : " mért magassága: " 
+						+ measuredGroundPointElevation) + " méter\n" +
+				"Szabadmagasság: " + 
+						(measuredGroundPointElevation == null ?
+						((int) (((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000) - 
+						(int) ((calculator.getAverageGroundElevationByDistance(validDistance)) * 1000))) / 1000.0 + " méter" :
+							
+							(int) (((calculator.getDeltaElevationBetweenPillars(validDistance) - hangingValue) * 1000)  -
+									measuredGroundPointElevation * 1000) / 1000.0 + " méter"));
 		drawer.deleteHangingArrow();
 	}
+	
+	
+	private Double getMeasuredGroundPointElevation(double distance) {
+		Double elevation = null;
+		
+		if( groundPointList.size() == 2 ) {
+			return elevation;
+		}
+		double distanceDifference = 5;
+		for (int i = 1; i < groundPointList.size() - 1; i++) {
+			if( distanceDifference > Math.abs(groundPointList.get(i).pointX - distance) ) {
+				distanceDifference = Math.abs(groundPointList.get(i).pointX - distance);
+				elevation = groundPointList.get(i).pointY;
+			}
+		}
+		
+		return elevation;
+	}
+	
 	
 	public void getTheHighestHangingValue() {
 		if( calculator == null ) {
@@ -880,23 +907,29 @@ public class HomeController {
 		PillarData lastPillar = archivFileBuilder.getLastPillar();
 		Double distance = 
 				archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType) == null ? 
-						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);
+						lastPillar.getDistanceOfPillar() : archivFileBuilder.getDistance(lastPillar.getPillarTextList(), calculator.wireType);	
 		List<Double> hangingData = 
 			calculator.getTheHighestHangingWireValue(distance == null ? archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() : distance);
+		Double measuredGroundPointElevation = getMeasuredGroundPointElevation(hangingData.get(0));
 		drawer.drawHangingArrow(hangingData.get(0), hangingData.get(1), hangingData.get(2), calculator.wireType);
 		getInfoAlert("A legnagyobb belógás távolsága: " + (int) (hangingData.get(0) * 100.0) / 100.0 + " méter", 
 				"A legnagyobb belógás értéke: " + (int) (hangingData.get(1) * 1000.0) / 1000.0  + " méter\n" +
 				"A sodrony Balti magassága: " + 
 						(int)  ((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - 
 								hangingData.get(1)) * 1000) / 1000.0 + " méter\n" + 
-				"A terep átlagos magassága: " + 
-								(int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000) / 1000.0 + " méter\n" + 
-				"Szabadmagasság: " + (int) (((int)  ((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - 
-						hangingData.get(1)) * 1000)) -  
-				((int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000))) / 1000.0 + "méter");
-		drawer.deleteHangingArrow();
+				"A terep" + (measuredGroundPointElevation == null  ? " átlagos magassága: " +
+										(int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000) / 1000.0 : " mért magassága: " 
+						+ measuredGroundPointElevation) + " méter\n" +
+				"Szabadmagasság: " + 
+										(measuredGroundPointElevation == null ?
+										((int) (((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - hangingData.get(1)) * 1000) - 
+										(int) ((calculator.getAverageGroundElevationByDistance(hangingData.get(0))) * 1000))) / 1000.0 + " méter" :
+										(int) (((calculator.getDeltaElevationBetweenPillars(hangingData.get(0)) - hangingData.get(1)) * 1000)  -
+													measuredGroundPointElevation * 1000) / 1000.0 + " méter"));
+		drawer.deleteHangingArrow();	
 	}
-		 
+	
+	 
 	public void save2DWireCoords() {	
 		
 		if(  archivFileBuilder.getSystemData().getLengthOfHorizontalAxis() == 0.0 ) {
@@ -1005,14 +1038,16 @@ public class HomeController {
 		List<Double> distances = collectSectionMeasurmentData.getLengthOfSectionBetweenPillars();
 		double lenghtOfSection = collectSectionMeasurmentData.getLengthOfMainPillarSection();
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.startPillarId, 0d, startPillarMeasPointList, null);
+		drawer.writePillarArmElevation(collectSectionMeasurmentData.pillarArmPointList, 0, collectSectionMeasurmentData.startPillarId);
 		drawer.drawPillarAutomatically(collectSectionMeasurmentData.endPillarId, lenghtOfSection, endPillarMeasPointList, distances);
+		drawer.writePillarArmElevation(collectSectionMeasurmentData.pillarArmPointList, lenghtOfSection, collectSectionMeasurmentData.endPillarId);
 		List<MeasWire> measWireList = collectSectionMeasurmentData.getMeasWirePointList();
 		for (MeasWire measWire : measWireList) {
 			measWire.setDistanceCorrection(getCorrectionForDistanceOfWire(measWire.getWireType()));
 			drawer.drawWireAutomatically(measWire);
 		}
 		drawer.drawWireHorizontalProjections();
-		List<MeasPoint> groundPointList = collectSectionMeasurmentData.getMeasGroundPointList();
+		groundPointList = collectSectionMeasurmentData.getMeasGroundPointList();
 		if( groundPointList.isEmpty() ) {
 			return;
 		}	
