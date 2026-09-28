@@ -884,7 +884,7 @@ public class HomeController {
 	private Double getMeasuredGroundPointElevation(double distance) {
 		Double elevation = null;
 		
-		if( groundPointList.size() == 2 ) {
+		if( groundPointList == null || groundPointList.size() == 2 ) {
 			return elevation;
 		}
 		double distanceDifference = 5;
